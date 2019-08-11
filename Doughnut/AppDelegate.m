@@ -29,11 +29,16 @@
 
 //#import "TPOSTransactionRecoderModel.h"
 
-@import IQKeyboardManager;
-@import AFNetworking;
-@import SDWebImage;
+#import <IQKeyboardManager/IQKeyboardManager.h>//;
+#import <AFNetworking/AFNetworking.h>//;
+#import <SDWebImage/UIImageView+WebCache.h>//;
 @import Bugly;
-@import SVProgressHUD;
+#import <SVProgressHUD/SVProgressHUD.h>//;
+
+
+#import "Wallet/WalletManage.h"
+
+
 
 @interface AppDelegate ()
 
@@ -117,9 +122,37 @@
     [self registerNotifications];
     //检查数据库更新
     [self checkDBVersion];
+    WalletManage *wallet = [[WalletManage alloc]init];
+    [wallet createRemote];
+    [wallet createWallet];
     
     return YES;
 }
+
+- (void) SRWebSocketDidOpen {
+    NSLog(@"balance is");
+    NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+    [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
+    [options setObject:@"jpKcDjvqT1BJZ6G674tvLhYdNPtwPDU6vD" forKey:@"to"];
+    
+    NSMutableDictionary *amount = [[NSMutableDictionary alloc] init];
+    NSNumber *value = [NSNumber numberWithFloat:2];
+    [amount setObject:value forKey:@"value"];
+    [amount setObject:@"SWT" forKey:@"currency"];
+    [amount setObject:@" " forKey:@"issuer"];
+    
+    [options setObject:amount forKey:@"amount"];
+    Transaction *tx = [[Remote instance] buildPaymentTx:options];
+    [tx setSecret:@"sn37nYrQ6KPJvTFmaBYokS3FjXUWd"];
+    [tx addMemo:@"给jDUjqoDZLhzx4DCf6pvSivjkjgtRESY62c支付0.5swt."];
+    [tx addMemo:@"测试jerry"];
+    [tx submit];
+};
+
+- (void) SRWebSocketDidReceiveMsg:(NSNotification *) notification {
+    NSString * message = notification.object;
+    NSLog(@"the response from server is: %@", message);
+};
 
 //弹出升级弹窗
 - (void)showSJAlertWithDownloadUrl:(NSString *)urlPath {

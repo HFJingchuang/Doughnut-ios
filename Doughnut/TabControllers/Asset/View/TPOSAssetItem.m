@@ -8,7 +8,7 @@
 
 #import "TPOSAssetItem.h"
 
-@import Masonry;
+#import <Masonry/Masonry.h>;
 
 @interface TPOSAssetItem()
 

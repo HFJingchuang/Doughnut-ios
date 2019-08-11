@@ -20,8 +20,8 @@
 #import "TPOSQRCodeReceiveViewController.h"
 #import "TPOSBlockChainModel.h"
 
-@import SVProgressHUD;
-@import Toast;
+#import <SVProgressHUD/SVProgressHUD.h>;
+#import <Toast/Toast.h>;
 
 @interface TPOSEditWalletViewController ()
 

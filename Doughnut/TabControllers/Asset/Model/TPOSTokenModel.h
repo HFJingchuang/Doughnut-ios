@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@import MJExtension;
+#import <MJExtension/MJExtension.h>;
+#import <UIKit/UIKit.h>
 
 @class TPOSBlockChainModel;
 

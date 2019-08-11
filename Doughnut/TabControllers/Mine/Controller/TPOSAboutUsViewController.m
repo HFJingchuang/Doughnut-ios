@@ -13,7 +13,7 @@
 #import "TPOSH5ViewController.h"
 #import "TPOSGuideViewController.h"
 
-@import Masonry;
+#import <Masonry/Masonry.h>;
 
 @interface TPOSAboutUsViewController () <UITableViewDelegate,UITableViewDataSource>
 

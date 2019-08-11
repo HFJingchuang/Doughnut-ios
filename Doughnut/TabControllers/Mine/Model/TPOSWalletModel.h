@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@import MJExtension;
+#import "MJExtension.h"//;
 
 @interface TPOSWalletModel : NSObject
 

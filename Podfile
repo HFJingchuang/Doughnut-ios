@@ -1,4 +1,4 @@
-use_frameworks!
+#use_frameworks!
 
 target 'Doughnut' do
 
@@ -14,5 +14,6 @@ pod 'Toast'
 pod 'Bugly'
 pod 'WechatOpenSDK'
 pod 'jcc_oc_base_lib'
+pod 'jingtum-lib-objectc'
 
 end

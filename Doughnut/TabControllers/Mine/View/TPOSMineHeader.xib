@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,131 +15,69 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="220"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5y7-ih-9ET">
-                    <rect key="frame" x="0.0" y="0.0" width="187.5" height="220"/>
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5y7-ih-9ET">
+                    <rect key="frame" x="0.0" y="-1" width="375" height="167"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AV6-4S-ldc">
-                            <rect key="frame" x="0.0" y="0.0" width="187.5" height="220"/>
-                            <inset key="titleEdgeInsets" minX="0.0" minY="54" maxX="0.0" maxY="0.0"/>
-                            <inset key="imageEdgeInsets" minX="19" minY="-33" maxX="0.0" maxY="0.0"/>
-                            <state key="normal">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="onWalletButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="lor-Ud-eqJ"/>
-                            </connections>
-                        </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_mine_wallet" translatesAutoresizingMaskIntoConstraints="NO" id="iVb-bc-Im2">
-                            <rect key="frame" x="79" y="40" width="30" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="30" id="CAT-vt-6Ck"/>
-                                <constraint firstAttribute="height" constant="30" id="lWc-wS-YOd"/>
-                            </constraints>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="管理钱包" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tcc-3X-QBB">
-                            <rect key="frame" x="36.5" y="81" width="115" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="21" id="2tE-VK-efE"/>
-                                <constraint firstAttribute="width" constant="115" id="dxT-Ct-3uE"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="SWTC公链钱包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z3O-Nx-VHJ">
+                            <rect key="frame" x="26" y="22" width="98" height="17"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="0.15686274509803921" green="0.56470588235294117" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="AV6-4S-ldc" secondAttribute="bottom" id="90J-VI-WTA"/>
-                        <constraint firstItem="iVb-bc-Im2" firstAttribute="centerX" secondItem="AV6-4S-ldc" secondAttribute="centerX" id="BSM-xf-akH"/>
-                        <constraint firstItem="Tcc-3X-QBB" firstAttribute="centerX" secondItem="iVb-bc-Im2" secondAttribute="centerX" id="Fr6-i3-xoq"/>
-                        <constraint firstItem="AV6-4S-ldc" firstAttribute="leading" secondItem="5y7-ih-9ET" secondAttribute="leading" id="Thl-MT-mLp"/>
-                        <constraint firstItem="AV6-4S-ldc" firstAttribute="top" secondItem="5y7-ih-9ET" secondAttribute="top" id="eWQ-zi-VOw"/>
-                        <constraint firstItem="AV6-4S-ldc" firstAttribute="top" secondItem="iVb-bc-Im2" secondAttribute="bottom" constant="-70" id="gTI-F8-ImE"/>
-                        <constraint firstItem="Tcc-3X-QBB" firstAttribute="top" secondItem="iVb-bc-Im2" secondAttribute="bottom" constant="11" id="ivO-M1-Sct"/>
-                        <constraint firstItem="AV6-4S-ldc" firstAttribute="width" secondItem="5y7-ih-9ET" secondAttribute="width" id="zUd-Ax-UQw"/>
+                        <constraint firstItem="Z3O-Nx-VHJ" firstAttribute="leading" secondItem="5y7-ih-9ET" secondAttribute="leading" constant="44" id="1wU-7x-5sr"/>
+                        <constraint firstItem="Z3O-Nx-VHJ" firstAttribute="top" secondItem="5y7-ih-9ET" secondAttribute="top" constant="16" id="tcE-e4-oDT"/>
+                        <constraint firstAttribute="bottom" secondItem="Z3O-Nx-VHJ" secondAttribute="bottom" constant="187" id="xAp-tb-kYh"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cjy-Qd-wcf">
-                    <rect key="frame" x="187.5" y="0.0" width="187.5" height="220"/>
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qh4-1z-rrf">
+                    <rect key="frame" x="28" y="133" width="319" height="53"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4NY-mS-BVr">
-                            <rect key="frame" x="0.0" y="0.0" width="187.5" height="220"/>
-                            <inset key="titleEdgeInsets" minX="0.0" minY="54" maxX="0.0" maxY="0.0"/>
-                            <inset key="imageEdgeInsets" minX="19" minY="-33" maxX="0.0" maxY="0.0"/>
-                            <state key="normal">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </state>
-                            <connections>
-                                <action selector="onTransButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ywd-Gs-hIG"/>
-                            </connections>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeX-nW-ZKH">
+                            <rect key="frame" x="178" y="14" width="187" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="-12" minY="0.0" maxX="12" maxY="0.0"/>
+                            <state key="normal" title="转账" image="icon_main_transaction"/>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_mine_transaction" translatesAutoresizingMaskIntoConstraints="NO" id="krh-6a-EXV">
-                            <rect key="frame" x="79" y="40" width="30" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOf-Uz-fI0">
+                            <rect key="frame" x="-32" y="14" width="187" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <inset key="imageEdgeInsets" minX="-12" minY="0.0" maxX="12" maxY="0.0"/>
+                            <state key="normal" title="收款" image="icon_main_receiver">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d5M-c7-z6C">
+                            <rect key="frame" x="159" y="9" width="1" height="35"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="30" id="NL9-3R-IvW"/>
-                                <constraint firstAttribute="width" constant="30" id="Qs9-TX-6da"/>
+                                <constraint firstAttribute="width" constant="1" id="YMO-qN-Rq5"/>
+                                <constraint firstAttribute="height" constant="35" id="fhr-uT-ajc"/>
                             </constraints>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="交易记录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QOv-hL-Onj">
-                            <rect key="frame" x="36.5" y="81" width="115" height="21"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="21" id="DLh-5k-x24"/>
-                                <constraint firstAttribute="width" constant="115" id="i4O-k3-aqY"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.15686274509803921" green="0.56470588235294117" blue="0.99607843137254903" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="4NY-mS-BVr" secondAttribute="trailing" id="DpH-uK-Eym"/>
-                        <constraint firstItem="4NY-mS-BVr" firstAttribute="top" secondItem="Cjy-Qd-wcf" secondAttribute="top" id="Gto-TN-Asa"/>
-                        <constraint firstItem="QOv-hL-Onj" firstAttribute="centerX" secondItem="krh-6a-EXV" secondAttribute="centerX" id="ckQ-6L-FMY"/>
-                        <constraint firstItem="krh-6a-EXV" firstAttribute="centerX" secondItem="4NY-mS-BVr" secondAttribute="centerX" id="lRJ-Ej-zcH"/>
-                        <constraint firstAttribute="bottom" secondItem="4NY-mS-BVr" secondAttribute="bottom" id="oIJ-6n-ZsL"/>
-                        <constraint firstItem="4NY-mS-BVr" firstAttribute="width" secondItem="Cjy-Qd-wcf" secondAttribute="width" id="prP-dp-Hdi"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d5M-c7-z6C">
-                    <rect key="frame" x="187" y="48" width="1" height="35"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="1" id="YMO-qN-Rq5"/>
-                        <constraint firstAttribute="height" constant="35" id="fhr-uT-ajc"/>
-                    </constraints>
+                    <color key="backgroundColor" red="0.34843522088365475" green="0.64178339346571622" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="krh-6a-EXV" firstAttribute="top" secondItem="iVb-bc-Im2" secondAttribute="top" id="1nq-lC-Esn"/>
-                <constraint firstItem="5y7-ih-9ET" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.5" id="1rj-yO-NGR"/>
-                <constraint firstItem="Cjy-Qd-wcf" firstAttribute="width" secondItem="5y7-ih-9ET" secondAttribute="width" id="CdZ-Ep-BYH"/>
-                <constraint firstItem="5y7-ih-9ET" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="EnO-9S-Dze"/>
-                <constraint firstItem="5y7-ih-9ET" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="JH8-uR-eqb"/>
-                <constraint firstItem="5y7-ih-9ET" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="JnR-Nj-5lf"/>
-                <constraint firstItem="QOv-hL-Onj" firstAttribute="centerY" secondItem="Tcc-3X-QBB" secondAttribute="centerY" id="L4x-vg-ea8"/>
-                <constraint firstItem="Cjy-Qd-wcf" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="bnF-HU-g2F"/>
-                <constraint firstItem="d5M-c7-z6C" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="48" id="cZC-OM-hAZ"/>
-                <constraint firstItem="Cjy-Qd-wcf" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ct5-je-HYi"/>
-                <constraint firstItem="d5M-c7-z6C" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="muV-BR-YB8"/>
-                <constraint firstItem="Cjy-Qd-wcf" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="pkN-46-pih"/>
+                <constraint firstItem="Qh4-1z-rrf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="133" id="S1l-LY-whz"/>
+                <constraint firstItem="Qh4-1z-rrf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="28" id="hMX-EM-z1l"/>
+                <constraint firstItem="Qh4-1z-rrf" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottomMargin" id="wr7-gK-Qfj"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <connections>
-                <outlet property="manageLabel" destination="Tcc-3X-QBB" id="aKF-rm-36r"/>
-                <outlet property="recordLabel" destination="QOv-hL-Onj" id="kE5-aw-mYM"/>
-                <outlet property="transButton" destination="4NY-mS-BVr" id="Uu0-7q-OdV"/>
-                <outlet property="walletButton" destination="AV6-4S-ldc" id="gcH-vA-xde"/>
-            </connections>
-            <point key="canvasLocation" x="-463" y="-90"/>
+            <point key="canvasLocation" x="-463.04347826086962" y="-90.401785714285708"/>
         </view>
     </objects>
     <resources>
-        <image name="icon_mine_transaction" width="26" height="26"/>
-        <image name="icon_mine_wallet" width="26" height="26"/>
+        <image name="icon_main_receiver" width="24" height="24"/>
+        <image name="icon_main_transaction" width="24" height="24"/>
     </resources>
 </document>

@@ -11,7 +11,7 @@
 #import "TPOSAuthID.h"
 #import "TPOSMacro.h"
 
-@import Toast;
+#import <Toast/Toast.h>;
 
 @interface TPOSEnterAuthViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;

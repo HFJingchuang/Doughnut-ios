@@ -14,7 +14,7 @@
 #import "TPOSWalletModel.h"
 #import "TPOSContext.h"
 
-@import Masonry;
+#import <Masonry/Masonry.h>;
 
 @interface TPOSChooseTokenViewController () <UITableViewDataSource,UITableViewDelegate>
 

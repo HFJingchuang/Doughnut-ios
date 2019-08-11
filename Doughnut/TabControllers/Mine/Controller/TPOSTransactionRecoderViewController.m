@@ -19,8 +19,8 @@
 #import "TPOSJTManager.h"
 #import "TPOSJTPaymentInfo.h"
 
-@import Masonry;
-@import Toast;
+#import <Masonry/Masonry.h>;
+#import <Toast/Toast.h>;
 
 @interface TPOSTransactionRecoderViewController () <UITableViewDelegate, UITableViewDataSource>
 

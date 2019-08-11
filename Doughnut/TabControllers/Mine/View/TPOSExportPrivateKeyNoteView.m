@@ -13,7 +13,7 @@
 #import "NSString+TPOS.h"
 #import "TPOSLocalizedHelper.h"
 
-@import Toast;
+#import <Toast/Toast.h>;
 
 @interface TPOSExportPrivateKeyNoteView()
 

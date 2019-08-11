@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TPOSJTPayment.h"
 
-@import MJExtension;
+#import <MJExtension/MJExtension.h>;
 
 @interface TPOSJTPaymentInfo : NSObject
 

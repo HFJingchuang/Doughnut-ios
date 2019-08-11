@@ -15,7 +15,7 @@
 #import "TPOSMacro.h"
 #import "TPOSBlockChainModel.h"
 
-@import Masonry;
+#import <Masonry/Masonry.h>;
 
 @interface TPOSImportWalletViewController ()<TPOSPageContentViewDelegate,TPOSSegmentTitleViewDelegate>
 @property (nonatomic, strong) TPOSPageContentView *pageContentView;

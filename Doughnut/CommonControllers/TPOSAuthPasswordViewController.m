@@ -14,8 +14,8 @@
 #import "UIImage+TPOS.h"
 
 @import LocalAuthentication;
-@import IQKeyboardManager;
-@import Toast;
+#import <IQKeyboardManager/IQKeyboardManager.h>//;
+#import <Toast/Toast.h>//;
 
 @interface TPOSAuthPasswordViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@import MJRefresh;
+#import <MJRefresh/MJRefresh.h>//;
 
 typedef NS_ENUM(NSInteger, MJLoadingGifColorType) {
     MJLoadingGifColorTypeGray = 0, //浅色

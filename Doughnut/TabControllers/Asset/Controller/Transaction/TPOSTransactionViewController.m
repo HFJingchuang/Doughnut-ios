@@ -34,9 +34,9 @@
 #import <jcc_oc_base_lib/JTWalletManager.h>
 #import <jcc_oc_base_lib/JccChains.h>
 
-@import SVProgressHUD;
-@import Masonry;
-@import Toast;
+#import <SVProgressHUD/SVProgressHUD.h>;
+#import <Masonry/Masonry.h>;
+#import <Toast/Toast.h>;
 
 @interface TPOSTransactionViewController () <UITableViewDelegate,UITableViewDataSource,TPOSTransactionCellDelegate,TPOSTransactionConfirmViewDelegate>
 

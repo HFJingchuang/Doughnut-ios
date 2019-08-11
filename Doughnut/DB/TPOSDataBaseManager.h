@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@import FMDB;
+#import <fmdb/FMDB.h>
 
 @interface TPOSDataBaseManager : NSObject
 

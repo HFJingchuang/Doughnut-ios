@@ -14,8 +14,8 @@
 #import "UIColor+Hex.h"
 #import "UIImage+TPOS.h"
 
-@import Masonry;
-@import Toast;
+#import <Masonry/Masonry.h>;
+#import <Toast/Toast.h>;
 
 @interface TPOSSelectChainTypeViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *chainTable;

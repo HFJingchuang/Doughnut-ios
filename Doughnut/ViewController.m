@@ -30,6 +30,8 @@
 //    [btn addTarget:self action:@selector(onBtnTapped) forControlEvents:UIControlEventTouchUpInside];
 //    btn.center = self.view.center;
 //    [self.view addSubview:btn];
+    NSLog(@"1232312");
+   
 }
 
 - (void)onBtnTapped {

@@ -10,7 +10,7 @@
 #import "TPOSChooseTokenCell.h"
 #import "TPOSTokenModel.h"
 
-@import SDWebImage;
+#import <SDWebImage/UIImageView+WebCache.h>;
 
 
 @interface TPOSChooseTokenCell()

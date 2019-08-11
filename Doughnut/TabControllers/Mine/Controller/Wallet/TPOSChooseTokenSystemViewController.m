@@ -12,9 +12,9 @@
 #import "TPOSBlockChainModel.h"
 #import "TPOSChooseTokenSystemCell.h"
 
-@import Masonry;
-@import MJRefresh;
-@import Toast;
+#import <Masonry/Masonry.h>;
+#import <MJRefresh/MJRefresh.h>;
+#import <Toast/Toast.h>;
 
 @interface TPOSChooseTokenSystemViewController () <UITableViewDelegate,UITableViewDataSource>
 

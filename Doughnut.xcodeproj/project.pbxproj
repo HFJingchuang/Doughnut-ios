@@ -18,6 +18,7 @@
 		2CE5C8051FF8A2DB008AB801 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CE5C8031FF8A2DB008AB801 /* LaunchScreen.storyboard */; };
 		2CE5C8081FF8A2DB008AB801 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE5C8071FF8A2DB008AB801 /* main.m */; };
 		2CE5C8141FF8A364008AB801 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE5C8131FF8A364008AB801 /* JavaScriptCore.framework */; };
+		5618B2399459C92D3F36DCD3 /* libPods-Doughnut.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DFF5D969D35CD4BBFF0F335 /* libPods-Doughnut.a */; };
 		9E40006B21C22F83005B2311 /* TPOSAuthPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E40006921C22F83005B2311 /* TPOSAuthPasswordViewController.xib */; };
 		9E42CAAB21B4FEA800267076 /* TPOSWalletManagerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E42CAAA21B4FEA800267076 /* TPOSWalletManagerCell.xib */; };
 		9E42CAAD21B4FFC900267076 /* TPOSWalletManagerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E42CAAC21B4FFC900267076 /* TPOSWalletManagerViewController.xib */; };
@@ -27,6 +28,8 @@
 		9E42CAB721BB70A700267076 /* TBShareMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E42CAB521BB70A700267076 /* TBShareMenuView.xib */; };
 		9E42CABA21BB70B400267076 /* TPOSShareMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E42CAB821BB70B400267076 /* TPOSShareMenuView.xib */; };
 		9E42CABD21BB97E500267076 /* TPOSAssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E42CABC21BB97E500267076 /* TPOSAssetCell.xib */; };
+		B658047822FA63CC00F3380B /* WalletManage.m in Sources */ = {isa = PBXBuildFile; fileRef = B658047722FA63CC00F3380B /* WalletManage.m */; };
+		B658048722FE298500F3380B /* WalletUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B658048622FE298500F3380B /* WalletUserDefaults.m */; };
 		D063A48C218E001500750001 /* TPOSJTPOSalance.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47D218E001500750001 /* TPOSJTPOSalance.m */; };
 		D063A48D218E001500750001 /* TPOSJTPaymentResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47F218E001500750001 /* TPOSJTPaymentResult.m */; };
 		D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A483218E001500750001 /* TPOSJTPaymentInfo.m */; };
@@ -39,10 +42,6 @@
 		D063A4B9218E004700750001 /* mnemonic.html in Resources */ = {isa = PBXBuildFile; fileRef = D063A4B4218E004700750001 /* mnemonic.html */; };
 		D063A4BA218E004700750001 /* mnemonic.js in Resources */ = {isa = PBXBuildFile; fileRef = D063A4B5218E004700750001 /* mnemonic.js */; };
 		D063A4BB218E004700750001 /* web3.min.js in Resources */ = {isa = PBXBuildFile; fileRef = D063A4B6218E004700750001 /* web3.min.js */; };
-		D063A517218E005400750001 /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4DF218E005300750001 /* WebViewJavascriptBridgeBase.m */; };
-		D063A518218E005400750001 /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4E0218E005300750001 /* WKWebViewJavascriptBridge.m */; };
-		D063A519218E005400750001 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4E1218E005300750001 /* WebViewJavascriptBridge.m */; };
-		D063A51A218E005400750001 /* WebViewJavascriptBridge_JS.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4E4218E005300750001 /* WebViewJavascriptBridge_JS.m */; };
 		D063A51B218E005400750001 /* TPOSAuthID.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4E8218E005300750001 /* TPOSAuthID.m */; };
 		D063A51C218E005400750001 /* NJOPasswordStrengthEvaluator.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4EC218E005300750001 /* NJOPasswordStrengthEvaluator.m */; };
 		D063A51D218E005400750001 /* TPOSAlertViewBaseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4F0218E005300750001 /* TPOSAlertViewBaseAnimation.m */; };
@@ -201,10 +200,10 @@
 		D08DC91D204BE7B3008A27B2 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */; };
 		D08DC91F204BE81A008A27B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */; };
 		D0F5E117201C9CB700C60EA6 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */; };
-		F6ACB96A99AA9C0B11600337 /* Pods_Doughnut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC834E68303BD6C345CEACF0 /* Pods_Doughnut.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0DFF5D969D35CD4BBFF0F335 /* libPods-Doughnut.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Doughnut.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C16630A20021CFC00E60CBD /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		2C16632E20025B8100E60CBD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2C3C953B1FFDF32D005A8F39 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -235,7 +234,10 @@
 		9E42CABC21BB97E500267076 /* TPOSAssetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPOSAssetCell.xib; sourceTree = "<group>"; };
 		9E6ECF1F21C39030008ACEC3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9E6ECF2021C39041008ACEC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		AC834E68303BD6C345CEACF0 /* Pods_Doughnut.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Doughnut.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B658047622FA63CC00F3380B /* WalletManage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletManage.h; sourceTree = "<group>"; };
+		B658047722FA63CC00F3380B /* WalletManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletManage.m; sourceTree = "<group>"; };
+		B658048522FE298500F3380B /* WalletUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletUserDefaults.h; sourceTree = "<group>"; };
+		B658048622FE298500F3380B /* WalletUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletUserDefaults.m; sourceTree = "<group>"; };
 		D063A47B218E001500750001 /* TPOSJTManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTManager.h; sourceTree = "<group>"; };
 		D063A47D218E001500750001 /* TPOSJTPOSalance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSJTPOSalance.m; sourceTree = "<group>"; };
 		D063A47E218E001500750001 /* TPOSJTPaymentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTPaymentInfo.h; sourceTree = "<group>"; };
@@ -256,14 +258,6 @@
 		D063A4B4218E004700750001 /* mnemonic.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = mnemonic.html; sourceTree = "<group>"; };
 		D063A4B5218E004700750001 /* mnemonic.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = mnemonic.js; sourceTree = "<group>"; };
 		D063A4B6218E004700750001 /* web3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = web3.min.js; sourceTree = "<group>"; };
-		D063A4DF218E005300750001 /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
-		D063A4E0218E005300750001 /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
-		D063A4E1218E005300750001 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
-		D063A4E2218E005300750001 /* WebViewJavascriptBridge_JS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge_JS.h; sourceTree = "<group>"; };
-		D063A4E3218E005300750001 /* WebViewJavascriptBridgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridgeBase.h; sourceTree = "<group>"; };
-		D063A4E4218E005300750001 /* WebViewJavascriptBridge_JS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge_JS.m; sourceTree = "<group>"; };
-		D063A4E5218E005300750001 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
-		D063A4E6218E005300750001 /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		D063A4E8218E005300750001 /* TPOSAuthID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSAuthID.m; sourceTree = "<group>"; };
 		D063A4E9218E005300750001 /* TPOSAuthID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSAuthID.h; sourceTree = "<group>"; };
 		D063A4EB218E005300750001 /* NJOPasswordStrengthEvaluator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJOPasswordStrengthEvaluator.h; sourceTree = "<group>"; };
@@ -558,7 +552,7 @@
 				2C16632F20025B8100E60CBD /* AVFoundation.framework in Frameworks */,
 				2C3C953C1FFDF32E005A8F39 /* Accelerate.framework in Frameworks */,
 				2CE5C8141FF8A364008AB801 /* JavaScriptCore.framework in Frameworks */,
-				F6ACB96A99AA9C0B11600337 /* Pods_Doughnut.framework in Frameworks */,
+				5618B2399459C92D3F36DCD3 /* libPods-Doughnut.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,11 +562,11 @@
 		2CE5C7EC1FF8A2DB008AB801 = {
 			isa = PBXGroup;
 			children = (
-				2CE5C99E1FFA1388008AB801 /* Resource */,
 				2CE5C7F71FF8A2DB008AB801 /* Doughnut */,
-				2CE5C7F61FF8A2DB008AB801 /* Products */,
 				2CE5C8121FF8A364008AB801 /* Frameworks */,
 				81190AF66985E792F79DC4E6 /* Pods */,
+				2CE5C7F61FF8A2DB008AB801 /* Products */,
+				2CE5C99E1FFA1388008AB801 /* Resource */,
 			);
 			sourceTree = "<group>";
 		};
@@ -587,6 +581,7 @@
 		2CE5C7F71FF8A2DB008AB801 /* Doughnut */ = {
 			isa = PBXGroup;
 			children = (
+				B658047522F9A91000F3380B /* Wallet */,
 				D063A791218E00DA00750001 /* DB */,
 				D063A77E218E00D000750001 /* Basic */,
 				D063A75B218E00C800750001 /* CommonControllers */,
@@ -618,7 +613,7 @@
 				2C16632E20025B8100E60CBD /* AVFoundation.framework */,
 				2C3C953B1FFDF32D005A8F39 /* Accelerate.framework */,
 				2CE5C8131FF8A364008AB801 /* JavaScriptCore.framework */,
-				AC834E68303BD6C345CEACF0 /* Pods_Doughnut.framework */,
+				0DFF5D969D35CD4BBFF0F335 /* libPods-Doughnut.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -640,6 +635,17 @@
 				92E382EA579EDD27F3F735B2 /* Pods-Doughnut.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B658047522F9A91000F3380B /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				B658047622FA63CC00F3380B /* WalletManage.h */,
+				B658047722FA63CC00F3380B /* WalletManage.m */,
+				B658048522FE298500F3380B /* WalletUserDefaults.h */,
+				B658048622FE298500F3380B /* WalletUserDefaults.m */,
+			);
+			path = Wallet;
 			sourceTree = "<group>";
 		};
 		D063A475218E001500750001 /* JTum */ = {
@@ -718,7 +724,6 @@
 		D063A4BC218E005300750001 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				D063A4DE218E005300750001 /* WebViewJavascriptBridge */,
 				D063A4E7218E005300750001 /* Auth */,
 				D063A4EA218E005300750001 /* PasswordStrength */,
 				D063A4ED218E005300750001 /* AlertView */,
@@ -727,21 +732,6 @@
 				D063A4F7218E005300750001 /* SDCycleScrollView */,
 			);
 			path = Vendor;
-			sourceTree = "<group>";
-		};
-		D063A4DE218E005300750001 /* WebViewJavascriptBridge */ = {
-			isa = PBXGroup;
-			children = (
-				D063A4DF218E005300750001 /* WebViewJavascriptBridgeBase.m */,
-				D063A4E0218E005300750001 /* WKWebViewJavascriptBridge.m */,
-				D063A4E1218E005300750001 /* WebViewJavascriptBridge.m */,
-				D063A4E2218E005300750001 /* WebViewJavascriptBridge_JS.h */,
-				D063A4E3218E005300750001 /* WebViewJavascriptBridgeBase.h */,
-				D063A4E4218E005300750001 /* WebViewJavascriptBridge_JS.m */,
-				D063A4E5218E005300750001 /* WebViewJavascriptBridge.h */,
-				D063A4E6218E005300750001 /* WKWebViewJavascriptBridge.h */,
-			);
-			path = WebViewJavascriptBridge;
 			sourceTree = "<group>";
 		};
 		D063A4E7218E005300750001 /* Auth */ = {
@@ -1398,7 +1388,7 @@
 				2CE5C7F11FF8A2DB008AB801 /* Sources */,
 				2CE5C7F21FF8A2DB008AB801 /* Frameworks */,
 				2CE5C7F31FF8A2DB008AB801 /* Resources */,
-				AD84992DEF8422C6BE451B1F /* [CP] Embed Pods Frameworks */,
+				65AEADBC1CDEF2DD649F0EB7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1525,42 +1515,30 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AD84992DEF8422C6BE451B1F /* [CP] Embed Pods Frameworks */ = {
+		65AEADBC1CDEF2DD649F0EB7 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Doughnut/Pods-Doughnut-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
-				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
-				"${BUILT_PRODUCTS_DIR}/MJExtension/MJExtension.framework",
-				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
-				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Toast/Toast.framework",
-				"${BUILT_PRODUCTS_DIR}/WebViewJavascriptBridge/WebViewJavascriptBridge.framework",
-				"${BUILT_PRODUCTS_DIR}/jcc_oc_base_lib/jcc_oc_base_lib.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Doughnut/Pods-Doughnut-resources.sh",
+				"${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle",
+				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle",
+				"${PODS_ROOT}/jcc_oc_base_lib/jcc_oc_base_lib/Jingtum/JingtumWebview/jingtum.html",
+				"${PODS_ROOT}/jcc_oc_base_lib/jcc_oc_base_lib/Jingtum/JingtumWebview/jingtum.js",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebViewJavascriptBridge.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jcc_oc_base_lib.framework",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/IQKeyboardManager.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SVProgressHUD.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/jingtum.html",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/jingtum.js",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doughnut/Pods-Doughnut-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Doughnut/Pods-Doughnut-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1591,7 +1569,6 @@
 				D063A82D218E022800750001 /* TPOSMemonicImportWalletViewController.m in Sources */,
 				D063A6C7218E006900750001 /* TPOSTokenDetailViewController.m in Sources */,
 				D063A83D218E022800750001 /* TPOSWalletModel.m in Sources */,
-				D063A51A218E005400750001 /* WebViewJavascriptBridge_JS.m in Sources */,
 				D063A847218E022800750001 /* TPOSMineHeader.m in Sources */,
 				D063A845218E022800750001 /* TPOSTotalAssetHeaderView.m in Sources */,
 				D063A573218E005E00750001 /* NSString+TPOS.m in Sources */,
@@ -1612,7 +1589,6 @@
 				D063A524218E005400750001 /* TADotView.m in Sources */,
 				D063A51B218E005400750001 /* TPOSAuthID.m in Sources */,
 				D063A828218E022800750001 /* TPOSExchangeWalletVewController.m in Sources */,
-				D063A517218E005400750001 /* WebViewJavascriptBridgeBase.m in Sources */,
 				D063A6F8218E006A00750001 /* TPOSPageContentView.m in Sources */,
 				D063A6CE218E006900750001 /* TPOSAssetViewController.m in Sources */,
 				D063A568218E005E00750001 /* UIImage+ImageSize.m in Sources */,
@@ -1651,7 +1627,6 @@
 				D063A55F218E005E00750001 /* UILabel+SpacesAdjust.m in Sources */,
 				D063A822218E022800750001 /* TPOSSettingViewController.m in Sources */,
 				D063A829218E022800750001 /* TPOSAboutUsViewController.m in Sources */,
-				D063A519218E005400750001 /* WebViewJavascriptBridge.m in Sources */,
 				D063A7A1218E00DA00750001 /* TPOSBaseDao.m in Sources */,
 				2CE5C8081FF8A2DB008AB801 /* main.m in Sources */,
 				D063A562218E005E00750001 /* TPOSLocalizedHelper.m in Sources */,
@@ -1675,8 +1650,9 @@
 				D063A6CF218E006900750001 /* TPOSTokenModel.m in Sources */,
 				D063A839218E022800750001 /* TPOSMineViewController.m in Sources */,
 				D063A574218E005E00750001 /* NSString+Size.m in Sources */,
-				D063A518218E005400750001 /* WKWebViewJavascriptBridge.m in Sources */,
 				D063A564218E005E00750001 /* TPOSCameraUtils.m in Sources */,
+				B658048722FE298500F3380B /* WalletUserDefaults.m in Sources */,
+				B658047822FA63CC00F3380B /* WalletManage.m in Sources */,
 				D063A48D218E001500750001 /* TPOSJTPaymentResult.m in Sources */,
 				2CE5C7FA1FF8A2DB008AB801 /* AppDelegate.m in Sources */,
 				D063A569218E005E00750001 /* SGQRCodeHelperTool.m in Sources */,
@@ -1886,6 +1862,56 @@
 				INFOPLIST_FILE = Doughnut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CoreBitcoin\"",
+					"-l\"FMDB\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"ISO8601DateFormatter\"",
+					"-l\"MJExtension\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"SDWebImage\"",
+					"-l\"SVProgressHUD\"",
+					"-l\"SocketRocket\"",
+					"-l\"Toast\"",
+					"-l\"WeChatSDK\"",
+					"-l\"c++\"",
+					"-l\"crypto\"",
+					"-l\"icucore\"",
+					"-l\"jcc_oc_base_lib\"",
+					"-l\"jingtum-lib-objectc\"",
+					"-l\"sqlite3\"",
+					"-l\"sqlite3.0\"",
+					"-l\"ssl\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Bugly\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pocket.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1911,6 +1937,56 @@
 				INFOPLIST_FILE = Doughnut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"AFNetworking\"",
+					"-l\"CoreBitcoin\"",
+					"-l\"FMDB\"",
+					"-l\"IQKeyboardManager\"",
+					"-l\"ISO8601DateFormatter\"",
+					"-l\"MJExtension\"",
+					"-l\"MJRefresh\"",
+					"-l\"Masonry\"",
+					"-l\"SDWebImage\"",
+					"-l\"SVProgressHUD\"",
+					"-l\"SocketRocket\"",
+					"-l\"Toast\"",
+					"-l\"WeChatSDK\"",
+					"-l\"c++\"",
+					"-l\"crypto\"",
+					"-l\"icucore\"",
+					"-l\"jcc_oc_base_lib\"",
+					"-l\"jingtum-lib-objectc\"",
+					"-l\"sqlite3\"",
+					"-l\"sqlite3.0\"",
+					"-l\"ssl\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Bugly\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"CoreTelephony\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"ImageIO\"",
+					"-framework",
+					"\"MobileCoreServices\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"WebKit\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pocket.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

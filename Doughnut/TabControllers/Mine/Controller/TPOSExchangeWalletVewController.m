@@ -15,7 +15,7 @@
 #import "TPOSMacro.h"
 #import "TPOSWalletDao.h"
 
-@import Masonry;
+#import <Masonry/Masonry.h>;
 
 @interface TPOSExchangeWalletVewController () <UITableViewDelegate, UITableViewDataSource>
 

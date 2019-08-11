@@ -18,7 +18,7 @@
 #import "TPOSJTPaymentInfo.h"
 #import "TPOSMacro.h"
 
-@import Toast;
+#import <Toast/Toast.h>;
 
 @interface TPOSTransactionDetailViewController ()
 

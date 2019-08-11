@@ -17,8 +17,8 @@
 #import "NJOPasswordStrengthEvaluator.h"
 #import "TPOSPasswordView.h"
 
-@import SVProgressHUD;
-@import Toast;
+#import <SVProgressHUD/SVProgressHUD.h>;
+#import <Toast/Toast.h>;
 
 typedef NS_ENUM(NSUInteger, TPOSEditPasswordResult) {
     TPOSEditPasswordResultSuccess = 1,

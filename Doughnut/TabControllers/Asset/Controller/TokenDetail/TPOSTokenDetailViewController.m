@@ -23,8 +23,8 @@
 #import "TPOSJTPaymentInfo.h"
 #import "TPOSTransactionRecoderModel.h"
 
-@import Toast;
-@import Masonry;
+#import <Toast/Toast.h>;
+#import <Masonry/Masonry.h>;
 
 @interface TPOSTokenDetailViewController () <UITableViewDelegate,UITableViewDataSource>
 

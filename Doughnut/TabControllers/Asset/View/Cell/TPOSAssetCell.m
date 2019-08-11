@@ -10,7 +10,7 @@
 #import "TPOSAssetCell.h"
 #import "TPOSTokenModel.h"
 
-@import SDWebImage;
+#import <SDWebImage/UIImageView+WebCache.h>;
 
 @interface TPOSAssetCell()
 @property (weak, nonatomic) IBOutlet UIImageView *tokenIcon;

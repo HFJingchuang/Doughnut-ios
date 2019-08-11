@@ -24,8 +24,8 @@
 #import <jcc_oc_base_lib/JTWalletManager.h>
 #import <jcc_oc_base_lib/JccChains.h>
 
-@import Toast;
-@import SVProgressHUD;
+#import <Toast/Toast.h>;
+#import <SVProgressHUD/SVProgressHUD.h>;
 
 @interface TPOSPrivateKeyImportWalletViewController ()<UITextViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *pkBg;

@@ -37,7 +37,7 @@
 
 #import "TPOSWalletDetailDaoManager.h"
 
-@import Masonry;
+#import <Masonry/Masonry.h>;
 
 static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
