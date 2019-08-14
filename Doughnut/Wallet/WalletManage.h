@@ -33,7 +33,7 @@
 //获取余额
 - (void) getBalance;
 //获取交易记录
-- (void) transferWithPassword;
+- (void) getTansferHishory:(NSUnit *) limit;
 
 @end
 

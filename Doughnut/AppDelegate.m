@@ -122,31 +122,20 @@
     [self registerNotifications];
     //检查数据库更新
     [self checkDBVersion];
-    WalletManage *wallet = [[WalletManage alloc]init];
+    wallet = [[WalletManage alloc]init];
     [wallet createRemote];
-    [wallet createWallet];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
     return YES;
 }
 
 - (void) SRWebSocketDidOpen {
     NSLog(@"balance is");
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
+    //    NSString * account = [walletInfo getAddress];
+    //    [options setObject:account forKey:@"account"];
     [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
-    [options setObject:@"jpKcDjvqT1BJZ6G674tvLhYdNPtwPDU6vD" forKey:@"to"];
-    
-    NSMutableDictionary *amount = [[NSMutableDictionary alloc] init];
-    NSNumber *value = [NSNumber numberWithFloat:2];
-    [amount setObject:value forKey:@"value"];
-    [amount setObject:@"SWT" forKey:@"currency"];
-    [amount setObject:@" " forKey:@"issuer"];
-    
-    [options setObject:amount forKey:@"amount"];
-    Transaction *tx = [[Remote instance] buildPaymentTx:options];
-    [tx setSecret:@"sn37nYrQ6KPJvTFmaBYokS3FjXUWd"];
-    [tx addMemo:@"给jDUjqoDZLhzx4DCf6pvSivjkjgtRESY62c支付0.5swt."];
-    [tx addMemo:@"测试jerry"];
-    [tx submit];
+    [wallet getBalance];
 };
 
 - (void) SRWebSocketDidReceiveMsg:(NSNotification *) notification {

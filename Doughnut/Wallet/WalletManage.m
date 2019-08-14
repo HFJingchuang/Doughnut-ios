@@ -6,7 +6,11 @@
 //  Copyright © 2019 MarcusWoo. All rights reserved.
 //
 //  提供与井通接口连接的方法
+#import "SocketRocketUtility.h"
+#import "NSData+Hash.h"
+#import "NSString+Base58.h"
 #import "WalletManage.h"
+#import <Transaction.h>
 #import <Wallet.h>
 #import <Remote.h>
 
@@ -90,12 +94,12 @@
 }
 
 //获取交易记录
-- (void) getTansferHishory:(NSInteger *) limit {
+- (void) getTansferHishory:(NSUnit *) limit {
     NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
     //    NSString * account = [walletInfo getAddress];
     //    [options setObject:account forKey:@"account"];
     [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
-    [options setObject:@5 forKey:@"limit"];
+    [options setObject:limit forKey:@"limit"];
     [remote requestAccountTx:options];
 }
 
@@ -104,7 +108,7 @@
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
 //    NSString * account = [walletInfo getAddress];
 //    [options setObject:account forKey:@"account"];
-    [options setObject:@"j4vvoL3qU5NbWhrBzGJUejN6ADaz6SZ1me" forKey:@"account"];
+    [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
     [remote requestAccountInfo:options];
 }
 

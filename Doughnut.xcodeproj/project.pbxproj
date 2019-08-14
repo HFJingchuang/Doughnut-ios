@@ -30,6 +30,10 @@
 		9E42CABD21BB97E500267076 /* TPOSAssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E42CABC21BB97E500267076 /* TPOSAssetCell.xib */; };
 		B658047822FA63CC00F3380B /* WalletManage.m in Sources */ = {isa = PBXBuildFile; fileRef = B658047722FA63CC00F3380B /* WalletManage.m */; };
 		B658048722FE298500F3380B /* WalletUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B658048622FE298500F3380B /* WalletUserDefaults.m */; };
+		B65804EC2302BBF400F3380B /* DOSPointSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B65804EA2302BBF400F3380B /* DOSPointSettingViewController.m */; };
+		B65804ED2302BBF400F3380B /* DOSPointSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B65804EB2302BBF400F3380B /* DOSPointSettingViewController.xib */; };
+		B65804F12302BD6700F3380B /* DOSCopyrightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B65804EF2302BD6700F3380B /* DOSCopyrightViewController.m */; };
+		B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */; };
 		D063A48C218E001500750001 /* TPOSJTPOSalance.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47D218E001500750001 /* TPOSJTPOSalance.m */; };
 		D063A48D218E001500750001 /* TPOSJTPaymentResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47F218E001500750001 /* TPOSJTPaymentResult.m */; };
 		D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A483218E001500750001 /* TPOSJTPaymentInfo.m */; };
@@ -238,6 +242,12 @@
 		B658047722FA63CC00F3380B /* WalletManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletManage.m; sourceTree = "<group>"; };
 		B658048522FE298500F3380B /* WalletUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletUserDefaults.h; sourceTree = "<group>"; };
 		B658048622FE298500F3380B /* WalletUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletUserDefaults.m; sourceTree = "<group>"; };
+		B65804E92302BBF400F3380B /* DOSPointSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSPointSettingViewController.h; sourceTree = "<group>"; };
+		B65804EA2302BBF400F3380B /* DOSPointSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSPointSettingViewController.m; sourceTree = "<group>"; };
+		B65804EB2302BBF400F3380B /* DOSPointSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSPointSettingViewController.xib; sourceTree = "<group>"; };
+		B65804EE2302BD6700F3380B /* DOSCopyrightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSCopyrightViewController.h; sourceTree = "<group>"; };
+		B65804EF2302BD6700F3380B /* DOSCopyrightViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSCopyrightViewController.m; sourceTree = "<group>"; };
+		B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSCopyrightViewController.xib; sourceTree = "<group>"; };
 		D063A47B218E001500750001 /* TPOSJTManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTManager.h; sourceTree = "<group>"; };
 		D063A47D218E001500750001 /* TPOSJTPOSalance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSJTPOSalance.m; sourceTree = "<group>"; };
 		D063A47E218E001500750001 /* TPOSJTPaymentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTPaymentInfo.h; sourceTree = "<group>"; };
@@ -1241,6 +1251,12 @@
 				D063A7E0218E022800750001 /* TPOSEditPasswordViewController.m */,
 				D063A7E2218E022800750001 /* TPOSTransactionRecoderViewController.m */,
 				D063A7E3218E022800750001 /* TPOSLanguageViewController.m */,
+				B65804E92302BBF400F3380B /* DOSPointSettingViewController.h */,
+				B65804EA2302BBF400F3380B /* DOSPointSettingViewController.m */,
+				B65804EB2302BBF400F3380B /* DOSPointSettingViewController.xib */,
+				B65804EE2302BD6700F3380B /* DOSCopyrightViewController.h */,
+				B65804EF2302BD6700F3380B /* DOSCopyrightViewController.m */,
+				B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1406,7 +1422,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = MarcusWoo;
+				ORGANIZATIONNAME = jch;
 				TargetAttributes = {
 					2CE5C7F41FF8A2DB008AB801 = {
 						CreatedOnToolsVersion = 9.2;
@@ -1454,6 +1470,7 @@
 				D063A70F218E006A00750001 /* TPOSShareView.xib in Resources */,
 				D063A834218E022800750001 /* TPOSBackupWalletViewController.xib in Resources */,
 				D063A6C8218E006900750001 /* TPOSTokenDetailViewController.xib in Resources */,
+				B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */,
 				D063A6D7218E006A00750001 /* TPOSTransactionTextField.xib in Resources */,
 				D063A4B9218E004700750001 /* mnemonic.html in Resources */,
 				D063A84E218E022800750001 /* TPOSMessageCenterCell.xib in Resources */,
@@ -1484,6 +1501,7 @@
 				9E42CAB421B9073100267076 /* TPOSExportPrivateKeyNoteView.xib in Resources */,
 				2C3F86551FFD3CBB0065183B /* Main.storyboard in Resources */,
 				D063A82F218E022800750001 /* TPOSPrivateKeyImportWalletViewController.xib in Resources */,
+				B65804ED2302BBF400F3380B /* DOSPointSettingViewController.xib in Resources */,
 				D063A78B218E00D000750001 /* TPOSGuideCCell.xib in Resources */,
 				D063A853218E022800750001 /* TPOSChooseTokenSystemCell.xib in Resources */,
 				D063A85C218FE22E00750001 /* TPOSForceCreateWalletViewController.xib in Resources */,
@@ -1641,6 +1659,7 @@
 				D063A570218E005E00750001 /* UIView+TPOS.m in Sources */,
 				D063A6DC218E006A00750001 /* TPOSTransactionView.m in Sources */,
 				D063A827218E022800750001 /* TPOSEditWalletViewController.m in Sources */,
+				B65804F12302BD6700F3380B /* DOSCopyrightViewController.m in Sources */,
 				D063A830218E022800750001 /* TPOSPrivateKeyImportWalletViewController.m in Sources */,
 				D063A710218E006A00750001 /* TPOSShareCCell.m in Sources */,
 				D063A78E218E00D000750001 /* TPOSBaseViewController.m in Sources */,
@@ -1665,6 +1684,7 @@
 				D063A6EF218E006A00750001 /* TPOSTransactionCell.m in Sources */,
 				D063A566218E005E00750001 /* TPOSCustomMJRefreshFooter.m in Sources */,
 				D063A6C6218E006900750001 /* TPOSTransactionDetailViewController.m in Sources */,
+				B65804EC2302BBF400F3380B /* DOSPointSettingViewController.m in Sources */,
 				D063A56F218E005E00750001 /* TPOSUDIDKeyChain.m in Sources */,
 				D063A790218E00D000750001 /* TPOSTabBarController.m in Sources */,
 				D063A526218E005400750001 /* TAAnimatedDotView.m in Sources */,
@@ -1916,7 +1936,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1991,7 +2011,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

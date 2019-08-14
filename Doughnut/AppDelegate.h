@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WalletManage.h"
 
 @class TPOSTabBarController;
 //@class TPOSBackupAlert;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+{
+    WalletManage *wallet;
+}
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) TPOSTabBarController *tabbarController;
 //@property (nonatomic, weak) TPOSBackupAlert *backupAlert;

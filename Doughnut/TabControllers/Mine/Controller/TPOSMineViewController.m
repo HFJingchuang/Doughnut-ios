@@ -15,6 +15,8 @@
 #import "TPOSAboutUsViewController.h"
 #import "TPOSWalletManagerViewController.h"
 #import "TPOSTransactionRecoderViewController.h"
+#import "DOSPointSettingViewController.h"
+#import "DOSCopyrightViewController.h"
 #import "TPOSH5ViewController.h"
 
 @interface TPOSMineViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -54,9 +56,14 @@
     self.tableSources = @[@[],
                           @[@{@"icon":@"icon_mine_wallet",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_manage"],@"action":@"pushToWalletManager"},
                             @{@"icon":@"icon_mine_transaction",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_record"],@"action":@"pushToTransactionRecoder"}],
-                          @[@{@"icon":@"icon_mine_help",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"help"],@"action":@"pushToHelp"},
-                            @{@"icon":@"icon_mine_about",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"about"],@"action":@"pushToAboutUs"},
-                            @{@"icon":@"icon_mine_setting",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"settings"],@"action":@"pushToSetting"}]
+                          @[
+//                            @{@"icon":@"icon_mine_help",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"help"],@"action":@"pushToHelp"},
+//                            @{@"icon":@"icon_mine_about",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"about"],@"action":@"pushToAboutUs"},
+//                            @{@"icon":@"icon_mine_setting",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"settings"],@"action":@"pushToSetting"},
+                            @{@"icon":@"icon_mine_about",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"point_settings"],@"action":@"pushToPointSetting"},
+                            @{@"icon":@"icon_mine_about",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"copyright_info"],@"action":@"pushToCopyright"},
+                            @{@"icon":@"icon_mine_about",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"version"]}],
+                          @[]
                           ];
 }
 
@@ -157,6 +164,16 @@
     h5VC.viewType = kH5ViewTypeHelp;
     h5VC.titleString = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"help"];
     [self.navigationController pushViewController:h5VC animated:YES];
+}
+
+- (void)pushToPointSetting {
+    DOSPointSettingViewController *pointSettingViewController = [[DOSPointSettingViewController alloc]init];
+    [self.navigationController pushViewController:pointSettingViewController animated:YES];
+}
+
+- (void)pushToCopyright {
+    DOSCopyrightViewController *copyrightViewController = [[DOSCopyrightViewController alloc]init];
+    [self.navigationController pushViewController:copyrightViewController animated:YES];
 }
 
 #pragma mark - Getter & Setter
