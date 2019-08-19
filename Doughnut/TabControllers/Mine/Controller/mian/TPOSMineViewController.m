@@ -19,9 +19,13 @@
 #import "DOSCopyrightViewController.h"
 #import "TPOSH5ViewController.h"
 
-@interface TPOSMineViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface TPOSMineViewController ()<UITableViewDelegate, UITableViewDataSource, TPOSMineHeaderDelegate>
 @property (nonatomic, strong) UITableView *table;
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) TPOSMineHeader *header;
 @property (nonatomic, strong) NSArray *tableSources;
+
+@property (nonatomic, strong) MASConstraint *headerViewHieghtCons;
 @end
 
 @implementation TPOSMineViewController
@@ -32,7 +36,7 @@
     
     [self setupData];
     [self setupSubviews];
-    [self setupConstraints];
+    //[self setupConstraints];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -68,7 +72,29 @@
 }
 
 - (void)setupSubviews {
+    [self.view addSubview:self.header];
     [self.view addSubview:self.table];
+    
+    [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.top.equalTo(self.view).offset(130);
+    }];
+    
+    [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-110);
+        self.headerViewHieghtCons = make.height.mas_equalTo(@(CGRectGetHeight(self.header.frame) + 110));
+    }];
+    
+    __weak typeof(self) weakSelf = self;
+//    MJRefreshGifHeader *header = [self grayTableHeaderWithBigSize:YES RefreshingBlock:^{
+//    }];
+//    self.table.mj_header = header;
+    //[self autoRefreshData];
+}
+
+- (void)autoRefreshData {
+    [self.table.mj_header beginRefreshing];
 }
 
 - (void)setupConstraints {
@@ -189,4 +215,7 @@
     return _table;
 }
 
+- (void)TPOSMineHeaderDelegateDidTapWalletButton{}
+
+- (void)TPOSMineHeaderDelegateDidTapTransButton{}
 @end

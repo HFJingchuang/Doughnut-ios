@@ -122,10 +122,10 @@
     [self registerNotifications];
     //检查数据库更新
     [self checkDBVersion];
-    wallet = [[WalletManage alloc]init];
-    [wallet createRemote];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
+//    wallet = [[WalletManage alloc]init];
+//    [wallet createRemote];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
     return YES;
 }
 

@@ -658,6 +658,15 @@
 			path = Wallet;
 			sourceTree = "<group>";
 		};
+		B65805402305635900F3380B /* mian */ = {
+			isa = PBXGroup;
+			children = (
+				D063A7B0218E022800750001 /* TPOSMineViewController.h */,
+				D063A7DD218E022800750001 /* TPOSMineViewController.m */,
+			);
+			path = mian;
+			sourceTree = "<group>";
+		};
 		D063A475218E001500750001 /* JTum */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,12 +1238,12 @@
 		D063A7A8218E022800750001 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B65805402305635900F3380B /* mian */,
 				9E42CAAC21B4FFC900267076 /* TPOSWalletManagerViewController.xib */,
 				D063A7AB218E022800750001 /* TPOSEditWalletViewController.xib */,
 				D063A7AC218E022800750001 /* TPOSEditWalletViewController.h */,
 				D063A7AE218E022800750001 /* TPOSWalletManagerViewController.m */,
 				D063A7AF218E022800750001 /* TPOSSettingViewController.m */,
-				D063A7B0218E022800750001 /* TPOSMineViewController.h */,
 				D063A7B1218E022800750001 /* TPOSAboutUsViewController.h */,
 				D063A7B5218E022800750001 /* TPOSExchangeWalletVewController.h */,
 				D063A7B7218E022800750001 /* TPOSEditPasswordViewController.xib */,
@@ -1245,7 +1254,6 @@
 				D063A7BF218E022800750001 /* TPOSExchangeWalletVewController.m */,
 				D063A7C0218E022800750001 /* TPOSAboutUsViewController.m */,
 				D063A7C1218E022800750001 /* Wallet */,
-				D063A7DD218E022800750001 /* TPOSMineViewController.m */,
 				D063A7DE218E022800750001 /* TPOSSettingViewController.h */,
 				D063A7DF218E022800750001 /* TPOSWalletManagerViewController.h */,
 				D063A7E0218E022800750001 /* TPOSEditPasswordViewController.m */,
