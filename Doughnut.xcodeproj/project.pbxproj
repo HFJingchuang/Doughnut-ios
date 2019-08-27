@@ -647,9 +647,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B62190E52314DCA800DCCC88 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		B658047522F9A91000F3380B /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				B62190E52314DCA800DCCC88 /* Model */,
 				B658047622FA63CC00F3380B /* WalletManage.h */,
 				B658047722FA63CC00F3380B /* WalletManage.m */,
 				B658048522FE298500F3380B /* WalletUserDefaults.h */,

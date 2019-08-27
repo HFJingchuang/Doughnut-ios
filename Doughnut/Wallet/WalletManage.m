@@ -13,18 +13,38 @@
 #import <Transaction.h>
 #import <Wallet.h>
 #import <Remote.h>
+#import "TPOSApiClient.h"
 
-@interface WalletManage ()
+#import <JccdexInfo.h>
+#import <JccdexMacro.h>
+#import <JccdexConfig.h>
+#import <JccdexExchange.h>
+#import <stdlib.h>
+
+#define JC_SCAN_SERVER @"https://swtcscan.jccdex.cn"
+#define TOKEN_ROUTER @"/sum/all/"
+
+@interface WalletManage (){
+    NSURLSession *_sharedSession;
+    WalletUserDefaults *walletInfo;
+    Remote *remote;
+}
 
 @end
 @implementation WalletManage
 
-- (instancetype)initWalletMange {
-    if (self = [super init]){
-        walletInfo = [[WalletUserDefaults alloc] init];
-        remote = [self createRemote];
-    }
-    return self;
+- (instancetype)shareInstance {
+//    if (self = [super init]){
+//        walletInfo = [[WalletUserDefaults alloc] init];
+//        remote = [self createRemote];
+//    }
+//    return self;
+    static dispatch_once_t onceToken;
+    static WalletManage *manager;
+    dispatch_once(&onceToken, ^{
+        manager = [[WalletManage alloc] init];
+    });
+    return manager;
 }
 
 - (Remote *) createRemote{
@@ -96,7 +116,7 @@
 //获取交易记录
 - (void) getTansferHishory:(NSUnit *) limit {
     NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
-    //    NSString * account = [walletInfo getAddress];
+    //    NSString *account = [walletInfo getAddress];
     //    [options setObject:account forKey:@"account"];
     [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
     [options setObject:limit forKey:@"limit"];
@@ -106,10 +126,22 @@
 //获取余额
 - (void) getBalance{
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-//    NSString * account = [walletInfo getAddress];
-//    [options setObject:account forKey:@"account"];
+    //    NSString *account = [walletInfo getAddress];
+    //    [options setObject:account forKey:@"account"];
     [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
     [remote requestAccountInfo:options];
+}
+
+//获取全部tokens
+- (void) getAllTokens{
+    NSString *requsetUrl = [NSString stringWithFormat:@"%@%@%@",JC_SCAN_SERVER,TOKEN_ROUTER,[[NSUUID UUID] UUIDString]];
+    [[TPOSApiClient sharedInstance]getFromUrl:requsetUrl parameter:nil success:^(id responseObject) {
+        
+        <#code#>
+    } failure:^(NSError *error) {
+        <#code#>
+    }];
+    }
 }
 
 @end

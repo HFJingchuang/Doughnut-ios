@@ -29,18 +29,17 @@
     self.manageLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_manage"];
     self.recordLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_record"];
 }
-
-- (IBAction)onWalletButtonTapped:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(TPOSMineHeaderDelegateDidTapWalletButton)]) {
-        [self.delegate TPOSMineHeaderDelegateDidTapWalletButton];
+- (IBAction)onTransactionButtonTapped:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(TPOSMineHeaderDidTapTransactionButton)]) {
+        [self.delegate TPOSMineHeaderDidTapTransactionButton];
+    }
+}
+- (IBAction)onReceiverButtonTapped:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(TPOSMineHeaderDidTapReceiverButton)]) {
+        [self.delegate TPOSMineHeaderDidTapReceiverButton];
     }
 }
 
-- (IBAction)onTransButtonTapped:(id)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(TPOSMineHeaderDelegateDidTapTransButton)]) {
-        [self.delegate TPOSMineHeaderDelegateDidTapTransButton];
-    }
-}
 
 
 @end

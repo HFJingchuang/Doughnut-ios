@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="130"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z1J-D1-CUP">
+                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z1J-D1-CUP">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="130"/>
                     <subviews>
                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5y7-ih-9ET">
@@ -31,13 +31,14 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="当前钱包" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xhm-CU-gbB" colorLabel="IBBuiltInLabel-Blue">
                                     <rect key="frame" x="138" y="25" width="45" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.0" green="0.43077248334884644" blue="0.98557096719741821" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.1606377065" green="0.56278711560000005" blue="0.98538714650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" red="0.1606377065" green="0.56278711560000005" blue="0.98538714650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="Z3O-Nx-VHJ" firstAttribute="leading" secondItem="5y7-ih-9ET" secondAttribute="leading" constant="44" id="1wU-7x-5sr"/>
                                 <constraint firstItem="Z3O-Nx-VHJ" firstAttribute="top" secondItem="5y7-ih-9ET" secondAttribute="top" constant="16" id="tcE-e4-oDT"/>
@@ -48,7 +49,7 @@
                             <rect key="frame" x="28" y="70" width="319" height="50"/>
                             <subviews>
                                 <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d5M-c7-z6C">
-                                    <rect key="frame" x="159" y="-17.5" width="1" height="35"/>
+                                    <rect key="frame" x="159" y="8" width="1" height="35"/>
                                     <color key="backgroundColor" red="0.0" green="0.43077248334884644" blue="0.98557096719741821" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="1" id="YMO-qN-Rq5"/>
@@ -66,6 +67,9 @@
                                             <state key="normal" title="转账" image="icon_main_transaction">
                                                 <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
+                                            <connections>
+                                                <action selector="min:" destination="iN0-l3-epB" eventType="touchUpInside" id="tFz-s1-mvd"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </view>
@@ -80,14 +84,21 @@
                                             <state key="normal" title="收款" image="icon_main_receiver">
                                                 <color key="titleColor" red="0.0" green="0.43077248334884644" blue="0.98557096719741821" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
+                                            <connections>
+                                                <action selector="onReceiverButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="MM2-WX-I9u"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
+                                <constraint firstItem="NBr-HL-SL9" firstAttribute="centerY" secondItem="d5M-c7-z6C" secondAttribute="centerY" id="1rt-As-s3y"/>
+                                <constraint firstItem="d5M-c7-z6C" firstAttribute="centerY" secondItem="G0A-mN-pFx" secondAttribute="centerY" id="9ip-ct-uG6"/>
+                                <constraint firstItem="NBr-HL-SL9" firstAttribute="centerY" secondItem="G0A-mN-pFx" secondAttribute="centerY" id="Afr-ZF-xNE"/>
                                 <constraint firstItem="d5M-c7-z6C" firstAttribute="centerY" secondItem="Qh4-1z-rrf" secondAttribute="centerY" id="HS9-7L-jEi"/>
                                 <constraint firstItem="d5M-c7-z6C" firstAttribute="centerX" secondItem="Qh4-1z-rrf" secondAttribute="centerX" id="MOK-Un-pGW"/>
+                                <constraint firstItem="G0A-mN-pFx" firstAttribute="bottom" secondItem="NBr-HL-SL9" secondAttribute="bottom" id="SNQ-65-nOr"/>
                                 <constraint firstItem="NBr-HL-SL9" firstAttribute="leading" secondItem="d5M-c7-z6C" secondAttribute="trailing" constant="8" symbolic="YES" id="eBg-dr-TGS"/>
                                 <constraint firstItem="NBr-HL-SL9" firstAttribute="top" secondItem="G0A-mN-pFx" secondAttribute="top" id="osY-TD-XcG"/>
                                 <constraint firstItem="G0A-mN-pFx" firstAttribute="leading" secondItem="Qh4-1z-rrf" secondAttribute="leading" id="rFi-cl-MMx"/>
@@ -103,10 +114,9 @@
                     <constraints>
                         <constraint firstItem="5y7-ih-9ET" firstAttribute="centerX" secondItem="Qh4-1z-rrf" secondAttribute="centerX" id="9Hj-EY-18l"/>
                         <constraint firstItem="Qh4-1z-rrf" firstAttribute="leading" secondItem="Z1J-D1-CUP" secondAttribute="leading" constant="28" id="9TK-fn-MLu"/>
+                        <constraint firstAttribute="bottom" secondItem="Qh4-1z-rrf" secondAttribute="bottom" constant="10" id="B0X-hb-Tc9"/>
                         <constraint firstItem="5y7-ih-9ET" firstAttribute="top" secondItem="Z1J-D1-CUP" secondAttribute="top" constant="-1" id="TQm-8U-mwH"/>
-                        <constraint firstItem="Qh4-1z-rrf" firstAttribute="top" secondItem="Z1J-D1-CUP" secondAttribute="top" constant="135" id="a4k-sA-U31"/>
                         <constraint firstItem="5y7-ih-9ET" firstAttribute="leading" secondItem="Z1J-D1-CUP" secondAttribute="leading" id="iHo-6S-xXt"/>
-                        <constraint firstAttribute="bottom" secondItem="Qh4-1z-rrf" secondAttribute="bottom" constant="7" id="sov-ud-muU"/>
                         <constraint firstAttribute="trailing" secondItem="5y7-ih-9ET" secondAttribute="trailing" id="y2w-qH-75i"/>
                     </constraints>
                 </view>
@@ -114,16 +124,14 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Z1J-D1-CUP" secondAttribute="trailing" id="Be4-tk-Qbs"/>
-                <constraint firstItem="Z1J-D1-CUP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QGB-y6-otI"/>
                 <constraint firstItem="Z1J-D1-CUP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="d40-uK-c0I"/>
-                <constraint firstAttribute="bottom" secondItem="Z1J-D1-CUP" secondAttribute="bottom" id="rfH-wu-u8W"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="transButton" destination="SeX-nW-ZKH" id="YJ0-xi-x9E"/>
-                <outlet property="walletButton" destination="SOf-Uz-fI0" id="fwL-fL-Yti"/>
+                <outlet property="transButton" destination="SeX-nW-ZKH" id="MYj-Jp-iQu"/>
+                <outlet property="walletButton" destination="SOf-Uz-fI0" id="vYk-TJ-REP"/>
             </connections>
             <point key="canvasLocation" x="-463.04347826086962" y="-98.772321428571431"/>
         </view>

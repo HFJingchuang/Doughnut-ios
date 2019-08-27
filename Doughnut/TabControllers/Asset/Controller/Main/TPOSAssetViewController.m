@@ -529,7 +529,6 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
             f.size.height += 24;
             _header.frame = f;
         }
-//        _header.backgroundColor = [UIColor clearColor];
         _header.delegate = self;
     }
     return _header;

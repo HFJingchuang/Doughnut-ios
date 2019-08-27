@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @protocol TPOSMineHeaderDelegate<NSObject>
-- (void)TPOSMineHeaderDelegateDidTapWalletButton;
-- (void)TPOSMineHeaderDelegateDidTapTransButton;
+- (void)TPOSMineHeaderDidTapReceiverButton;
+- (void)TPOSMineHeaderDidTapTransactionButton;
 @end
 
 @interface TPOSMineHeader : UIView

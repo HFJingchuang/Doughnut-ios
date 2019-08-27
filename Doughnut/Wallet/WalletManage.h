@@ -15,13 +15,8 @@
 #import "WalletUserDefaults.h"
 
 @interface WalletManage : NSObject
-{
-    WalletUserDefaults *walletInfo;
-    Remote *remote;
-}
-
 //初始化
-- (instancetype) initWalletMange;
++ (instancetype) shareInstance;
 //创建连接
 - (Remote *) createRemote;
 //创建钱包（不传私钥）
@@ -34,6 +29,9 @@
 - (void) getBalance;
 //获取交易记录
 - (void) getTansferHishory:(NSUnit *) limit;
+
+//获取全部token
+- (void) getAllTokens;
 
 @end
 

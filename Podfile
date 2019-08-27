@@ -1,5 +1,7 @@
 #use_frameworks!
 
+platform :ios, '11.0'
+
 target 'Doughnut' do
 
 pod 'MJRefresh'
@@ -15,5 +17,6 @@ pod 'Bugly'
 pod 'WechatOpenSDK'
 pod 'jcc_oc_base_lib'
 pod 'jingtum-lib-objectc'
+pod 'jcc_rpc_oc'
 
 end

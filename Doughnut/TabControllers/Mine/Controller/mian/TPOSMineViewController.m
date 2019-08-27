@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = nil;
-    
+    self.navigationItem.title = nil;
     [self setupData];
     [self setupSubviews];
     //[self setupConstraints];
@@ -72,19 +72,18 @@
 }
 
 - (void)setupSubviews {
-    [self.view addSubview:self.header];
+    //[self.view addSubview:self.headerView];
     [self.view addSubview:self.table];
     
     [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.view);
-        make.top.equalTo(self.view).offset(130);
+        make.left.right.bottom.top.equalTo(self.view);
     }];
     
-    [self.header mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-110);
-        self.headerViewHieghtCons = make.height.mas_equalTo(@(CGRectGetHeight(self.header.frame) + 110));
-    }];
+//    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(self.view);
+//        make.top.equalTo(self.view).offset(110);
+//        self.headerViewHieghtCons = make.height.mas_equalTo(@(CGRectGetHeight(self.header.frame) + 110));
+//    }];
     
     __weak typeof(self) weakSelf = self;
 //    MJRefreshGifHeader *header = [self grayTableHeaderWithBigSize:YES RefreshingBlock:^{
@@ -106,6 +105,15 @@
 - (void)setNavigationBarColor {
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+}
+#pragma mark - TPOSMineHeaderDelegate
+
+- (void) TPOSMineHeaderDidTapReceiverButton {
+    [self pushToAboutUs];
+}
+
+- (void) TPOSMineHeaderDidTapTransactionButton {
+    [self pushToSetting];
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
@@ -144,7 +152,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return section == 0 ? 0 : 12;
+    return 10;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -206,16 +214,44 @@
 - (UITableView *)table {
     if (!_table) {
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _table.tableHeaderView = self.header;
         _table.delegate = self;
         _table.dataSource = self;
         _table.tableFooterView = [UIView new];
         _table.backgroundColor = [UIColor colorWithHex:0xf5f5f9];
         _table.separatorInset = UIEdgeInsetsMake(0, 20, 0, 0);
+        
+//        if (@available(iOS 11,*)) {
+//            _table.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+//        } else {
+//            self.automaticallyAdjustsScrollViewInsets = NO;
+//        }
+        
+        //[_table addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     }
     return _table;
 }
 
-- (void)TPOSMineHeaderDelegateDidTapWalletButton{}
+- (TPOSMineHeader *)header {
+    if (!_header) {
+        _header = [[NSBundle mainBundle] loadNibNamed:@"TPOSMineHeader" owner:self options:nil].firstObject;
+        if (kIphoneX) {
+            CGRect f = _header.frame;
+            f.size.height += 24;
+            _header.frame = f;
+        }
+        //        _header.backgroundColor = [UIColor clearColor];
+        _header.delegate = self;
+    }
+    return _header;
+}
 
-- (void)TPOSMineHeaderDelegateDidTapTransButton{}
+- (UIView *)headerView {
+    if (!_headerView) {
+        _headerView = [UIView new];
+        _headerView.backgroundColor = [UIColor colorWithHex:0x2890FE];
+    }
+    return _headerView;
+}
+
 @end
