@@ -15,6 +15,9 @@
 #import <Remote.h>
 #import "TPOSApiClient.h"
 
+#import "TPOSApiClient.h"
+#import "NSObject+TPOS.h"
+#import <WebKit/WebKit.h>
 #import <JccdexInfo.h>
 #import <JccdexMacro.h>
 #import <JccdexConfig.h>
@@ -34,11 +37,6 @@
 @implementation WalletManage
 
 - (instancetype)shareInstance {
-//    if (self = [super init]){
-//        walletInfo = [[WalletUserDefaults alloc] init];
-//        remote = [self createRemote];
-//    }
-//    return self;
     static dispatch_once_t onceToken;
     static WalletManage *manager;
     dispatch_once(&onceToken, ^{
@@ -133,15 +131,40 @@
 }
 
 //获取全部tokens
-- (void) getAllTokens{
+- (void) getAllTokens:(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure {
     NSString *requsetUrl = [NSString stringWithFormat:@"%@%@%@",JC_SCAN_SERVER,TOKEN_ROUTER,[[NSUUID UUID] UUIDString]];
+    __weak typeof(self) weakSelf = self;
     [[TPOSApiClient sharedInstance]getFromUrl:requsetUrl parameter:nil success:^(id responseObject) {
-        
-        <#code#>
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            if ([[responseObject objectForKey:@"code"] isEqualToString:REQUEST_JC_SUCCESS_CODE]) {
+                if (success) {
+                    NSMutableArray *arr = [NSMutableArray new];
+                    NSArray *datas = [responseObject objectForKey:@"data"];
+                    for (NSDictionary *data in datas) {
+                        if ([data isKindOfClass:[NSDictionary class]]) {
+                        }
+                    }
+                    if (success) {
+                        NSLog(@"s%@",success);
+                        //success(arr);
+                    }
+                }
+            } else {
+                if (failure) {
+                    NSLog(@"f%@",failure);
+                    //failure([weakSelf errorDomain:url reason:@"code != 0"]);
+                }
+            }
+        } else {
+            if (failure) {
+                //failure([weakSelf errorDomain:url reason:@"responseObject is not Dictionary"]);
+            }
+        }
     } failure:^(NSError *error) {
-        <#code#>
+        if (failure) {
+            failure(error);
+        }
     }];
-    }
 }
 
 @end

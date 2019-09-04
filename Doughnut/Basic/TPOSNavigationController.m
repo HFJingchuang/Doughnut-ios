@@ -27,14 +27,14 @@
 
 - (void)setNavigationBarStyle {
     self.navigationBar.barStyle = UIBarStyleBlack;
-    UIColor *foregroundColor = [UIColor colorWithHex:0xffffff];
-    NSDictionary *titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:foregroundColor, NSForegroundColorAttributeName, [UIFont fontWithName:@"PingFangSC-Medium" size:18], NSFontAttributeName, nil];
+    UIColor *foregroundColor = [UIColor colorWithHex:0x021E38];
+    NSDictionary *titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:foregroundColor,NSForegroundColorAttributeName, [UIFont fontWithName:@"PingFangSC-Medium" size:18],NSFontAttributeName, nil];
     
     [self.navigationBar setTitleTextAttributes:titleTextAttributes];
     self.navigationBar.translucent = NO;
     
-    [self.navigationBar setBackgroundColor:[UIColor colorWithHex:0x2890FE]];
-    [self.navigationBar setBarTintColor:[UIColor colorWithHex:0x2890FE]];
+    [self.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{

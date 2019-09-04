@@ -17,6 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tokenName;
 @property (weak, nonatomic) IBOutlet UILabel *tokenValueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *walletBalanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *balanceCNYLabel;
+@property (weak, nonatomic) IBOutlet UILabel *walletType;
 
 
 @end
@@ -25,10 +28,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.layer.cornerRadius = 2;
+    self.layer.cornerRadius = 10;
     self.layer.masksToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    _backupView.layer.cornerRadius = 2;
+    _backupView.layer.cornerRadius = 10;
     self.tokenValueLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:24];
 }
 

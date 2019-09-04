@@ -38,11 +38,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
+    self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_manage"];
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_manage"];
     [self setupTableView];
-    self.bottomHeightCons.constant = kIphoneX ? 65 : 50;
+    //self.bottomHeightCons.constant = kIphoneX ? 105 : 90;
     [self registerNotifications];
     [self loadWallets];
 }
@@ -143,7 +150,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 115;
 }
 
 - (TPOSWalletDao *)walletDao {

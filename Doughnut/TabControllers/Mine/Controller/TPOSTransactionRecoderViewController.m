@@ -51,6 +51,10 @@
     [self registerNotifications];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)responseRightButton {
     TPOSExchangeWalletVewController *exchangeWalletVewController = [[TPOSExchangeWalletVewController alloc] init];
     exchangeWalletVewController.currentWalletModel = self.currentWalletModel;

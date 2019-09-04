@@ -27,11 +27,10 @@
 - (void) transferWithPassword;
 //获取余额
 - (void) getBalance;
+//查询全部币种
+- (void) getAllTokens:(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure;
 //获取交易记录
 - (void) getTansferHishory:(NSUnit *) limit;
-
-//获取全部token
-- (void) getAllTokens;
 
 @end
 
