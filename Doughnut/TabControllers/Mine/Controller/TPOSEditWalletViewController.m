@@ -68,13 +68,13 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0x3B6CA6]];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     self.navigationController.navigationBarHidden = NO;
+    [self addLeftBarButtonImage:[UIImage imageNamed:@"icon_back_withe"] action:@selector(responseLeftButton)];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0xffffff]}];
     self.tokenValueLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:28];
     self.view.backgroundColor = [UIColor whiteColor];
     self.deleteButton.layer.cornerRadius = 10;
     _deleteButton.layer.borderWidth = 1.0;
     _deleteButton.layer.borderColor = [UIColor colorWithHex:0xEEEEF2].CGColor;
-    //[self addRightBarButton:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save"]];
-    //    self.navigationController.navigationItem.leftBarButtonItem = [UIBarButtonItem alloc] [UIImage imageNamed:@"icon_back_withe"];
     _walletField.text = _walletModel.walletName;
     _addressLbael.text = _walletModel.address;
     _walletIconButton.layer.cornerRadius = 24;
@@ -94,12 +94,15 @@
     }];
 }
 
+- (void)responseLeftButton {
+     [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)changeLanguage {
     self.nameLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_name"];
     self.addrLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_addr"];
     self.cahngePwdLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"change_pwd"];
     self.exportLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"export_pk"];
-//    [self.copyyBtn setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"addr_copy"] forState:UIControlStateNormal];
     [self.backButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_export"] forState:UIControlStateNormal];
     [self.deleteButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_delete"] forState:UIControlStateNormal];
  

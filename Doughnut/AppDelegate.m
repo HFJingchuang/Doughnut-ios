@@ -107,10 +107,10 @@
 
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHex:0x2890FE]];
-    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHex:0x2890FE]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHex:0xffffff]];
     
-    UIColor *foregroundColor = [UIColor whiteColor];
+    UIColor *foregroundColor = [UIColor colorWithHex:0x021E38];
     NSDictionary *titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:foregroundColor, NSForegroundColorAttributeName, [UIFont systemFontOfSize:18], NSFontAttributeName, nil];
     [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
 

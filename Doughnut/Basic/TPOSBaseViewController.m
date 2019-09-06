@@ -137,14 +137,14 @@
     NSDictionary *titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:foregroundColor, NSForegroundColorAttributeName, [UIFont systemFontOfSize:18 weight:UIFontWeightMedium], NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:titleTextAttributes];
     
-    [self.navigationController.navigationBar setBackgroundColor:barColor?barColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar setBackgroundColor:barColor?barColor:[UIColor colorWithHex:0xfffff]];
     [self.navigationController.navigationBar setBarTintColor:barColor?barColor:[UIColor whiteColor]];
 }
 
 - (UIButton *)backStyleButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [UIImage imageNamed:@"icon_navi_back"];
-    UIImage *highlightImage = [UIImage imageNamed:@"icon_navi_back"];
+    UIImage *highlightImage = [UIImage imageNamed:@"icon_back_withe"];
     
     [button setImage:image forState:UIControlStateNormal];
     [button setImage:highlightImage forState:UIControlStateHighlighted];
@@ -190,7 +190,7 @@
 
 - (void)addRightBarButton:(NSString *)title action:(SEL)action operationBlock:(void (^)(UIButton *rightBtn))operationBlock {
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setTitleColor:[UIColor colorWithHex:0xffffff] forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor colorWithHex:0x021E38] forState:UIControlStateNormal];
     [rightBtn setTitle:title forState:UIControlStateNormal];
     [rightBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [rightBtn.titleLabel sizeToFit];

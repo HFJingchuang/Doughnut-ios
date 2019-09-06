@@ -15,7 +15,7 @@
 #import "TPOSMineViewController.h"
 #import "TPOSMacro.h"
 
-#define CustomTabBarHeight 50
+#define CustomTabBarHeight 200
 
 @interface TPOSTabBarController ()
 @property (nonatomic, strong) TPOSAssetViewController *assetVC;    //资产

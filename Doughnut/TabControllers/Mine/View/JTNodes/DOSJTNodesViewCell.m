@@ -1,0 +1,43 @@
+//
+//  DOSJTNodesViewCell.m
+//  Doughnut
+//
+//  Created by xumingyang on 2019/9/5.
+//  Copyright © 2019 jch. All rights reserved.
+//
+
+#import "DOSJTNodesViewCell.h"
+#import "UIColor+Hex.h"
+@interface DOSJTNodesViewCell()
+
+@property (weak, nonatomic) IBOutlet UIView *nodeView;
+@property (weak, nonatomic) IBOutlet UILabel *nodeName;
+@property (weak, nonatomic) IBOutlet UILabel *nodeAddr;
+@property (weak, nonatomic) IBOutlet UIImageView *clickImage;
+
+@end
+
+@implementation DOSJTNodesViewCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    self.layer.cornerRadius = 10;
+    self.layer.masksToBounds = YES;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.nodeView.layer.cornerRadius = 10;
+    _nodeView.layer.borderWidth = 1;
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    if (selected) {
+        _nodeView.layer.borderColor = [UIColor colorWithHex:0x27B498].CGColor;
+        _clickImage.highlighted = selected;
+    }else {
+        _nodeView.layer.borderColor = [UIColor colorWithHex:0xEEEEF2].CGColor;
+        _clickImage.highlighted = selected;
+    }
+    
+}
+
+@end

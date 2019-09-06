@@ -90,11 +90,14 @@
     if (self.navigationController.navigationBarHidden) {
         [self.navigationController setNavigationBarHidden:NO animated:animated];
     }
-    
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     if ([self.navigationController.viewControllers.firstObject isEqual:self]) {
         [self addLeftBarButtonImage:[[UIImage imageNamed:@"icon_guanbi"] tb_imageWithTintColor:[UIColor whiteColor]] action:@selector(dismissSelf)];
     }
+    [self addRightBarButtonImage:[UIImage imageNamed:@"icon_transaction_qcode"] action:@selector(transgferWithQRCode)];
 }
+
+- (void)transgferWithQRCode {}
 
 - (void)responseLeftButton {
     if (self.presentingViewController) {
@@ -431,12 +434,12 @@
         _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn addTarget:self action:@selector(nextAction) forControlEvents:UIControlEventTouchUpInside];
-        [btn setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"next_step"] forState:UIControlStateNormal];
+        [btn setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:17];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        btn.backgroundColor = [UIColor colorWithHex:0xA3CFFF];//#A3CFFF 100% 0x2890FE
+        btn.backgroundColor = [UIColor colorWithHex:0x969696];//#A3CFFF 100% 0x2890FE
         btn.layer.masksToBounds = YES;
-        btn.layer.cornerRadius = 4;
+        btn.layer.cornerRadius = 10;
         btn.userInteractionEnabled = NO;
         UIView *footer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 47)];
         [footer addSubview:btn];

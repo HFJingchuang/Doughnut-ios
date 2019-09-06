@@ -29,6 +29,10 @@
     [self setupSubviews];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)setupData {
     self.languages = @[@"简体中文",@"繁體中文",@"English"];
     self.langSymbols = @[@"zh-Hans",@"zh-Hant",@"en"];

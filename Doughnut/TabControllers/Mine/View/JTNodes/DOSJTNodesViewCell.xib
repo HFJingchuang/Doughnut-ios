@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="51" id="KGk-i7-Jjw" customClass="DOSJTNodesViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="51"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="50.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVN-Bl-a1K">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50.5"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_no_click" highlightedImage="icon_click" translatesAutoresizingMaskIntoConstraints="NO" id="I2O-nc-5Oo">
+                                <rect key="frame" x="287" y="18" width="15" height="14.5"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="默认节点" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDR-0g-251">
+                                <rect key="frame" x="18" y="9" width="76" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ws://123.13.1.1:3000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CR0-TI-CHg">
+                                <rect key="frame" x="18" y="27" width="114" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="I2O-nc-5Oo" firstAttribute="top" secondItem="rVN-Bl-a1K" secondAttribute="top" constant="18" id="K7U-gT-TLx"/>
+                            <constraint firstItem="I2O-nc-5Oo" firstAttribute="centerY" secondItem="rVN-Bl-a1K" secondAttribute="centerY" id="LZ9-1f-DDH"/>
+                            <constraint firstAttribute="trailing" secondItem="I2O-nc-5Oo" secondAttribute="trailing" constant="18" id="VaE-G4-8W5"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.masksToBounds ">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rVN-Bl-a1K" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2YV-Xb-wng"/>
+                    <constraint firstItem="rVN-Bl-a1K" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="RnA-tQ-cbS"/>
+                    <constraint firstItem="rVN-Bl-a1K" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="jHh-jW-Lun"/>
+                    <constraint firstAttribute="trailing" secondItem="rVN-Bl-a1K" secondAttribute="trailing" id="l6Z-nk-sU7"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
+            <connections>
+                <outlet property="clickImage" destination="I2O-nc-5Oo" id="RQC-rK-8MI"/>
+                <outlet property="nodeAddr" destination="CR0-TI-CHg" id="s8u-x1-QT9"/>
+                <outlet property="nodeName" destination="HDR-0g-251" id="PLl-Jh-RaJ"/>
+                <outlet property="nodeView" destination="rVN-Bl-a1K" id="A3c-8I-1e6"/>
+            </connections>
+            <point key="canvasLocation" x="34.782608695652179" y="37.165178571428569"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_click" width="15" height="15"/>
+        <image name="icon_no_click" width="15" height="15"/>
+    </resources>
+</document>

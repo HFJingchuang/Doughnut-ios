@@ -18,6 +18,10 @@
 #import "DOSPointSettingViewController.h"
 #import "DOSCopyrightViewController.h"
 #import "TPOSH5ViewController.h"
+#import "TPOSWalletModel.h"
+#import "TPOSQRCodeReceiveViewController.h"
+#import "TPOSNavigationController.h"
+#import "TPOSLanguageViewController.h"
 
 @interface TPOSMineViewController ()
 //header
@@ -34,10 +38,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *walletManageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *transferLogLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *languageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *copyrightLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pointLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentVersion;
 
+
+@property (nonatomic, strong) TPOSWalletModel *currentWallet;
 @end
 
 @implementation TPOSMineViewController
@@ -58,6 +65,7 @@
     self.pointLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"point_settings"];
     self.versionLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"version"];
     self.copyrightLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"copyright_info"];
+    self.languageLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"lang_setting"];
     [self.reciverButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"receive_action"] forState:UIControlStateNormal];
     [self.transferButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"transfer_action"]  forState:UIControlStateNormal];
     
@@ -114,6 +122,9 @@
 
 - (IBAction)versionAction:(id)sender {
 }
+- (IBAction)languageAction:(id)sender {
+    [self pushToLanguageViewController];
+}
 
 - (IBAction)copyrightAction:(id)sender {
     [self pushToCopyright];
@@ -124,7 +135,7 @@
 }
 
 - (IBAction)receiverAction:(id)sender {
-     [self pushToWalletManager];
+     [self showQRCodeReceiver];
 }
 
 - (IBAction)transferAction:(id)sender {
@@ -148,6 +159,31 @@
     [self.navigationController pushViewController:transactionViewController animated:YES];
 }
 
+- (void)showQRCodeReceiver {
+    TPOSQRCodeReceiveViewController *qrVC = [[TPOSQRCodeReceiveViewController alloc] init];
+    
+//    if (_currentWallet) {
+//        qrVC.address = _currentWallet.address;
+//        qrVC.tokenType = [_currentWallet.blockChainId isEqualToString:ethChain] ? @"ETH" : @"SWT" ;
+//        qrVC.tokenAmount = 0;
+//        qrVC.basicType = [_currentWallet.blockChainId isEqualToString:ethChain] ? TPOSBasicTokenTypeEtheruem : TPOSBasicTokenTypeJingTum;
+        TPOSNavigationController *navi = [[TPOSNavigationController alloc] initWithRootViewController:qrVC];
+        [self presentViewController:navi animated:YES completion:nil];
+    //}
+//    else {
+//
+//        __weak typeof(self) weakSelf = self;
+//
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"no_wallet_tips"] preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"ok"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [weakSelf pushToCreateWallet];
+//        }];
+//        [alert addAction:confirmAction];
+//
+//        [self presentViewController:alert animated:YES completion:nil];
+//    }
+}
+
 - (void)pushToTransactionRecoder {
     TPOSTransactionRecoderViewController *transactionRecoderViewController = [[TPOSTransactionRecoderViewController alloc] init];
     [self.navigationController pushViewController:transactionRecoderViewController animated:YES];
@@ -156,6 +192,11 @@
 - (void)pushToWalletManager {
     TPOSWalletManagerViewController *walletManagerViewController = [[TPOSWalletManagerViewController alloc] init];
     [self.navigationController pushViewController:walletManagerViewController animated:YES];
+}
+
+- (void)pushToLanguageViewController {
+    TPOSLanguageViewController *vc = [[TPOSLanguageViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)pushToSetting {

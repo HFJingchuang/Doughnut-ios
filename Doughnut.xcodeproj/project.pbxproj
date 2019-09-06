@@ -30,6 +30,8 @@
 		9E42CABD21BB97E500267076 /* TPOSAssetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E42CABC21BB97E500267076 /* TPOSAssetCell.xib */; };
 		B62190EA2318C24C00DCCC88 /* TPOSMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B62190E92318C24C00DCCC88 /* TPOSMineViewController.m */; };
 		B62190EE231D0C3E00DCCC88 /* TPOSMineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B62190ED231D0C3E00DCCC88 /* TPOSMineViewController.xib */; };
+		B62190FE2320F0BE00DCCC88 /* DOSJTNodesViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B62190FC2320F0BE00DCCC88 /* DOSJTNodesViewCell.m */; };
+		B62190FF2320F0BF00DCCC88 /* DOSJTNodesViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B62190FD2320F0BE00DCCC88 /* DOSJTNodesViewCell.xib */; };
 		B658047822FA63CC00F3380B /* WalletManage.m in Sources */ = {isa = PBXBuildFile; fileRef = B658047722FA63CC00F3380B /* WalletManage.m */; };
 		B658048722FE298500F3380B /* WalletUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B658048622FE298500F3380B /* WalletUserDefaults.m */; };
 		B65804EC2302BBF400F3380B /* DOSPointSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B65804EA2302BBF400F3380B /* DOSPointSettingViewController.m */; };
@@ -240,6 +242,9 @@
 		B62190E82318C24C00DCCC88 /* TPOSMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSMineViewController.h; sourceTree = "<group>"; };
 		B62190E92318C24C00DCCC88 /* TPOSMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSMineViewController.m; sourceTree = "<group>"; };
 		B62190ED231D0C3E00DCCC88 /* TPOSMineViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TPOSMineViewController.xib; sourceTree = "<group>"; };
+		B62190FB2320F0BE00DCCC88 /* DOSJTNodesViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSJTNodesViewCell.h; sourceTree = "<group>"; };
+		B62190FC2320F0BE00DCCC88 /* DOSJTNodesViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSJTNodesViewCell.m; sourceTree = "<group>"; };
+		B62190FD2320F0BE00DCCC88 /* DOSJTNodesViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSJTNodesViewCell.xib; sourceTree = "<group>"; };
 		B658047622FA63CC00F3380B /* WalletManage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletManage.h; sourceTree = "<group>"; };
 		B658047722FA63CC00F3380B /* WalletManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WalletManage.m; sourceTree = "<group>"; };
 		B658048522FE298500F3380B /* WalletUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WalletUserDefaults.h; sourceTree = "<group>"; };
@@ -659,6 +664,16 @@
 				B62190ED231D0C3E00DCCC88 /* TPOSMineViewController.xib */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		B62190F42320F01C00DCCC88 /* JTNodes */ = {
+			isa = PBXGroup;
+			children = (
+				B62190FB2320F0BE00DCCC88 /* DOSJTNodesViewCell.h */,
+				B62190FC2320F0BE00DCCC88 /* DOSJTNodesViewCell.m */,
+				B62190FD2320F0BE00DCCC88 /* DOSJTNodesViewCell.xib */,
+			);
+			path = JTNodes;
 			sourceTree = "<group>";
 		};
 		B658047522F9A91000F3380B /* Wallet */ = {
@@ -1346,6 +1361,7 @@
 		D063A7EB218E022800750001 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B62190F42320F01C00DCCC88 /* JTNodes */,
 				9E42CAB021B9073100267076 /* TPOSExportPrivateKeyNoteView.h */,
 				9E42CAB121B9073100267076 /* TPOSExportPrivateKeyNoteView.m */,
 				9E42CAB221B9073100267076 /* TPOSExportPrivateKeyNoteView.xib */,
@@ -1485,6 +1501,7 @@
 				B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */,
 				D063A6D7218E006A00750001 /* TPOSTransactionTextField.xib in Resources */,
 				D063A4B9218E004700750001 /* mnemonic.html in Resources */,
+				B62190FF2320F0BF00DCCC88 /* DOSJTNodesViewCell.xib in Resources */,
 				D063A84E218E022800750001 /* TPOSMessageCenterCell.xib in Resources */,
 				D063A70A218E006A00750001 /* TPOSBackupAlert.xib in Resources */,
 				2CB10F282044643A0026F7AA /* Localizable.strings in Resources */,
@@ -1614,6 +1631,7 @@
 				D063A561218E005E00750001 /* UIImage+TPOS.m in Sources */,
 				D063A571218E005E00750001 /* NSObject+TPOS.m in Sources */,
 				D063A832218E022800750001 /* TPOSCreateWalletViewController.m in Sources */,
+				B62190FE2320F0BE00DCCC88 /* DOSJTNodesViewCell.m in Sources */,
 				D063A524218E005400750001 /* TADotView.m in Sources */,
 				D063A51B218E005400750001 /* TPOSAuthID.m in Sources */,
 				D063A828218E022800750001 /* TPOSExchangeWalletVewController.m in Sources */,

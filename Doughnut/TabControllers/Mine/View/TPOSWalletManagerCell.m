@@ -33,6 +33,8 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     _backupView.layer.cornerRadius = 10;
     self.tokenValueLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:24];
+    _walletType.layer.cornerRadius = 4;
+    _walletType.layer.masksToBounds = YES;
 }
 
 - (void)updateWithModel:(TPOSWalletModel *)walletModel {
