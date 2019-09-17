@@ -46,11 +46,11 @@
     [self.view addSubview:self.table];
     self.view.backgroundColor = [UIColor colorWithHex:0xf5f5f9];
 
-    __weak typeof(self) weakSelf = self;
-    [self addRightBarButton:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save"]  operationBlock:^(UIButton *rightBtn) {
-        [[TPOSLocalizedHelper standardHelper] setUserLanguage:[weakSelf.langSymbols objectAtIndex:weakSelf.selectedIndexPath.row]];
-        [weakSelf.navigationController popViewControllerAnimated:YES];
-    }];
+    //__weak typeof(self) weakSelf = self;
+//    [self addRightBarButton:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save"]  operationBlock:^(UIButton *rightBtn) {
+//        [[TPOSLocalizedHelper standardHelper] setUserLanguage:[weakSelf.langSymbols objectAtIndex:weakSelf.selectedIndexPath.row]];
+//        [weakSelf.navigationController popViewControllerAnimated:YES];
+//    }];
     
     [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -103,6 +103,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndexPath = indexPath;
+    __weak typeof(self) weakSelf = self;
+    [[TPOSLocalizedHelper standardHelper] setUserLanguage:[weakSelf.langSymbols objectAtIndex:weakSelf.selectedIndexPath.row]];
+    [weakSelf.navigationController popViewControllerAnimated:YES];
     [tableView reloadData];
 }
 

@@ -124,9 +124,9 @@
 //获取余额
 - (void) getBalance{
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-    //    NSString *account = [walletInfo getAddress];
-    //    [options setObject:account forKey:@"account"];
-    [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
+    NSString *account = [walletInfo getAddress];
+    [options setObject:account forKey:@"account"];
+    //[options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
     [remote requestAccountInfo:options];
 }
 

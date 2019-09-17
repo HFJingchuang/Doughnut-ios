@@ -102,6 +102,7 @@
 //    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
     self.navigationController.navigationBarHidden = YES;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_actionView.bounds byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(20,20)];//圆角大小
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
     maskLayer.frame = _actionView.bounds;

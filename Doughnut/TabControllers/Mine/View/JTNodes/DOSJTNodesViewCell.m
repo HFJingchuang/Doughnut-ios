@@ -8,6 +8,7 @@
 
 #import "DOSJTNodesViewCell.h"
 #import "UIColor+Hex.h"
+
 @interface DOSJTNodesViewCell()
 
 @property (weak, nonatomic) IBOutlet UIView *nodeView;
@@ -26,6 +27,13 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.nodeView.layer.cornerRadius = 10;
     _nodeView.layer.borderWidth = 1;
+}
+
+
+- (void)setFrame:(CGRect)frame{
+    frame.origin.y += 10;
+    frame.size.height -= 10;
+    [super setFrame:frame];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

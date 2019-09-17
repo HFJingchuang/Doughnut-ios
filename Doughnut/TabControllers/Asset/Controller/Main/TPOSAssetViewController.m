@@ -8,6 +8,7 @@
 
 #import "TPOSAssetViewController.h"
 #import "TPOSAssetHeader.h"
+#import "DOSAssetHeader.h"
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 #import "TPOSAssetCell.h"
@@ -41,10 +42,11 @@
 
 static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
-@interface TPOSAssetViewController ()<UITableViewDelegate, UITableViewDataSource, TPOSAssetHeaderDelegate, TPOSAssetTopViewDelegate, TPOSAssetEmptyViewDelegate>
+@interface TPOSAssetViewController ()<UITableViewDelegate, UITableViewDataSource, DOSAssetHeaderDelegate, TPOSAssetHeaderDelegate, TPOSAssetTopViewDelegate, TPOSAssetEmptyViewDelegate>
 
 @property (nonatomic, strong) UITableView *table;
 @property (nonatomic, strong) TPOSAssetHeader *header;
+@property (nonatomic, strong) DOSAssetHeader *assetHeader;
 @property (nonatomic, strong) TPOSAssetTopView *topView;
 @property (nonatomic, strong) UIView *topBgView;
 
@@ -225,7 +227,7 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
     [self.topBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
         make.top.equalTo(self.view).offset(-110);
-        self.topBgViewHieghtCons = make.height.mas_equalTo(@(CGRectGetHeight(self.header.frame) + 110));
+        self.topBgViewHieghtCons = make.height.mas_equalTo(@(CGRectGetHeight(self.assetHeader.frame) + 240));
     }];
     
     __weak typeof(self) weakSelf = self;
@@ -342,7 +344,7 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
             self.topBgView.transform = CGAffineTransformMakeScale(1, 1+(fabs(point.y)/160.0));
         } else {
             self.topBgViewHieghtCons.mas_equalTo(@(CGRectGetHeight(self.header.frame) + 80 - point.y));
-            self.topView.backgroundColor = [[UIColor colorWithHex:0x2890FE] colorWithAlphaComponent:point.y/100];
+            self.topView.backgroundColor = [[UIColor colorWithHex:0xffffff] colorWithAlphaComponent:point.y/100];
         }
         
         if (point.y >= 134) {
@@ -503,7 +505,7 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 - (UITableView *)table {
     if (!_table) {
         _table = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        _table.tableHeaderView = self.header;
+        _table.tableHeaderView = self.assetHeader;
         _table.tableFooterView = [UIView new];
         _table.backgroundColor = [UIColor clearColor];
         _table.separatorColor = [UIColor colorWithHex:0xF5F5F9];
@@ -534,10 +536,29 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
     return _header;
 }
 
+- (DOSAssetHeader *)assetHeader {
+    if (!_assetHeader) {
+        _assetHeader = [[NSBundle mainBundle] loadNibNamed:@"DOSAssetHeader" owner:self options:nil].firstObject;
+//        [_assetHeader mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.equalTo(self.view).offset(-20);
+//            make.top.equalTo(self.view).offset(-20);
+//            make.bottom.equalTo(self.view).offset(-49);
+//        }];
+//        _assetHeader.frame = CGRectMake(20, 20, self.view.frame.size.width - 40, self.view.frame.size.height - 40);
+        if (kIphoneX) {
+            CGRect f = _assetHeader.frame;
+            f.size.height += 24;
+            _assetHeader.frame = f;
+        }
+        _assetHeader.delegate = self;
+    }
+    return _assetHeader;
+}
+
 - (UIView *)topBgView {
     if (!_topBgView) {
         _topBgView = [UIView new];
-        _topBgView.backgroundColor = [UIColor colorWithHex:0x2890FE];
+        _topBgView.backgroundColor = [UIColor colorWithHex:0xffffff];
     }
     return _topBgView;
 }

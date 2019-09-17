@@ -59,7 +59,6 @@
     [self setupViews];
     [self loadData];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editWallet:) name:kEditWalletNotification object:nil];
-    
     self.deleteTopConstraint.constant = kIphone5?56:86;
 }
 
@@ -68,6 +67,7 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0x3B6CA6]];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     self.navigationController.navigationBarHidden = NO;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self addLeftBarButtonImage:[UIImage imageNamed:@"icon_back_withe"] action:@selector(responseLeftButton)];
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0xffffff]}];
     self.tokenValueLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:28];
