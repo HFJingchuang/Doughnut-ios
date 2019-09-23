@@ -40,6 +40,8 @@
 		B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */; };
 		B69FEB9D2329F08C002FD419 /* DOSAssetHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B69FEB9C2329F08C002FD419 /* DOSAssetHeader.m */; };
 		B69FEB9F2329F0A5002FD419 /* DOSAssetHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B69FEB9E2329F0A5002FD419 /* DOSAssetHeader.xib */; };
+		B69FEBA523322C53002FD419 /* PasswordEyeController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69FEBA423322C53002FD419 /* PasswordEyeController.m */; };
+		B69FEBA92333FCB0002FD419 /* TPOSAssertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B69FEBA82333FCB0002FD419 /* TPOSAssertViewController.xib */; };
 		D063A48C218E001500750001 /* TPOSJTPOSalance.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47D218E001500750001 /* TPOSJTPOSalance.m */; };
 		D063A48D218E001500750001 /* TPOSJTPaymentResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47F218E001500750001 /* TPOSJTPaymentResult.m */; };
 		D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A483218E001500750001 /* TPOSJTPaymentInfo.m */; };
@@ -237,9 +239,7 @@
 		9E42CAB221B9073100267076 /* TPOSExportPrivateKeyNoteView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPOSExportPrivateKeyNoteView.xib; sourceTree = "<group>"; };
 		9E42CAB621BB70A700267076 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "Share/zh-Hans.lproj/TBShareMenuView.xib"; sourceTree = "<group>"; };
 		9E42CAB921BB70B400267076 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = Share/en.lproj/TPOSShareMenuView.xib; sourceTree = "<group>"; };
-		9E42CABB21BB70C600267076 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "Share/zh-Hant.lproj/TBShareMenuView.xib"; sourceTree = "<group>"; };
 		9E42CABC21BB97E500267076 /* TPOSAssetCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPOSAssetCell.xib; sourceTree = "<group>"; };
-		9E6ECF1F21C39030008ACEC3 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9E6ECF2021C39041008ACEC3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B62190E82318C24C00DCCC88 /* TPOSMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSMineViewController.h; sourceTree = "<group>"; };
 		B62190E92318C24C00DCCC88 /* TPOSMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSMineViewController.m; sourceTree = "<group>"; };
@@ -260,6 +260,9 @@
 		B69FEB9B2329F08C002FD419 /* DOSAssetHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSAssetHeader.h; sourceTree = "<group>"; };
 		B69FEB9C2329F08C002FD419 /* DOSAssetHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSAssetHeader.m; sourceTree = "<group>"; };
 		B69FEB9E2329F0A5002FD419 /* DOSAssetHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSAssetHeader.xib; sourceTree = "<group>"; };
+		B69FEBA323322C53002FD419 /* PasswordEyeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordEyeController.h; sourceTree = "<group>"; };
+		B69FEBA423322C53002FD419 /* PasswordEyeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordEyeController.m; sourceTree = "<group>"; };
+		B69FEBA82333FCB0002FD419 /* TPOSAssertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TPOSAssertViewController.xib; sourceTree = "<group>"; };
 		D063A47B218E001500750001 /* TPOSJTManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTManager.h; sourceTree = "<group>"; };
 		D063A47D218E001500750001 /* TPOSJTPOSalance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSJTPOSalance.m; sourceTree = "<group>"; };
 		D063A47E218E001500750001 /* TPOSJTPaymentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTPaymentInfo.h; sourceTree = "<group>"; };
@@ -1013,6 +1016,7 @@
 			children = (
 				D063A5A0218E006900750001 /* TPOSAssetViewController.m */,
 				D063A5A1218E006900750001 /* TPOSAssetViewController.h */,
+				B69FEBA82333FCB0002FD419 /* TPOSAssertViewController.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1125,6 +1129,8 @@
 				D063A612218E006900750001 /* Model */,
 				D063A617218E006900750001 /* View */,
 				D063A629218E006900750001 /* TPOSH5ViewController.m */,
+				B69FEBA323322C53002FD419 /* PasswordEyeController.h */,
+				B69FEBA423322C53002FD419 /* PasswordEyeController.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1473,7 +1479,6 @@
 				Base,
 				"zh-Hans",
 				en,
-				"zh-Hant",
 			);
 			mainGroup = 2CE5C7EC1FF8A2DB008AB801;
 			productRefGroup = 2CE5C7F61FF8A2DB008AB801 /* Products */;
@@ -1494,6 +1499,7 @@
 				D063A4B8218E004700750001 /* web3.html in Resources */,
 				B62190EE231D0C3E00DCCC88 /* TPOSMineViewController.xib in Resources */,
 				D063A778218E00C800750001 /* TPOSEnterAuthViewController.xib in Resources */,
+				B69FEBA92333FCB0002FD419 /* TPOSAssertViewController.xib in Resources */,
 				D063A4BB218E004700750001 /* web3.min.js in Resources */,
 				D063A835218E022800750001 /* TPOSCreateWalletViewController.xib in Resources */,
 				D063A6F4218E006A00750001 /* TPOSAssetTopView.xib in Resources */,
@@ -1706,6 +1712,7 @@
 				D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */,
 				D063A7A5218E00DA00750001 /* TPOSDataBaseManager.m in Sources */,
 				D063A6CF218E006900750001 /* TPOSTokenModel.m in Sources */,
+				B69FEBA523322C53002FD419 /* PasswordEyeController.m in Sources */,
 				D063A574218E005E00750001 /* NSString+Size.m in Sources */,
 				D063A564218E005E00750001 /* TPOSCameraUtils.m in Sources */,
 				B658048722FE298500F3380B /* WalletUserDefaults.m in Sources */,
@@ -1749,7 +1756,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				2CB10F2A204464480026F7AA /* zh-Hans */,
-				9E6ECF1F21C39030008ACEC3 /* zh-Hant */,
 				9E6ECF2021C39041008ACEC3 /* en */,
 			);
 			name = Localizable.strings;
@@ -1775,7 +1781,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				9E42CAB621BB70A700267076 /* zh-Hans */,
-				9E42CABB21BB70C600267076 /* zh-Hant */,
 			);
 			name = TBShareMenuView.xib;
 			sourceTree = "<group>";

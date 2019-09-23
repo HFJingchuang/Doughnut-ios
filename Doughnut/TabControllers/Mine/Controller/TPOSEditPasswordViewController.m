@@ -16,6 +16,7 @@
 #import "TPOSSelectChainTypeViewController.h"
 #import "NJOPasswordStrengthEvaluator.h"
 #import "TPOSPasswordView.h"
+#import "PasswordEyeController.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>;
 #import <Toast/Toast.h>;
@@ -29,6 +30,7 @@ typedef NS_ENUM(NSUInteger, TPOSEditPasswordResult) {
 
 @interface TPOSEditPasswordViewController ()<UITextFieldDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *oldPasswordField;
 @property (weak, nonatomic) IBOutlet UITextField *newsPasswordField;
 @property (weak, nonatomic) IBOutlet UITextField *renewsPasswordField;
@@ -39,12 +41,8 @@ typedef NS_ENUM(NSUInteger, TPOSEditPasswordResult) {
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
 
 //localized
-@property (weak, nonatomic) IBOutlet UILabel *currentPwdLabel;
-@property (weak, nonatomic) IBOutlet UILabel *anewPwdLabel;
-@property (weak, nonatomic) IBOutlet UILabel *repeatPwdLabel;
 @property (weak, nonatomic) IBOutlet UILabel *forgetTipsLabel;
 @property (weak, nonatomic) IBOutlet UIButton *importButton;
-
 @property (weak, nonatomic) IBOutlet UILabel *pwdTipLabel;
 @property (weak, nonatomic) IBOutlet UIButton *finishButton;
 
@@ -63,6 +61,15 @@ typedef NS_ENUM(NSUInteger, TPOSEditPasswordResult) {
     [SVProgressHUD setContainerView:nil];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
+    [self.view setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    self.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.forgetTipsLabel.adjustsFontSizeToFitWidth = YES;
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [SVProgressHUD setContainerView:self.view];
@@ -73,16 +80,12 @@ typedef NS_ENUM(NSUInteger, TPOSEditPasswordResult) {
 }
 
 - (void)changeLanguage {
-    self.currentPwdLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_curr"];
-    self.anewPwdLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_new"];
-    self.repeatPwdLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_repeat"];
+    self.titleLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"change_pwd"];
     self.forgetTipsLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_forget"];
     [self.importButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_imid"] forState:UIControlStateNormal];
-    
     self.oldPasswordField.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pla_pwd_curr"];
     self.newsPasswordField.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pla_pwd_new"];
     self.renewsPasswordField.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pla_pwd_repeat"];
-    
     [self.finishButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"done"] forState:UIControlStateNormal];
     
 }
@@ -114,34 +117,35 @@ typedef NS_ENUM(NSUInteger, TPOSEditPasswordResult) {
 #pragma mark - private method
 
 - (void)setupSubviews {
-    
-    self.finishButton.layer.cornerRadius = 3;
+    self.finishButton.layer.cornerRadius = 10;
     self.finishButton.layer.masksToBounds = YES;
-    
-    self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"change_pwd"];
-    [self addRightBarButton:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"done"]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
-    
     [self.newsPasswordField addTarget:self action:@selector(textfieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     self.newsPasswordField.delegate = self;
+    PasswordEyeController *eyeBtn1 = [[PasswordEyeController alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    PasswordEyeController *eyeBtn2 = [[PasswordEyeController alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    PasswordEyeController *eyeBtn3 = [[PasswordEyeController alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [eyeBtn1 addTarget:self action:@selector(clickEyeBtn1) forControlEvents:UIControlEventTouchUpInside];
+    [eyeBtn2 addTarget:self action:@selector(clickEyeBtn2) forControlEvents:UIControlEventTouchUpInside];
+    [eyeBtn3 addTarget:self action:@selector(clickEyeBtn3) forControlEvents:UIControlEventTouchUpInside];
+    self.oldPasswordField.rightViewMode = UITextFieldViewModeAlways;
+    self.newsPasswordField.rightViewMode = UITextFieldViewModeAlways;
+    self.renewsPasswordField.rightViewMode = UITextFieldViewModeAlways;
+    self.oldPasswordField.rightView = eyeBtn1;
+    self.newsPasswordField.rightView = eyeBtn2;
+    self.renewsPasswordField.rightView = eyeBtn3;
 }
 
-- (void)addRightBarButton:(NSString *)title {
-    UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setTitleColor:[UIColor colorWithHex:0xE8E8E8] forState:UIControlStateNormal];
-    [rightBtn setTitle:title forState:UIControlStateNormal];
-    [rightBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
-    [rightBtn.titleLabel sizeToFit];
-    if (@available(iOS 11.0, *)) {
-        [rightBtn sizeToFit];
-    } else {
-        rightBtn.frame = CGRectMake(0, 0, 44, 44);
-    }
+-(void)clickEyeBtn1 {
+    _oldPasswordField.secureTextEntry = !_oldPasswordField.secureTextEntry;
     
-    [rightBtn addTarget:self action:@selector(responseRightButton) forControlEvents:UIControlEventTouchUpInside];
-    rightBtn.userInteractionEnabled = NO;
-    self.rightButton = rightBtn;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+}
+
+-(void)clickEyeBtn2 {
+    _newsPasswordField.secureTextEntry = !_oldPasswordField.secureTextEntry;
+}
+
+-(void)clickEyeBtn3 {
+    _renewsPasswordField.secureTextEntry = !_oldPasswordField.secureTextEntry;
 }
 
 - (IBAction)onFinishButtonTapped:(id)sender {

@@ -19,9 +19,13 @@
 #import "DOSCopyrightViewController.h"
 #import "TPOSH5ViewController.h"
 #import "TPOSWalletModel.h"
+#import "TPOSWalletDao.h"
+#import "TPOSContext.h"
 #import "TPOSQRCodeReceiveViewController.h"
 #import "TPOSNavigationController.h"
 #import "TPOSLanguageViewController.h"
+#import "TPOSJTManager.h"
+#import "TPOSEditWalletViewController.h"
 
 @interface TPOSMineViewController ()
 //header
@@ -33,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *reciverButton;
 @property (weak, nonatomic) IBOutlet UIButton *transferButton;
 @property (weak, nonatomic) IBOutlet UIView *actionView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 
 //localized
 @property (weak, nonatomic) IBOutlet UILabel *walletManageLabel;
@@ -43,7 +48,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *pointLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentVersion;
 
-
+@property (nonatomic, strong) TPOSWalletDao *walletDao;
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
 @end
 
@@ -51,11 +56,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self loadCurrentWallet];
     [self setupSubviews];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.bottomConstraint.constant = kIphoneX?83:49;
     [self setNavigationBarColor];
 }
 
@@ -91,6 +98,23 @@
 //                          @[]
 //                          ];
 //}
+
+
+- (void) loadCurrentWallet {
+    __weak typeof(self) weakSelf = self;
+    _currentWallet = [TPOSContext shareInstance].currentWallet;
+    if(_currentWallet) {
+        _walletName.text = _currentWallet.walletName;
+        _walletAddr.text = _currentWallet.address;
+    }
+}
+
+- (TPOSWalletDao *)walletDao {
+    if (!_walletDao) {
+        _walletDao = [TPOSWalletDao new];
+    }
+    return _walletDao;
+}
 
 - (void)setupSubviews {
     [self.view sendSubviewToBack:_mineHeaderView];
@@ -144,7 +168,10 @@
 }
 
 - (IBAction)currentWalletAction:(id)sender {
-    [self pushToWalletManager];
+    TPOSEditWalletViewController *editWalletViewController = [[TPOSEditWalletViewController alloc] init];
+    
+    editWalletViewController.walletModel = _currentWallet;
+    [self.navigationController pushViewController:editWalletViewController animated:YES];
 }
 
 #pragma mark - push

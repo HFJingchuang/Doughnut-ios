@@ -29,6 +29,7 @@
 #import "TPOSAssetTopView.h"
 #import "TPOSAssetPopWindow.h"
 #import "TPOSAssetChooseWalletView.h"
+#import "TPOSWalletManagerViewController.h"
 
 #import "TPOSBlockChainModel.h"
 #import "TPOSAssetEmptyView.h"
@@ -42,15 +43,19 @@
 
 static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
-@interface TPOSAssetViewController ()<UITableViewDelegate, UITableViewDataSource, DOSAssetHeaderDelegate, TPOSAssetHeaderDelegate, TPOSAssetTopViewDelegate, TPOSAssetEmptyViewDelegate>
+@interface TPOSAssetViewController ()<UITableViewDelegate, UITableViewDataSource, TPOSAssetEmptyViewDelegate>
 
-@property (nonatomic, strong) UITableView *table;
-@property (nonatomic, strong) TPOSAssetHeader *header;
+@property (weak, nonatomic) IBOutlet UITableView *table;
 @property (nonatomic, strong) DOSAssetHeader *assetHeader;
 @property (nonatomic, strong) TPOSAssetTopView *topView;
 @property (nonatomic, strong) UIView *topBgView;
 
 @property (nonatomic, strong) MASConstraint *topBgViewHieghtCons;
+
+@property (weak, nonatomic) IBOutlet UILabel *myAssetLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addAssetLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *seeImg;
+
 
 @property (nonatomic, assign) NSInteger currentPage;
 
@@ -71,13 +76,15 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
 @property (nonatomic, strong) NSArray<TPOSWalletModel *> *wallets;
 
+
+
 @end
 
 @implementation TPOSAssetViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithHex:0xF5F5F9];
+    self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
     [self loadWallets];
     [self loadCurrentWallet];
     [self setupSubviews];
@@ -88,14 +95,26 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (!self.navigationController.navigationBarHidden) {
-        [self.navigationController setNavigationBarHidden:YES animated:animated];
-    }
+    self.navigationItem.title = @"";
+    [self addRightBarButtonImage:[UIImage imageNamed:@"icon_sao"] action:@selector(TapRightImage)];
+    UIBarButtonItem* leftBtnItem = [[UIBarButtonItem alloc]initWithTitle:_currentWallet.walletName style:UIBarButtonItemStylePlain target:self action:@selector(TapWalletName)];
+    self.navigationItem.leftBarButtonItem = leftBtnItem;
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:24],NSForegroundColorAttributeName :[UIColor colorWithHex:0x021933]} forState:UIControlStateNormal];
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:24],NSForegroundColorAttributeName :[UIColor colorWithHex:0x021933]} forState:UIControlStateSelected];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+-(void)viewWillDisappear:(BOOL)animated {}
+
+
+-(void) TapWalletName {
+    TPOSWalletManagerViewController *walletManagerViewController = [[TPOSWalletManagerViewController alloc] init];
+    [self.navigationController pushViewController:walletManagerViewController animated:YES];
+}
+
+-(void)TapRightImage {
     
 }
+
 
 - (void)registerCells {
     [self.table registerNib:[UINib nibWithNibName:@"TPOSAssetCell" bundle:nil] forCellReuseIdentifier:TPOSAssetCellId];
@@ -216,6 +235,7 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
 - (void)setupSubviews {
     [self.view addSubview:self.topBgView];
+    //[self.view addSubview:self.mainView];
     [self.view addSubview:self.table];
     [self.view addSubview:self.topView];
     
@@ -343,14 +363,8 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         if (point.y < 0) {
             self.topBgView.transform = CGAffineTransformMakeScale(1, 1+(fabs(point.y)/160.0));
         } else {
-            self.topBgViewHieghtCons.mas_equalTo(@(CGRectGetHeight(self.header.frame) + 80 - point.y));
+            self.topBgViewHieghtCons.mas_equalTo(@(CGRectGetHeight(self.assetHeader.frame) + 80 - point.y));
             self.topView.backgroundColor = [[UIColor colorWithHex:0xffffff] colorWithAlphaComponent:point.y/100];
-        }
-        
-        if (point.y >= 134) {
-            [self.topView inWalletMode:NO];
-        } else {
-            [self.topView inWalletMode:YES];
         }
     }
 }
@@ -511,7 +525,6 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         _table.separatorColor = [UIColor colorWithHex:0xF5F5F9];
         _table.delegate = self;
         _table.dataSource = self;
-        
         if (@available(iOS 11,*)) {
             _table.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         } else {
@@ -521,19 +534,6 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         [_table addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     }
     return _table;
-}
-
-- (TPOSAssetHeader *)header {
-    if (!_header) {
-        _header = [[NSBundle mainBundle] loadNibNamed:@"TPOSAssetHeader" owner:self options:nil].firstObject;
-        if (kIphoneX) {
-            CGRect f = _header.frame;
-            f.size.height += 24;
-            _header.frame = f;
-        }
-        _header.delegate = self;
-    }
-    return _header;
 }
 
 - (DOSAssetHeader *)assetHeader {
@@ -561,6 +561,14 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         _topBgView.backgroundColor = [UIColor colorWithHex:0xffffff];
     }
     return _topBgView;
+}
+
+- (UICollectionView *)mainView{
+    if (!_mainView) {
+        _mainView = [UICollectionView new];
+        _mainView.backgroundColor = [UIColor whiteColor];
+    }
+    return _mainView;
 }
 
 - (TPOSAssetTopView *)topView {

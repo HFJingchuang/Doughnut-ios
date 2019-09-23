@@ -56,7 +56,7 @@
 
 - (void)changeLanguage {
     [self.createButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"create_wallet"] forState:UIControlStateNormal];
-    [self.importButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_wallet"]  forState:UIControlStateNormal];
+    [self.importButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_wallet"] forState:UIControlStateNormal];
 }
 
 #pragma mark - private method

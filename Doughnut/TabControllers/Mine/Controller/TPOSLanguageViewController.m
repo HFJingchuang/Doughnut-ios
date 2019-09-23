@@ -34,8 +34,8 @@
 }
 
 - (void)setupData {
-    self.languages = @[@"简体中文",@"繁體中文",@"English"];
-    self.langSymbols = @[@"zh-Hans",@"zh-Hant",@"en"];
+    self.languages = @[@"简体中文",@"English"];
+    self.langSymbols = @[@"zh-Hans",@"en"];
     
     NSString *curLanguage = [[TPOSLocalizedHelper standardHelper] currentLanguage];
     NSInteger index = [self.langSymbols indexOfObject:curLanguage];

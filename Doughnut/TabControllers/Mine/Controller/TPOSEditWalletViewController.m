@@ -13,6 +13,7 @@
 #import "TPOSWalletModel.h"
 #import "TPOSWalletDao.h"
 #import "TPOSMacro.h"
+#import "WalletManage.h"
 #import "TPOSThreadUtils.h"
 #import "NSString+TPOS.h"
 #import "TPOSCreateMemonicViewController.h"
@@ -31,8 +32,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *addressLbael;
 @property (weak, nonatomic) IBOutlet UITextField *walletField;
 @property (weak, nonatomic) IBOutlet UIButton *walletIconButton;
+@property (weak, nonatomic) IBOutlet UILabel *walletBalanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *walletBalanceValueLabel;
 
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
+@property (nonatomic, strong) WalletManage *walletManage;
 
 @property (nonatomic, weak) UIButton *rightButton;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
@@ -52,6 +56,12 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
 }
 
 - (void)viewDidLoad {
@@ -244,6 +254,13 @@
         _walletDao = [TPOSWalletDao new];
     }
     return _walletDao;
+}
+
+- (WalletManage *)walletManage {
+    if (!_walletManage) {
+        _walletManage = [[WalletManage alloc]init];
+    }
+    return _walletManage;
 }
 
 @end

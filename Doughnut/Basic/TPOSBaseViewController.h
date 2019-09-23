@@ -22,6 +22,7 @@ typedef void (^tableHeaderRefreshAction)(void);
 - (UIBarButtonItem *)addLeftBarButtonImage:(UIImage *)img action:(SEL)action;
 - (UIBarButtonItem *)addRightBarButtonImage:(UIImage *)image action:(SEL)action;
 - (void)addRightBarButton:(NSString *)title operationBlock:(void (^)(UIButton *rightBtn))operationBlock ;
+- (void)addLeftBarButton:(NSString *)title operationBlock:(void (^)(UIButton *rightBtn))operationBlock ;
 
 - (void)responseLeftButton;
 - (void)responseRightButton;
