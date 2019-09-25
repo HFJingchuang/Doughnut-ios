@@ -7,8 +7,6 @@
 //
 
 #import "TPOSAssetViewController.h"
-#import "TPOSAssetHeader.h"
-#import "DOSAssetHeader.h"
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 #import "TPOSAssetCell.h"
@@ -36,6 +34,7 @@
 #import "TPOSWalletDao.h"
 #import "TPOSBackupAlert.h"
 #import "TPOSJTManager.h"
+#import "TPOSSelectChainTypeViewController.h"
 
 #import "TPOSWalletDetailDaoManager.h"
 
@@ -44,10 +43,9 @@
 static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
 @interface TPOSAssetViewController ()<UITableViewDelegate, UITableViewDataSource, TPOSAssetEmptyViewDelegate>
-
+@property (weak, nonatomic) IBOutlet UICollectionView *mainView;
+@property (weak, nonatomic) IBOutlet UIView *assetTopView;
 @property (weak, nonatomic) IBOutlet UITableView *table;
-@property (nonatomic, strong) DOSAssetHeader *assetHeader;
-@property (nonatomic, strong) TPOSAssetTopView *topView;
 @property (nonatomic, strong) UIView *topBgView;
 
 @property (nonatomic, strong) MASConstraint *topBgViewHieghtCons;
@@ -56,6 +54,12 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 @property (weak, nonatomic) IBOutlet UILabel *addAssetLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *seeImg;
 
+@property (weak, nonatomic) IBOutlet UILabel *acountBalanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *accountBalanceValueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *toCNYLabel;
+@property (weak, nonatomic) IBOutlet UILabel *toCNYValueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *createLabel;
+@property (weak, nonatomic) IBOutlet UILabel *importLabel;
 
 @property (nonatomic, assign) NSInteger currentPage;
 
@@ -112,9 +116,18 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 }
 
 -(void)TapRightImage {
-    
+    __weak typeof(self) weakSelf = self;
+    [weakSelf pushToScan];
 }
 
+- (void)changeLanguage{
+    self.acountBalanceLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"account_asset"];
+    self.addAssetLabel.text = [NSString stringWithFormat:@"%@%@",@" + ",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"add_asset"]];
+    self.myAssetLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"my_asset"];
+    self.createLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"create_wallet"];
+    self.importLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"import"];
+    self.toCNYLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"toCNY"];
+}
 
 - (void)registerCells {
     [self.table registerNib:[UINib nibWithNibName:@"TPOSAssetCell" bundle:nil] forCellReuseIdentifier:TPOSAssetCellId];
@@ -124,8 +137,7 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 - (void)viewDidReceiveLocalizedNotification {
     [super viewDidReceiveLocalizedNotification];
     [self.emptyView changeLanguage];
-    [self.header changeLanguage];
-    [self.topView changeLanguage];
+    [self changeLanguage];
     [self.table reloadData];
 }
 
@@ -134,14 +146,6 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         [_table removeObserver:self forKeyPath:@"contentOffset"];
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewSafeAreaInsetsDidChange {
-    [super viewSafeAreaInsetsDidChange];
-    [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-self.view.safeAreaInsets.bottom);
-    }];
 }
 
 #pragma mark - Public
@@ -155,7 +159,6 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
     __weak typeof(self) weakSelf = self;
     _currentWallet = [TPOSContext shareInstance].currentWallet;
     if (_currentWallet) {
-        [weakSelf.topView updateCurrentWalletName:weakSelf.currentWallet.walletName];
     }
 }
 
@@ -189,7 +192,7 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
     [[TPOSJTManager shareInstance] requestBalance:address success:^(NSArray<TPOSTokenModel *> *tokenList) {
         weakSelf.tokenModels = tokenList;
         [weakSelf.table reloadData];
-        [weakSelf.header updateTotalAsset:0 unit:@"￥" privateMode:weakSelf.privateMode];
+        //[weakSelf.header updateTotalAsset:0 unit:@"￥" privateMode:weakSelf.privateMode];
         [weakSelf setWalletModels:tokenList];
         [weakSelf.table.mj_header endRefreshing];
     } failure:^(NSError *error) {
@@ -234,28 +237,26 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 }
 
 - (void)setupSubviews {
-    [self.view addSubview:self.topBgView];
-    //[self.view addSubview:self.mainView];
-    [self.view addSubview:self.table];
-    [self.view addSubview:self.topView];
-    
-    [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-49);
+    _assetTopView mas_makeConstraints:<#^(MASConstraintMaker *make)block#> {
+        make.right.
+    }
+    [_mainView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.height.top.bottom.equalTo(self.view);
     }];
-    
-    [self.topBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.view).offset(-110);
-        self.topBgViewHieghtCons = make.height.mas_equalTo(@(CGRectGetHeight(self.assetHeader.frame) + 240));
-    }];
-    
     __weak typeof(self) weakSelf = self;
     MJRefreshGifHeader *header = [self grayTableHeaderWithBigSize:YES RefreshingBlock:^{
         [weakSelf loadBalance];
     }];
-    self.table.mj_header = header;
+    self.mainView.mj_header = header;
     [self autoRefreshData];
+}
+
+- (IBAction)tapCreateAction:(id)sender {
+    [self pushToCreateWallet];
+}
+
+- (IBAction)tapImportAction:(id)sender {
+    [self pushToImportWallet];
 }
 
 #pragma mark - TPOSAssetEmptyViewDelegate
@@ -363,8 +364,6 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         if (point.y < 0) {
             self.topBgView.transform = CGAffineTransformMakeScale(1, 1+(fabs(point.y)/160.0));
         } else {
-            self.topBgViewHieghtCons.mas_equalTo(@(CGRectGetHeight(self.assetHeader.frame) + 80 - point.y));
-            self.topView.backgroundColor = [[UIColor colorWithHex:0xffffff] colorWithAlphaComponent:point.y/100];
         }
     }
 }
@@ -390,7 +389,7 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
     [TPOSAssetPopWindow showInView:self.view callBack:^(NSInteger index) {
         switch (index) {
             case 0: // 扫一扫
-                [weakSelf pushToScan];
+                
                 break;
             case 1: //添加钱包
                 [weakSelf pushToCreateWallet];
@@ -415,21 +414,18 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         return;
     }
     
-    [self.topView inOpenChangeWallet:YES];
     __weak typeof(self) weakSelf = self;
     CGFloat off = 74;
     if (kIphoneX) {
         off = 98;
     }
     _assetChooseWalletView = [TPOSAssetChooseWalletView showInView:[UIApplication sharedApplication].keyWindow walletModels:_wallets offset:off selectWalletModel:_currentWallet callBack:^(TPOSWalletModel *walletModel,BOOL add, BOOL cancel) {
-        [weakSelf.topView inOpenChangeWallet:NO];
         if (!cancel && !add) {
             if (walletModel.walletId == _currentWallet.walletId) {
                 return;
             }
             weakSelf.currentWallet = walletModel;
             [weakSelf autoRefreshData];
-            [weakSelf.topView updateCurrentWalletName:walletModel.walletName];
             [weakSelf.walletDao updateCurrentWalletID:walletModel.walletId complement:nil];
             [weakSelf.table reloadData];
         }
@@ -452,6 +448,11 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
         }
     }];
     [self.navigationController pushViewController:transactionViewController animated:YES];
+}
+
+- (void)pushToImportWallet {
+    TPOSSelectChainTypeViewController *vc = [[TPOSSelectChainTypeViewController alloc] init];
+    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
 
 - (void)pushToScan {
@@ -517,67 +518,28 @@ static NSString * const TPOSAssetCellId = @"TPOSAssetCellIdentifier";
 
 #pragma mark - Getter & Setter
 - (UITableView *)table {
-    if (!_table) {
-        _table = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        _table.tableHeaderView = self.assetHeader;
-        _table.tableFooterView = [UIView new];
-        _table.backgroundColor = [UIColor clearColor];
-        _table.separatorColor = [UIColor colorWithHex:0xF5F5F9];
-        _table.delegate = self;
-        _table.dataSource = self;
-        if (@available(iOS 11,*)) {
-            _table.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        } else {
-            self.automaticallyAdjustsScrollViewInsets = NO;
-        }
-        
-        [_table addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    //_table = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+//    _table.tableHeaderView = [UIView new];
+//    _table.tableFooterView = [UIView new];
+    _table.backgroundColor = [UIColor clearColor];
+    _table.separatorColor = [UIColor colorWithHex:0xF5F5F9];
+    _table.delegate = self;
+    _table.dataSource = self;
+    if (@available(iOS 11,*)) {
+        _table.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
     }
+    [_table addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     return _table;
-}
-
-- (DOSAssetHeader *)assetHeader {
-    if (!_assetHeader) {
-        _assetHeader = [[NSBundle mainBundle] loadNibNamed:@"DOSAssetHeader" owner:self options:nil].firstObject;
-//        [_assetHeader mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.equalTo(self.view).offset(-20);
-//            make.top.equalTo(self.view).offset(-20);
-//            make.bottom.equalTo(self.view).offset(-49);
-//        }];
-//        _assetHeader.frame = CGRectMake(20, 20, self.view.frame.size.width - 40, self.view.frame.size.height - 40);
-        if (kIphoneX) {
-            CGRect f = _assetHeader.frame;
-            f.size.height += 24;
-            _assetHeader.frame = f;
-        }
-        _assetHeader.delegate = self;
-    }
-    return _assetHeader;
 }
 
 - (UIView *)topBgView {
     if (!_topBgView) {
         _topBgView = [UIView new];
-        _topBgView.backgroundColor = [UIColor colorWithHex:0xffffff];
+        _topBgView.backgroundColor = [UIColor blueColor];
     }
     return _topBgView;
-}
-
-- (UICollectionView *)mainView{
-    if (!_mainView) {
-        _mainView = [UICollectionView new];
-        _mainView.backgroundColor = [UIColor whiteColor];
-    }
-    return _mainView;
-}
-
-- (TPOSAssetTopView *)topView {
-    if (!_topView) {
-        _topView = [TPOSAssetTopView assetTopView];
-        _topView.backgroundColor = [UIColor clearColor];
-        _topView.delegate = self;
-    }
-    return _topView;
 }
 
 - (TPOSAssetEmptyView *)emptyView {

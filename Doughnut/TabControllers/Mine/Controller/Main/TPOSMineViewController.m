@@ -169,7 +169,6 @@
 
 - (IBAction)currentWalletAction:(id)sender {
     TPOSEditWalletViewController *editWalletViewController = [[TPOSEditWalletViewController alloc] init];
-    
     editWalletViewController.walletModel = _currentWallet;
     [self.navigationController pushViewController:editWalletViewController animated:YES];
 }
