@@ -39,7 +39,8 @@
 		B65804F12302BD6700F3380B /* DOSCopyrightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B65804EF2302BD6700F3380B /* DOSCopyrightViewController.m */; };
 		B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */; };
 		B69FEBA523322C53002FD419 /* PasswordEyeController.m in Sources */ = {isa = PBXBuildFile; fileRef = B69FEBA423322C53002FD419 /* PasswordEyeController.m */; };
-		B69FEBAB233B5798002FD419 /* TPOSAssetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B69FEBAA233B5798002FD419 /* TPOSAssetViewController.xib */; };
+		B69FEBB9234D0C12002FD419 /* DOSAssetHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B69FEBB7234D0C12002FD419 /* DOSAssetHeader.m */; };
+		B69FEBBA234D0C12002FD419 /* DOSAssetHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B69FEBB8234D0C12002FD419 /* DOSAssetHeader.xib */; };
 		D063A48C218E001500750001 /* TPOSJTPOSalance.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47D218E001500750001 /* TPOSJTPOSalance.m */; };
 		D063A48D218E001500750001 /* TPOSJTPaymentResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47F218E001500750001 /* TPOSJTPaymentResult.m */; };
 		D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A483218E001500750001 /* TPOSJTPaymentInfo.m */; };
@@ -257,7 +258,9 @@
 		B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSCopyrightViewController.xib; sourceTree = "<group>"; };
 		B69FEBA323322C53002FD419 /* PasswordEyeController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordEyeController.h; sourceTree = "<group>"; };
 		B69FEBA423322C53002FD419 /* PasswordEyeController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordEyeController.m; sourceTree = "<group>"; };
-		B69FEBAA233B5798002FD419 /* TPOSAssetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPOSAssetViewController.xib; sourceTree = "<group>"; };
+		B69FEBB6234D0C11002FD419 /* DOSAssetHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOSAssetHeader.h; sourceTree = "<group>"; };
+		B69FEBB7234D0C12002FD419 /* DOSAssetHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOSAssetHeader.m; sourceTree = "<group>"; };
+		B69FEBB8234D0C12002FD419 /* DOSAssetHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DOSAssetHeader.xib; sourceTree = "<group>"; };
 		D063A47B218E001500750001 /* TPOSJTManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTManager.h; sourceTree = "<group>"; };
 		D063A47D218E001500750001 /* TPOSJTPOSalance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSJTPOSalance.m; sourceTree = "<group>"; };
 		D063A47E218E001500750001 /* TPOSJTPaymentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTPaymentInfo.h; sourceTree = "<group>"; };
@@ -1011,7 +1014,6 @@
 			children = (
 				D063A5A0218E006900750001 /* TPOSAssetViewController.m */,
 				D063A5A1218E006900750001 /* TPOSAssetViewController.h */,
-				B69FEBAA233B5798002FD419 /* TPOSAssetViewController.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1030,6 +1032,9 @@
 		D063A5A9218E006900750001 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B69FEBB6234D0C11002FD419 /* DOSAssetHeader.h */,
+				B69FEBB7234D0C12002FD419 /* DOSAssetHeader.m */,
+				B69FEBB8234D0C12002FD419 /* DOSAssetHeader.xib */,
 				D063A5AA218E006900750001 /* TPOSAssetChooseWalletView.h */,
 				D063A5AB218E006900750001 /* Transaction */,
 				D063A5C8218E006900750001 /* TPOSAssetCreateWalletView.h */,
@@ -1505,6 +1510,7 @@
 				D063A6C8218E006900750001 /* TPOSTokenDetailViewController.xib in Resources */,
 				B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */,
 				D063A6D7218E006A00750001 /* TPOSTransactionTextField.xib in Resources */,
+				B69FEBBA234D0C12002FD419 /* DOSAssetHeader.xib in Resources */,
 				D063A4B9218E004700750001 /* mnemonic.html in Resources */,
 				B62190FF2320F0BF00DCCC88 /* DOSJTNodesViewCell.xib in Resources */,
 				D063A84E218E022800750001 /* TPOSMessageCenterCell.xib in Resources */,
@@ -1518,7 +1524,6 @@
 				2C16631D20021D0000E60CBD /* sound.caf in Resources */,
 				D063A6C5218E006900750001 /* TPOSTransactionDetailViewController.xib in Resources */,
 				D063A82E218E022800750001 /* TPOSMemonicImportWalletViewController.xib in Resources */,
-				B69FEBAB233B5798002FD419 /* TPOSAssetViewController.xib in Resources */,
 				D063A4BA218E004700750001 /* mnemonic.js in Resources */,
 				9E42CAB721BB70A700267076 /* TBShareMenuView.xib in Resources */,
 				9E40006B21C22F83005B2311 /* TPOSAuthPasswordViewController.xib in Resources */,
@@ -1700,6 +1705,7 @@
 				D063A78E218E00D000750001 /* TPOSBaseViewController.m in Sources */,
 				D063A6D1218E006900750001 /* TPOSTokenHistoryModel.m in Sources */,
 				D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */,
+				B69FEBB9234D0C12002FD419 /* DOSAssetHeader.m in Sources */,
 				D063A7A5218E00DA00750001 /* TPOSDataBaseManager.m in Sources */,
 				D063A6CF218E006900750001 /* TPOSTokenModel.m in Sources */,
 				B69FEBA523322C53002FD419 /* PasswordEyeController.m in Sources */,
