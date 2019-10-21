@@ -49,6 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupTableView];
+    self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
     //self.bottomHeightCons.constant = kIphoneX ? 105 : 90;
     [self registerNotifications];
     [self loadWallets];

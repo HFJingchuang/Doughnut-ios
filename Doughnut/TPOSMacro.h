@@ -39,6 +39,18 @@
 
 #define kDBVersion 1
 
+#
+#define FREEZED 5;
+#define RESERVED 20;
+#define CURRENCY_SWT @"SWT";
+
+#define getBalanceList @"getBalanceList"
+#define requestAccountOffersFlag @"requestAccountOffersFlag"
+#define requestAccountInfoFlag @"requestAccountInfoFlag"
+#define requestAccountTumsFlag @"requestAccountTums"
+#define requestAccountRelationsTrustFlag @"requestAccountRelationsTrustFlag"
+#define requestAccountRelationsFreezeFlag @"requestAccountRelationsFreezeFlag"
+
 #define kCreateWalletNotification @"kCreateWalletNotification"
 #define kEditWalletNotification   @"kEditWalletNotification"
 #define kDeleteWalletNotification @"kDeleteWalletNotification"

@@ -38,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *transferButton;
 @property (weak, nonatomic) IBOutlet UIView *actionView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *currentConstraint;
 
 //localized
 @property (weak, nonatomic) IBOutlet UILabel *walletManageLabel;
@@ -73,6 +74,7 @@
     self.versionLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"version"];
     self.copyrightLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"copyright_info"];
     self.languageLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"lang_setting"];
+    self.current.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"current"];
     [self.reciverButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"receive_action"] forState:UIControlStateNormal];
     [self.transferButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"transfer_action"]  forState:UIControlStateNormal];
     
@@ -106,6 +108,8 @@
     if(_currentWallet) {
         _walletName.text = _currentWallet.walletName;
         _walletAddr.text = _currentWallet.address;
+        [_walletName sizeToFit];
+        self.currentConstraint.constant = _walletName.frame.size.width + 30;
     }
 }
 
@@ -121,9 +125,6 @@
 }
 
 - (void)setNavigationBarColor {
-//    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
-//    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
-//    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
     self.navigationController.navigationBarHidden = YES;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];

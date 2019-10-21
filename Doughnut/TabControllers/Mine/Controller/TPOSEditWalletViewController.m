@@ -77,7 +77,7 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0x3B6CA6]];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     self.navigationController.navigationBarHidden = NO;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self addLeftBarButtonImage:[UIImage imageNamed:@"icon_back_withe"] action:@selector(responseLeftButton)];
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0xffffff]}];
     self.tokenValueLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:28];

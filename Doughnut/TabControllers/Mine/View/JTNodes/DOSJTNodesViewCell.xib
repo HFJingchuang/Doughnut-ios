@@ -39,21 +39,23 @@
                                 <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20.0ms" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4t6-5A-9PC">
+                                <rect key="frame" x="237" y="19" width="42" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.3411764706" green="0.70980392160000005" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="4t6-5A-9PC" firstAttribute="centerY" secondItem="I2O-nc-5Oo" secondAttribute="centerY" id="GFc-yM-3er"/>
                             <constraint firstItem="I2O-nc-5Oo" firstAttribute="top" secondItem="rVN-Bl-a1K" secondAttribute="top" constant="18" id="K7U-gT-TLx"/>
                             <constraint firstItem="I2O-nc-5Oo" firstAttribute="centerY" secondItem="rVN-Bl-a1K" secondAttribute="centerY" id="LZ9-1f-DDH"/>
                             <constraint firstAttribute="trailing" secondItem="I2O-nc-5Oo" secondAttribute="trailing" constant="18" id="VaE-G4-8W5"/>
+                            <constraint firstItem="I2O-nc-5Oo" firstAttribute="leading" secondItem="4t6-5A-9PC" secondAttribute="trailing" constant="8" id="kDs-fH-npm"/>
+                            <constraint firstItem="4t6-5A-9PC" firstAttribute="top" secondItem="rVN-Bl-a1K" secondAttribute="top" constant="19" id="qXB-TO-Td8"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="20.0ms" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4t6-5A-9PC">
-                        <rect key="frame" x="198" y="19" width="85" height="15"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" red="0.3411764706" green="0.70980392160000005" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="rVN-Bl-a1K" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2YV-Xb-wng"/>
