@@ -27,15 +27,23 @@
 #import "LineModel.h"
 #import "AccountInfoModal.h"
 #import "CaclUtil.h"
+#import "JccdexConfig.h"
+#import "JccdexInfo.h"
 
 #define JC_SCAN_SERVER @"https://swtcscan.jccdex.cn"
-#define TOKEN_ROUTER @"/sum/all/"
-#define SCALE 4;
 
+static NSString *TOKEN_ROUTER = @"/sum/all/";
+static int SCALE = 4;
+static int FREEZED = 5;
+static int RESERVED = 20;
+static NSString *CONFIG_HOST = @"https://weidex.vip";
+static NSString *COUNTER = @"CNT";
 @interface WalletManage (){
     NSURLSession *_sharedSession;
     Remote *remote;
     CaclUtil *caclUtil;
+    JccdexConfig *jccdexConfig;
+    JccdexInfo *jccdexInfo;
     int accountInfoId;
     int accountTumsId;
     int accountRelationsTrustId;
@@ -63,7 +71,9 @@
 - (Remote *) createRemote{
     remote = [Remote instance];
     caclUtil = [[CaclUtil alloc]init];
-    [remote connectWithURLString:@"wss://s.jingtum.com:5020" local_sign:YES];
+    jccdexConfig = [JccdexConfig shareInstance];
+    jccdexInfo = [JccdexInfo shareInstance];
+    [remote connectWithURLString:@"ws://106.14.154.38:5020" local_sign:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountInfo:) name:requestAccountInfoFlag object:nil];
@@ -97,6 +107,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountRelationsTrustFlag object:data];
     }else if (requestFlag == accountRelationsFreezeId){
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountRelationsFreezeFlag object:data];
+    }else if (requestFlag == accountOffersId) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountOffersFlag object:data];
     }
 };
 
@@ -239,22 +251,24 @@
                     NSArray *datas = [responseObject objectForKey:@"data"];
                     for (NSDictionary *data in datas) {
                         if ([data isKindOfClass:[NSDictionary class]]) {
+                            NSArray<NSString *> *str = [data allValues][0];
+                            for (int i=0; i <str.count;i++ ) {
+                                NSString *token = [str[i] componentsSeparatedByString:@"_"] [0];
+                                [arr addObject:token];
+                            }
                         }
                     }
-                    if (success) {
-                        NSLog(@"s%@",success);
-                        //success(arr);
-                    }
+                    success(arr);
                 }
             } else {
                 if (failure) {
                     NSLog(@"f%@",failure);
-                    //failure([weakSelf errorDomain:url reason:@"code != 0"]);
+                    failure([weakSelf errorDomain:requsetUrl reason:@"code != 0"]);
                 }
             }
         } else {
             if (failure) {
-                //failure([weakSelf errorDomain:url reason:@"responseObject is not Dictionary"]);
+                failure([weakSelf errorDomain:requsetUrl reason:@"responseObject is not Dictionary"]);
             }
         }
     } failure:^(NSError *error) {
@@ -264,29 +278,27 @@
     }];
 }
 
-
-
 -(void) requestBalanceByAddress:(NSString *)address {
-    [self requestAccountInfoByAddress:address];
-    [self requestAccountOffersByAddress:address];
     [self requestAccountRelationByAddressTrust:address];
     [self requestAccountRelationByAddressFreeze:address];
+    [self requestAccountOffersByAddress:address];
+    [self requestAccountInfoByAddress:address];
 }
 
 -(void) getBalance{
-    if (_accountInfo &&_trustlines&&_freezeLines){
+    if ([self arrIsNil:_trustlines]&&[self arrIsNil:_freezeLines]&&[self arrIsNil:_offerlist]&&_accountInfo){
         // 计算swt冻结数量
-        int freezed = (_trustlines.count + _offerlist.count) * FREEZED + RESERVED;
+        int *freezed = (_trustlines.count + _offerlist.count) * FREEZED + RESERVED;
         NSMutableDictionary *swtLine = [NSMutableDictionary new];
         NSString *valid = [caclUtil sub:_accountInfo.Balance :[NSString stringWithFormat:@"%d",freezed] :4];
         [swtLine setValue:valid forKey:@"balance"];
-        [swtLine setValue:@"SWT" forKey:@"currency"];
-        [swtLine setValue:[NSString stringWithFormat:@"%d",freezed] forKey:@"limit"];
+        [swtLine setValue:CURRENCY_SWTC forKey:@"currency"];
+        [swtLine setValue:[NSString stringWithFormat:@"%ld",freezed] forKey:@"limit"];
         [_trustlines addObject:swtLine];
         // trust limit 置零
         for (int j = 0; j < _trustlines.count; j++) {
             NSString *currency = [_trustlines[j] valueForKey:@"currency"];
-            if (![currency isEqualToString:@"SWT"]) {
+            if (![currency isEqualToString:CURRENCY_SWTC]) {
                 [_trustlines[j] setValue:@"0" forKey:@"limit"];
             }
         }
@@ -298,9 +310,9 @@
                 NSMutableDictionary *line = _trustlines[j];
                 NSString *currency = [line valueForKey:@"currency"];
                 if ([getsCurrency isEqualToString:currency]) {
-                    NSString *offerValue = [[_offerlist[i] objectForKey:@"takerGets"] valueForKey:@"value"];;
-                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :offerValue :0];
-                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :offerValue :0];
+                    NSString *offerValue = [[_offerlist[i] objectForKey:@"takerGets"] valueForKey:@"value"];
+                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :offerValue :4];
+                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :offerValue :4];
                     [line setValue:balance forKey:@"balance"];
                     [line setValue:tokenFreeze forKey:@"limit"];
                     break;
@@ -315,15 +327,76 @@
                 NSString *currency = [line valueForKey:@"currency"];
                 if ([FCurrency isEqualToString:currency]) {
                     NSString *freeze = [_freezeLines[i] valueForKey:@"limit"];
-                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :freeze :0];
-                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :freeze :0];
+                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :freeze :4];
+                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :freeze :4];
                     [line setValue:balance forKey:@"balance"];
                     [line setValue:tokenFreeze forKey:@"limit"];
+                    break;
                 }
             }
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:getBalanceList object:_trustlines];
+        _trustlines = nil;
+        _freezeLines = nil;
+        _offerlist = nil;
+        _accountInfo = nil;
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:getBalanceList object:_trustlines];
+}
+
+-(void)getTokenPrice:(NSString *)token :(void(^)(NSString *))success failure:(void(^)(NSError *error))failure {
+    [jccdexConfig initConfigNodes:@[CONFIG_HOST]];
+    [jccdexConfig requestConfig:^(NSDictionary *response) {
+        NSArray *infohosts = [response valueForKey:@"infoHosts"];
+        NSString *host = [NSString stringWithFormat:@"%@%@",@"https://",infohosts[arc4random() % infohosts.count]];
+        [jccdexInfo initInfoNodes:@[host]];
+        [jccdexInfo requestTicker:token counter:COUNTER onResponse:^(NSDictionary *inforesponse) {
+            if([inforesponse valueForKey:@"success"]){
+                success([inforesponse valueForKey:@"data"][1]);
+            }else{
+                failure([inforesponse valueForKey:@"msg"]);
+            }
+        } onFail:^(NSError *error) {
+            failure(error);
+        }];
+    } onFail:^(NSError *error) {
+        failure(error);
+    }];
+    
+}
+
+-(void)getAllTokenPrice:(void(^)(NSArray *))success failure:(void(^)(NSError *error))failure {
+    [jccdexConfig initConfigNodes:@[CONFIG_HOST]];
+    [jccdexConfig requestConfig:^(NSDictionary *response) {
+        NSArray *infohosts = [response valueForKey:@"infoHosts"];
+        NSString *host = [NSString stringWithFormat:@"%@%@",@"https://",infohosts[arc4random() % infohosts.count]];
+        [jccdexInfo initInfoNodes:@[host]];
+        [jccdexInfo requestAllTickers:^(NSDictionary *inforesponse) {
+            if([inforesponse valueForKey:@"success"]){
+                success([inforesponse valueForKey:@"data"]);
+            }else{
+                failure([inforesponse valueForKey:@"msg"]);
+            }
+        } onFail:^(NSError *error) {
+           failure(error);
+        }];
+    } onFail:^(NSError *error) {
+        failure(error);
+    }];
+    
+}
+
+-(BOOL)arrIsNil:(NSMutableArray *)array{
+    if ([array isKindOfClass:[NSNull class]]) {
+        return NO;
+    }else if (array==nil || array==NULL){
+        return NO;
+    }
+    return YES;
+}
+
+- (NSError *)errorDomain:(NSString *)domain reason:(NSString *)reason {
+    NSError *error = [NSError errorWithDomain:@"" code:-1 userInfo:@{NSLocalizedDescriptionKey:reason}];
+    return error;
 }
 
 @end

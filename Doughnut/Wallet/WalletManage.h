@@ -35,6 +35,9 @@
 - (void) getTansferHishory:(NSUnit *) limit;
 //获取余额数据
 -(void) requestBalanceByAddress:(NSString *)address;
-
+//获取单一币价
+-(void) getTokenPrice:(NSString *)token :(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure;
+//获取所有币价
+- (void) getAllTokenPrice:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure;
 @end
 

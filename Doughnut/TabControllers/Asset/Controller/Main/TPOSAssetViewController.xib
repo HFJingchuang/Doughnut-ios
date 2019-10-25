@@ -115,9 +115,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账户总资产(SWTC)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1CC-J5-ddC">
-                            <rect key="frame" x="20" y="30" width="163" height="14"/>
+                            <rect key="frame" x="20" y="30" width="244" height="14"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="163" id="ZSv-Bb-lrh"/>
+                                <constraint firstAttribute="width" constant="244" id="ZSv-Bb-lrh"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -179,7 +179,7 @@
                         <constraint firstItem="Tdl-SE-hxl" firstAttribute="leading" secondItem="1CC-J5-ddC" secondAttribute="leading" id="a3F-HQ-0Ng"/>
                         <constraint firstItem="Tdl-SE-hxl" firstAttribute="bottom" secondItem="bgx-jg-pUL" secondAttribute="bottomMargin" constant="-21.333333333333343" id="cyj-qj-BnC"/>
                         <constraint firstItem="bqu-v2-vcp" firstAttribute="leading" secondItem="bgx-jg-pUL" secondAttribute="leading" constant="40" id="dDB-Sa-wFu"/>
-                        <constraint firstItem="cGU-q5-TI8" firstAttribute="leading" secondItem="1CC-J5-ddC" secondAttribute="trailing" constant="153" id="f7D-uR-Lpi"/>
+                        <constraint firstItem="cGU-q5-TI8" firstAttribute="leading" secondItem="1CC-J5-ddC" secondAttribute="trailing" constant="72" id="f7D-uR-Lpi"/>
                         <constraint firstItem="cGU-q5-TI8" firstAttribute="top" secondItem="bgx-jg-pUL" secondAttribute="top" constant="26" id="lgP-Jf-yAX"/>
                         <constraint firstItem="u0l-tt-bZO" firstAttribute="top" secondItem="QZN-YX-Rc6" secondAttribute="top" id="tY7-Gb-tmE"/>
                     </constraints>

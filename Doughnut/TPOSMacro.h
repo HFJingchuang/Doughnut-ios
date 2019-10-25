@@ -40,9 +40,9 @@
 #define kDBVersion 1
 
 #
-#define FREEZED 5;
-#define RESERVED 20;
-#define CURRENCY_SWT @"SWT";
+#define CURRENCY_SWTC @"SWTC"
+#define CURRENCY_SWT @"SWT"
+#define CURRENCY_CNY @"CNY"
 
 #define getBalanceList @"getBalanceList"
 #define requestAccountOffersFlag @"requestAccountOffersFlag"

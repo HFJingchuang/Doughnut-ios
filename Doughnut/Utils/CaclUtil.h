@@ -12,6 +12,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CaclUtil : NSObject
 
+- (NSString *)add:(NSString *)v1 :(NSString *)v2;
+
+- (NSString *)sub:(NSString *)v1 :(NSString *)v2;
+
+- (NSString *)mul:(NSString *)v1 :(NSString *)v2;
+
+- (NSString *)div:(NSString *)v1 :(NSString *)v2;
+
 - (NSString *)add:(NSString *)v1 :(NSString *)v2 :(int) scale;
 
 - (NSString *)sub:(NSString *)v1 :(NSString *)v2 :(int) scale;
@@ -20,7 +28,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)div:(NSString *)v1 :(NSString *)v2 :(int) scale;
 
-- (NSInteger)compare:(NSString *)v1 :(NSString *)v2;
+- (NSComparisonResult)compare:(NSString *)v1 :(NSString *)v2;
+
+- (NSString *)formatValues:(NSString *)values :(int) scale;
+
+- (NSString *)formatAmount:(NSString *)values: (int)scale :(BOOL)decimal :(BOOL)digits;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -28,6 +28,7 @@
     self.tokenCellView.backgroundColor = [UIColor colorWithHex:0xF4F5F6];
     self.tokenCellView.layer.cornerRadius = 11;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    _tokenNameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
 }
 
 - (void)setFrame:(CGRect)frame{

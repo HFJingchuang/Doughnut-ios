@@ -136,10 +136,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_flag){
+        [_walletDao updateCurrentWalletID:_dataList[indexPath.section].walletId complement:^(BOOL success) {
+            if (success) {
+               [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+    }else{
     TPOSEditWalletViewController *editWalletViewController = [[TPOSEditWalletViewController alloc] init];
-    
     editWalletViewController.walletModel = _dataList[indexPath.section];
     [self.navigationController pushViewController:editWalletViewController animated:YES];
+    }
+    _flag = NO;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

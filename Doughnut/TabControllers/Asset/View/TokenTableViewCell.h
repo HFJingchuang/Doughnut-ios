@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TokenTableViewCell : UITableViewCell
 
+-(void)updateWithModel:(NSString *)tokenName;
+
+-(void)setSelectedStatus:(BOOL)status;
+
 @end
 
 NS_ASSUME_NONNULL_END

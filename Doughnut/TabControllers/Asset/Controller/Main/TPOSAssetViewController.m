@@ -7,6 +7,7 @@
 //
 
 #import "TPOSAssetViewController.h"
+#import "NSString+TPOS.h"
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 #import "TPOSAssetCell.h"
@@ -39,9 +40,11 @@
 #import "AccountInfoModal.h"
 #import "LineModel.h"
 #import "TokenCellModel.h"
+#import "CaclUtil.h"
 #import <Masonry/Masonry.h>//;
 
 static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
+static int SCALE = 4;
 
 @interface TPOSAssetViewController ()<UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -82,6 +85,8 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *hiddenCells;
 
+@property (nonatomic, strong) NSMutableArray<NSNumber *> *zeroCells;
+
 @property (nonatomic, weak) TPOSAssetChooseWalletView *assetChooseWalletView;
 
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
@@ -96,6 +101,8 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 @property (nonatomic, strong) NSString *cnyValue;
 
+@property (nonatomic, strong) CaclUtil *caclUtil;
+
 @end
 
 @implementation TPOSAssetViewController
@@ -105,7 +112,8 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
     self.bottomConstraint.constant = kIphoneX?83:49;
     self.cellHidden = NO;
-    self.valueHidden = NO;
+    self.valueHidden = YES;
+    _caclUtil = [[CaclUtil alloc]init];
     [self loadCurrentWallet];
     [self setupSubviews];
     [self registerCells];
@@ -134,6 +142,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 -(void) TapWalletName {
     TPOSWalletManagerViewController *walletManagerViewController = [[TPOSWalletManagerViewController alloc] init];
+    walletManagerViewController.flag = YES;
     [self.navigationController pushViewController:walletManagerViewController animated:YES];
 }
 
@@ -166,9 +175,9 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
         self.CNYBalanceValueLabel.text = @"****";
         self.CNYPointValueLabel.hidden = YES;
     } else {
-        self.totalAssetValueLabel.text = _totalValue;
+        self.totalAssetValueLabel.text = _totalValue?_totalValue:@"0";
         self.totalPointValueLabel.hidden = NO;
-        self.CNYBalanceValueLabel.text = _totalValue;
+        self.CNYBalanceValueLabel.text = _cnyValue?_cnyValue:@"0";
         self.CNYPointValueLabel.hidden = NO;
     }
     [self.table reloadData];
@@ -177,6 +186,9 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 - (IBAction)tapZeroSwitch:(id)sender {
     _valueHidden = !_tokenZeroSwitch.on;
+    if (_valueHidden){
+        [_zeroCells removeAllObjects];
+    }
     [self.table reloadData];
 }
 
@@ -198,9 +210,6 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 }
 
 - (void)dealloc {
-    if (_table) {
-        [_table removeObserver:self forKeyPath:@"contentOffset"];
-    }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -214,13 +223,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 - (void) loadCurrentWallet {
     _currentWallet = [TPOSContext shareInstance].currentWallet;
     _tokenCells = [[NSMutableArray alloc]init];
-    _currentWallet.viewTokens = @"CNY,VCC,JSLASH,GK1,GK2,09ajoaf,joafa";
-    NSArray *arr = [_currentWallet.viewTokens componentsSeparatedByString:@","];
-    for (NSString *token in arr) {
-        TokenCellModel *model = [TokenCellModel new];
-        [model setName:token];
-        [_tokenCells addObject:model];
-    }
+    _currentWallet.viewTokens = @"CNY,VCC,JSLASH,GK1,GK2";
 }
 
 - (TPOSWalletDao *)walletDao {
@@ -236,9 +239,9 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     [_hiddenCells removeAllObjects];
     [self loadCurrentWallet];
     if (weakSelf.currentWallet) {
-        [walletManage requestBalanceByAddress:@"jfdLqEWhfYje92gEaWixVWsYKjK5C6bMoi"];
-        [weakSelf.collectionView.mj_header endRefreshing];
+        [walletManage requestBalanceByAddress:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6"];
     }
+    
 }
 
 - (void)checkBackup {
@@ -262,48 +265,146 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:getBalanceList object:nil];
 }
 
--(void) getAccountInfo:(NSNotification *) notification {
-    NSString * message = notification.object;
-    NSLog(@"the info from server is: %@", message);
-    NSDictionary *accountData = [notification.object objectForKey:@"account_data"];
-    AccountInfoModal *model = [AccountInfoModal mj_objectWithKeyValues:accountData];
-    if([model.Balance integerValue] > 0){
-        NSArray *array = [model.Balance componentsSeparatedByString:@"."];
-        self.totalAssetValueLabel.text = array[0];
-        self.totalPointValueLabel.text = [NSString stringWithFormat:@".%@",array[1]];
-        self.totalValue = array[0];
-        [self refreshConstraint];
-    }
-}
-
 -(void) getBalanceListAction:(NSNotification *) notification {
+    __weak typeof(self) weakSelf = self;
     NSString * message = notification.object;
     NSLog(@"the info from server is: %@", message);
     NSMutableArray<NSMutableDictionary *> *data = notification.object;
+    [_tokenCells removeAllObjects];
+    NSArray *arr = [_currentWallet.viewTokens componentsSeparatedByString:@","];
+    NSMutableArray<NSString *> *arr2 = [[NSMutableArray alloc]init];
+    for (int i = 0 ; i < data.count; i++) {
+        NSString *currency = [data[i] valueForKey:@"currency"];
+        [arr2 addObject:currency];
+    }
     @try {
-        for (int i = 0; i < data.count; i++) {
-            for (int j = 0;j < _tokenCells.count; j++) {
-                if([[data[i] valueForKey:@"currency"] isEqualToString:_tokenCells[j].name]){
-                    [_tokenCells[j] setBalance:[data[i] valueForKey:@"balance"]];
-                    [_tokenCells[j] setFreezeValue:[data[i] valueForKey:@"limit"]];
-                }else {
-                    [_tokenCells[j] setBalance:@"0.00"];
-                    [_tokenCells[j] setFreezeValue:@"0.00"];
-                }
+        for (int n = 0; n < data.count; n++) {
+            TokenCellModel *model = [TokenCellModel new];
+            [model setName:[data[n] valueForKey:@"currency"]];
+            [model setBalance:[data[n] valueForKey:@"balance"]];
+            [model setFreezeValue:[data[n] valueForKey:@"limit"]];
+            [_tokenCells addObject:model];
+        }
+        for (int j = 0; j< arr.count; j++){
+            if(![arr2 containsObject:arr[j]]) {
+                TokenCellModel *model = [TokenCellModel new];
+                [model setName:arr[j]];
+                [model setBalance:@"0.00"];
+                [model setFreezeValue:@"0.00"];
+                [_tokenCells addObject:model];
             }
         }
     } @catch (NSException *exception) {
         NSLog(@"%@",exception);
     }
-    [self.table reloadData];
+    NSSortDescriptor *balanceSD = [NSSortDescriptor sortDescriptorWithKey:@"balance" ascending:NO];
+    NSSortDescriptor *freezeSD = [NSSortDescriptor sortDescriptorWithKey:@"freezeValue" ascending:NO];
+    NSSortDescriptor *nameSD = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    _tokenCells = [_tokenCells sortedArrayUsingDescriptors:@[balanceSD,freezeSD,nameSD]];
+    [walletManage getAllTokenPrice:^(NSArray *priceData) {
+        // 钱包总价值
+        NSString *values = @"0.00";
+        // 钱包折换总SWT
+        NSString *number = @"0.00";
+        NSString *swtPrice = @"0.00";
+        if(priceData.count != 0){
+            NSArray<NSString *> *arr = [priceData valueForKey:@"SWT-CNY"];
+            swtPrice = arr[1];
+            for (int i=0;i<_tokenCells.count;i++){
+                TokenCellModel *cell = _tokenCells[i];
+                NSString *balance = cell.balance;
+                if([balance tb_isEmpty]){
+                    balance = @"0";
+                }
+                NSString *currency = cell.name;
+                NSString *freeze = cell.freezeValue;
+                if([freeze tb_isEmpty]){
+                    freeze = @"0";
+                }
+                NSString *sum = [_caclUtil add:balance :freeze];
+                if ([_caclUtil compare:sum :@"0"]==NSOrderedSame){
+                    [_tokenCells[i] setCnyValue:@"0.00"];
+                    continue;
+                }
+                NSString *price = @"0";
+                if ([currency isEqualToString:CURRENCY_CNY]) {
+                    price = @"1";
+                } else if([currency isEqualToString:CURRENCY_SWTC]) {
+                    price = swtPrice;
+                }else{
+                    NSString *currency_cny = [NSString stringWithFormat:@"%@%@",currency,@"-CNY"];
+                    NSArray<NSString *> *currencyLst = [priceData valueForKey:currency_cny];
+                    if (currencyLst != nil) {
+                        price = currencyLst[1]?currencyLst[1]:@"0";
+                    }
+                }
+                NSString *value = [_caclUtil mul:sum :price];
+                if ([_caclUtil compare:value :@"0" ] == NSOrderedSame){
+                    [_tokenCells[i] setCnyValue:@"0.00"];
+                }else {
+                    [_tokenCells[i] setCnyValue:value];
+                }
+                values = [_caclUtil add:value :values];
+            }
+            
+            number = [_caclUtil div:values :swtPrice :2];
+            [self.totalAssetLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@≈%@)",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"account_asset"],[_caclUtil formatAmount:swtPrice :5:NO:YES]] waitUntilDone:YES];
+            NSString *valuesF = [_caclUtil formatAmount:values :2:YES:NO];
+            if ([valuesF containsString:@"."]){
+                NSArray<NSString *> *arrs = [valuesF componentsSeparatedByString:@"."];
+                self.cnyValue = arrs[0];
+                [self.CNYBalanceValueLabel performSelectorOnMainThread:@selector(setText:) withObject:arrs[0] waitUntilDone:YES];
+                if (![arr[1] tb_isEmpty]) {
+                    [self.CNYPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@".%@",arrs[1]] waitUntilDone:YES];
+                }
+            }else {
+                self.cnyValue = valuesF;
+                [self.CNYBalanceValueLabel performSelectorOnMainThread:@selector(setText:) withObject:valuesF waitUntilDone:YES];
+                [self.CNYPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@".00" waitUntilDone:YES];
+            }
+            NSString *valuesE = [_caclUtil formatAmount:number :2:YES:NO];
+            if ([number containsString:@"."]) {
+                NSArray<NSString *> *arrss = [valuesE componentsSeparatedByString:@"."];
+                self.totalValue = arrss[0];
+                [self.totalAssetValueLabel performSelectorOnMainThread:@selector(setText:) withObject:arrss[0] waitUntilDone:YES];
+                if (![arrss[1] tb_isEmpty]) {
+                    [self.totalPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@".%@",arrss[1]] waitUntilDone:YES];
+                }
+            } else {
+                self.totalValue = valuesE;
+                [self.totalAssetValueLabel performSelectorOnMainThread:@selector(setText:) withObject:valuesE waitUntilDone:YES];
+                [self.totalPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@".00" waitUntilDone:YES];
+            }
+        }else{
+            self.cnyValue = @"---";
+            [self.CNYBalanceValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@"---" waitUntilDone:YES];
+            [self.CNYPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@"" waitUntilDone:YES];
+            self.totalValue = @"---";
+            [self.totalAssetValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@"---" waitUntilDone:YES];
+            [self.totalPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@"" waitUntilDone:YES];
+        }
+        [self performSelectorOnMainThread:@selector(updateLayout) withObject:nil waitUntilDone:YES];
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    [weakSelf.collectionView.mj_header endRefreshing];
 }
 
 //刷新小数点标签距离
 -(void) refreshConstraint {
+    [self.totalAssetLabel sizeToFit];
+    [self.totalAssetLabel layoutIfNeeded];
     [self.totalAssetValueLabel sizeToFit];
+    [self.totalAssetValueLabel layoutIfNeeded];
     [self.CNYBalanceValueLabel sizeToFit];
+    [self.CNYBalanceValueLabel layoutIfNeeded];
     self.totalPointConstraint.constant = self.totalAssetValueLabel.frame.size.width + 20;
     self.CNYPointConstraint.constant =self.CNYBalanceValueLabel.frame.size.width + 20;
+}
+
+-(void) updateLayout {
+    [self refreshConstraint];
+    [self.table reloadData];
 }
 
 - (void)changeWallet:(NSNotification *)noti {
@@ -323,6 +424,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 }
 
 - (void)setupSubviews {
+    __weak typeof(self) weakSelf = self;
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
     _collectionView.backgroundColor = [UIColor colorWithHex:0xffffff];
@@ -338,7 +440,6 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"id"];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
     [self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer"];
-    __weak typeof(self) weakSelf = self;
     MJRefreshGifHeader *header = [self colorfulTableHeaderWithBigSize:YES RefreshingBlock:^{
         [weakSelf loadBalance];
     }];
@@ -408,7 +509,9 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_hiddenCells &&[_hiddenCells containsObject:[NSNumber numberWithInteger:indexPath.row]]){
         return 0;
-    }else {
+    }else if(_zeroCells &&[_zeroCells containsObject:[NSNumber numberWithInteger:indexPath.row]]&&_valueHidden){
+        return 0;
+    }else{
         return 86;
     }
 }
@@ -419,17 +522,36 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
         TokenCellModel *cellModel = _tokenCells[indexPath.row];
         NSString *balanceLable = @"";
         NSString *cny = @"";
+        if ([_caclUtil compare:cellModel.balance :@"0" ]== NSOrderedSame||[cellModel.balance tb_isEmpty] ) {
+            [cellModel setBalance:@"0.00"];
+        }else {
+            [cellModel setBalance:[_caclUtil formatAmount:cellModel.balance:4:NO:NO]];
+        }
+        if ([_caclUtil compare:cellModel.freezeValue :@"0" ] == NSOrderedSame||[cellModel.freezeValue tb_isEmpty]) {
+            [cellModel setFreezeValue:@"0.00"];
+        }else {
+            [cellModel setFreezeValue:[_caclUtil formatAmount:cellModel.freezeValue:4:NO:NO]];
+        }
+        if ([_caclUtil compare:cellModel.cnyValue :@"0" ] == NSOrderedSame||[cellModel.cnyValue tb_isEmpty]) {
+            [cellModel setCnyValue:@"0.00"];
+        }else {
+            [cellModel setCnyValue:[_caclUtil formatAmount:cellModel.cnyValue :2 :NO :NO ]];
+        }
         if(self.assetSeeButton.selected){
-            balanceLable = [NSString stringWithFormat:@"%@%@%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"available"],@"***",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"frozen"],@"***"];
-            cny = @"***";
+            balanceLable = [NSString stringWithFormat:@"%@%@%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"available"],@"***",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"frozen"],@"****"];
+            cny = @"****";
         }else {
             balanceLable = [NSString stringWithFormat:@"%@%@%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"available"],cellModel.balance,[[TPOSLocalizedHelper standardHelper]stringWithKey:@"frozen"],cellModel.freezeValue];
-            cny = @"0.0";
+            cny = cellModel.cnyValue;
         }
         [cell updateWithModel:cellModel.name :balanceLable :cny];
-//        if(!(cellModel.balance.floatValue != 0)){
-//            cell.hidden = _valueHidden;
-//        }
+        if([_caclUtil compare:cellModel.balance :@"0" ] == NSOrderedSame){
+            cell.hidden = _valueHidden;
+            if (!_zeroCells) {
+                _zeroCells = [[NSMutableArray alloc]init];
+            }
+            [_zeroCells addObject:[NSNumber numberWithInteger:indexPath.row]];
+        }
         if (_hiddenCells &&[_hiddenCells containsObject:[NSNumber numberWithInteger:indexPath.row]]){
             cell.hidden = YES;
         }

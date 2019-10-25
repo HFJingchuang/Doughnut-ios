@@ -10,4 +10,6 @@
 
 @interface TPOSWalletManagerViewController : TPOSBaseViewController
 
+@property (nonatomic, assign) BOOL flag;
+
 @end
