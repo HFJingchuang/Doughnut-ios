@@ -12,8 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AssetTokensViewController">
             <connections>
-                <outlet property="searchDisplayController" destination="Caa-57-7Ye" id="Ii5-hr-Mok"/>
-                <outlet property="tokenSearchBar" destination="qtt-qR-WIU" id="ODe-Lx-K0U"/>
+                <outlet property="searchBar" destination="qtt-qR-WIU" id="kAf-yY-Gcf"/>
                 <outlet property="tokensTable" destination="q1O-Rh-EVE" id="DHw-T9-WOF"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -36,13 +35,6 @@
                             <rect key="frame" x="20" y="0.0" width="374" height="56"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
-                            <scopeButtonTitles>
-                                <string>Title</string>
-                                <string>Title</string>
-                            </scopeButtonTitles>
-                            <connections>
-                                <outlet property="delegate" destination="Caa-57-7Ye" id="chg-RI-VRS"/>
-                            </connections>
                         </searchBar>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -50,15 +42,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
-            <point key="canvasLocation" x="34.782608695652179" y="34.821428571428569"/>
+            <point key="canvasLocation" x="37.681159420289859" y="36.160714285714285"/>
         </view>
-        <searchDisplayController id="Caa-57-7Ye">
-            <connections>
-                <outlet property="delegate" destination="-1" id="d6M-jj-C0p"/>
-                <outlet property="searchContentsController" destination="-1" id="3a2-BA-UB0"/>
-                <outlet property="searchResultsDataSource" destination="-1" id="yLW-RV-kOd"/>
-                <outlet property="searchResultsDelegate" destination="-1" id="qVt-Up-Z0d"/>
-            </connections>
-        </searchDisplayController>
     </objects>
 </document>

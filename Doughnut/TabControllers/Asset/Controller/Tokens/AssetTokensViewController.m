@@ -6,20 +6,31 @@
 //  Copyright © 2019 jch. All rights reserved.
 //
 
+#import "TPOSMacro.h"
 #import "AssetTokensViewController.h"
 #import "UIColor+Hex.h"
 #import "TokenTableViewCell.h"
+#import "TokenCellModel.h"
+#import "TPOSWalletModel.h"
+#import "TPOSWalletDao.h"
 #import <Masonry/Masonry.h>
+#import "TPOSContext.h"
+#import "TPOSAssetViewController.h"
 
 static NSString * const cellID = @"TokenTableViewCell";
-@interface AssetTokensViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchControllerDelegate, UISearchResultsUpdating>
-@property (nonatomic, strong) UISearchController *searchController;
+@interface AssetTokensViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tokensTable;
 
-@property (nonatomic, copy) NSString *filterString;
-@property (readwrite, copy) NSArray *visibleResults;
-@property (nonatomic, strong) NSMutableArray<NSString *> *tokenArray;
+@property (nonatomic, assign) BOOL searchFlag;
+@property (nonatomic, strong) NSMutableArray<TokenCellModel *> *visibleResults;
+@property (nonatomic, strong) NSMutableArray<TokenCellModel *> *tokenArray;
+@property (nonatomic, strong) NSMutableArray<TokenCellModel *> *selectedTokensArray;
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *selectedArray;
+
+
+@property (nonatomic, strong) TPOSWalletDao *walletDao;
+@property (nonatomic, strong) TPOSWalletModel *currentWallet;
 
 @end
 
@@ -27,29 +38,81 @@ static NSString * const cellID = @"TokenTableViewCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.searchController.delegate = self;
+    _searchFlag = NO;
     self.definesPresentationContext = YES;
+    walletManage = [[WalletManage alloc]init];
+    [self loadCurrentWallet];
     [self setupSubviews];
     [self registerCells];
+    [self loadData];
+}
+
+- (void) loadCurrentWallet {
+    _currentWallet = [TPOSContext shareInstance].currentWallet;
+    _selectedTokensArray = [NSMutableArray new];
+}
+
+- (TPOSWalletDao *)walletDao {
+    if (!_walletDao) {
+        _walletDao = [TPOSWalletDao new];
+    }
+    return _walletDao;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear: animated];
-    UITextField *searchField = [self.searchController.searchBar valueForKey:@"_searchField"];
-    searchField.center=self.searchController.searchBar.center;
     self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
     self.title = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"add_tokens"];
     self.navigationController.navigationBarHidden = NO;
 }
 
-- (void)changeLanguage {
+-(void)loadData {
+    [walletManage getAllTokens:^(NSDictionary *response) {
+        if (response){
+            NSMutableArray *data = [NSMutableArray arrayWithObject:response][0];
+            if (!_tokenArray) {
+                _tokenArray = [NSMutableArray new];
+            }
+            if (!_visibleResults) {
+                _visibleResults = [NSMutableArray new];
+            }
+            if (data && data.count >0){
+                for (int i = 0;i < data.count; i++) {
+                    TokenCellModel *model = [TokenCellModel new];
+                    NSArray <NSString *> *arr = [data[i] componentsSeparatedByString:@"_"];
+                    [model setName:arr[0]];
+                    [model setIssuer:arr[1]];
+                    [_tokenArray addObject:model];
+                }
+            }
+            NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+            _tokenArray = [_tokenArray sortedArrayUsingDescriptors:@[descriptor]];
+            _tokenArray = [_tokenArray sortedArrayUsingComparator:^NSComparisonResult(TokenCellModel* obj1, TokenCellModel *obj2) {
+                BOOL b1 = [self matchNumbers:obj1.name];
+                BOOL b2 = [self matchNumbers:obj2.name];
+                if(b1&&!b2){
+                    return NSOrderedDescending;
+                }else if(!b1&&b2){
+                    return NSOrderedAscending;
+                }else{
+                    return NSOrderedAscending;
+                }
+            }];
+            [self performSelectorOnMainThread:@selector(reloadTable) withObject:nil waitUntilDone:nil];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@",error);
+    }];
+}
+
+-(void)reloadTable {
+    [self.tokensTable reloadData];
 }
 
 - (void)setupSubviews {
+    [self.view addSubview:self.searchBar];
+    [self modifyStyleByTraversal];
     [self.view addSubview:self.tokensTable];
     [self.tokensTable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);
@@ -71,11 +134,10 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(_tokenArray&&_tokenArray.count >0){
-        return _tokenArray.count;
-    }else {
-        return 10;
+    if(_tokenArray&&_visibleResults){
+        return _searchFlag?_visibleResults.count:_tokenArray.count;
     }
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -84,11 +146,28 @@ static NSString * const cellID = @"TokenTableViewCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TokenTableViewCell *cell = (TokenTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
-    if(_tokenArray&&_tokenArray.count >0){
-        for (int i = 0;i < _tokenArray.count;i++) {
-            [cell updateWithModel:_tokenArray[i]];
+    NSString *name = @"";
+    NSString *issuer = @"";
+    if(_searchFlag){
+        if(_visibleResults&&_visibleResults.count >0){
+            if ([_visibleResults[indexPath.row].name isEqualToString:@"CNY"] && [_visibleResults[indexPath.row].issuer isEqualToString:@"jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or"]){
+                name = @"CNT";
+            }else {
+                name = _visibleResults[indexPath.row].name;
+            }
+            issuer = _visibleResults[indexPath.row].issuer;
+        }
+    }else{
+        if(_tokenArray&&_tokenArray.count >0){
+            if ([_tokenArray[indexPath.row].name isEqualToString:@"CNY"] && [_tokenArray[indexPath.row].issuer isEqualToString:@"jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or"]){
+                name = @"CNT";
+            }else {
+                name = _tokenArray[indexPath.row].name;
+            }
+            issuer = _tokenArray[indexPath.row].issuer;
         }
     }
+    [cell updateWithModel:name :issuer];
     return cell;
 }
 
@@ -101,9 +180,19 @@ static NSString * const cellID = @"TokenTableViewCell";
     if([_selectedArray containsObject:[NSNumber numberWithInteger:indexPath.row]]){
         [cell setSelectedStatus:NO];
         [_selectedArray removeObject:[NSNumber numberWithInteger:indexPath.row]];
+        if(!_searchFlag){
+            [_selectedTokensArray removeObject:_tokenArray[indexPath.row]];
+        }else {
+            [_selectedTokensArray removeObject:_visibleResults[indexPath.row]];
+        }
     } else {
         [cell setSelectedStatus:YES];
         [_selectedArray addObject:[NSNumber numberWithInteger:indexPath.row]];
+        if(!_searchFlag){
+            [_selectedTokensArray addObject:_tokenArray[indexPath.row]];
+        }else {
+            [_selectedTokensArray addObject:_visibleResults[indexPath.row]];
+        }
     }
     
 }
@@ -113,7 +202,7 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 - (UITableView *)tokensTable {
-    _tokensTable.tableHeaderView = self.searchController.searchBar;
+    _tokensTable.tableHeaderView = [UIView new];
     _tokensTable.tableFooterView = [UIView new];
     _tokensTable.backgroundColor = [UIColor colorWithHex:0xffffff];
     _tokensTable.separatorColor = [UIColor colorWithHex:0xF5F5F9];
@@ -128,42 +217,79 @@ static NSString * const cellID = @"TokenTableViewCell";
     return _tokensTable;
 }
 
-- (void)updateSearchResultsForSearchController:(nonnull UISearchController *)searchController {
+- (UISearchBar *)searchBar {
+    _searchBar.delegate = self;
+    [_searchBar setSearchTextPositionAdjustment:UIOffsetMake(10, 0)];
+    [_searchBar setPositionAdjustment:UIOffsetMake(10, 0) forSearchBarIcon:UISearchBarIconSearch];
+    return _searchBar;
 }
 
-- (void)encodeWithCoder:(nonnull NSCoder *)aCoder {
+-(BOOL)matchNumbers:(NSString *)str{
+    //判断是否以数字开头
+    NSString *subStr = [str substringWithRange:NSMakeRange(0, 1)];
+    NSString *numbers = @"0123456789";
+    return [numbers containsString:subStr];
 }
 
-- (void)traitCollectionDidChange:(nullable UITraitCollection *)previousTraitCollection {
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if(searchText.length == 0){
+        _searchFlag = NO;
+        [self.tokensTable reloadData];
+        return;
+    }
+    _searchFlag = YES;
+    [_visibleResults removeAllObjects];
+    for (int i = 0;i <_tokenArray.count; i++) {
+        if([_tokenArray[i].name containsString:searchText]){
+            [_visibleResults addObject:_tokenArray[i]];
+        }
+    }
+    [self.tokensTable reloadData];
+    [self.tokensTable layoutIfNeeded];
 }
 
-- (void)preferredContentSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
+- (void)modifyStyleByTraversal {
+    for (UIView *view in self.searchBar.subviews.lastObject.subviews) {
+        if([view isKindOfClass:NSClassFromString(@"UISearchBarTextField")]) {
+            UITextField *textField = (UITextField *)view;
+            textField.clipsToBounds = YES;
+            textField.center = CGPointMake(self.searchBar.center.x, 0);
+            textField.layer.cornerRadius = 20;
+            textField.textColor = [UIColor colorWithHex:0xA6A9AD];
+            textField.placeholder = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"search_tokens"];
+            textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        }
+        
+    }
+    
 }
 
-- (CGSize)sizeForChildContentContainer:(nonnull id<UIContentContainer>)container withParentContainerSize:(CGSize)parentSize {
-    return CGSizeMake(200, 200);
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGPoint offset = self.tokensTable.contentOffset;
+    if (offset.y <= 0) {
+        offset.y = 0;
+    }
+    self.tokensTable.contentOffset = offset;
 }
 
-- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(nonnull id<UIContentContainer>)container {
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-}
-
-- (void)willTransitionToTraitCollection:(nonnull UITraitCollection *)newCollection withTransitionCoordinator:(nonnull id<UIViewControllerTransitionCoordinator>)coordinator {
-}
-
-- (void)didUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context withAnimationCoordinator:(nonnull UIFocusAnimationCoordinator *)coordinator {
-}
-
-- (void)setNeedsFocusUpdate {
-}
-
-- (BOOL)shouldUpdateFocusInContext:(nonnull UIFocusUpdateContext *)context {
-    return NO;
-}
-
-- (void)updateFocusIfNeeded {
+- (void)dealloc{
+    if(_selectedTokensArray.count >0){
+        for(int i=0; i< _selectedTokensArray.count; i++){
+            NSString *str = [NSString stringWithFormat:@"%@_%@",_selectedTokensArray[i].name,_selectedTokensArray[i].issuer];
+            if (_currentWallet.viewTokens.length ==0 ){
+                _currentWallet.viewTokens = str;
+            }else{
+                NSArray<NSString *> *arr = [_currentWallet.viewTokens componentsSeparatedByString:@","];
+                if (![arr containsObject:str]){
+                   _currentWallet.viewTokens = [NSString stringWithFormat:@"%@,%@",_currentWallet.viewTokens,str];
+                }
+            }
+        }
+    }
+    [_walletDao updateWalletWithWalletModel:_currentWallet complement:^(BOOL success) {
+        if(success){}
+    }];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kChangeWalletNotification object:_currentWallet];
 }
 
 @end

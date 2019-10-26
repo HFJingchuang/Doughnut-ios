@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *tokenImg;
 @property (weak, nonatomic) IBOutlet UILabel *balanceValueLabel;
 @property (weak, nonatomic) IBOutlet UILabel *CNYBalance;
+@property (weak, nonatomic) IBOutlet UILabel *issuerLabel;
 
 @end
 
@@ -41,8 +42,9 @@
     [super setSelected:selected animated:animated];
 }
 
--(void)updateWithModel:(NSString *)tokenName :(NSString *)balance :(NSString *)cny{
+-(void)updateWithModel:(NSString *)tokenName :(NSString *)balance :(NSString *)cny :(NSString *)issuer{
     self.tokenNameLabel.text = tokenName;
+    self.issuerLabel.text = issuer;
     UIImage *img = [UIImage imageNamed:tokenName];
     if (img)
     {

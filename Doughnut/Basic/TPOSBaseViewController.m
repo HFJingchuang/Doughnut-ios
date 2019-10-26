@@ -81,6 +81,7 @@
 }
 
 - (void)responseLeftButton {
+    //[self.navigationController viewWillAppear:YES];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

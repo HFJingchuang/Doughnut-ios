@@ -17,6 +17,7 @@
 #import "TPOSContext.h"
 #import "TPOSNavigationController.h"
 #import "TPOSSelectChainTypeViewController.h"
+#import "TPOSAssetViewController.h"
 
 @interface TPOSWalletManagerViewController () <UITableViewDataSource,UITableViewDelegate>
 
@@ -137,11 +138,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_flag){
-        [_walletDao updateCurrentWalletID:_dataList[indexPath.section].walletId complement:^(BOOL success) {
-            if (success) {
-               [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
+        TPOSWalletModel *model = _dataList[indexPath.section];
+        [[TPOSContext shareInstance] setCurrentWallet:model];
+        [self.navigationController popViewControllerAnimated:YES];
     }else{
     TPOSEditWalletViewController *editWalletViewController = [[TPOSEditWalletViewController alloc] init];
     editWalletViewController.walletModel = _dataList[indexPath.section];

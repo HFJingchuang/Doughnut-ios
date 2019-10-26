@@ -40,6 +40,12 @@
                                 <color key="textColor" red="0.0078431372550000003" green="0.098039215690000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lo1-wg-IeZ">
+                                <rect key="frame" x="62" y="42" width="189" height="14"/>
+                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="10"/>
+                                <color key="textColor" red="0.0078431372550000003" green="0.1176470588" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -48,9 +54,12 @@
                             <constraint firstItem="kdy-Ll-Wjw" firstAttribute="centerY" secondItem="s3q-qF-s2R" secondAttribute="centerY" constant="-0.5" id="GHZ-p8-FzB"/>
                             <constraint firstItem="s3q-qF-s2R" firstAttribute="centerY" secondItem="eBl-7p-ide" secondAttribute="centerY" id="SXo-dd-P62"/>
                             <constraint firstItem="s3q-qF-s2R" firstAttribute="leading" secondItem="D3w-lj-jrN" secondAttribute="leading" constant="62" id="Sk4-NI-lYi"/>
+                            <constraint firstAttribute="trailing" secondItem="lo1-wg-IeZ" secondAttribute="trailing" constant="69" id="Zm2-wl-Iog"/>
                             <constraint firstItem="eBl-7p-ide" firstAttribute="top" secondItem="D3w-lj-jrN" secondAttribute="top" constant="26" id="a4z-Fp-hjG"/>
                             <constraint firstAttribute="trailing" secondItem="eBl-7p-ide" secondAttribute="trailing" constant="22" id="aGy-Xt-74S"/>
                             <constraint firstItem="kdy-Ll-Wjw" firstAttribute="leading" secondItem="4gJ-If-c1Y" secondAttribute="leading" constant="18" id="geE-Sx-C0e"/>
+                            <constraint firstItem="lo1-wg-IeZ" firstAttribute="top" secondItem="D3w-lj-jrN" secondAttribute="top" constant="42" id="mFP-II-fw8"/>
+                            <constraint firstItem="lo1-wg-IeZ" firstAttribute="leading" secondItem="s3q-qF-s2R" secondAttribute="leading" id="oYK-VK-Bu2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4gJ-If-c1Y"/>
                     </view>
@@ -67,6 +76,7 @@
                 <outlet property="cellNameLabel" destination="s3q-qF-s2R" id="edr-pC-nJK"/>
                 <outlet property="cellView" destination="D3w-lj-jrN" id="dxM-pB-5lC"/>
                 <outlet property="clickImage" destination="eBl-7p-ide" id="w4D-1p-PuY"/>
+                <outlet property="tokenIssuerLabel" destination="lo1-wg-IeZ" id="cTx-LA-6XD"/>
             </connections>
             <point key="canvasLocation" x="131.8840579710145" y="113.83928571428571"/>
         </tableViewCell>

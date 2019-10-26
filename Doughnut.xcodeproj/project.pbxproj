@@ -37,7 +37,6 @@
 		B65804ED2302BBF400F3380B /* DOSPointSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B65804EB2302BBF400F3380B /* DOSPointSettingViewController.xib */; };
 		B65804F12302BD6700F3380B /* DOSCopyrightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B65804EF2302BD6700F3380B /* DOSCopyrightViewController.m */; };
 		B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */; };
-		B65860CE23547CEF003CE9C0 /* TokenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B65860CD23547CEF003CE9C0 /* TokenModel.m */; };
 		B65860D123559CE0003CE9C0 /* AccountInfoModal.m in Sources */ = {isa = PBXBuildFile; fileRef = B65860D023559CE0003CE9C0 /* AccountInfoModal.m */; };
 		B65860D423582261003CE9C0 /* LineModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B65860D323582261003CE9C0 /* LineModel.m */; };
 		B65860DA235876FD003CE9C0 /* CaclUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = B65860D9235876FD003CE9C0 /* CaclUtil.m */; };
@@ -266,8 +265,6 @@
 		B65804EE2302BD6700F3380B /* DOSCopyrightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSCopyrightViewController.h; sourceTree = "<group>"; };
 		B65804EF2302BD6700F3380B /* DOSCopyrightViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSCopyrightViewController.m; sourceTree = "<group>"; };
 		B65804F02302BD6700F3380B /* DOSCopyrightViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSCopyrightViewController.xib; sourceTree = "<group>"; };
-		B65860CC23547CEF003CE9C0 /* TokenModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TokenModel.h; sourceTree = "<group>"; };
-		B65860CD23547CEF003CE9C0 /* TokenModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TokenModel.m; sourceTree = "<group>"; };
 		B65860CF23559CE0003CE9C0 /* AccountInfoModal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AccountInfoModal.h; path = ../../TabControllers/Asset/Model/AccountInfoModal.h; sourceTree = "<group>"; };
 		B65860D023559CE0003CE9C0 /* AccountInfoModal.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AccountInfoModal.m; path = ../../TabControllers/Asset/Model/AccountInfoModal.m; sourceTree = "<group>"; };
 		B65860D223582261003CE9C0 /* LineModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineModel.h; sourceTree = "<group>"; };
@@ -1077,8 +1074,6 @@
 				D063A5A5218E006900750001 /* TPOSTokenHistoryModel.h */,
 				D063A5A6218E006900750001 /* TPOSTokenModel.h */,
 				D063A5A8218E006900750001 /* TPOSTokenHistoryModel.m */,
-				B65860CC23547CEF003CE9C0 /* TokenModel.h */,
-				B65860CD23547CEF003CE9C0 /* TokenModel.m */,
 				B65860DB23587F76003CE9C0 /* TokenCellModel.h */,
 				B65860DC23587F76003CE9C0 /* TokenCellModel.m */,
 			);
@@ -1780,7 +1775,6 @@
 				D063A710218E006A00750001 /* TPOSShareCCell.m in Sources */,
 				D063A78E218E00D000750001 /* TPOSBaseViewController.m in Sources */,
 				D063A6D1218E006900750001 /* TPOSTokenHistoryModel.m in Sources */,
-				B65860CE23547CEF003CE9C0 /* TokenModel.m in Sources */,
 				D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */,
 				D063A7A5218E00DA00750001 /* TPOSDataBaseManager.m in Sources */,
 				D063A6CF218E006900750001 /* TPOSTokenModel.m in Sources */,

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AssetTableViewCell : UITableViewCell
 
--(void)updateWithModel:(NSString *)tokenName :(NSString *)balance :(NSString *)cny;
+-(void)updateWithModel:(NSString *)tokenName :(NSString *)balance :(NSString *)cny :(NSString *)issuer;
 
 @end
 

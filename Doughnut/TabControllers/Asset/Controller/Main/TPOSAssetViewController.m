@@ -44,7 +44,6 @@
 #import <Masonry/Masonry.h>//;
 
 static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
-static int SCALE = 4;
 
 @interface TPOSAssetViewController ()<UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -114,11 +113,15 @@ static int SCALE = 4;
     self.cellHidden = NO;
     self.valueHidden = YES;
     _caclUtil = [[CaclUtil alloc]init];
+    _tokenCells = [NSMutableArray new];
+    _hiddenCells = [NSMutableArray new];
+    _zeroCells = [NSMutableArray new];
     [self loadCurrentWallet];
-    [self setupSubviews];
     [self registerCells];
     [self checkBackup];
     [self registerNotifications];
+    [self setupSubviews];
+    [self loadBalance];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -138,7 +141,8 @@ static int SCALE = 4;
     [self.tokenZeroLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 }
 
--(void)viewWillDisappear:(BOOL)animated {}
+-(void)viewWillDisappear:(BOOL)animated {
+}
 
 -(void) TapWalletName {
     TPOSWalletManagerViewController *walletManagerViewController = [[TPOSWalletManagerViewController alloc] init];
@@ -222,8 +226,7 @@ static int SCALE = 4;
 
 - (void) loadCurrentWallet {
     _currentWallet = [TPOSContext shareInstance].currentWallet;
-    _tokenCells = [[NSMutableArray alloc]init];
-    _currentWallet.viewTokens = @"CNY,VCC,JSLASH,GK1,GK2";
+    [self loadBalance];
 }
 
 - (TPOSWalletDao *)walletDao {
@@ -237,7 +240,6 @@ static int SCALE = 4;
     __weak typeof (self) weakSelf = self;
     _cellHidden = NO;
     [_hiddenCells removeAllObjects];
-    [self loadCurrentWallet];
     if (weakSelf.currentWallet) {
         [walletManage requestBalanceByAddress:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6"];
     }
@@ -283,14 +285,16 @@ static int SCALE = 4;
             [model setName:[data[n] valueForKey:@"currency"]];
             [model setBalance:[data[n] valueForKey:@"balance"]];
             [model setFreezeValue:[data[n] valueForKey:@"limit"]];
+            [model setIssuer:[data[n] valueForKey:@"account"]];
             [_tokenCells addObject:model];
         }
         for (int j = 0; j< arr.count; j++){
-            if(![arr2 containsObject:arr[j]]) {
+            if(![arr2 containsObject:[arr[j] componentsSeparatedByString:@"_"][0]]) {
                 TokenCellModel *model = [TokenCellModel new];
-                [model setName:arr[j]];
+                [model setName:[arr[j] componentsSeparatedByString:@"_"][0]];
                 [model setBalance:@"0.00"];
                 [model setFreezeValue:@"0.00"];
+                [model setIssuer:[arr[j] componentsSeparatedByString:@"_"][1]];
                 [_tokenCells addObject:model];
             }
         }
@@ -300,7 +304,10 @@ static int SCALE = 4;
     NSSortDescriptor *balanceSD = [NSSortDescriptor sortDescriptorWithKey:@"balance" ascending:NO];
     NSSortDescriptor *freezeSD = [NSSortDescriptor sortDescriptorWithKey:@"freezeValue" ascending:NO];
     NSSortDescriptor *nameSD = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-    _tokenCells = [_tokenCells sortedArrayUsingDescriptors:@[balanceSD,freezeSD,nameSD]];
+    NSArray *temp = [_tokenCells copy];
+    temp = [temp sortedArrayUsingDescriptors:@[balanceSD,freezeSD,nameSD]];
+    [_tokenCells removeAllObjects];
+    [_tokenCells addObjectsFromArray:temp];
     [walletManage getAllTokenPrice:^(NSArray *priceData) {
         // 钱包总价值
         NSString *values = @"0.00";
@@ -375,7 +382,8 @@ static int SCALE = 4;
                 [self.totalAssetValueLabel performSelectorOnMainThread:@selector(setText:) withObject:valuesE waitUntilDone:YES];
                 [self.totalPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@".00" waitUntilDone:YES];
             }
-        }else{
+        }
+        else{
             self.cnyValue = @"---";
             [self.CNYBalanceValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@"---" waitUntilDone:YES];
             [self.CNYPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@"" waitUntilDone:YES];
@@ -444,7 +452,6 @@ static int SCALE = 4;
         [weakSelf loadBalance];
     }];
     self.collectionView.mj_header = header;
-    [self autoRefreshData];
 }
 
 - (IBAction)tapCreateAction:(id)sender {
@@ -498,11 +505,13 @@ static int SCALE = 4;
         [self.table reloadData];
         
     }];
+    action0.backgroundColor = [UIColor colorWithHex:0xCD5C5C];
     UITableViewRowAction *action1 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"showall"] handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
         _cellHidden = NO;
         [_hiddenCells removeAllObjects];
         [self.table reloadData];
     }];
+    action1.backgroundColor = [UIColor colorWithHex:0x3CB371];
     return _cellHidden?@[action1, action0]:@[action0];
 }
 
@@ -522,6 +531,7 @@ static int SCALE = 4;
         TokenCellModel *cellModel = _tokenCells[indexPath.row];
         NSString *balanceLable = @"";
         NSString *cny = @"";
+        NSString *name = @"";
         if ([_caclUtil compare:cellModel.balance :@"0" ]== NSOrderedSame||[cellModel.balance tb_isEmpty] ) {
             [cellModel setBalance:@"0.00"];
         }else {
@@ -544,7 +554,12 @@ static int SCALE = 4;
             balanceLable = [NSString stringWithFormat:@"%@%@%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"available"],cellModel.balance,[[TPOSLocalizedHelper standardHelper]stringWithKey:@"frozen"],cellModel.freezeValue];
             cny = cellModel.cnyValue;
         }
-        [cell updateWithModel:cellModel.name :balanceLable :cny];
+        if ([cellModel.name isEqualToString:@"CNY"]&&[cellModel.issuer isEqualToString:@"jGa9J9TkqtBcUoHe2zqhVFFbgUVED6o9or"]){
+            name = @"CNT";
+        }else {
+            name = cellModel.name;
+        }
+        [cell updateWithModel:name :balanceLable :cny :[NSString stringWithFormat:@"%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"issuer"],cellModel.issuer]];
         if([_caclUtil compare:cellModel.balance :@"0" ] == NSOrderedSame){
             cell.hidden = _valueHidden;
             if (!_zeroCells) {

@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy) NSString *cnyValue;
 @property (nonatomic,copy) NSString *trustValue;
 @property (nonatomic,copy) NSString *freezeValue;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *issuer;
 
 @end
 

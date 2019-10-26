@@ -17,4 +17,8 @@
 
 - (void)autoRefreshData;
 
+- (void)loadBalance;
+
+- (void)loadCurrentWallet;
+
 @end

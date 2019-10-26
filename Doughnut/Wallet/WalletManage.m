@@ -253,12 +253,12 @@ static NSString *COUNTER = @"CNT";
                         if ([data isKindOfClass:[NSDictionary class]]) {
                             NSArray<NSString *> *str = [data allValues][0];
                             for (int i=0; i <str.count;i++ ) {
-                                NSString *token = [str[i] componentsSeparatedByString:@"_"] [0];
-                                [arr addObject:token];
+                                [arr addObject:str[i]];
                             }
                         }
                     }
-                    success(arr);
+                    NSDictionary *result = [arr valueForKeyPath:@"@distinctUnionOfObjects.self"];
+                    success(result);
                 }
             } else {
                 if (failure) {
@@ -294,6 +294,7 @@ static NSString *COUNTER = @"CNT";
         [swtLine setValue:valid forKey:@"balance"];
         [swtLine setValue:CURRENCY_SWTC forKey:@"currency"];
         [swtLine setValue:[NSString stringWithFormat:@"%ld",freezed] forKey:@"limit"];
+        [swtLine setValue:@"" forKey:@"account"];
         [_trustlines addObject:swtLine];
         // trust limit 置零
         for (int j = 0; j < _trustlines.count; j++) {
@@ -343,7 +344,7 @@ static NSString *COUNTER = @"CNT";
     }
 }
 
--(void)getTokenPrice:(NSString *)token :(void(^)(NSString *))success failure:(void(^)(NSError *error))failure {
+-(void)getTokenPrice:(NSString *)token :(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure {
     [jccdexConfig initConfigNodes:@[CONFIG_HOST]];
     [jccdexConfig requestConfig:^(NSDictionary *response) {
         NSArray *infohosts = [response valueForKey:@"infoHosts"];

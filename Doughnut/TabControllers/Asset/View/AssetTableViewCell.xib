@@ -53,6 +53,12 @@
                                 <color key="textColor" red="0.0078431372550000003" green="0.1176470588" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q6X-oo-kZS">
+                                <rect key="frame" x="66" y="50" width="188" height="14"/>
+                                <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="10"/>
+                                <color key="textColor" red="0.0078431372550000003" green="0.1176470588" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -62,9 +68,12 @@
                             <constraint firstItem="nqE-Ba-H2P" firstAttribute="leading" secondItem="Au0-2E-CVn" secondAttribute="trailing" constant="8" id="UAJ-cX-izo"/>
                             <constraint firstAttribute="trailing" secondItem="rFY-9B-iyi" secondAttribute="trailing" constant="12" id="VJM-TG-ref"/>
                             <constraint firstItem="rFY-9B-iyi" firstAttribute="top" secondItem="rew-mX-XNM" secondAttribute="topMargin" id="Ws0-a4-wWa"/>
+                            <constraint firstItem="q6X-oo-kZS" firstAttribute="top" secondItem="nqE-Ba-H2P" secondAttribute="bottom" constant="1" id="djS-2y-Pff"/>
                             <constraint firstItem="Au0-2E-CVn" firstAttribute="leading" secondItem="UXc-NA-yKz" secondAttribute="leading" constant="18" id="kEq-VM-Qc5"/>
                             <constraint firstItem="rFY-9B-iyi" firstAttribute="leading" secondItem="rew-mX-XNM" secondAttribute="leading" constant="99" id="lWB-ko-Jtw"/>
+                            <constraint firstItem="q6X-oo-kZS" firstAttribute="centerX" secondItem="rew-mX-XNM" secondAttribute="centerX" id="o5P-hL-cKz"/>
                             <constraint firstItem="Au0-2E-CVn" firstAttribute="top" secondItem="UXc-NA-yKz" secondAttribute="top" constant="18" id="q5S-ey-5Yf"/>
+                            <constraint firstItem="q6X-oo-kZS" firstAttribute="leading" secondItem="nqE-Ba-H2P" secondAttribute="leading" id="tVy-f6-Pn2"/>
                             <constraint firstItem="nqE-Ba-H2P" firstAttribute="top" secondItem="rew-mX-XNM" secondAttribute="top" constant="28" id="yFa-sg-4C0"/>
                             <constraint firstItem="Au0-2E-CVn" firstAttribute="centerY" secondItem="rew-mX-XNM" secondAttribute="centerY" id="zPr-Jz-s4C"/>
                         </constraints>
@@ -82,6 +91,7 @@
             <connections>
                 <outlet property="CNYBalance" destination="Lly-Sw-hQK" id="6VM-fO-ETM"/>
                 <outlet property="balanceValueLabel" destination="rFY-9B-iyi" id="evV-fj-ak7"/>
+                <outlet property="issuerLabel" destination="q6X-oo-kZS" id="5pV-d4-FPv"/>
                 <outlet property="tokenCellView" destination="rew-mX-XNM" id="vR8-5W-gm0"/>
                 <outlet property="tokenImg" destination="Au0-2E-CVn" id="eq7-fF-Nnw"/>
                 <outlet property="tokenNameLabel" destination="nqE-Ba-H2P" id="EiX-fH-CHm"/>

@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cellImage;
 @property (weak, nonatomic) IBOutlet UIImageView *clickImage;
 @property (weak, nonatomic) IBOutlet UILabel *cellNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tokenIssuerLabel;
 
 
 @end
@@ -30,6 +31,7 @@
     self.cellView.layer.cornerRadius = 11;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     _cellNameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    _tokenIssuerLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
 }
 
 - (void)setFrame:(CGRect)frame{
@@ -43,8 +45,9 @@
 }
 
 
--(void)updateWithModel:(NSString *)tokenName {
+-(void)updateWithModel:(NSString *)tokenName :(NSString *)issuer {
     self.cellNameLabel.text = tokenName;
+    self.tokenIssuerLabel.text = issuer;
     UIImage *img = [UIImage imageNamed:tokenName];
     if (img)
     {
