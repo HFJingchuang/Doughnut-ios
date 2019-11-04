@@ -21,6 +21,7 @@
 @property (nonatomic, copy) NSString *privateKey;
 @property (nonatomic, copy) NSString *blockChainId; //公链id
 @property (nonatomic, copy) NSString *mnemonic; //助记词
+@property (nonatomic, copy) NSString *viewTokens;//要显示的币种
 @property (nonatomic, assign) NSInteger dbVersion; //数据库版本
 @property (nonatomic, assign, getter= isBackup) BOOL backup; //是否已备份
 

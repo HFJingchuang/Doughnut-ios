@@ -6,6 +6,7 @@
 //  Copyright © 2018 MarcusWoo. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "TPOSBaseViewController.h"
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
@@ -54,47 +55,24 @@
     [SVProgressHUD setContainerView:self.view];
 }
 
-- (MJRefreshGifHeader *)grayTableHeaderWithBigSize:(BOOL)isBigone
-                                   RefreshingBlock:(tableHeaderRefreshAction)actionBlock {
-    
-    MJRefreshGifHeader_TPOS *header = [MJRefreshGifHeader_TPOS headerWithRefreshingBlock:actionBlock];
-    header.colorType = MJLoadingGifColorTypeGray;
-    
-    NSArray *idleImages = @[[UIImage imageNamed:@"icon_loading_pull_gray.png"]];
-    [header setImages:idleImages forState:MJRefreshStateIdle];
-    
-    NSMutableArray *refreshingImages = @[].mutableCopy;
-    NSString *prefix = [NSString stringWithFormat:@"loading_%@gray",isBigone?@"big":@"small"];
-    for (int i = 14; i <= 36; i++) {
-        NSString *name = [NSString stringWithFormat:@"%@_%05d.png",prefix,i];
-        [refreshingImages addObject:[UIImage imageNamed:name]];
-    }
-    [header setImages:refreshingImages duration:1.2 forState:MJRefreshStateRefreshing];
-    //隐藏时间和状态
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.stateLabel.hidden = YES;
-    return header;
-}
-
 - (MJRefreshGifHeader *)colorfulTableHeaderWithBigSize:(BOOL)isBigone
                                        RefreshingBlock:(tableHeaderRefreshAction)actionBlock {
     
     MJRefreshGifHeader_TPOS *header = [MJRefreshGifHeader_TPOS headerWithRefreshingBlock:actionBlock];
-    header.colorType = MJLoadingGifColorTypeColorful;
-
-    NSArray *idleImages = @[[UIImage imageNamed:@"icon_loading_pull_colorful.png"]];
-    [header setImages:idleImages forState:MJRefreshStateIdle];
-    
     NSMutableArray *refreshingImages = @[].mutableCopy;
-    NSString *prefix = [NSString stringWithFormat:@"loading_%@color",isBigone?@"big":@"small"];
-    for (int i = 14; i <= 36; i++) {
-        NSString *name = [NSString stringWithFormat:@"%@_%05d.png",prefix,i];
+    for (int i = 0; i <= 70; i++) {
+        NSString *name = [NSString stringWithFormat:@"loading_%05d.png",i];
         [refreshingImages addObject:[UIImage imageNamed:name]];
     }
+    [header setImages:refreshingImages forState:MJRefreshStateIdle];
     [header setImages:refreshingImages duration:1.2 forState:MJRefreshStateRefreshing];
+    header.mj_h +=50;
     //隐藏时间和状态
     header.lastUpdatedTimeLabel.hidden = YES;
     header.stateLabel.hidden = YES;
+//    [header setTitle:@"下拉可刷新" forState:MJRefreshStateIdle];
+//    [header setTitle:@"345" forState:MJRefreshStateRefreshing];
+//    [header setTitle:@"123" forState:MJRefreshStatePulling];
     return header;
 }
 
@@ -103,6 +81,7 @@
 }
 
 - (void)responseLeftButton {
+    //[self.navigationController viewWillAppear:YES];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -137,14 +116,14 @@
     NSDictionary *titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:foregroundColor, NSForegroundColorAttributeName, [UIFont systemFontOfSize:18 weight:UIFontWeightMedium], NSFontAttributeName, nil];
     [self.navigationController.navigationBar setTitleTextAttributes:titleTextAttributes];
     
-    [self.navigationController.navigationBar setBackgroundColor:barColor?barColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar setBackgroundColor:barColor?barColor:[UIColor colorWithHex:0xfffff]];
     [self.navigationController.navigationBar setBarTintColor:barColor?barColor:[UIColor whiteColor]];
 }
 
 - (UIButton *)backStyleButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [UIImage imageNamed:@"icon_navi_back"];
-    UIImage *highlightImage = [UIImage imageNamed:@"icon_navi_back"];
+    UIImage *highlightImage = [UIImage imageNamed:@"icon_back_withe"];
     
     [button setImage:image forState:UIControlStateNormal];
     [button setImage:highlightImage forState:UIControlStateHighlighted];
@@ -190,7 +169,7 @@
 
 - (void)addRightBarButton:(NSString *)title action:(SEL)action operationBlock:(void (^)(UIButton *rightBtn))operationBlock {
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightBtn setTitleColor:[UIColor colorWithHex:0xffffff] forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor colorWithHex:0x021E38] forState:UIControlStateNormal];
     [rightBtn setTitle:title forState:UIControlStateNormal];
     [rightBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [rightBtn.titleLabel sizeToFit];

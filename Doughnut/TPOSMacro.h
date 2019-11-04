@@ -39,6 +39,20 @@
 
 #define kDBVersion 1
 
+#
+#define CURRENCY_SWTC @"SWTC"
+#define CURRENCY_SWT @"SWT"
+#define CURRENCY_CNY @"CNY"
+
+
+#define getBalanceList @"getBalanceList"
+#define requestAcountTXFlag @"requestAccountTXFlag"
+#define requestAccountOffersFlag @"requestAccountOffersFlag"
+#define requestAccountInfoFlag @"requestAccountInfoFlag"
+#define requestAccountTumsFlag @"requestAccountTums"
+#define requestAccountRelationsTrustFlag @"requestAccountRelationsTrustFlag"
+#define requestAccountRelationsFreezeFlag @"requestAccountRelationsFreezeFlag"
+
 #define kCreateWalletNotification @"kCreateWalletNotification"
 #define kEditWalletNotification   @"kEditWalletNotification"
 #define kDeleteWalletNotification @"kDeleteWalletNotification"

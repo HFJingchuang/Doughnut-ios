@@ -12,13 +12,13 @@
 @class TPOSTabBarController;
 //@class TPOSBackupAlert;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-{
-    WalletManage *wallet;
+@interface AppDelegate : UIResponder <UIApplicationDelegate>{
+    NSString *requestFlag;
 }
+
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) TPOSTabBarController *tabbarController;
 //@property (nonatomic, weak) TPOSBackupAlert *backupAlert;
-
+//@property (strong, nonatomic) NSString *requestFlag;
 @end
 

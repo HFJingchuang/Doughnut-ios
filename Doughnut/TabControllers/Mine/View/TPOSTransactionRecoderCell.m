@@ -17,6 +17,9 @@
 #import "TPOSJTPaymentInfo.h"
 #import "TPOSLocalizedHelper.h"
 #import "TPOSMacro.h"
+#import "UIColor+Hex.h"
+#import "NSDate+TPOS.h"
+#import "CaclUtil.h"
 
 @interface TPOSTransactionRecoderCell()
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
@@ -32,69 +35,59 @@
     [super awakeFromNib];
 }
 
-- (void)updateWithModel:(TPOSTransactionRecoderModel *)transactionRecoderModel walletAddress:(NSString *)address {
-    
-    if ([transactionRecoderModel isKindOfClass:[TPOSTransactionRecoderModel class]]) {
-        self.dateLabel.text = [NSDate dateDescriptionFrom:transactionRecoderModel.timestamp];
-        
-        BOOL isOut = NO;
-        
-        if ([[transactionRecoderModel.from uppercaseString] isEqualToString:[address uppercaseString]]) {
-            self.addressLabel.text = transactionRecoderModel.to;
-            self.typeImageView.image = [UIImage imageNamed:@"icon_transaction_out"];
-            isOut = YES;
-        } else {
-            self.addressLabel.text = transactionRecoderModel.from;//transactionRecoderModel.token_value
-            self.typeImageView.image = [UIImage imageNamed:@"icon_transaction_in"];
-            isOut = NO;
-        }
-        
-        NSString *value;
-        NSString *symbol = @"ETH";
-        if ([transactionRecoderModel.type isEqualToString:nonnativeToken]) { //代币
-            value = transactionRecoderModel.token_value;
-            symbol = transactionRecoderModel.symbol.length>0?transactionRecoderModel.symbol:@"Unknown";
-            if (value && transactionRecoderModel.decimal) {
-                NSDecimalNumber *balance = [NSDecimalNumber decimalNumberWithString:value];
-                NSInteger dec = transactionRecoderModel.decimal.longLongValue;
-                NSDecimalNumber *p = [NSDecimalNumber decimalNumberWithMantissa:10 exponent:(dec>0?dec:18)- 1 isNegative:NO];
-                NSDecimalNumberHandler *handler = [[NSDecimalNumberHandler alloc] initWithRoundingMode:NSRoundPlain scale:4 raiseOnExactness:NO raiseOnOverflow:YES raiseOnUnderflow:YES raiseOnDivideByZero:YES];
-                NSDecimalNumber *result = [balance decimalNumberByDividingBy:p withBehavior:handler];
-                value = [result stringValue];
-            } else {
-                value = @"0";
-            }
-            self.moneyLabel.text = [NSString stringWithFormat:@"%@%@ %@", isOut?@"-":@"+" ,value, symbol];
-        } else {
-            value = transactionRecoderModel.value;
-            __weak typeof(self) weakSelf = self;
-            [[TPOSWeb3Handler sharedManager] weiChangeToTokenOfTokenType:nil withCount:value callBack:^(id responseObject) {
-                weakSelf.moneyLabel.text = [NSString stringWithFormat:@"%@%@ %@", isOut?@"-":@"+" ,responseObject, symbol];
-            }];
-        }
-        
-        if ([transactionRecoderModel.status isEqualToString:transactionSuccess]) {
-            self.waitLabel.hidden = YES;
-        } else if ([transactionRecoderModel.status isEqualToString:transactionFail]) {
-            self.waitLabel.hidden = NO;
-            self.waitLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_fai"];
-        } else {
-            self.waitLabel.hidden = NO;
-            self.waitLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"packaging"];
-        }
-    } else if ([transactionRecoderModel isKindOfClass:[TPOSJTPaymentInfo class]]) {
-        TPOSJTPaymentInfo *payInfo = (TPOSJTPaymentInfo *)transactionRecoderModel;
-        self.addressLabel.text = payInfo.counterparty;
-        if ([payInfo.type isEqualToString:@"sent"]) {
-            self.typeImageView.image = [UIImage imageNamed:@"icon_transaction_out"];
-            self.moneyLabel.text = [NSString stringWithFormat:@"-%@ %@", payInfo.amount.value, payInfo.amount.currency];
-        } else {
-            self.typeImageView.image = [UIImage imageNamed:@"icon_transaction_in"];
-            self.moneyLabel.text = [NSString stringWithFormat:@"+%@ %@", payInfo.amount.value, payInfo.amount.currency];
-        }
-        self.dateLabel.text = [NSDate dateDescriptionFrom:[payInfo.date longLongValue]];
-        self.waitLabel.hidden = YES;
+- (void)updateWithData:(NSMutableDictionary *) cellData {
+    CaclUtil *cacl = [[CaclUtil alloc]init];
+    NSString *type = [cellData valueForKey:@"type"];
+    NSString *v1 = @"";
+    NSString *c1 = @"";
+    NSString *v2 = @"";
+    NSString *c2 = @"";
+    if([[cellData allKeys]containsObject:@"amount"]){
+        v1 = [[cellData valueForKey:@"amount"]valueForKey:@"value"];
+        c1 = [[cellData valueForKey:@"amount"]valueForKey:@"currency"];
+    }else if([[cellData allKeys]containsObject:@"takerGets"]&&[[cellData allKeys]containsObject:@"takerPays"]){
+        v1 = [cacl formatAmount:[[cellData valueForKey:@"takerGets"]valueForKey:@"value"] :2 :NO :NO];
+        c1 = [[cellData valueForKey:@"takerGets"]valueForKey:@"currency"];
+        v2 = [cacl formatAmount:[[cellData valueForKey:@"takerPays"]valueForKey:@"value"] :2 :NO :NO];
+        c2 = [[cellData valueForKey:@"takerPays"]valueForKey:@"currency"];
     }
+    self.typeImageView.image = [UIImage imageNamed:type];
+    NSString *account = [cellData valueForKey:@"account"]?[cellData valueForKey:@"account"]:@"---";
+    if([type isEqualToString:@"Send"]){
+        self.addressLabel.text = account;
+        self.moneyLabel.attributedText = [@"" getAttrStringWithV1:[NSString stringWithFormat:@"-%@",v1] C1:c1 V2:nil C2:nil TYPE:@"send"];
+        self.moneyLabel.font = [UIFont fontWithName:@"DIN Alternate Bold" size:16];
+        self.moneyLabel.textAlignment = NSTextAlignmentRight;
+    }else if ([type isEqualToString:@"Receive"]){
+        self.addressLabel.text = account;
+        self.moneyLabel.attributedText = [@"" getAttrStringWithV1:[NSString stringWithFormat:@"+%@",v1] C1:c1 V2:nil C2:nil TYPE:@"receive"];
+        self.moneyLabel.font = [UIFont fontWithName:@"DIN Alternate Bold" size:16];
+        self.moneyLabel.textAlignment = NSTextAlignmentRight;
+    }else if ([type isEqualToString:@"OfferCreate"]){
+        self.addressLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_create"];
+        self.moneyLabel.textColor = [UIColor colorWithHex:0x3B6CA6];
+        self.moneyLabel.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
+        self.moneyLabel.font = [UIFont fontWithName:@"DIN Alternate Bold" size:16];
+        self.moneyLabel.textAlignment = NSTextAlignmentRight;
+    }else if ([type isEqualToString:@"OfferAffect"]){
+        v1 = [cacl formatAmount:[[cellData valueForKey:@"takerGetsMatch"]valueForKey:@"value"] :2 :NO :NO];
+        c1 = [[cellData valueForKey:@"takerGets"]valueForKey:@"currency"];
+        v2 = [cacl formatAmount:[[cellData valueForKey:@"takerPaysMatch"]valueForKey:@"value"] :2 :NO :NO];
+        c2 = [[cellData valueForKey:@"takerPays"]valueForKey:@"currency"];
+        self.addressLabel.text = account;
+        self.moneyLabel.textColor = [UIColor colorWithHex:0x3B6CA6];
+        self.moneyLabel.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
+        self.moneyLabel.font = [UIFont fontWithName:@"DIN Alternate Bold" size:16];
+        self.moneyLabel.textAlignment = NSTextAlignmentRight;
+    }else if ([type isEqualToString:@"OfferCancel"]){
+        self.addressLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_cancel"];
+        self.moneyLabel.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
+        self.moneyLabel.font = [UIFont fontWithName:@"DIN Alternate Bold" size:16];
+        self.moneyLabel.textAlignment = NSTextAlignmentRight;
+    }
+    NSNumber *timestamp = [cellData valueForKey:@"time"];
+    self.dateLabel.text = [@"" getDate:timestamp year:NO];
+    
 }
 
 @end

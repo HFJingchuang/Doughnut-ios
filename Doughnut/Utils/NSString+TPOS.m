@@ -7,6 +7,7 @@
 //
 
 #import "NSString+TPOS.h"
+#import <UIKit/UIKit.h>
 #import <CommonCrypto/CommonDigest.h>
 
 static inline NSString * NSStringCCHashFunction(unsigned char *(function)(const void *data, CC_LONG len, unsigned char *md), CC_LONG digestLength, NSString *string) {
@@ -41,6 +42,40 @@ static inline NSString * NSStringCCHashFunction(unsigned char *(function)(const 
 - (NSString*)tb_encodeStringWithKey:(NSString*)key {
     NSString *result = self;
     return result;
+}
+//交易历史显示专用
+- (NSAttributedString *)getAttrStringWithV1:(NSString *)v1 C1:(NSString *)c1 V2:(NSString *)v2 C2:(NSString *)c2 TYPE:(NSString *)type {
+    NSString *str = @"";
+    if ([c1 isEqualToString:@"CNY"]){
+        c1 = @"CNT";
+    }
+    if ([c2 isEqualToString:@"CNY"]){
+        c2 = @"CNT";
+    }
+    if ([type isEqualToString:@"offer"]){
+        str = [NSString stringWithFormat:@"<right><font color=\"#3B6CA6\">%@<font color=\"#021E38\">%@ <font color=\"#A6A9AD\">→ <font color=\"#3B6CA6\">%@<font color=\"#021E38\">%@</right>",v1,c1,v2,c2];
+    }else if([type isEqualToString:@"send"]){
+        str = [NSString stringWithFormat:@"<right><font color=\"#F55758\" size=>%@<font color=\"#021E38\"> %@<right>",v1,c1];
+    }else if([type isEqualToString:@"receive"]){
+        str = [NSString stringWithFormat:@"<right><font color=\"#27B498\" size=>%@<font color=\"#021E38\"> %@<right>",v1,c1];
+    }else{
+        str = [NSString stringWithFormat:@"<right><font color=\"#4682B4\" size=>%@<font color=\"#021E38\"> %@<right>",v1,c1];
+    }
+    NSAttributedString *attrStr = [[NSAttributedString alloc] initWithData:[str dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error:nil];
+    return attrStr;
+}
+
+//获取字符串日期
+- (NSString *)getDate:(NSNumber *)date year:(BOOL)year {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    if (!year) {
+        [formatter setDateFormat:@"MM-dd HH:mm:ss"];
+    }else{
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    }
+    NSDate *cDate = [[NSDate alloc] initWithTimeIntervalSince1970:([date longValue] + 946684800)];
+    NSString *currentDateString = [formatter stringFromDate:cDate];
+    return currentDateString;
 }
 
 @end

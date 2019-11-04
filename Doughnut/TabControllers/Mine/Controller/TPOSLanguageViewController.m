@@ -29,9 +29,13 @@
     [self setupSubviews];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)setupData {
-    self.languages = @[@"简体中文",@"繁體中文",@"English"];
-    self.langSymbols = @[@"zh-Hans",@"zh-Hant",@"en"];
+    self.languages = @[@"简体中文",@"English"];
+    self.langSymbols = @[@"zh-Hans",@"en"];
     
     NSString *curLanguage = [[TPOSLocalizedHelper standardHelper] currentLanguage];
     NSInteger index = [self.langSymbols indexOfObject:curLanguage];
@@ -42,11 +46,11 @@
     [self.view addSubview:self.table];
     self.view.backgroundColor = [UIColor colorWithHex:0xf5f5f9];
 
-    __weak typeof(self) weakSelf = self;
-    [self addRightBarButton:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save"]  operationBlock:^(UIButton *rightBtn) {
-        [[TPOSLocalizedHelper standardHelper] setUserLanguage:[weakSelf.langSymbols objectAtIndex:weakSelf.selectedIndexPath.row]];
-        [weakSelf.navigationController popViewControllerAnimated:YES];
-    }];
+    //__weak typeof(self) weakSelf = self;
+//    [self addRightBarButton:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save"]  operationBlock:^(UIButton *rightBtn) {
+//        [[TPOSLocalizedHelper standardHelper] setUserLanguage:[weakSelf.langSymbols objectAtIndex:weakSelf.selectedIndexPath.row]];
+//        [weakSelf.navigationController popViewControllerAnimated:YES];
+//    }];
     
     [self.table mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -99,6 +103,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndexPath = indexPath;
+    __weak typeof(self) weakSelf = self;
+    [[TPOSLocalizedHelper standardHelper] setUserLanguage:[weakSelf.langSymbols objectAtIndex:weakSelf.selectedIndexPath.row]];
+    [weakSelf.navigationController popViewControllerAnimated:YES];
     [tableView reloadData];
 }
 

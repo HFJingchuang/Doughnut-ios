@@ -26,6 +26,7 @@ PODS:
   - jcc_oc_base_lib (0.1.0):
     - MJExtension
     - WebViewJavascriptBridge
+  - jcc_rpc_oc (0.1.1)
   - jingtum-lib-objectc (1.0.6):
     - CoreBitcoin
     - ISO8601DateFormatter
@@ -50,6 +51,7 @@ DEPENDENCIES:
   - FMDB
   - IQKeyboardManager
   - jcc_oc_base_lib
+  - jcc_rpc_oc
   - jingtum-lib-objectc
   - Masonry
   - MJExtension
@@ -60,7 +62,7 @@ DEPENDENCIES:
   - WechatOpenSDK
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - Bugly
     - CoreBitcoin
@@ -79,6 +81,8 @@ SPEC REPOS:
     - Toast
     - WebViewJavascriptBridge
     - WechatOpenSDK
+  trunk:
+    - jcc_rpc_oc
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -88,6 +92,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   ISO8601DateFormatter: 4551b6ce4f83185425f583b0b3feb3c7b59b942c
   jcc_oc_base_lib: 6632ef63dd82c0b5fda63ab6e78da92b30d60a94
+  jcc_rpc_oc: c3715381f07235cc869febd7a990efeda853f0b3
   jingtum-lib-objectc: f0058bc332878779c9ab31208639357c8c480533
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
@@ -100,6 +105,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   WechatOpenSDK: 3117412f8aafde4758cac1e8d20b93c67cafcfef
 
-PODFILE CHECKSUM: f17c2ce3e827751f235463607c6904339efc1d99
+PODFILE CHECKSUM: cbe053b9ce7faf4945171c4154fb7fbcdc0d72d8
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.8.0.beta.1

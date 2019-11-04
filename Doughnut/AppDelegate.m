@@ -35,11 +35,6 @@
 @import Bugly;
 #import <SVProgressHUD/SVProgressHUD.h>//;
 
-
-#import "Wallet/WalletManage.h"
-
-
-
 @interface AppDelegate ()
 
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
@@ -107,10 +102,10 @@
 
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHex:0x2890FE]];
-    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHex:0x2890FE]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithHex:0xffffff]];
     
-    UIColor *foregroundColor = [UIColor whiteColor];
+    UIColor *foregroundColor = [UIColor colorWithHex:0x021E38];
     NSDictionary *titleTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:foregroundColor, NSForegroundColorAttributeName, [UIFont systemFontOfSize:18], NSFontAttributeName, nil];
     [[UINavigationBar appearance] setTitleTextAttributes:titleTextAttributes];
 
@@ -122,26 +117,8 @@
     [self registerNotifications];
     //检查数据库更新
     [self checkDBVersion];
-//    wallet = [[WalletManage alloc]init];
-//    [wallet createRemote];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
     return YES;
 }
-
-- (void) SRWebSocketDidOpen {
-    NSLog(@"balance is");
-    NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
-    //    NSString * account = [walletInfo getAddress];
-    //    [options setObject:account forKey:@"account"];
-    [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
-    [wallet getBalance];
-};
-
-- (void) SRWebSocketDidReceiveMsg:(NSNotification *) notification {
-    NSString * message = notification.object;
-    NSLog(@"the response from server is: %@", message);
-};
 
 //弹出升级弹窗
 - (void)showSJAlertWithDownloadUrl:(NSString *)urlPath {

@@ -13,6 +13,7 @@
 #import "TPOSContext.h"
 #import "TPOSWalletModel.h"
 #import "TPOSWeb3Handler.h"
+#import "TPOSNavigationController.h"
 #import "UIImage+TPOS.h"
 #import "TPOSShareMenuView.h"
 #import "TPOSShareView.h"
@@ -120,12 +121,16 @@
 }
 
 - (void)setNavigationBarStyle {
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0x27B498]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0x27B498]];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    self.navigationController.navigationBarHidden = NO;
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0xffffff]}];
+    [self.view setBackgroundColor:[UIColor colorWithHex:0x27B498]];
 }
 
 - (void)setupSubviews {
-    [self addLeftBarButtonImage:[[UIImage imageNamed:@"icon_guanbi"] tb_imageWithTintColor:[UIColor whiteColor]] action:@selector(responseLeftButton)];
-    [self addRightBarButtonImage:[UIImage imageNamed:@"icon_share"] action:@selector(responseRightButton)];
+    [self addLeftBarButtonImage:[[UIImage imageNamed:@"icon_back_withe"] tb_imageWithTintColor:[UIColor whiteColor]] action:@selector(responseLeftButton)];
     self.view.backgroundColor = [UIColor colorWithHex:0xf5f5f9];
     [self.view addSubview:self.codeScrollView];
     [self.codeScrollView addSubview:self.contentView];
@@ -150,7 +155,9 @@
     }];
     
     [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self.codeScrollView);
+        make.top.equalTo(self.codeScrollView);
+        make.left.equalTo(self.codeScrollView).offset(20);
+        make.right.equalTo(self.codeScrollView).offset(20);
         make.centerX.equalTo(self.codeScrollView.mas_centerX);
         make.bottom.equalTo(self.addressButton.mas_bottom).offset(20);
     }];

@@ -17,6 +17,7 @@
 #import "TPOSContext.h"
 #import "TPOSNavigationController.h"
 #import "TPOSSelectChainTypeViewController.h"
+#import "TPOSAssetViewController.h"
 
 @interface TPOSWalletManagerViewController () <UITableViewDataSource,UITableViewDelegate>
 
@@ -38,18 +39,26 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
+    self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_manage"];
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_manage"];
     [self setupTableView];
-    self.bottomHeightCons.constant = kIphoneX ? 65 : 50;
+    self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
+    //self.bottomHeightCons.constant = kIphoneX ? 105 : 90;
     [self registerNotifications];
     [self loadWallets];
 }
 
 - (void)changeLanguage {
     [self.createButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"create_wallet"] forState:UIControlStateNormal];
-    [self.importButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_wallet"]  forState:UIControlStateNormal];
+    [self.importButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_wallet"] forState:UIControlStateNormal];
 }
 
 #pragma mark - private method
@@ -128,10 +137,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_flag){
+        TPOSWalletModel *model = _dataList[indexPath.section];
+        [[TPOSContext shareInstance] setCurrentWallet:model];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
     TPOSEditWalletViewController *editWalletViewController = [[TPOSEditWalletViewController alloc] init];
-    
     editWalletViewController.walletModel = _dataList[indexPath.section];
     [self.navigationController pushViewController:editWalletViewController animated:YES];
+    }
+    _flag = NO;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -143,7 +158,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 115;
 }
 
 - (TPOSWalletDao *)walletDao {

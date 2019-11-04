@@ -6,10 +6,19 @@
 //  Copyright © 2018 MarcusWoo. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "TPOSBaseViewController.h"
+#import "WalletManage.h"
 
 @interface TPOSAssetViewController : TPOSBaseViewController
+{
+    WalletManage *walletManage;
+}
 
 - (void)autoRefreshData;
+
+- (void)loadBalance;
+
+- (void)loadCurrentWallet;
 
 @end

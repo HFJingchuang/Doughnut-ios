@@ -22,6 +22,7 @@ typedef void (^tableHeaderRefreshAction)(void);
 - (UIBarButtonItem *)addLeftBarButtonImage:(UIImage *)img action:(SEL)action;
 - (UIBarButtonItem *)addRightBarButtonImage:(UIImage *)image action:(SEL)action;
 - (void)addRightBarButton:(NSString *)title operationBlock:(void (^)(UIButton *rightBtn))operationBlock ;
+- (void)addLeftBarButton:(NSString *)title operationBlock:(void (^)(UIButton *rightBtn))operationBlock ;
 
 - (void)responseLeftButton;
 - (void)responseRightButton;
@@ -34,11 +35,6 @@ typedef void (^tableHeaderRefreshAction)(void);
 //更改本地化语言
 - (void)viewDidReceiveLocalizedNotification;
 - (void)changeLanguage;
-
-//MJ下拉刷新动画图
-//参数 isBigone, 如果navigationbar是隐藏的就传YES，其他情况传NO
-- (MJRefreshGifHeader *)grayTableHeaderWithBigSize:(BOOL)isBigone
-                                   RefreshingBlock:(tableHeaderRefreshAction)actionBlock;
 
 - (MJRefreshGifHeader *)colorfulTableHeaderWithBigSize:(BOOL)isBigone
                                        RefreshingBlock:(tableHeaderRefreshAction)actionBlock;

@@ -12,6 +12,8 @@
 
 @interface TPOSTransactionRecoderCell : UITableViewCell
 
-- (void)updateWithModel:(TPOSTransactionRecoderModel *)transactionRecoderModel walletAddress:(NSString *)address;
+//- (void)updateWithModel:(TPOSTransactionRecoderModel *)transactionRecoderModel walletAddress:(NSString *)address;
+
+- (void)updateWithData:(NSMutableDictionary *) cellData;
 
 @end

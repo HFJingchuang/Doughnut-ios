@@ -13,6 +13,7 @@
 #import "TPOSWalletModel.h"
 #import "TPOSWalletDao.h"
 #import "TPOSMacro.h"
+#import "WalletManage.h"
 #import "TPOSThreadUtils.h"
 #import "NSString+TPOS.h"
 #import "TPOSCreateMemonicViewController.h"
@@ -31,8 +32,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *addressLbael;
 @property (weak, nonatomic) IBOutlet UITextField *walletField;
 @property (weak, nonatomic) IBOutlet UIButton *walletIconButton;
+@property (weak, nonatomic) IBOutlet UILabel *walletBalanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *walletBalanceValueLabel;
 
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
+@property (nonatomic, strong) WalletManage *walletManage;
 
 @property (nonatomic, weak) UIButton *rightButton;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
@@ -54,13 +58,39 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupViews];
     [self loadData];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editWallet:) name:kEditWalletNotification object:nil];
-    
     self.deleteTopConstraint.constant = kIphone5?56:86;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0x3B6CA6]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0x3B6CA6]];
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [self addLeftBarButtonImage:[UIImage imageNamed:@"icon_back_withe"] action:@selector(responseLeftButton)];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0xffffff]}];
+    self.tokenValueLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:28];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.deleteButton.layer.cornerRadius = 10;
+    _deleteButton.layer.borderWidth = 1.0;
+    _deleteButton.layer.borderColor = [UIColor colorWithHex:0xEEEEF2].CGColor;
+    _walletField.text = _walletModel.walletName;
+    _addressLbael.text = _walletModel.address;
+    _walletIconButton.layer.cornerRadius = 24;
+    _walletIconButton.layer.masksToBounds = YES;
+    [_walletIconButton setImage:[UIImage imageNamed:_walletModel.walletIcon] forState:UIControlStateNormal];
+    _walletIconButton.hidden = YES;
 }
 
 - (void)responseRightButton {
@@ -74,14 +104,18 @@
     }];
 }
 
+- (void)responseLeftButton {
+     [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)changeLanguage {
     self.nameLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_name"];
     self.addrLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_addr"];
     self.cahngePwdLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"change_pwd"];
     self.exportLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"export_pk"];
-    [self.copyyBtn setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"addr_copy"] forState:UIControlStateNormal];
+    [self.backButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_export"] forState:UIControlStateNormal];
     [self.deleteButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_delete"] forState:UIControlStateNormal];
-    [self.backButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"backup_mnem"] forState:UIControlStateNormal];
+ 
 }
 
 - (void)viewDidReceiveLocalizedNotification {
@@ -91,19 +125,10 @@
 #pragma mark - private method
 
 - (void)loadData {
-    _backButton.hidden = _walletModel.isBackup;
+    //_backButton.hidden = _walletModel.isBackup;
 }
 
 - (void)setupViews {
-    self.tokenValueLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:28];
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.deleteButton.layer.cornerRadius = 5;
-    [self addRightBarButton:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save"]];
-    _walletField.text = _walletModel.walletName;
-    _addressLbael.text = _walletModel.address;
-    _walletIconButton.layer.cornerRadius = 24;
-    _walletIconButton.layer.masksToBounds = YES;
-    [_walletIconButton setImage:[UIImage imageNamed:_walletModel.walletIcon] forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
@@ -142,7 +167,7 @@
     if ([_walletModel.walletId isEqualToString:n.walletId]) {
         _walletModel = n;
     }
-    self.backButton.hidden = _walletModel.isBackup;
+    //self.backButton.hidden = _walletModel.isBackup;
 }
 
 - (IBAction)copyAddressAction {
@@ -229,6 +254,13 @@
         _walletDao = [TPOSWalletDao new];
     }
     return _walletDao;
+}
+
+- (WalletManage *)walletManage {
+    if (!_walletManage) {
+        _walletManage = [[WalletManage alloc]init];
+    }
+    return _walletManage;
 }
 
 @end

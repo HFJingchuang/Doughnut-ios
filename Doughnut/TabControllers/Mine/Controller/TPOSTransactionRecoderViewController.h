@@ -7,7 +7,7 @@
 //
 
 #import "TPOSBaseViewController.h"
+#import "WalletManage.h"
 
 @interface TPOSTransactionRecoderViewController : TPOSBaseViewController
-
 @end

@@ -15,12 +15,15 @@
 #import "TPOSMineViewController.h"
 #import "TPOSMacro.h"
 
+#define CustomTabBarHeight 200
+
 @interface TPOSTabBarController ()
 @property (nonatomic, strong) TPOSAssetViewController *assetVC;    //资产
 @property (nonatomic, strong) TPOSMineViewController *mineVC;     //我
 
 @property (nonatomic, assign) BOOL tabBarHidden;
 @property (nonatomic, strong) NSArray *barTitles;
+
 
 @end
 
@@ -44,7 +47,7 @@
     /** 设置选中状态 */
     NSMutableDictionary *selDict = @{}.mutableCopy;
     selDict[NSFontAttributeName] = norDict[NSFontAttributeName];
-    selDict[NSForegroundColorAttributeName] = [UIColor colorWithHex:0x2890FE];
+    selDict[NSForegroundColorAttributeName] = [UIColor colorWithHex:0x041E38];
     [tabBarItem setTitleTextAttributes:selDict forState:UIControlStateSelected];
 }
 
@@ -66,7 +69,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.barTitles = @[@"Assets",@"Profile"];
+    self.barTitles = @[@"wallet",@"Profile"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveLocalizedNotification) name:kLocalizedNotification object:nil];
     
@@ -75,6 +78,10 @@
     [self.tabBar setBackgroundColor:[UIColor whiteColor]];
     [self.tabBar setBarTintColor:[UIColor whiteColor]];
     self.tabBar.translucent = YES;
+    CGRect tabBarFrame = self.tabBar.frame;
+    tabBarFrame.size.height = CustomTabBarHeight;
+    tabBarFrame.origin.y = self.view.frame.size.height - CustomTabBarHeight;
+    self.tabBar.frame = tabBarFrame;
     
     //资产
     _assetVC = [[TPOSAssetViewController alloc] init];
@@ -129,9 +136,6 @@
 }
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if (item.tag == 0) {
-        [_assetVC autoRefreshData];
-    }
 }
 
 + (void)animationPushUp:(UIView *)view duration:(CGFloat)duration

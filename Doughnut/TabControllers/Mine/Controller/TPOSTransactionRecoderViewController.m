@@ -15,9 +15,9 @@
 #import "TPOSContext.h"
 #import "TPOSWalletModel.h"
 #import "TPOSMacro.h"
-#import "TPOSTransactionDetailViewController.h"
 #import "TPOSJTManager.h"
 #import "TPOSJTPaymentInfo.h"
+#import "TransactionDetailViewController.h"
 
 #import <Masonry/Masonry.h>;
 #import <Toast/Toast.h>;
@@ -27,12 +27,14 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *dataList;
 
-@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, assign) int currentPage;
 
 @property (nonatomic, strong) TPOSWalletModel *currentWalletModel;
 
 @property (nonatomic, assign) NSInteger seq;
 @property (nonatomic, assign) NSInteger ledger;
+
+
 
 @end
 
@@ -51,10 +53,8 @@
     [self registerNotifications];
 }
 
-- (void)responseRightButton {
-    TPOSExchangeWalletVewController *exchangeWalletVewController = [[TPOSExchangeWalletVewController alloc] init];
-    exchangeWalletVewController.currentWalletModel = self.currentWalletModel;
-    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:exchangeWalletVewController] animated:YES completion:nil];
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark - private method
@@ -65,29 +65,29 @@
 
 - (void)loadData {
     __weak typeof(self) weakSelf = self;
-    if ([swtcChain isEqualToString:_currentWalletModel.blockChainId]) {
-        [[TPOSJTManager shareInstance] requestPaymentHistoryWithAddress:_currentWalletModel.address count:10 currency:nil issuer:nil seq:_seq ledger:_ledger success:^(NSArray<TPOSJTPaymentInfo *> *historys,NSInteger ledger,NSInteger seq) {
-            if (!weakSelf.seq) {
-                [weakSelf.tableView.mj_header endRefreshing];
-                [weakSelf.dataList removeAllObjects];
-                [weakSelf.tableView.mj_footer endRefreshing];
-            }
-            if (historys.count < 10) {
-                [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
-            }
-            weakSelf.ledger = ledger;
-            weakSelf.seq = seq;
-            [weakSelf.dataList addObjectsFromArray:historys];
-            [weakSelf.tableView reloadData];
-        } failure:^(NSError *error) {
-            if (!weakSelf.seq) {
-                [weakSelf.tableView.mj_header endRefreshing];
-            } else {
-                [weakSelf.tableView.mj_footer endRefreshing];
-            }
-            [weakSelf.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"req_exchange_list_fail"]];
-        }];
-    }
+    [[WalletManage shareInstance] getTransactionHistory:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6" page:_currentPage :^(NSDictionary *response) {
+        NSArray *list = [NSMutableArray array];
+        if (![[[response valueForKey:@"count"] stringValue] isEqualToString:@"0"]){
+            list = [response valueForKey:@"list"];
+        }
+        if (_currentPage == 0) {
+            [weakSelf.dataList removeAllObjects];
+        }
+        if (list.count < 10) {
+            [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
+        }else {
+            [weakSelf.tableView.mj_header endRefreshing];
+            [weakSelf.tableView.mj_footer endRefreshing];
+        }
+        NSSortDescriptor *seqSD = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
+        list = [list sortedArrayUsingDescriptors:@[seqSD]];
+        [weakSelf.dataList addObjectsFromArray:list];
+        [weakSelf.tableView reloadData];
+    } failure:^(NSError *error) {
+        [weakSelf.tableView.mj_header endRefreshing];
+        [weakSelf.tableView.mj_footer endRefreshing];
+        [weakSelf.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"req_exchange_list_fail"]];
+    }];
 }
 
 - (void)registerNotifications {
@@ -102,7 +102,6 @@
 - (void)setupSubviews {
     self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_record"];
     [self.view addSubview:self.tableView];
-    [self addRightBarButtonImage:[UIImage imageNamed:@"icon_transaction_exchange_account"] action:@selector(responseRightButton)];
     
     __weak typeof(self) weakSelf = self;
     MJRefreshGifHeader *header = [self colorfulTableHeaderWithBigSize:NO RefreshingBlock:^{
@@ -114,9 +113,9 @@
     self.tableView.mj_header = header;
     
     self.tableView.mj_footer = [TPOSCustomMJRefreshFooter footerWithRefreshingBlock:^{
+        weakSelf.currentPage += 1;
         [weakSelf loadData];
     }];
-    
     [self.tableView.mj_header beginRefreshing];
 }
 
@@ -139,21 +138,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *const mineCellId = @"TPOSTransactionRecoderCell";
     TPOSTransactionRecoderCell *cell = [tableView dequeueReusableCellWithIdentifier:mineCellId forIndexPath:indexPath];
-    [cell updateWithModel:self.dataList[indexPath.row] walletAddress:_currentWalletModel.address];
+    [cell updateWithData:_dataList[indexPath.row]];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    TPOSTransactionDetailViewController *transactionDetailViewController = [[TPOSTransactionDetailViewController alloc] init];
-    transactionDetailViewController.blockChainId = _currentWalletModel.blockChainId;
-    transactionDetailViewController.currentAddress = _currentWalletModel.address;
-    id obj = _dataList[indexPath.row];
-    if ([obj isKindOfClass:[TPOSTransactionRecoderModel class]]) {
-        transactionDetailViewController.transactionRecoderModel = obj;
-    } else {
-        transactionDetailViewController.payInfo = obj;
-    }
+    TransactionDetailViewController *transactionDetailViewController = [[TransactionDetailViewController alloc] init];
+    transactionDetailViewController.currentTransactionHash = [_dataList[indexPath.row] valueForKey:@"hash"];
+    transactionDetailViewController.currentWalletAddress = @"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6";
+    //_currentWalletModel.address;
     [self.navigationController pushViewController:transactionDetailViewController animated:YES];
 }
 
