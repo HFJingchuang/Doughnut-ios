@@ -30,8 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSComparisonResult)compare:(NSString *)v1 :(NSString *)v2;
 
-- (NSString *)formatValues:(NSString *)values :(int) scale;
-
 - (NSString *)formatAmount:(NSString *)values: (int)scale :(BOOL)decimal :(BOOL)digits;
 @end
 

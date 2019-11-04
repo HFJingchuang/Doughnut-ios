@@ -154,9 +154,11 @@
 }
 
 - (NSString *)formatAmount:(NSString *)amount: (int)scale :(BOOL)decimal :(BOOL)digits{
+    NSDecimalNumberHandler *roundPlain = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain scale:scale raiseOnExactness:NO raiseOnOverflow:NO raiseOnUnderflow:NO raiseOnDivideByZero:YES];
     @try {
         if(![amount tb_isEmpty]){
             NSDecimalNumber *num = [NSDecimalNumber decimalNumberWithString:amount];
+            NSDecimalNumber *result =[num decimalNumberByMultiplyingBy:[NSDecimalNumber decimalNumberWithString:@"1"] withBehavior:roundPlain];
             NSNumberFormatter *format = [[NSNumberFormatter alloc]init];
             format.minimumIntegerDigits = 1;
             if (decimal) {
@@ -169,7 +171,7 @@
             }else {
                 format.maximumFractionDigits = scale;
             }
-            NSString *numStr =[format stringFromNumber:num];
+            NSString *numStr =[format stringFromNumber:result];
             return numStr;
         }
     } @catch (NSException *exception) {

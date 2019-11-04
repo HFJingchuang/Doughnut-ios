@@ -10,4 +10,6 @@
 
 @interface TPOSMineViewController : TPOSBaseViewController
 
+- (void) loadCurrentWallet;
+
 @end

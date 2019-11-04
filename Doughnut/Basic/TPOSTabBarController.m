@@ -136,9 +136,6 @@
 }
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if (item.tag == 0) {
-        //[_assetVC autoRefreshData];
-    }
 }
 
 + (void)animationPushUp:(UIView *)view duration:(CGFloat)duration

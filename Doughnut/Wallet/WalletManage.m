@@ -33,6 +33,8 @@
 #define JC_SCAN_SERVER @"https://swtcscan.jccdex.cn"
 
 static NSString *TOKEN_ROUTER = @"/sum/all/";
+static NSString *TX_ROUTER = @"/wallet/trans/";
+static NSString *HASH_ROUTER = @"/hash/detail/";
 static int SCALE = 4;
 static int FREEZED = 5;
 static int RESERVED = 20;
@@ -49,6 +51,7 @@ static NSString *COUNTER = @"CNT";
     int accountRelationsTrustId;
     int accountRelationsFreezeId;
     int accountOffersId;
+    int accountTXId;
 }
 
 @property (nonatomic, strong) AccountInfoModal *accountInfo;
@@ -59,7 +62,7 @@ static NSString *COUNTER = @"CNT";
 @end
 @implementation WalletManage
 
-- (instancetype)shareInstance {
++ (instancetype)shareInstance {
     static dispatch_once_t onceToken;
     static WalletManage *manager;
     dispatch_once(&onceToken, ^{
@@ -80,6 +83,7 @@ static NSString *COUNTER = @"CNT";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountRelationsTrust:) name:requestAccountRelationsTrustFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountRelationsFreeze:) name:requestAccountRelationsFreezeFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountOffers:) name:requestAccountOffersFlag object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccounTX:) name:requestAcountTXFlag object:nil];
     return remote;
 }
 
@@ -109,6 +113,9 @@ static NSString *COUNTER = @"CNT";
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountRelationsFreezeFlag object:data];
     }else if (requestFlag == accountOffersId) {
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountOffersFlag object:data];
+    }else if (requestFlag == accountTXId) {
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:requestAcountTXFlag object:data];
     }
 };
 
@@ -232,11 +239,75 @@ static NSString *COUNTER = @"CNT";
 }
 
 //获取交易记录
-- (void) requestTansferHishory:(NSUnit *) limit {
+- (void) requestAcountTX:(NSString *)address :(NSString *) limit {
     NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
-    [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
+    [options setObject:address forKey:@"account"];
     [options setObject:limit forKey:@"limit"];
+    accountTXId = remote->req_id;
     [remote requestAccountTx:options];
+}
+
+//获取具体交易信息
+- (void) getTransactionDetail:(NSString *)hash :(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure {
+    NSString *requestUrl = [NSString stringWithFormat:@"%@%@%@?h=%@",JC_SCAN_SERVER,HASH_ROUTER,[[NSUUID UUID] UUIDString],hash];
+    [[TPOSApiClient sharedInstance]getFromUrl:requestUrl parameter:nil success:^(id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            if ([[responseObject objectForKey:@"code"] isEqualToString:REQUEST_JC_SUCCESS_CODE]) {
+                if (success) {
+                    NSMutableDictionary *data = [responseObject objectForKey:@"data"];
+                    if ([data isKindOfClass:[NSDictionary class]]) {
+                        success(data);
+                    }
+                }
+            } else {
+                if (failure) {
+                    NSLog(@"f%@",failure);
+                    failure([responseObject objectForKey:@"message"]);
+                }
+            }
+        } else {
+            if (failure) {
+                failure([responseObject objectForKey:@"message"]);
+            }
+        }
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+    
+}
+
+//获取交易历史记录
+- (void) getTransactionHistory:(NSString *)address page:(int)page :(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure {
+    NSString *requestUrl = [NSString stringWithFormat:@"%@%@%@?p=%d&s=10&w=%@",JC_SCAN_SERVER,TX_ROUTER,[[NSUUID UUID] UUIDString],page,address];
+    __weak typeof(self) weakSelf = self;
+    [[TPOSApiClient sharedInstance]getFromUrl:requestUrl parameter:nil success:^(id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            if ([[responseObject objectForKey:@"code"] isEqualToString:REQUEST_JC_SUCCESS_CODE]) {
+                if (success) {
+                    NSMutableDictionary *data = [responseObject objectForKey:@"data"];
+                    if ([data isKindOfClass:[NSDictionary class]]) {
+                           success(data);
+                    }
+                }
+            } else {
+                if (failure) {
+                    NSLog(@"f%@",failure);
+                    failure([weakSelf errorDomain:requestUrl reason:@"code != 0"]);
+                }
+            }
+        } else {
+            if (failure) {
+                failure([weakSelf errorDomain:requestUrl reason:@"responseObject is not Dictionary"]);
+            }
+        }
+    } failure:^(NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+    
 }
 
 //获取全部tokens

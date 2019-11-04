@@ -40,7 +40,6 @@ static NSString * const cellID = @"TokenTableViewCell";
     [super viewDidLoad];
     _searchFlag = NO;
     self.definesPresentationContext = YES;
-    walletManage = [[WalletManage alloc]init];
     [self loadCurrentWallet];
     [self setupSubviews];
     [self registerCells];
@@ -68,7 +67,7 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 -(void)loadData {
-    [walletManage getAllTokens:^(NSDictionary *response) {
+    [[WalletManage shareInstance] getAllTokens:^(NSDictionary *response) {
         if (response){
             NSMutableArray *data = [NSMutableArray arrayWithObject:response][0];
             if (!_tokenArray) {
@@ -219,7 +218,7 @@ static NSString * const cellID = @"TokenTableViewCell";
 
 - (UISearchBar *)searchBar {
     _searchBar.delegate = self;
-    [_searchBar setSearchTextPositionAdjustment:UIOffsetMake(10, 0)];
+    [_searchBar setSearchTextPositionAdjustment:UIOffsetMake(5, 0)];
     [_searchBar setPositionAdjustment:UIOffsetMake(10, 0) forSearchBarIcon:UISearchBarIconSearch];
     return _searchBar;
 }

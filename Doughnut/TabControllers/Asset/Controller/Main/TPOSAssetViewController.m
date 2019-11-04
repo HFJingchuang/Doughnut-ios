@@ -19,7 +19,6 @@
 #import "TPOSQRResultHandler.h"
 #import "TPOSQRCodeResult.h"
 #import "TPOSCreateWalletViewController.h"
-#import "TPOSTokenDetailViewController.h"
 #import "TPOSTransactionViewController.h"
 #import "TPOSTokenModel.h"
 #import "TPOSContext.h"
@@ -355,7 +354,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
             }
             
             number = [_caclUtil div:values :swtPrice :2];
-            [self.totalAssetLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@≈%@)",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"account_asset"],[_caclUtil formatAmount:swtPrice :5:NO:YES]] waitUntilDone:YES];
+            [self.totalAssetLabel performSelectorOnMainThread:@selector(setText:) withObject:[NSString stringWithFormat:@"%@≈￥%@)",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"account_asset"],[_caclUtil formatAmount:swtPrice :5:NO:YES]] waitUntilDone:YES];
             NSString *valuesF = [_caclUtil formatAmount:values :2:YES:NO];
             if ([valuesF containsString:@"."]){
                 NSArray<NSString *> *arrs = [valuesF componentsSeparatedByString:@"."];
@@ -512,7 +511,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
         [self.table reloadData];
     }];
     action1.backgroundColor = [UIColor colorWithHex:0x3CB371];
-    return _cellHidden?@[action1, action0]:@[action0];
+    return _cellHidden?@[action0, action1]:@[action0];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

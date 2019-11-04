@@ -26,6 +26,7 @@
 #import "TPOSLanguageViewController.h"
 #import "TPOSJTManager.h"
 #import "TPOSEditWalletViewController.h"
+#import "TransactionDetailViewController.h"
 
 @interface TPOSMineViewController ()
 //header
@@ -59,6 +60,7 @@
     [super viewDidLoad];
     [self loadCurrentWallet];
     [self setupSubviews];
+    [self registerNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -80,8 +82,12 @@
     
 }
 
-- (void)viewDidReceiveLocalizedNotification {
-    [super viewDidReceiveLocalizedNotification];
+- (void)registerNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeWallet:) name:kChangeWalletNotification object:nil];
+}
+
+- (void)changeWallet:(NSNotification *)noti {
+    [self loadCurrentWallet];
 }
 
 #pragma mark - Private
@@ -251,7 +257,8 @@
 }
 
 - (void)pushToCopyright {
-    DOSCopyrightViewController *copyrightViewController = [[DOSCopyrightViewController alloc]init];
+//    DOSCopyrightViewController *copyrightViewController = [[DOSCopyrightViewController alloc]init];
+    TransactionDetailViewController *copyrightViewController = [[TransactionDetailViewController alloc]init];
     [self.navigationController pushViewController:copyrightViewController animated:YES];
 }
 

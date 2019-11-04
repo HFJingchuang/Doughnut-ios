@@ -10,9 +10,5 @@
 #import "WalletManage.h"
 
 @interface AssetTokensViewController : TPOSBaseViewController
-{
-    WalletManage *walletManage;
-}
-
 @end
 

@@ -44,7 +44,9 @@
 #define CURRENCY_SWT @"SWT"
 #define CURRENCY_CNY @"CNY"
 
+
 #define getBalanceList @"getBalanceList"
+#define requestAcountTXFlag @"requestAccountTXFlag"
 #define requestAccountOffersFlag @"requestAccountOffersFlag"
 #define requestAccountInfoFlag @"requestAccountInfoFlag"
 #define requestAccountTumsFlag @"requestAccountTums"

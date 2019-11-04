@@ -30,6 +30,7 @@
     self.tokenCellView.layer.cornerRadius = 11;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     _tokenNameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    _issuerLabel.hidden = YES;
 }
 
 - (void)setFrame:(CGRect)frame{
