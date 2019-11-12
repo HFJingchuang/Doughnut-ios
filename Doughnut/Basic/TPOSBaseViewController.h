@@ -10,6 +10,7 @@
 #import "MJRefreshGifHeader+TPOS.h"
 #import "TPOSCustomMJRefreshFooter.h"
 #import "TPOSLocalizedHelper.h"
+#import "UIColor+Hex.h"
 
 typedef void (^tableHeaderRefreshAction)(void);
 
@@ -38,5 +39,7 @@ typedef void (^tableHeaderRefreshAction)(void);
 
 - (MJRefreshGifHeader *)colorfulTableHeaderWithBigSize:(BOOL)isBigone
                                        RefreshingBlock:(tableHeaderRefreshAction)actionBlock;
+// 读取本地JSON文件
+- (id)readLocalFileWithName:(NSString *)name;
 
 @end

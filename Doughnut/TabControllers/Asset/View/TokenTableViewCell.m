@@ -12,7 +12,6 @@
 @interface TokenTableViewCell()
 @property (weak, nonatomic) IBOutlet UIView *cellView;
 @property (weak, nonatomic) IBOutlet UIImageView *cellImage;
-@property (weak, nonatomic) IBOutlet UIImageView *clickImage;
 @property (weak, nonatomic) IBOutlet UILabel *cellNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *tokenIssuerLabel;
 
@@ -44,22 +43,23 @@
     [super setSelected:selected animated:animated];
 }
 
-
 -(void)updateWithModel:(NSString *)tokenName :(NSString *)issuer {
     self.cellNameLabel.text = tokenName;
     self.tokenIssuerLabel.text = issuer;
     UIImage *img = [UIImage imageNamed:tokenName];
+    if ([tokenName isEqualToString:@"CNT"]){
+        img = [UIImage imageNamed:@"CNY"];
+    }
     if (img)
     {
-        self.cellImage.image = [UIImage imageNamed:tokenName];
+        self.cellImage.image = img;
     }else {
         self.cellImage.image = [UIImage imageNamed:@"icon_default"];
     }
 }
 
--(void)setSelectedStatus:(BOOL)status {
+-(void)setSelected:(BOOL)status {
     _clickImage.highlighted = status;
-    
 }
 
 @end

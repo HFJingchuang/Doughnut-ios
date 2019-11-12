@@ -78,6 +78,10 @@
     return self.languages.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 70;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifer = @"defaultCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
@@ -109,13 +113,13 @@
     [tableView reloadData];
 }
 
-
 - (UITableView *)table {
     if (!_table) {
         _table = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _table.delegate = self;
         _table.dataSource = self;
         _table.tableFooterView = [UIView new];
+        _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return _table;
 }

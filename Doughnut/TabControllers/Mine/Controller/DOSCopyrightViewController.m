@@ -7,8 +7,13 @@
 //
 
 #import "DOSCopyrightViewController.h"
+#import "UIColor+Hex.h"
+#import <Masonry/Masonry.h>
 
 @interface DOSCopyrightViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *icon;
+@property (weak, nonatomic) IBOutlet UILabel *info;
+@property (weak, nonatomic) IBOutlet UILabel *copyright;
 
 @end
 
@@ -17,21 +22,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"copyright_info"];
-    // Do any additional setup after loading the view from its nib.
+    self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
 }
-
 
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBarHidden = NO;
+    self.icon.image = [UIImage imageNamed:@"company_icon"];
+    self.info.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"about_us_desc"];
+    [self.info sizeToFit];
+    self.copyright.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"copyright"];
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
+
+
 
 @end

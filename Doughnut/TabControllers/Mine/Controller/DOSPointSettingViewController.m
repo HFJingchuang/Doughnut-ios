@@ -9,12 +9,12 @@
 #import "DOSPointSettingViewController.h"
 #import "DOSJTNodesViewCell.h"
 #import "UIColor+Hex.h"
-#import <Masonry/Masonry.h>;
+#import <Masonry/Masonry.h>
 #import "TPOSMacro.h"
 
 
 @interface DOSPointSettingViewController ()
-    <UITableViewDataSource,UITableViewDelegate>
+    <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIButton *addCustomNodeButton;
@@ -27,9 +27,14 @@
 @property (nonatomic, strong) UILabel *warnLabel;
 @property (nonatomic, strong) UITextField *nodeAddr;
 
-@property(nonatomic,strong) void (^isClickSure)(BOOL isClick);
-@property(nonatomic,strong) void (^isClickCancel)(BOOL isClick);
-@property(nonatomic,strong) void (^isClickBg)(BOOL isClick);
+@property (nonatomic, strong) NSArray *publicNodes;
+@property (nonatomic, strong) NSMutableArray *customNodes;
+
+@property (nonatomic, strong) void (^isClickSure)(BOOL isClick);
+@property (nonatomic, strong) void (^isClickCancel)(BOOL isClick);
+@property (nonatomic, strong) void (^isClickBg)(BOOL isClick);
+
+@property (nonatomic, strong) NSNumber *index;
 
 @end
 
@@ -65,6 +70,18 @@
         make.right.equalTo(self.view).offset(-19);
         make.left.equalTo(self.view).offset(19);
     }];
+    __weak typeof(self) weakSelf = self;
+    MJRefreshGifHeader *header = [self colorfulTableHeaderWithBigSize:NO RefreshingBlock:^{
+        [weakSelf loadData];
+    }];
+    self.tableView.mj_header = header;
+    [self.tableView.mj_header beginRefreshing];
+}
+
+-(void)loadData{
+    self.publicNodes = [self readLocalFileWithName:@"publicNodes"];
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView reloadData];
 }
 
 - (void)setupTableView {
@@ -89,19 +106,34 @@
     return 2;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1){
+        UITableViewRowAction *action0 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"delete"] handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        }];
+        return @[action0];
+    }else{
+        return @[];
+    }
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    if (section == 0){
+        return _publicNodes.count;
+    }else {
+        return _customNodes.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *const mineCellId = @"DOSJTNodesViewCell";
     DOSJTNodesViewCell *cell = [tableView dequeueReusableCellWithIdentifier:mineCellId forIndexPath:indexPath];
-    //[cell updateWithModel:_dataList[indexPath.section]];
+    if (indexPath.section == 0){
+        [cell updateWithData:_publicNodes[indexPath.row]];
+    }else{
+        [cell updateWithData:_customNodes[indexPath.row]];
+    }
     return cell;
 }
 
@@ -118,7 +150,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 47)];
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(5,-15, 80, 50)];
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(5,0, 100, 50)];
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
     headerLabel.textColor = [UIColor colorWithHex:0xA6A9AD];
@@ -128,6 +160,7 @@
     }else {
         headerLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"custom_node"];
     }
+    [headerLabel sizeToFit];
     [headerView addSubview:headerLabel];
     return headerView;
 }
@@ -143,6 +176,7 @@
         _tableView.tableFooterView = [UIView new];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.showsVerticalScrollIndicator = NO;
+        //_tableView.bounces = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
         
@@ -244,13 +278,28 @@
     switch (btn.tag) {
             //取消按钮
         case 200:
+            _nodeAddr.text = @"";
             _alertbackView.hidden = YES;
             break;
             //确定按钮
         case 201:
+            if (_nodeAddr.text.length != 0){
+                NSString *str = _nodeAddr.text;
+                NSMutableDictionary *node = [NSMutableDictionary new];
+                [node setValue:[NSString stringWithFormat:@"%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"custom_node"],[_index stringValue]] forKey:@"name"];
+                _index = [NSNumber numberWithInt:[_index intValue] + 1];
+                [node setValue:str forKey:@"node"];
+                if (!_customNodes){
+                    _customNodes = [NSMutableArray new];
+                }
+                [_customNodes addObject:node];
+                [self.tableView reloadData];
+            }
             _alertbackView.hidden = YES;
+            _nodeAddr.text = @"";
             break;
         default:
+            _nodeAddr.text = @"";
             break;
     }
 }

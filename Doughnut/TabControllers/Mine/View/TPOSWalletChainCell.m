@@ -11,7 +11,7 @@
 #import "UIColor+Hex.h"
 #import "TPOSLocalizedHelper.h"
 
-#import <SDWebImage/UIImageView+WebCache.h>//;
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TPOSWalletChainCell()
 @property (weak, nonatomic) IBOutlet UIImageView *chainIcon;

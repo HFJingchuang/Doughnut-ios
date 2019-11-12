@@ -12,6 +12,6 @@
 
 @interface TPOSEditWalletViewController : TPOSBaseViewController
 
-@property (nonatomic, strong) TPOSWalletModel *walletModel;
+@property (nonatomic, strong) TPOSWalletModel *currentWallet;
 
 @end

@@ -21,7 +21,7 @@
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 
-#import <Masonry/Masonry.h>;
+#import <Masonry/Masonry.h>
 
 @interface TPOSQRCodeReceiveViewController ()<UITextFieldDelegate>
 

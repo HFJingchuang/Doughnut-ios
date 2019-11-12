@@ -47,27 +47,17 @@
     self.tokenNameLabel.text = tokenName;
     self.issuerLabel.text = issuer;
     UIImage *img = [UIImage imageNamed:tokenName];
+    if ([tokenName isEqualToString:@"CNT"]){
+        img = [UIImage imageNamed:@"CNY"];
+    }
     if (img)
     {
-       self.tokenImg.image = [UIImage imageNamed:tokenName];
+       self.tokenImg.image = img;
     }else {
         self.tokenImg.image = [UIImage imageNamed:@"icon_default"];
     }
     self.balanceValueLabel.text = balance;
     self.CNYBalance.text = [NSString stringWithFormat:@"￥ %@",cny];
-}
-
-- (void)layoutSubviews{
-    for (UIView *subView in self.subviews) {
-        if ([subView isKindOfClass:NSClassFromString(@"UITableViewCellDeleteConfirmationView")]) {
-            for (UIButton *btn in subView.subviews) {
-                if ([btn isKindOfClass:[UIButton class]]) {
-                    /*在此处可以自定义删除按钮的样式*/
-                    btn.layer.cornerRadius = 10;
-                }
-            }
-        }
-    }
 }
 
 @end

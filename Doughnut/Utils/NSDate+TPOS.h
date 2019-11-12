@@ -19,4 +19,6 @@
 //x/x
 + (NSString *)tb_timeFormat:(NSInteger)timestamp;
 
++ (NSDictionary *)readLocalFileWithName:(NSString *)name;
+
 @end

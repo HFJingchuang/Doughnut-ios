@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *moneyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
-@property (weak, nonatomic) IBOutlet UILabel *waitLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @end
 

@@ -70,9 +70,6 @@
     //隐藏时间和状态
     header.lastUpdatedTimeLabel.hidden = YES;
     header.stateLabel.hidden = YES;
-//    [header setTitle:@"下拉可刷新" forState:MJRefreshStateIdle];
-//    [header setTitle:@"345" forState:MJRefreshStateRefreshing];
-//    [header setTitle:@"123" forState:MJRefreshStatePulling];
     return header;
 }
 
@@ -261,5 +258,15 @@
     [self changeLanguage];
 }
 - (void)changeLanguage {}
+
+// 读取本地JSON文件
+- (id)readLocalFileWithName:(NSString *)name {
+    // 获取文件路径
+    NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"json"];
+    // 将文件数据化
+    NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+    // 对数据进行JSON格式化并返回字典形式
+    return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+}
 
 @end

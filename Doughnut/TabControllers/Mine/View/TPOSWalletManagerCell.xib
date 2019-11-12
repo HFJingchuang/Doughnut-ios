@@ -31,24 +31,24 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0x234325534534532abcdef12312314df" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M8t-Vt-Y1q">
-                        <rect key="frame" x="19" y="40.5" width="274" height="16"/>
+                        <rect key="frame" x="19" y="40.5" width="274" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="=￥122,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-hI-zFu">
-                        <rect key="frame" x="251" y="78" width="66" height="15"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="=￥122,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0JK-hI-zFu">
+                        <rect key="frame" x="253" y="78" width="64" height="17"/>
+                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="32,424,234" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrp-76-Dcc">
-                        <rect key="frame" x="19" y="72.5" width="162" height="26"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nrp-76-Dcc">
+                        <rect key="frame" x="19" y="73.5" width="199" height="26"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="162" id="CLn-ZF-scc"/>
+                            <constraint firstAttribute="width" constant="199" id="CLn-ZF-scc"/>
                             <constraint firstAttribute="height" constant="26" id="yfj-sf-KzG"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="21"/>
+                        <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="21"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -93,6 +93,15 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KSp-Vd-Mpb">
+                        <rect key="frame" x="157" y="102" width="160" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="160" id="zxX-Yb-770"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" red="0.23137254901960785" green="0.42352941176470588" blue="0.65098039215686276" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
@@ -101,6 +110,7 @@
                     <constraint firstItem="fbO-Iz-nSa" firstAttribute="trailing" secondItem="0JK-hI-zFu" secondAttribute="trailing" id="9Q2-08-Ifb"/>
                     <constraint firstItem="M8t-Vt-Y1q" firstAttribute="leading" secondItem="xSM-Db-aT6" secondAttribute="leading" id="A55-BB-MhF"/>
                     <constraint firstItem="x8N-QD-5Rb" firstAttribute="baseline" secondItem="xSM-Db-aT6" secondAttribute="baseline" id="J1W-Lb-hgS"/>
+                    <constraint firstItem="KSp-Vd-Mpb" firstAttribute="top" secondItem="0JK-hI-zFu" secondAttribute="bottom" constant="7" id="Jem-tv-ayc"/>
                     <constraint firstAttribute="trailing" secondItem="M8t-Vt-Y1q" secondAttribute="trailing" constant="40" id="Ma7-RS-paO"/>
                     <constraint firstItem="fbO-Iz-nSa" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Plh-u0-0bY"/>
                     <constraint firstItem="xSM-Db-aT6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="17" id="R2a-mf-1kl"/>
@@ -112,6 +122,7 @@
                     <constraint firstItem="fbO-Iz-nSa" firstAttribute="centerY" secondItem="b9e-cG-FhZ" secondAttribute="centerY" id="i0M-nc-bBU"/>
                     <constraint firstItem="b9e-cG-FhZ" firstAttribute="leading" secondItem="xSM-Db-aT6" secondAttribute="trailing" constant="12" id="lYW-P0-3AY"/>
                     <constraint firstItem="b9e-cG-FhZ" firstAttribute="centerY" secondItem="xSM-Db-aT6" secondAttribute="centerY" id="qdp-aR-Oz4"/>
+                    <constraint firstAttribute="trailing" secondItem="KSp-Vd-Mpb" secondAttribute="trailing" constant="16" id="wyp-3Y-G2b"/>
                     <constraint firstItem="nrp-76-Dcc" firstAttribute="centerY" secondItem="0JK-hI-zFu" secondAttribute="centerY" id="xAh-YZ-1AN"/>
                 </constraints>
             </tableViewCellContentView>
@@ -122,9 +133,11 @@
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
             <connections>
+                <outlet property="QRCodeImage" destination="fbO-Iz-nSa" id="OhR-CA-RX6"/>
                 <outlet property="addressLabel" destination="M8t-Vt-Y1q" id="9Nm-FC-B3U"/>
                 <outlet property="backupView" destination="b9e-cG-FhZ" id="hR5-Zg-reL"/>
                 <outlet property="balanceCNYLabel" destination="0JK-hI-zFu" id="ULV-Ve-JLr"/>
+                <outlet property="createTime" destination="KSp-Vd-Mpb" id="cLR-Ah-4lJ"/>
                 <outlet property="walletBalanceLabel" destination="nrp-76-Dcc" id="1YX-k8-OwC"/>
                 <outlet property="walletNameLbael" destination="xSM-Db-aT6" id="p0P-ed-i3Y"/>
                 <outlet property="walletType" destination="x8N-QD-5Rb" id="ccN-yK-66B"/>
