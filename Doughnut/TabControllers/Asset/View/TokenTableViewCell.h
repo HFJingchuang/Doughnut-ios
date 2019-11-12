@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)updateWithModel:(NSString *)tokenName :(NSString *)issuer ;
 
--(void)setSelectedStatus:(BOOL)status;
+@property (weak, nonatomic) IBOutlet UIImageView *clickImage;
+
+-(void)setSelected:(BOOL)status;
 
 @end
 

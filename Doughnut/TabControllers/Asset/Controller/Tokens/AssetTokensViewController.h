@@ -10,5 +10,10 @@
 #import "WalletManage.h"
 
 @interface AssetTokensViewController : TPOSBaseViewController
+
+@property (nonatomic, strong) NSString *viewName;
+
+@property (nonatomic, assign) BOOL singleFlag;
+
 @end
 

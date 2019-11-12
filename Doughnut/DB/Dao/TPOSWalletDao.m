@@ -64,6 +64,31 @@
     }];
 }
 
+- (void)updateWalletInfoWithWalletModel:(TPOSWalletModel *)walletModel complement:(void (^)(BOOL success))complement {
+    [self.dataBaseQueue inTransaction:^(FMDatabase * _Nonnull db, BOOL * _Nonnull rollback) {
+        BOOL result;
+        @try {
+            result = [db executeUpdate:@"update table_wallet set address = ?,info = ? where walletId = ?;",walletModel.address,[walletModel mj_JSONString],walletModel.walletId];
+            if (result) {
+                *rollback = NO;
+            } else {
+                *rollback = YES;
+            }
+        } @catch (NSException *exception) {
+            *rollback = NO;
+            [db rollback];
+        } @finally {
+            if(!*rollback) {
+                [db commit];
+            }
+            [db close];
+            if(complement) {
+                complement(result);
+            }
+        }
+    }];
+}
+
 - (void)deleteWalletWithAddress:(NSString *)address complement:(void (^)(BOOL success))complement {
     
     [self.dataBaseQueue inTransaction:^(FMDatabase * _Nonnull db, BOOL *rollback) {

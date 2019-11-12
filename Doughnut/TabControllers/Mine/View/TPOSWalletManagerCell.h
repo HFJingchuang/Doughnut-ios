@@ -12,6 +12,9 @@
 
 @interface TPOSWalletManagerCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *walletBalanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *balanceCNYLabel;
+
 - (void)updateWithModel:(TPOSWalletModel *)walletModel;
 
 @end

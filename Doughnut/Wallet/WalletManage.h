@@ -13,6 +13,9 @@
 #import <Remote.h>
 
 @interface WalletManage : NSObject
+
+@property (nonatomic ,strong) NSString *remoteAddr;
+
 //初始化
 + (instancetype) shareInstance;
 //创建连接

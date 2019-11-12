@@ -136,6 +136,9 @@
 }
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    if (tabBar.tag == 0){
+        [_assetVC loadCurrentWallet];
+    }
 }
 
 + (void)animationPushUp:(UIView *)view duration:(CGFloat)duration

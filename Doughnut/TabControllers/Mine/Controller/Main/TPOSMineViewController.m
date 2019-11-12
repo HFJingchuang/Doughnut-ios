@@ -27,6 +27,9 @@
 #import "TPOSJTManager.h"
 #import "TPOSEditWalletViewController.h"
 #import "TransactionDetailViewController.h"
+#import "QRCodeViewController.h"
+#import "QRCodeReceiveViewController.h"
+#import "TransactionViewController.h"
 
 @interface TPOSMineViewController ()
 //header
@@ -46,9 +49,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *transferLogLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *languageLabel;
-@property (weak, nonatomic) IBOutlet UILabel *copyrightLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pointLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentVersion;
+@property (weak, nonatomic) IBOutlet UIImageView *QRCodeImage;
 
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
@@ -74,7 +77,6 @@
     self.transferLogLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_record"];
     self.pointLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"point_settings"];
     self.versionLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"version"];
-    self.copyrightLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"copyright_info"];
     self.languageLabel.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"lang_setting"];
     self.current.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"current"];
     [self.reciverButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"receive_action"] forState:UIControlStateNormal];
@@ -92,22 +94,6 @@
 
 #pragma mark - Private
 
-//- (void)setupData {
-//    self.tableSources = @[@[],
-//                          @[@{@"icon":@"icon_mine_wallet",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_manage"],@"action":@"pushToWalletManager"},
-//                            @{@"icon":@"icon_mine_transaction",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_record"],@"action":@"pushToTransactionRecoder"}],
-//                          @[
-//                            @{@"icon":@"icon_mine_help",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"help"],@"action":@"pushToHelp"},
-//                            @{@"icon":@"icon_mine_about",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"about"],@"action":@"pushToAboutUs"},
-//                            @{@"icon":@"icon_mine_setting",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"settings"],@"action":@"pushToSetting"},
-//                            @{@"icon":@"icon_mine_point",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"point_settings"],@"action":@"pushToPointSetting"},
-//                            @{@"icon":@"icon_mine_copyright",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"copyright_info"],@"action":@"pushToCopyright"},
-//                            @{@"icon":@"icon_mine_version",@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"version"]}],
-//                          @[]
-//                          ];
-//}
-
-
 - (void) loadCurrentWallet {
     __weak typeof(self) weakSelf = self;
     _currentWallet = [TPOSContext shareInstance].currentWallet;
@@ -117,6 +103,16 @@
         [_walletName sizeToFit];
         self.currentConstraint.constant = _walletName.frame.size.width + 30;
     }
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickImage)];
+    [_QRCodeImage addGestureRecognizer:tapGesture];
+    _QRCodeImage.userInteractionEnabled = YES;
+}
+
+- (void)clickImage {
+    QRCodeViewController *vc = [[QRCodeViewController alloc]init];
+    vc.walletName = _currentWallet.walletName;
+    vc.walletAddr = _currentWallet.address;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (TPOSWalletDao *)walletDao {
@@ -153,13 +149,11 @@
 }
 
 - (IBAction)versionAction:(id)sender {
-}
-- (IBAction)languageAction:(id)sender {
-    [self pushToLanguageViewController];
+    [self pushToCopyRight];
 }
 
-- (IBAction)copyrightAction:(id)sender {
-    [self pushToCopyright];
+- (IBAction)languageAction:(id)sender {
+    [self pushToLanguageViewController];
 }
 
 - (IBAction)pointAction:(id)sender {
@@ -176,46 +170,34 @@
 
 - (IBAction)currentWalletAction:(id)sender {
     TPOSEditWalletViewController *editWalletViewController = [[TPOSEditWalletViewController alloc] init];
-    editWalletViewController.walletModel = _currentWallet;
+    editWalletViewController.currentWallet = _currentWallet;
     [self.navigationController pushViewController:editWalletViewController animated:YES];
 }
 
 #pragma mark - push
 - (void)pushToTransaction {
-    TPOSTransactionViewController *transactionViewController = [[TPOSTransactionViewController alloc] init];
-    
-//    [_tokenModels enumerateObjectsUsingBlock:^(TPOSTokenModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if (obj.token_type == 0) {
-//            transactionViewController.currentTokenModel = obj;
-//            *stop = YES;
-//        }
-//    }];
+    TransactionViewController *transactionViewController = [[TransactionViewController alloc] init];
     [self.navigationController pushViewController:transactionViewController animated:YES];
 }
 
 - (void)showQRCodeReceiver {
-    TPOSQRCodeReceiveViewController *qrVC = [[TPOSQRCodeReceiveViewController alloc] init];
-    
-//    if (_currentWallet) {
-//        qrVC.address = _currentWallet.address;
-//        qrVC.tokenType = [_currentWallet.blockChainId isEqualToString:ethChain] ? @"ETH" : @"SWT" ;
-//        qrVC.tokenAmount = 0;
-//        qrVC.basicType = [_currentWallet.blockChainId isEqualToString:ethChain] ? TPOSBasicTokenTypeEtheruem : TPOSBasicTokenTypeJingTum;
+    QRCodeReceiveViewController *qrVC = [[QRCodeReceiveViewController alloc] init];
+    if (_currentWallet) {
+        qrVC.walletAddress = _currentWallet.address;
+        qrVC.walletName = _currentWallet.walletName;
+//      qrVC.tokenAmount = 0;
         TPOSNavigationController *navi = [[TPOSNavigationController alloc] initWithRootViewController:qrVC];
         [self presentViewController:navi animated:YES completion:nil];
-    //}
-//    else {
-//
-//        __weak typeof(self) weakSelf = self;
-//
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"no_wallet_tips"] preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"ok"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }
+    else {
+        __weak typeof(self) weakSelf = self;
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"no_wallet_tips"] preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"ok"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 //            [weakSelf pushToCreateWallet];
-//        }];
-//        [alert addAction:confirmAction];
-//
-//        [self presentViewController:alert animated:YES completion:nil];
-//    }
+        }];
+        [alert addAction:confirmAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 - (void)pushToTransactionRecoder {
@@ -256,9 +238,8 @@
     [self.navigationController pushViewController:pointSettingViewController animated:YES];
 }
 
-- (void)pushToCopyright {
-//    DOSCopyrightViewController *copyrightViewController = [[DOSCopyrightViewController alloc]init];
-    TransactionDetailViewController *copyrightViewController = [[TransactionDetailViewController alloc]init];
+- (void)pushToCopyRight {
+    DOSCopyrightViewController *copyrightViewController = [[DOSCopyrightViewController alloc]init];
     [self.navigationController pushViewController:copyrightViewController animated:YES];
 }
 

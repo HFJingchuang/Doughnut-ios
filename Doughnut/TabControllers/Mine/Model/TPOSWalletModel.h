@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MJExtension.h"//;
+#import "MJExtension.h"
 
 @interface TPOSWalletModel : NSObject
 
@@ -19,6 +19,9 @@
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic, copy) NSString *passwordTips;
 @property (nonatomic, copy) NSString *privateKey;
+@property (nonatomic, copy) NSString *createTime;
+@property (nonatomic, copy) NSString *balanceSWTC;
+@property (nonatomic, copy) NSString *balanceCNY;
 @property (nonatomic, copy) NSString *blockChainId; //公链id
 @property (nonatomic, copy) NSString *mnemonic; //助记词
 @property (nonatomic, copy) NSString *viewTokens;//要显示的币种

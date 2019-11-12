@@ -52,12 +52,13 @@ static NSString *COUNTER = @"CNT";
     int accountRelationsFreezeId;
     int accountOffersId;
     int accountTXId;
+    int transactionId;
 }
 
-@property (nonatomic, strong) AccountInfoModal *accountInfo;
-@property (nonatomic, strong) NSMutableArray<NSMutableDictionary *> *trustlines;
-@property (nonatomic, strong) NSMutableArray<NSMutableDictionary *> *freezeLines;
-@property (nonatomic, strong) NSMutableArray<NSMutableDictionary *> *offerlist;
+@property (nonatomic, copy) AccountInfoModal *accountInfo;
+@property (nonatomic, copy) NSMutableArray<NSMutableDictionary *> *trustlines;
+@property (nonatomic, copy) NSMutableArray<NSMutableDictionary *> *freezeLines;
+@property (nonatomic, copy) NSMutableArray<NSMutableDictionary *> *offerlist;
 
 @end
 @implementation WalletManage
@@ -76,14 +77,16 @@ static NSString *COUNTER = @"CNT";
     caclUtil = [[CaclUtil alloc]init];
     jccdexConfig = [JccdexConfig shareInstance];
     jccdexInfo = [JccdexInfo shareInstance];
-    [remote connectWithURLString:@"ws://106.14.154.38:5020" local_sign:YES];
+    if (_remoteAddr||_remoteAddr.length == 0){
+        _remoteAddr = @"ws://106.14.154.38:5020";
+    }
+    [remote connectWithURLString:_remoteAddr local_sign:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountInfo:) name:requestAccountInfoFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountRelationsTrust:) name:requestAccountRelationsTrustFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountRelationsFreeze:) name:requestAccountRelationsFreezeFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountOffers:) name:requestAccountOffersFlag object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccounTX:) name:requestAcountTXFlag object:nil];
     return remote;
 }
 
@@ -100,7 +103,6 @@ static NSString *COUNTER = @"CNT";
 
 - (void) SRWebSocketDidReceiveMsg:(NSNotification *) notification {
     NSString * message = notification.object;
-    //NSLog(@"the response from server is: %@", message);
     NSDictionary *data = [[self dictionaryWithJsonString:message] objectForKey:@"result"];
     int requestFlag = [[[self dictionaryWithJsonString:message] objectForKey:@"id"] intValue];
     if(requestFlag == accountInfoId){
@@ -113,9 +115,13 @@ static NSString *COUNTER = @"CNT";
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountRelationsFreezeFlag object:data];
     }else if (requestFlag == accountOffersId) {
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountOffersFlag object:data];
-    }else if (requestFlag == accountTXId) {
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:requestAcountTXFlag object:data];
+    }
+//    else if (requestFlag == accountTXId) {
+//        [[NSNotificationCenter defaultCenter]
+//         postNotificationName:requestAcountTXFlag object:data];
+//    }
+    else if(requestFlag == transactionId){
+        [[NSNotificationCenter defaultCenter]postNotificationName:transactionFlag object:data];
     }
 };
 
@@ -147,22 +153,22 @@ static NSString *COUNTER = @"CNT";
 }
 
 //转账
-- (void) transferWithPassword {
-    NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
-    [options setObject:@"jB7rxgh43ncbTX4WeMoeadiGMfmfqY2xLZ" forKey:@"account"];
-    [options setObject:@"jpKcDjvqT1BJZ6G674tvLhYdNPtwPDU6vD" forKey:@"to"];
-    
-    NSMutableDictionary *amount = [[NSMutableDictionary alloc] init];
-    NSNumber *value = [NSNumber numberWithFloat:2];
-    [amount setObject:value forKey:@"value"];
-    [amount setObject:@"SWT" forKey:@"currency"];
-    [amount setObject:@" " forKey:@"issuer"];
-    [options setObject:amount forKey:@"amount"];
-    Transaction *tx = [[Remote instance] buildPaymentTx:options];
-    [tx setSecret:@"sn37nYrQ6KPJvTFmaBYokS3FjXUWd"];
-    [tx addMemo:@"给jDUjqoDZLhzx4DCf6pvSivjkjgtRESY62c支付0.5swt."];
-    [tx addMemo:@"测试jerry"];
-    [tx submit];
+- (void) transferWithPassword:(NSMutableDictionary *)txData {
+    if (txData){
+        NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
+        [options setObject:[txData valueForKey:@"account"] forKey:@"account"];
+        [options setObject:[txData valueForKey:@"to"] forKey:@"to"];
+        NSMutableDictionary *amount = [[NSMutableDictionary alloc] init];
+        [amount setObject:[txData valueForKey:@"value"] forKey:@"value"];
+        [amount setObject:[txData valueForKey:@"currency"] forKey:@"currency"];
+        [amount setObject:[txData valueForKey:@"issuer"] forKey:@"issuer"];
+        [options setObject:amount forKey:@"amount"];
+        Transaction *tx = [[Remote instance] buildPaymentTx:options];
+        //[tx setSecret:@"sn37nYrQ6KPJvTFmaBYokS3FjXUWd"];
+        [tx addMemo:[txData valueForKey:@"account"]];
+        transactionId = remote->req_id;
+        [tx submit];
+    }
 }
 
 //获取账号信息
@@ -200,9 +206,17 @@ static NSString *COUNTER = @"CNT";
 }
 
 - (void)getAccountOffers:(NSNotification *) notification {
-    NSString * message = notification.object;
-    NSLog(@"the Relations1 from server is: %@", message);
     _offerlist = [notification.object objectForKey:@"offers"];
+    for (int i = 0;i < _offerlist.count ;i++){
+        if ([[_offerlist[i] valueForKey:@"taker_gets"] isKindOfClass:NSString.class]){
+            NSMutableDictionary *da = [NSMutableDictionary new];
+            [da setValue:@"SWTC" forKey:@"currency"];
+            CGFloat value = [[_offerlist[i] valueForKey:@"taker_gets"] integerValue]/1000000.0;
+            NSString *balance = [NSString stringWithFormat:@"%.6f",value];
+            [da setValue:balance forKey:@"value"];
+            [_offerlist[i] setValue:da forKey:@"taker_gets"];
+        }
+    }
     [self getBalance];
 }
 
@@ -216,8 +230,6 @@ static NSString *COUNTER = @"CNT";
 }
 
 -(void) getAccountRelationsTrust:(NSNotification *) notification {
-    NSString * message = notification.object;
-    NSLog(@"the Relations1 from server is: %@", message);
     _trustlines = [notification.object objectForKey:@"lines"];
     [self getBalance];
 }
@@ -358,33 +370,35 @@ static NSString *COUNTER = @"CNT";
 
 -(void) getBalance{
     if ([self arrIsNil:_trustlines]&&[self arrIsNil:_freezeLines]&&[self arrIsNil:_offerlist]&&_accountInfo){
+        NSMutableArray<NSMutableDictionary *> *data = [NSKeyedUnarchiver unarchiveObjectWithData:
+                                      [NSKeyedArchiver archivedDataWithRootObject:_trustlines]];
         // 计算swt冻结数量
-        int *freezed = (_trustlines.count + _offerlist.count) * FREEZED + RESERVED;
+        long freezed = (data.count + _offerlist.count) * FREEZED + RESERVED;
         NSMutableDictionary *swtLine = [NSMutableDictionary new];
-        NSString *valid = [caclUtil sub:_accountInfo.Balance :[NSString stringWithFormat:@"%d",freezed] :4];
+        NSString *valid = [caclUtil sub:_accountInfo.Balance :[NSString stringWithFormat:@"%ld",freezed] :SCALE];
         [swtLine setValue:valid forKey:@"balance"];
         [swtLine setValue:CURRENCY_SWTC forKey:@"currency"];
         [swtLine setValue:[NSString stringWithFormat:@"%ld",freezed] forKey:@"limit"];
         [swtLine setValue:@"" forKey:@"account"];
-        [_trustlines addObject:swtLine];
+        [data addObject:swtLine];
         // trust limit 置零
-        for (int j = 0; j < _trustlines.count; j++) {
-            NSString *currency = [_trustlines[j] valueForKey:@"currency"];
+        for (int j = 0; j < data.count; j++) {
+            NSString *currency = [data[j] valueForKey:@"currency"];
             if (![currency isEqualToString:CURRENCY_SWTC]) {
-                [_trustlines[j] setValue:@"0" forKey:@"limit"];
+                [data[j] setValue:@"0" forKey:@"limit"];
             }
         }
         
         // 根据挂单计算冻结数量
         for (int i = 0; i <_offerlist.count; i++) {
-            NSString *getsCurrency = [[_offerlist[i] objectForKey:@"takerGets"] valueForKey:@"currency"];
-            for (int j = 0; j < _trustlines.count; j++) {
-                NSMutableDictionary *line = _trustlines[j];
+            NSString *getsCurrency = [[_offerlist[i] objectForKey:@"taker_gets"] valueForKey:@"currency"];
+            for (int j = 0; j < data.count; j++) {
+                NSMutableDictionary *line = data[j];
                 NSString *currency = [line valueForKey:@"currency"];
                 if ([getsCurrency isEqualToString:currency]) {
-                    NSString *offerValue = [[_offerlist[i] objectForKey:@"takerGets"] valueForKey:@"value"];
-                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :offerValue :4];
-                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :offerValue :4];
+                    NSString *offerValue = [[_offerlist[i] objectForKey:@"taker_gets"] valueForKey:@"value"];
+                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :offerValue :SCALE];
+                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :offerValue :SCALE];
                     [line setValue:balance forKey:@"balance"];
                     [line setValue:tokenFreeze forKey:@"limit"];
                     break;
@@ -394,23 +408,23 @@ static NSString *COUNTER = @"CNT";
         // 根据冻结关系类型计算冻结数量
         for (int i = 0; i < _freezeLines.count; i++) {
             NSString *FCurrency = [_freezeLines[i] valueForKey:@"currency"];
-            for (int j = 0; j < _trustlines.count; j++) {
-                NSMutableDictionary *line = _trustlines[j];
+            for (int j = 0; j < data.count; j++) {
+                NSMutableDictionary *line = data[j];
                 NSString *currency = [line valueForKey:@"currency"];
                 if ([FCurrency isEqualToString:currency]) {
                     NSString *freeze = [_freezeLines[i] valueForKey:@"limit"];
-                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :freeze :4];
-                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :freeze :4];
+                    NSString *tokenFreeze = [caclUtil add:[line valueForKey:@"limit"] :freeze :SCALE];
+                    NSString *balance = [caclUtil sub:[line valueForKey:@"balance"] :freeze :SCALE];
                     [line setValue:balance forKey:@"balance"];
                     [line setValue:tokenFreeze forKey:@"limit"];
                     break;
                 }
             }
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:getBalanceList object:_trustlines];
         _trustlines = nil;
         _freezeLines = nil;
         _offerlist = nil;
+        [[NSNotificationCenter defaultCenter] postNotificationName:_accountInfo.Account object:data];
         _accountInfo = nil;
     }
 }
@@ -469,6 +483,11 @@ static NSString *COUNTER = @"CNT";
 - (NSError *)errorDomain:(NSString *)domain reason:(NSString *)reason {
     NSError *error = [NSError errorWithDomain:@"" code:-1 userInfo:@{NSLocalizedDescriptionKey:reason}];
     return error;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 @end

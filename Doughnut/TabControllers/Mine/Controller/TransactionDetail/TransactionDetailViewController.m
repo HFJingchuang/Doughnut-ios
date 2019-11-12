@@ -68,12 +68,14 @@
     [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
-    self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_detail"];
+    self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"transaction_details"];
     self.transactionInfoView.layer.shadowColor = (__bridge CGColorRef _Nullable)([UIColor colorWithHex:0x051B2A alpha:50]);
+    self.transactionInfoView.layer.cornerRadius = 6;
+    self.transactionInfoView.layer.masksToBounds = YES;
     self.transactionInfoView.layer.shadowOffset = CGSizeMake(0,5);
     self.transactionInfoView.layer.shadowOpacity = 1;
     self.transactionInfoView.layer.shadowRadius = 15;
-    UIView *back = [[UIView alloc]initWithFrame:CGRectMake(_infoScrollView.frame.origin.x ,_infoScrollView.frame.origin.y - 3, _infoScrollView.frame.size.width,50)];
+    UIView *back = [[UIView alloc]initWithFrame:CGRectMake(_infoScrollView.frame.origin.x ,_infoScrollView.frame.origin.y - 2, _infoScrollView.frame.size.width,50)];
     back.backgroundColor = [UIColor colorWithHex:0x3B6CA6];
     back.layer.cornerRadius = 6;
     [self.view addSubview:back];
@@ -82,13 +84,6 @@
     self.infoScrollView.contentSize = CGSizeMake(self.transactionInfoView.frame.size.width,self.transactionInfoView.frame.size.height);
     self.infoScrollView.bounces = NO;
     self.navigationController.navigationBarHidden = NO;
-    [self pageControl];
-    _pageControl.frame=CGRectMake(10,[UIScreen mainScreen].bounds.size.height - 10, _effectNodesScrollView.frame.size.width, 30);
-    _pageControl.backgroundColor = [UIColor blackColor];
-    _pageControl.numberOfPages = 7;
-    _pageControl.currentPage = 0;
-    [self.view addSubview:_pageControl];
-    [self.view bringSubviewToFront:_pageControl];
 }
 
 - (void)changeLanguage {
@@ -145,8 +140,8 @@
                     weakSelf.dataLabel5.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
                     weakSelf.dataLabel5.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
                     weakSelf.dataLabel5.textAlignment = NSTextAlignmentRight;
-                    NSString *price = [weakSelf getPrice:response match:YES][0];
-                    NSString *cny = [weakSelf getPrice:response match:YES][1];
+                    NSString *price = [weakSelf getPriceWithV1:[[response valueForKey:@"matchGets"]valueForKey:@"value"] V2:[[response valueForKey:@"matchPays"]valueForKey:@"value"] C1:c1 C2:c2 ][0];
+                    NSString *cny = [weakSelf getPriceWithV1:[[response valueForKey:@"matchGets"]valueForKey:@"value"] V2:[[response valueForKey:@"matchPays"]valueForKey:@"value"] C1:c1 C2:c2 ][1];
                     weakSelf.dataLabel6.attributedText = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
                     weakSelf.dataLabel6.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
                     weakSelf.dataLabel6.textAlignment = NSTextAlignmentRight;
@@ -170,8 +165,8 @@
             weakSelf.dataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
             weakSelf.dataLabel3.textAlignment = NSTextAlignmentRight;
             weakSelf.itemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_price"];
-            NSString *price = [weakSelf getPrice:response match:NO][0];
-            NSString *cny = [weakSelf getPrice:response match:NO][1];
+            NSString *price = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][0];
+            NSString *cny = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][1];
             weakSelf.dataLabel4.attributedText = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
             weakSelf.dataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
             weakSelf.dataLabel4.textAlignment = NSTextAlignmentRight;
@@ -194,8 +189,8 @@
             weakSelf.dataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
             weakSelf.dataLabel3.textAlignment = NSTextAlignmentRight;
             weakSelf.itemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_price"];
-            NSString *price = [weakSelf getPrice:response match:NO][0];
-            NSString *cny = [weakSelf getPrice:response match:NO][1];
+            NSString *price = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][0];
+            NSString *cny = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][1];
             weakSelf.dataLabel4.attributedText = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
             weakSelf.dataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
             weakSelf.dataLabel4.textAlignment = NSTextAlignmentRight;
@@ -215,34 +210,126 @@
             weakSelf.dataLabel10.text = [weakSelf stringFromHexString:memo];
         }
         [weakSelf labelToFit];
-//        if([[response allKeys]containsObject:@"affectedNodes"]){
-        weakSelf.effectNodesScrollView.contentSize=CGSizeMake(_effectNodesScrollView.bounds.size.width*7, 100);
-            weakSelf.effectNodesScrollView.delegate=self;
-            weakSelf.effectNodesScrollView.pagingEnabled = YES;
-            for (int i = 0; i < 7; i++) {
-                TransactionNodeView *imgV= [[[NSBundle mainBundle] loadNibNamed:@"TransactionNodeView" owner:self options:nil] firstObject];
-                imgV.frame = CGRectMake(weakSelf.effectNodesScrollView.bounds.size.width * i + 5, 0, weakSelf.effectNodesScrollView.bounds.size.width - 10, weakSelf.effectNodesScrollView.bounds.size.height);
-                imgV.layer.cornerRadius = 6;
-                imgV.layer.masksToBounds = YES;
-                imgV.contentTitleLabel.text = @"23232";
-                imgV.contentDataLabel1.text = @"2323";
-                [weakSelf.effectNodesScrollView addSubview:imgV];
-            }
-//            [weakSelf pageControl];
-//            _pageControl.frame=CGRectMake(10,[UIScreen mainScreen].bounds.size.height - 10, _effectNodesScrollView.frame.size.width, 30);
-//            _pageControl.backgroundColor = [UIColor blackColor];
-//            _pageControl.numberOfPages = 7;
-//            _pageControl.currentPage = 0;
-//            CGRect rect = _pageControl.frame;
-//            [self.view addSubview:_pageControl];
-//            [weakSelf.view bringSubviewToFront:_pageControl];
-//        }else {
-//            weakSelf.effectNodesScrollView.hidden = YES;
-//            weakSelf.bottomConstraints.constant = 100;
-//        }
+        if([[response allKeys]containsObject:@"affectedNodes"]) {
+            [weakSelf addAffectNodes:response];
+        }else {
+            weakSelf.effectNodesScrollView.hidden = YES;
+            weakSelf.bottomConstraints.constant = 100;
+        }
     } failure:^(NSError *error) {
         [weakSelf.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"req_exchange_list_fail"]];
     }];
+}
+
+- (void)addAffectNodes:(NSDictionary *)response {
+    __weak typeof(self) weakSelf = self;
+    NSMutableArray *arr = [response valueForKey:@"affectedNodes"];
+    weakSelf.effectNodesScrollView.contentSize = CGSizeMake(_effectNodesScrollView.bounds.size.width * arr.count, 100);
+    weakSelf.effectNodesScrollView.delegate = self;
+    weakSelf.effectNodesScrollView.pagingEnabled = YES;
+    NSNumber *pages = [NSNumber numberWithInt:0];
+    if (arr.count == 0){
+        pages = [NSNumber numberWithInt:1];
+        TransactionNodeView *imgV = [[[NSBundle mainBundle] loadNibNamed:@"TransactionNodeView" owner:self options:nil] firstObject];
+        imgV.frame = CGRectMake(5, 0, weakSelf.effectNodesScrollView.bounds.size.width - 10, weakSelf.effectNodesScrollView.bounds.size.height);
+        imgV.layer.cornerRadius = 6;
+        imgV.layer.masksToBounds = YES;
+        imgV.contentTitleLabel.text = [NSString stringWithFormat:@"%@   %@", [weakSelf getSeq:1], [[TPOSLocalizedHelper standardHelper]stringWithKey:@"transaction_detail"]];
+        imgV.contentItemLabel1.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"index"];
+        imgV.contentDataLabel1.text = [weakSelf getSeq:1];
+        imgV.contentItemLabel2.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"side"];
+        NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
+        imageAttachment.image = [UIImage imageNamed:[response valueForKey:@"type"]];
+        imageAttachment.bounds = CGRectMake(-5, -4, 20, 20);
+        NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+        NSMutableAttributedString *completeText= [[NSMutableAttributedString alloc] initWithString:@""];
+        [completeText appendAttributedString:attachmentString];
+        [completeText appendAttributedString:weakSelf.dataLabel1.attributedText];
+        imgV.contentDataLabel2.attributedText = completeText;
+        imgV.contentItemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"content"];
+        imgV.contentDataLabel3.attributedText = weakSelf.dataLabel3.attributedText;
+        imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"price"];
+        imgV.contentDataLabel4.attributedText = weakSelf.dataLabel4.attributedText;
+        [weakSelf.effectNodesScrollView addSubview:imgV];
+        [imgV.contentDataLabel2 sizeToFit];
+        
+    }else{
+        pages = [NSNumber numberWithInteger:arr.count];
+        for (int i = 0; i < arr.count; i++) {
+            NSDictionary *pre = [arr[i] valueForKey:@"previous"];
+            NSDictionary *fin = [arr[i] valueForKey:@"final"];
+            TransactionNodeView *imgV = [[[NSBundle mainBundle] loadNibNamed:@"TransactionNodeView" owner:self options:nil] firstObject];
+            imgV.frame = CGRectMake(weakSelf.effectNodesScrollView.bounds.size.width * i + 5, 0, weakSelf.effectNodesScrollView.bounds.size.width - 10, weakSelf.effectNodesScrollView.bounds.size.height);
+            imgV.layer.cornerRadius = 6;
+            imgV.layer.masksToBounds = YES;
+            imgV.contentTitleLabel.text = [NSString stringWithFormat:@"%@   %@", [weakSelf getSeq:i + 1], [[TPOSLocalizedHelper standardHelper]stringWithKey:@"transaction_detail"]];
+            imgV.contentItemLabel1.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"index"];
+            imgV.contentDataLabel1.text = [weakSelf getSeq:i + 1];
+            NSString *v1 = @"";
+            NSString *c1 = @"";
+            NSString *v2 = @"";
+            NSString *c2 = @"";
+            v1 = [_cacl sub:[[pre valueForKey:@"takerPays"]valueForKey:@"value"] :[[fin valueForKey:@"takerPays"]valueForKey:@"value"] :2];
+            c1 = [[pre valueForKey:@"takerPays"]valueForKey:@"currency"];
+            v2 = [_cacl sub:[[pre valueForKey:@"takerGets"]valueForKey:@"value"] :[[fin valueForKey:@"takerGets"]valueForKey:@"value"] :2];
+            c2 = [[pre valueForKey:@"takerGets"]valueForKey:@"currency"];
+            NSArray *priceArr = [weakSelf getPriceWithV1:[_cacl sub:[[pre valueForKey:@"takerPays"]valueForKey:@"value"] :[[fin valueForKey:@"takerPays"]valueForKey:@"value"]] V2:[_cacl sub:[[pre valueForKey:@"takerGets"]valueForKey:@"value"] :[[fin valueForKey:@"takerGets"]valueForKey:@"value"]] C1:c1 C2:c2 ];
+            NSAttributedString *content = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
+            NSString *price = priceArr[0];
+            NSString *cny = priceArr[1];
+            NSAttributedString *priceAttr = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
+//            if ([[arr[i] valueForKey:@"account"] isEqualToString:_currentWalletAddress]){
+//                imgV.contentItemLabel2.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"side"];
+//                NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
+//                imageAttachment.image = [UIImage imageNamed:[response valueForKey:@"type"]];
+//                imageAttachment.bounds = CGRectMake(-5, -4, 20, 20);
+//                NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+//                NSMutableAttributedString *completeText= [[NSMutableAttributedString alloc] initWithString:@""];
+//                [completeText appendAttributedString:attachmentString];
+//                [completeText appendAttributedString:weakSelf.dataLabel1.attributedText];
+//                imgV.contentDataLabel2.attributedText = completeText;
+//                imgV.contentItemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"content"];
+//                imgV.contentDataLabel3.attributedText = content;
+//                imgV.contentDataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+//                imgV.contentDataLabel3.textAlignment = NSTextAlignmentRight;
+//                imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"price"];
+//                imgV.contentDataLabel4.attributedText = priceAttr;
+//                imgV.contentDataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+//                imgV.contentDataLabel4.textAlignment = NSTextAlignmentRight;
+//            }else {
+                imgV.contentItemLabel2.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"content"];
+                imgV.contentDataLabel2.attributedText = content;
+                imgV.contentDataLabel2.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+                imgV.contentDataLabel2.textAlignment = NSTextAlignmentRight;
+                imgV.contentItemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"price"];
+                imgV.contentDataLabel3.attributedText = priceAttr;
+                imgV.contentDataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+                imgV.contentDataLabel3.textAlignment = NSTextAlignmentRight;
+                imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"price"];
+                imgV.contentDataLabel4.text = [arr[i] valueForKey:@"account"];
+//            }
+            [weakSelf.effectNodesScrollView addSubview:imgV];
+        }
+    }
+    [weakSelf performSelectorOnMainThread:@selector(setPageControl:) withObject:pages waitUntilDone:nil];
+}
+
+-(NSString *)getSeq:(int)index{
+    NSString *seq = [NSString stringWithFormat:@"%d",index];
+    if (seq.length == 1 && seq != 0){
+        seq = [NSString stringWithFormat:@"%@%@",@"0",seq ];
+    }
+    return seq;
+}
+
+-(void)setPageControl:(NSNumber *)pages{
+    [self addPageControl];
+    float height = _effectNodesScrollView.frame.origin.y + _effectNodesScrollView.frame.size.height;
+    _pageControl.frame=CGRectMake(5, height ,_effectNodesScrollView.frame.size.width, 30);
+    _pageControl.numberOfPages = [pages integerValue];
+    _pageControl.currentPage = 0;
+    [self.view addSubview:_pageControl];
+    [self.view bringSubviewToFront:_pageControl];
 }
 
 -(void) hideLabels{
@@ -261,26 +348,18 @@
     return [address isEqualToString:_currentWalletAddress];
 }
 
-- (NSArray *) getPrice: (NSDictionary *)data match:(BOOL)match{
+- (NSArray *) getPriceWithV1:(NSString *)v1 V2:(NSString *)v2 C1:(NSString *)c1 C2:(NSString *)c2 {
     NSString *priceC = @"";
     NSString *cny = @"";
-    if(match){
-        if([[[data valueForKey:@"matchPays"] valueForKey:@"currency"]isEqualToString:@"CNY"]||[[[data valueForKey:@"matchPays"] valueForKey:@"currency"]isEqualToString:@"SWTC"]){
-            priceC = [_cacl formatAmount:[_cacl div:[[data valueForKey:@"matchPays"]valueForKey:@"value"] :[[data valueForKey:@"matchGets"]valueForKey:@"value"] ] :6 :NO :NO];
-            cny = [[data valueForKey:@"matchPays"]valueForKey:@"currency"];
-            
-        }else {
-            priceC = [_cacl formatAmount:[_cacl div:[[data valueForKey:@"matchGets"]valueForKey:@"value"] :[[data valueForKey:@"matchPays"]valueForKey:@"value"] ] :6 :NO :NO];
-            cny = [[data valueForKey:@"matchGets"]valueForKey:@"currency"];
-        }
-    }else{
-        if([[[data valueForKey:@"takerPays"] valueForKey:@"currency"]isEqualToString:@"CNY"]||[[[data valueForKey:@"matchPays"] valueForKey:@"currency"]isEqualToString:@"SWTC"]){
-            priceC = [_cacl formatAmount:[_cacl div:[[data valueForKey:@"takerPays"]valueForKey:@"value"] :[[data valueForKey:@"takerGets"]valueForKey:@"value"] ] :6 :NO :NO];
-            cny = [[data valueForKey:@"takerPays"]valueForKey:@"currency"];
-        }else {
-            priceC = [_cacl formatAmount:[_cacl div:[[data valueForKey:@"takerGets"]valueForKey:@"value"] :[[data valueForKey:@"takerPays"]valueForKey:@"value"] ] :6 :NO :NO];
-            cny = [[data valueForKey:@"takerGets"]valueForKey:@"currency"];
-        }
+    if([c1 isEqualToString:@"CNY"]){
+        priceC = [_cacl formatAmount:[_cacl div:v1 :v2 ] :6 :NO :NO];
+        cny = c1;
+    }else if([c1 isEqualToString:@"SWTC"]&&![c2 isEqualToString:@"CNY"]){
+        priceC = [_cacl formatAmount:[_cacl div:v1 :v2 ] :6 :NO :NO];
+        cny = c1;
+    }else {
+        priceC = [_cacl formatAmount:[_cacl div:v2 :v1 ] :6 :NO :NO];
+        cny = c2;
     }
     NSArray *arr = @[priceC, cny];
     return arr;
@@ -322,12 +401,12 @@
     return data;
 }
 
-- (XHPageControl *)pageControl {
+- (XHPageControl *)addPageControl {
     _pageControl = [[XHPageControl alloc] init];
     _pageControl.frame=CGRectMake(0, _effectNodesScrollView.bounds.size.height + 50,[UIScreen mainScreen].bounds.size.width, 30);
     _pageControl.delegate=self;
     _pageControl.currentColor = [UIColor colorWithHex:0x3B6CA6];
-    _pageControl.currentMultiple = 5;
+    _pageControl.currentMultiple = 3;
     return _pageControl;
 }
 

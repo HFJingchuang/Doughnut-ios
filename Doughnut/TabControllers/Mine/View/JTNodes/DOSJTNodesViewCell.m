@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIView *nodeView;
 @property (weak, nonatomic) IBOutlet UILabel *nodeName;
 @property (weak, nonatomic) IBOutlet UILabel *nodeAddr;
+@property (weak, nonatomic) IBOutlet UILabel *pingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *clickImage;
 
 @end
@@ -46,6 +47,15 @@
         _clickImage.highlighted = selected;
     }
     
+}
+
+- (void)updateWithData:(NSDictionary *)data {
+    self.nodeName.text = [data valueForKey:@"name"];
+    self.nodeAddr.text = [data valueForKey:@"node"];
+    self.pingLabel.text = [NSString stringWithFormat:@"%@ ms",[data valueForKey:@"ping"]?[data valueForKey:@"ping"]:@"--" ];
+    if ([self.pingLabel.text isEqualToString:@"-- ms"]){
+        self.pingLabel.textColor = [UIColor redColor];
+    }
 }
 
 @end

@@ -44,6 +44,10 @@
 #define CURRENCY_SWT @"SWT"
 #define CURRENCY_CNY @"CNY"
 
+#define getChangeToken @"getChangeToken"
+
+#define getCurrentWalletBalance @"getCurrentWalletBalance"
+#define transactionFlag @"transactionFlag"
 
 #define getBalanceList @"getBalanceList"
 #define requestAcountTXFlag @"requestAccountTXFlag"

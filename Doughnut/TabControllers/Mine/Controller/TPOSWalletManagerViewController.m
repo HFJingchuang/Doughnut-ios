@@ -51,7 +51,6 @@
     [super viewDidLoad];
     [self setupTableView];
     self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
-    //self.bottomHeightCons.constant = kIphoneX ? 105 : 90;
     [self registerNotifications];
     [self loadWallets];
 }
@@ -72,12 +71,12 @@
     self.tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.sectionHeaderHeight = 10;
     self.tableView.sectionFooterHeight = 5;
+    self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.tableFooterView = [UIView new];
     [self registerCell];
 }
 
 - (void)loadWallets {
-    
     __weak typeof(self) weakSelf = self;
     [self.walletDao findAllWithComplement:^(NSArray<TPOSWalletModel *> *walletModels) {
         weakSelf.dataList = walletModels;
@@ -143,7 +142,10 @@
         [self.navigationController popViewControllerAnimated:YES];
     }else{
     TPOSEditWalletViewController *editWalletViewController = [[TPOSEditWalletViewController alloc] init];
-    editWalletViewController.walletModel = _dataList[indexPath.section];
+    editWalletViewController.currentWallet = _dataList[indexPath.section];
+    TPOSWalletManagerCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    editWalletViewController.currentWallet.balanceSWTC = cell.walletBalanceLabel.text;
+    editWalletViewController.currentWallet.balanceCNY = [cell.balanceCNYLabel.text stringByReplacingOccurrencesOfString:@"≈￥ " withString:@""];
     [self.navigationController pushViewController:editWalletViewController animated:YES];
     }
     _flag = NO;

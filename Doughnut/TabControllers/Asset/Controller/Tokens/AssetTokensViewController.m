@@ -16,6 +16,9 @@
 #import <Masonry/Masonry.h>
 #import "TPOSContext.h"
 #import "TPOSAssetViewController.h"
+#import "QRCodeReceiveViewController.h"
+#import "TransactionViewController.h"
+
 
 static NSString * const cellID = @"TokenTableViewCell";
 @interface AssetTokensViewController ()<UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
@@ -26,8 +29,9 @@ static NSString * const cellID = @"TokenTableViewCell";
 @property (nonatomic, strong) NSMutableArray<TokenCellModel *> *visibleResults;
 @property (nonatomic, strong) NSMutableArray<TokenCellModel *> *tokenArray;
 @property (nonatomic, strong) NSMutableArray<TokenCellModel *> *selectedTokensArray;
+@property (nonatomic, strong) TokenCellModel *selectedToken;
+@property (nonatomic, strong) NSNumber *selected;
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *selectedArray;
-
 
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
@@ -61,8 +65,15 @@ static NSString * const cellID = @"TokenTableViewCell";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear: animated];
     self.view.backgroundColor = [UIColor colorWithHex:0xffffff];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
     [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
-    self.title = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"add_tokens"];
+    if (_singleFlag){
+        self.title = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"select_token"];
+    }else{
+        self.title = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"add_tokens"];
+    }
     self.navigationController.navigationBarHidden = NO;
 }
 
@@ -167,33 +178,45 @@ static NSString * const cellID = @"TokenTableViewCell";
         }
     }
     [cell updateWithModel:name :issuer];
+    if (_singleFlag){
+        cell.clickImage.hidden = YES;
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     TokenTableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if(!_selectedArray) {
-        _selectedArray = [NSMutableArray new];
-    }
-    if([_selectedArray containsObject:[NSNumber numberWithInteger:indexPath.row]]){
-        [cell setSelectedStatus:NO];
-        [_selectedArray removeObject:[NSNumber numberWithInteger:indexPath.row]];
+    if(_singleFlag){
+        TokenCellModel *data;
         if(!_searchFlag){
-            [_selectedTokensArray removeObject:_tokenArray[indexPath.row]];
+            data = _tokenArray[indexPath.row];
         }else {
-            [_selectedTokensArray removeObject:_visibleResults[indexPath.row]];
+            data = _visibleResults[indexPath.row];
         }
-    } else {
-        [cell setSelectedStatus:YES];
-        [_selectedArray addObject:[NSNumber numberWithInteger:indexPath.row]];
-        if(!_searchFlag){
-            [_selectedTokensArray addObject:_tokenArray[indexPath.row]];
-        }else {
-            [_selectedTokensArray addObject:_visibleResults[indexPath.row]];
+        [[NSNotificationCenter defaultCenter]postNotificationName:getChangeToken object: data];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        if(!_selectedArray) {
+            _selectedArray = [NSMutableArray new];
+        }
+        if([_selectedArray containsObject:[NSNumber numberWithInteger:indexPath.row]]){
+            [cell setSelected:NO];
+            [_selectedArray removeObject:[NSNumber numberWithInteger:indexPath.row]];
+            if(!_searchFlag){
+                [_selectedTokensArray removeObject:_tokenArray[indexPath.row]];
+            }else {
+                [_selectedTokensArray removeObject:_visibleResults[indexPath.row]];
+            }
+        } else {
+            [cell setSelected:YES];
+            [_selectedArray addObject:[NSNumber numberWithInteger:indexPath.row]];
+            if(!_searchFlag){
+                [_selectedTokensArray addObject:_tokenArray[indexPath.row]];
+            }else {
+                [_selectedTokensArray addObject:_visibleResults[indexPath.row]];
+            }
         }
     }
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -285,8 +308,10 @@ static NSString * const cellID = @"TokenTableViewCell";
             }
         }
     }
-    [_walletDao updateWalletWithWalletModel:_currentWallet complement:^(BOOL success) {
-        if(success){}
+    [_walletDao updateWalletInfoWithWalletModel:_currentWallet complement:^(BOOL success) {
+        if(success){
+            [[NSNotificationCenter defaultCenter] postNotificationName:kEditWalletNotification object:_currentWallet];
+        }
     }];
     [[NSNotificationCenter defaultCenter] postNotificationName:kChangeWalletNotification object:_currentWallet];
 }
