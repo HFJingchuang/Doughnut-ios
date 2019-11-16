@@ -7,6 +7,7 @@
 //
 
 #import "TPOSWalletManagerViewController.h"
+#import "ImportWalletViewController.h"
 #import "TPOSWalletManagerCell.h"
 #import "UIColor+Hex.h"
 #import "TPOSCreateWalletViewController.h"
@@ -18,6 +19,7 @@
 #import "TPOSNavigationController.h"
 #import "TPOSSelectChainTypeViewController.h"
 #import "TPOSAssetViewController.h"
+#import "CreateWalletViewController.h"
 
 @interface TPOSWalletManagerViewController () <UITableViewDataSource,UITableViewDelegate>
 
@@ -85,12 +87,14 @@
 }
 
 - (IBAction)createWallet {
-    TPOSCreateWalletViewController *createWalletViewController = [[TPOSCreateWalletViewController alloc] init];
+//    TPOSCreateWalletViewController *createWalletViewController = [[TPOSCreateWalletViewController alloc] init];
+    CreateWalletViewController *createWalletViewController = [[CreateWalletViewController alloc] init];
     [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:createWalletViewController] animated:YES completion:nil];
 }
 
 - (IBAction)importWallet {
-    TPOSSelectChainTypeViewController *vc = [[TPOSSelectChainTypeViewController alloc] init];
+//    TPOSSelectChainTypeViewController *vc = [[TPOSSelectChainTypeViewController alloc] init];
+    ImportWalletViewController *vc = [[ImportWalletViewController alloc] init];
     [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
 

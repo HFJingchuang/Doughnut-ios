@@ -288,22 +288,22 @@
     NSString *token = _dataList[0][@"value"];
     NSString *to = _dataList[1][@"value"];
     NSString *count = _dataList[2][@"value"];
-    if (token.length == 0 ) {
-        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"choose_token"]];
-        return;
-    } else if (to.length == 0) {
-        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"missing_wallet_addr"]];
-        return;
-    } else if (count.length == 0 || [count doubleValue] == 0) {
-        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"missing_trans_amount"]];
-        return;
-    }
-    
-    if (([_currentTokenModel.blockchain_id isEqualToString:ethChain] && [[to uppercaseString] isEqualToString:[_currentTokenModel.address uppercaseString]]) || ([_currentTokenModel.blockchain_id isEqualToString:swtcChain] && [to isEqualToString:_currentTokenModel.address])) {
-        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_to_self"]];
-        return;
-    }
-    
+//    if (token.length == 0 ) {
+//        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"choose_token"]];
+//        return;
+//    } else if (to.length == 0) {
+//        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"missing_wallet_addr"]];
+//        return;
+//    } else if (count.length == 0 || [count doubleValue] == 0) {
+//        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"missing_trans_amount"]];
+//        return;
+//    }
+//    
+//    if (([_currentTokenModel.blockchain_id isEqualToString:ethChain] && [[to uppercaseString] isEqualToString:[_currentTokenModel.address uppercaseString]]) || ([_currentTokenModel.blockchain_id isEqualToString:swtcChain] && [to isEqualToString:_currentTokenModel.address])) {
+//        [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_to_self"]];
+//        return;
+//    }
+//    
     __weak typeof(self) weakSelf = self;
     
     void (^JTAction)(void) = ^{
@@ -320,21 +320,21 @@
         [transactionGasView showWithAnimate:TPOSAlertViewAnimateBottomUp inView:self.view.window];
     };
     
-    if ([_currentTokenModel.blockchain_id isEqualToString:swtcChain]) { //JT
-        [[JTWalletManager shareInstance] isValidAddress:to chain:SWTC_CHAIN completion:^(BOOL isValid) {
-            if (!isValid) {
-                [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wrong_addr_tips"]];
-            } else {
-                TPOSRecommendGasModel *model = [TPOSRecommendGasModel new];
-                model.max_gas = 1;
-                model.min_gas = 0.0001;
-                model.recommend_gas = 0.0001;
-                model.unit = @"SWT";
-                weakSelf.recommendGasModel = model;
+//    if ([_currentTokenModel.blockchain_id isEqualToString:swtcChain]) { //JT
+//        [[JTWalletManager shareInstance] isValidAddress:to chain:SWTC_CHAIN completion:^(BOOL isValid) {
+//            if (!isValid) {
+//                [self.view makeToast:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wrong_addr_tips"]];
+//            } else {
+//                TPOSRecommendGasModel *model = [TPOSRecommendGasModel new];
+//                model.max_gas = 1;
+//                model.min_gas = 0.0001;
+//                model.recommend_gas = 0.0001;
+//                model.unit = @"SWT";
+//                weakSelf.recommendGasModel = model;
                 JTAction();
-            }
-        }];
-    }
+//            }
+//        }];
+//    }
 }
 
 - (void)nextAction {

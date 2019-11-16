@@ -1,0 +1,80 @@
+<body>
+    <div></div>
+</body>
+<script src="jingtum.js"></script>
+
+<script>
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) {
+            return callback(WebViewJavascriptBridge);
+        }
+        if (window.WVJBCallbacks) {
+            return window.WVJBCallbacks.push(callback);
+        }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'https://__bridge_loaded__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function () {
+            document.documentElement.removeChild(WVJBIframe)
+        }, 0)
+    }
+
+    setupWebViewJavascriptBridge(function (bridge) {
+        bridge.registerHandler('createJingtumWallet', function (chain, responseCallback) {
+            var wallet;
+            try {
+                wallet = Wallet.generate(chain);
+            } catch (error) {
+                wallet = null;
+            }
+            responseCallback(wallet);
+        });
+
+        bridge.registerHandler('importJingtumSecret', function (data, responseCallback) {
+            try {
+                data = JSON.parse(data);
+                var wallet = Wallet.fromSecret(data.secret, data.chain);
+                responseCallback(wallet);
+            } catch (error) {
+                responseCallback(null);
+            }
+        });
+
+        bridge.registerHandler('isJingtumAddress', function (data, responseCallback) {
+            try {
+                data = JSON.parse(data);
+                var valid = Wallet.isValidAddress(data.address, data.chain);
+                responseCallback(valid);
+            } catch (error) {
+                responseCallback(false);
+            }
+        });
+
+        bridge.registerHandler('isJingtumSecret', function (data, responseCallback) {
+            try {
+                data = JSON.parse(data);
+                var valid = Wallet.isValidSecret(data.secret, data.chain);
+                responseCallback(valid);
+            } catch (error) {
+                responseCallback(false);
+            }
+        });
+
+        bridge.registerHandler('jingtumSign', function (data, responseCallback) {
+            try {
+                data = JSON.parse(data);
+                var transaction = data.transaction;
+                var seed = {
+                    seed: data.secret
+                }
+                var chain = data.chain;
+                var signature = window.LocalSign(transaction, seed, chain);
+                responseCallback(signature);
+            } catch (error) {
+                responseCallback(null);
+            }
+        });
+    });
+</script>

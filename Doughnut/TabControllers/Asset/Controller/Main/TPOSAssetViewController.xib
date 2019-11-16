@@ -19,6 +19,7 @@
                 <outlet property="addAssetLabel" destination="EIt-Tz-PfM" id="LTt-TC-ReB"/>
                 <outlet property="assetSeeButton" destination="cGU-q5-TI8" id="6KO-gU-jGS"/>
                 <outlet property="bottomConstraint" destination="aoD-W4-7LQ" id="vVE-Wr-cUd"/>
+                <outlet property="cnyLoading" destination="JE0-AS-CpQ" id="cxw-jN-q77"/>
                 <outlet property="collectionView" destination="9a4-62-dcw" id="yGx-mi-Ucd"/>
                 <outlet property="createLabel" destination="yhj-7B-sZz" id="sbW-5j-1za"/>
                 <outlet property="header" destination="bgx-jg-pUL" id="4UY-4v-zHN"/>
@@ -31,6 +32,7 @@
                 <outlet property="tokenZeroSwitchConstraint" destination="8oT-2b-b8v" id="wFD-Ro-d4v"/>
                 <outlet property="totalAssetLabel" destination="1CC-J5-ddC" id="6Nc-WL-yyZ"/>
                 <outlet property="totalAssetValueLabel" destination="1I8-ch-qfG" id="Pge-Te-Q3X"/>
+                <outlet property="totalLoading" destination="b7I-uL-jVi" id="DTY-jd-vzw"/>
                 <outlet property="totalPointConstraint" destination="dDB-Sa-wFu" id="GQk-Qd-I0t"/>
                 <outlet property="totalPointValueLabel" destination="bqu-v2-vcp" id="rbk-G2-nVB"/>
                 <outlet property="view" destination="iN0-l3-epB" id="qRj-Q4-UxQ"/>
@@ -154,6 +156,13 @@
                             <color key="textColor" red="0.95736664530000004" green="0.96090263129999998" blue="0.96433371310000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="b7I-uL-jVi">
+                            <rect key="frame" x="32" y="59" width="37" height="37"/>
+                            <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </activityIndicatorView>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="JE0-AS-CpQ">
+                            <rect key="frame" x="40" y="159" width="20" height="20"/>
+                        </activityIndicatorView>
                     </subviews>
                     <constraints>
                         <constraint firstItem="u0l-tt-bZO" firstAttribute="leading" secondItem="bgx-jg-pUL" secondAttribute="leading" id="1MH-g8-WrK"/>
@@ -176,12 +185,16 @@
                         <constraint firstItem="JGa-bV-Y90" firstAttribute="baseline" secondItem="Tdl-SE-hxl" secondAttribute="firstBaseline" id="TD0-5b-ceR"/>
                         <constraint firstAttribute="height" constant="212" id="TcV-W1-vHg"/>
                         <constraint firstItem="Tdl-SE-hxl" firstAttribute="leading" secondItem="pHi-xK-tyH" secondAttribute="leading" id="UNs-gA-ov4"/>
+                        <constraint firstItem="b7I-uL-jVi" firstAttribute="leading" secondItem="bgx-jg-pUL" secondAttribute="leading" constant="32" id="Uap-rD-Lr9"/>
                         <constraint firstItem="Tdl-SE-hxl" firstAttribute="leading" secondItem="1CC-J5-ddC" secondAttribute="leading" id="a3F-HQ-0Ng"/>
                         <constraint firstItem="Tdl-SE-hxl" firstAttribute="bottom" secondItem="bgx-jg-pUL" secondAttribute="bottomMargin" constant="-21.333333333333343" id="cyj-qj-BnC"/>
                         <constraint firstItem="bqu-v2-vcp" firstAttribute="leading" secondItem="bgx-jg-pUL" secondAttribute="leading" constant="40" id="dDB-Sa-wFu"/>
                         <constraint firstItem="cGU-q5-TI8" firstAttribute="leading" secondItem="1CC-J5-ddC" secondAttribute="trailing" constant="72" id="f7D-uR-Lpi"/>
                         <constraint firstItem="cGU-q5-TI8" firstAttribute="top" secondItem="bgx-jg-pUL" secondAttribute="top" constant="26" id="lgP-Jf-yAX"/>
+                        <constraint firstItem="b7I-uL-jVi" firstAttribute="top" secondItem="1CC-J5-ddC" secondAttribute="bottom" constant="15" id="pWM-Vm-QMA"/>
+                        <constraint firstItem="JE0-AS-CpQ" firstAttribute="leading" secondItem="bgx-jg-pUL" secondAttribute="leading" constant="40" id="stK-K3-YAA"/>
                         <constraint firstItem="u0l-tt-bZO" firstAttribute="top" secondItem="QZN-YX-Rc6" secondAttribute="top" id="tY7-Gb-tmE"/>
+                        <constraint firstItem="JE0-AS-CpQ" firstAttribute="top" secondItem="pHi-xK-tyH" secondAttribute="bottom" constant="10" id="yLt-hN-jij"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="QZN-YX-Rc6"/>
                 </view>

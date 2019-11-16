@@ -65,9 +65,8 @@
                                     <color key="textColor" red="0.96078431372549022" green="0.3411764705882353" blue="0.34509803921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T87-Up-xTi" userLabel="Label5">
-                                    <rect key="frame" x="20" y="240" width="373" height="21"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T87-Up-xTi" userLabel="Label5">
+                                    <rect key="frame" x="20" y="240" width="374" height="21"/>
                                     <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="15"/>
                                     <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -196,12 +195,15 @@
                                 <constraint firstItem="Lri-3o-0ni" firstAttribute="top" secondItem="eQA-gG-R8O" secondAttribute="top" constant="20" id="2aE-Da-hWf"/>
                                 <constraint firstAttribute="height" constant="577" id="6Hb-tc-WtC"/>
                                 <constraint firstAttribute="trailing" secondItem="j5X-5U-QUt" secondAttribute="trailing" constant="21" id="7ge-qM-oYq"/>
+                                <constraint firstItem="T87-Up-xTi" firstAttribute="top" secondItem="j5X-5U-QUt" secondAttribute="bottom" constant="22" id="9e0-cD-gRP"/>
                                 <constraint firstItem="j5X-5U-QUt" firstAttribute="top" secondItem="0F5-Tm-0kn" secondAttribute="bottom" constant="20" id="C6Y-Wi-DKx"/>
                                 <constraint firstAttribute="bottom" secondItem="2rI-1L-OyA" secondAttribute="bottom" constant="80" id="C7t-nu-HTg"/>
                                 <constraint firstItem="0F5-Tm-0kn" firstAttribute="leading" secondItem="wia-9Z-dx7" secondAttribute="trailing" constant="50" id="EFH-fz-1ys"/>
                                 <constraint firstItem="0F5-Tm-0kn" firstAttribute="top" secondItem="PYp-1o-wP3" secondAttribute="bottom" constant="20" id="GpH-SY-9HU"/>
+                                <constraint firstItem="T87-Up-xTi" firstAttribute="leading" secondItem="eQA-gG-R8O" secondAttribute="leading" constant="20" id="MYg-E1-JhS"/>
                                 <constraint firstItem="PYp-1o-wP3" firstAttribute="top" secondItem="Lri-3o-0ni" secondAttribute="bottom" constant="19" id="OaC-fY-Lol"/>
                                 <constraint firstItem="wia-9Z-dx7" firstAttribute="leading" secondItem="eQA-gG-R8O" secondAttribute="leading" constant="20" id="Qgh-MR-9c7"/>
+                                <constraint firstAttribute="trailing" secondItem="T87-Up-xTi" secondAttribute="trailing" constant="20" id="QhO-NM-iws"/>
                                 <constraint firstItem="2rI-1L-OyA" firstAttribute="top" secondItem="Ort-sH-sAA" secondAttribute="bottom" constant="33" id="Qpb-Vd-DB0"/>
                                 <constraint firstAttribute="trailing" secondItem="M4T-E5-0pj" secondAttribute="trailing" constant="20" id="Zlm-l0-JRw"/>
                                 <constraint firstAttribute="trailing" secondItem="Lri-3o-0ni" secondAttribute="trailing" constant="21" id="bSN-It-9Tj"/>
@@ -215,6 +217,7 @@
                                 <constraint firstAttribute="trailing" secondItem="Ort-sH-sAA" secondAttribute="trailing" constant="20" id="iFx-41-7Y0"/>
                                 <constraint firstItem="M4T-E5-0pj" firstAttribute="leading" secondItem="eQA-gG-R8O" secondAttribute="leading" constant="20" id="k8o-iu-nJn"/>
                                 <constraint firstItem="wia-9Z-dx7" firstAttribute="top" secondItem="PYp-1o-wP3" secondAttribute="bottom" constant="20" id="lOI-db-k6t"/>
+                                <constraint firstItem="Ort-sH-sAA" firstAttribute="top" secondItem="T87-Up-xTi" secondAttribute="bottom" constant="37" id="mPW-A9-m3a"/>
                                 <constraint firstItem="Ort-sH-sAA" firstAttribute="leading" secondItem="eQA-gG-R8O" secondAttribute="leading" constant="20" id="noy-37-0zX"/>
                                 <constraint firstItem="Ort-sH-sAA" firstAttribute="top" secondItem="M4T-E5-0pj" secondAttribute="bottom" constant="20" id="q6U-f1-lgB"/>
                                 <constraint firstItem="2rI-1L-OyA" firstAttribute="leading" secondItem="eQA-gG-R8O" secondAttribute="leading" constant="20" id="qsS-yx-boM"/>

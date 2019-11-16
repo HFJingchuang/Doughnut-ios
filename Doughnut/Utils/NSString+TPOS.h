@@ -22,5 +22,7 @@
 - (NSAttributedString *)getAttrStringWithV1:(NSString *)v1 C1:(NSString *)c1 V2:(NSString *)v2 C2:(NSString *)c2 TYPE:(NSString *)type;
 
 - (NSString *)getDate:(NSNumber *)date year:(BOOL)year;
+//密码验证
+- (BOOL)checkPassword;
 
 @end

@@ -111,7 +111,7 @@
     self.walletAddressLabel.text = self.walletAddress?self.walletAddress:@"--";
     if (self.walletName && self.walletAddress && self.amountTextField.text.length == 0){
         NSMutableDictionary *data = [NSMutableDictionary new];
-        [data setValue:self.walletName forKey:@"Token_Name"];
+        [data setValue:[NSString stringWithFormat:@"%@_%@",self.tokenName?self.tokenName:@"SWTC",self.tokenIssuer?self.tokenIssuer:@""] forKey:@"Token_Name"];
         [data setValue:self.walletAddress forKey:@"Receive_Address"];
         [data setValue:@"0" forKey:@"Token_Amount"];
         NSString *str = [data mj_JSONString];

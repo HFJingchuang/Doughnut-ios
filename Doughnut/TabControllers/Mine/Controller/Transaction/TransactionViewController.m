@@ -23,6 +23,9 @@
 #import <Toast/Toast.h>
 #import "TransactionViewController.h"
 #import "TransactionTokensViewController.h"
+#import "TransactionGasView.h"
+#import "TPOSNavigationController.h"
+
 
 @interface TransactionViewController ()<UITextFieldDelegate,UITextViewDelegate>
 
@@ -39,6 +42,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *tokenSelectView;
 @property (nonatomic, weak) IBOutlet UILabel *tokenSelectLabel;
+
+@property (nonatomic, assign) CGFloat gas;
 
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
 
@@ -80,7 +85,18 @@
     [self addRightBarButtonImage:[UIImage imageNamed:@"icon_transaction_qcode"] action:@selector(transgferWithQRCode)];
 }
 
-- (void)transgferWithQRCode {}
+- (void)transgferWithQRCode {
+    __weak typeof(self) weakSelf = self;
+    [[TPOSCameraUtils sharedInstance] startScanCameraWithVC:self completion:^(NSString *result) {
+        TPOSQRCodeResult *qrResult = [[TPOSQRResultHandler sharedInstance] codeResultWithScannedString:result];
+        if (qrResult != nil) {
+            TPOSTransactionViewController *vc = [[TPOSTransactionViewController alloc] init];
+            vc.qrResult = qrResult;
+            TPOSNavigationController *nvc = [[TPOSNavigationController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:nvc animated:YES completion:nil];
+        }
+    }];
+}
 
 - (void)registerNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTokenType:) name:getChangeToken object:nil];
@@ -91,7 +107,7 @@
     _tokenName = [data valueForKey:@"name"];
     _tokenIssuer = [data valueForKey:@"issuer"];
     _tokenBalance = [data valueForKey:@"balance"];
-    _balanceLabel.text = [NSString stringWithFormat:@"%@:%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"balance_amount"],_tokenBalance ];
+    _balanceLabel.text = [NSString stringWithFormat:@"%@:%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"balance_amount"],_tokenBalance,self.tokenName?self.tokenName:@"CNT" ];
     _tokenSelectLabel.text = self.tokenName?self.tokenName:@"CNT";
 }
 
@@ -113,6 +129,10 @@
     self.amountTF.rightView = _tokenSelectView;
     self.amountTF.rightViewMode = UITextFieldViewModeAlways;
     [self.amountTF bringSubviewToFront:_tokenSelectView];
+    self.gasLabel.text = [NSString stringWithFormat:@"%@ %@ %@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"gas_fee"],@"0.00001",@"SWTC"];
+    UITapGestureRecognizer *tapGesture3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickFeeLabel)];
+    [self.gasLabel addGestureRecognizer:tapGesture3];
+    self.gasLabel.userInteractionEnabled = YES;
 }
 
 - (void)clickTokenName {
@@ -123,6 +143,15 @@
 -(void)clickContact {
     TPOSTransactionViewController *vc = [[TPOSTransactionViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)clickFeeLabel{
+    TransactionGasView *transactionGasView = [TransactionGasView transactionViewWithMinFee:0.00001 maxFee:1 recommentFee:0.00001];
+    transactionGasView.getGasPrice = ^(CGFloat gas) {
+        self.gas = gas;
+        self.gasLabel.text = [NSString stringWithFormat:@"%@ %f %@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"gas_fee"],self.gas,@"SWTC"];
+    };
+    [transactionGasView showWithAnimate:TPOSAlertViewAnimateBottomUp inView:self.view.window];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

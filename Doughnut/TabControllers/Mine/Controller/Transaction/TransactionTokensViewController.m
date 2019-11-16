@@ -37,7 +37,6 @@ static NSString * const cellID = @"AssetTableViewCell";
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
 
-@property (nonatomic, strong) WalletManage *walletManage;
 @property (nonatomic, strong) CaclUtil *caclUtil;
 @end
 
@@ -80,14 +79,12 @@ static NSString * const cellID = @"AssetTableViewCell";
 }
 
 -(void)registerNotifications {
-    _walletManage = [[WalletManage alloc]init];
     _caclUtil = [[CaclUtil alloc]init];
     if (!_tokenArray) {
         _tokenArray = [NSMutableArray new];
     }
-    [_walletManage createRemote];
-    [_walletManage requestBalanceByAddress:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6"];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6" object:nil];
+    [[WalletManage shareWalletManage] requestBalanceByAddress:_currentWallet.address current:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:getCurrentWalletBalance object:nil];
 }
 
 -(void) getBalanceListAction:(NSNotification *) notification {
@@ -112,7 +109,7 @@ static NSString * const cellID = @"AssetTableViewCell";
     temp = [temp sortedArrayUsingDescriptors:@[balanceSD,freezeSD,nameSD]];
     [_tokenArray removeAllObjects];
     [_tokenArray addObjectsFromArray:temp];
-    [_walletManage getAllTokenPrice:^(NSArray *priceData) {
+    [[WalletManage shareWalletManage] getAllTokenPrice:^(NSArray *priceData) {
         NSString *swtPrice = @"0.00";
         if(priceData.count != 0){
             NSArray<NSString *> *arr = [priceData valueForKey:@"SWT-CNY"];
@@ -210,6 +207,8 @@ static NSString * const cellID = @"AssetTableViewCell";
             cell.hidden = YES;
             _zeroArray = [NSMutableArray new];
             [_zeroArray addObject:[NSNumber numberWithInteger:indexPath.row]];
+        }else {
+            [cellModel setBalance:[_caclUtil formatAmount:cellModel.balance:4:NO:NO]];
         }
         if ([_caclUtil compare:cellModel.freezeValue :@"0" ] == NSOrderedSame||[cellModel.freezeValue tb_isEmpty]) {
             [cellModel setFreezeValue:@"0.00"];

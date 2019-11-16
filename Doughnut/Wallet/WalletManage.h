@@ -14,18 +14,18 @@
 
 @interface WalletManage : NSObject
 
-@property (nonatomic ,strong) NSString *remoteAddr;
+@property (nonatomic ,strong) Remote *remote;
 
 //初始化
-+ (instancetype) shareInstance;
++ (instancetype) shareWalletManage;
 //创建连接
 - (Remote *) createRemote;
 //创建钱包（不传私钥）
-- (void) createWallet;
+- (NSDictionary *) createWallet;
 //创建钱包（传私钥）
-- (void) createWalletWithSecret:(NSString *) secret;
+- (NSDictionary *) createWalletWithSecret:(NSString *) secret;
 //转账
-- (void) transferWithPassword;
+- (void) transferWithPassword:(NSMutableDictionary *)txData;
 ////获取账号信息
 //- (void) getAccountInfoByAddress:(NSString *)address;
 ////获取账号关系(可用)
@@ -41,7 +41,7 @@
 //获取具体交易信息
 - (void) getTransactionDetail:(NSString *)hash :(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure;
 //获取余额数据
--(void) requestBalanceByAddress:(NSString *)address;
+-(void) requestBalanceByAddress:(NSString *)address current:(BOOL)curr;
 //获取单一币价
 -(void) getTokenPrice:(NSString *)token :(void(^)(NSDictionary *))success failure:(void(^)(NSError *error))failure;
 //获取所有币价

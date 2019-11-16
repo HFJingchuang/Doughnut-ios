@@ -27,8 +27,8 @@
 #import <jcc_oc_base_lib/JTWalletManager.h>
 #import <jcc_oc_base_lib/JccChains.h>
 
-#import <SVProgressHUD/SVProgressHUD.h>;
-#import <IQKeyboardManager/IQKeyboardManager.h>;
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 #define itemHeight 66
 

@@ -33,8 +33,4 @@
     self.copyright.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"copyright"];
 }
 
-
-
-
-
 @end

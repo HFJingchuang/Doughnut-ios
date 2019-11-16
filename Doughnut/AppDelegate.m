@@ -111,7 +111,6 @@
 
     //获取所有公链
     [[TPOSCommonInfoManager shareInstance] storeAllBlockchainInfos];
-    
     //恢复数据
     [TPOSContext shareInstance];
     [self registerNotifications];

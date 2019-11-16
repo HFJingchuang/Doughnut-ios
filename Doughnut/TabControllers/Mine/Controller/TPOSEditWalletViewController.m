@@ -45,7 +45,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *copyyBtn;
 
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
-@property (nonatomic, strong) WalletManage *walletManage;
 
 @end
 
@@ -125,7 +124,6 @@
 }
 
 - (void)setupViews {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void)editWallet:(NSNotification *)note {
@@ -205,13 +203,6 @@
         _walletDao = [TPOSWalletDao new];
     }
     return _walletDao;
-}
-
-- (WalletManage *)walletManage {
-    if (!_walletManage) {
-        _walletManage = [[WalletManage alloc]init];
-    }
-    return _walletManage;
 }
 
 @end

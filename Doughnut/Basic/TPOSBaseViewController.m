@@ -11,9 +11,9 @@
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 
-#import <Masonry/Masonry.h>;
-#import <MJRefresh/MJRefresh.h>;
-#import <SVProgressHUD/SVProgressHUD.h>;
+#import <Masonry/Masonry.h>
+#import <MJRefresh/MJRefresh.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface TPOSBaseViewController ()
 @property (nonatomic, copy) void (^rightButtonAction)(UIButton *rightBtn);

@@ -19,8 +19,8 @@
 #import "TPOSJTPaymentInfo.h"
 #import "TransactionDetailViewController.h"
 
-#import <Masonry/Masonry.h>;
-#import <Toast/Toast.h>;
+#import <Masonry/Masonry.h>
+#import <Toast/Toast.h>
 
 @interface TPOSTransactionRecoderViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -29,7 +29,7 @@
 
 @property (nonatomic, assign) int currentPage;
 
-@property (nonatomic, strong) TPOSWalletModel *currentWalletModel;
+@property (nonatomic, strong) TPOSWalletModel *currentWallet;
 
 @property (nonatomic, assign) NSInteger seq;
 @property (nonatomic, assign) NSInteger ledger;
@@ -60,23 +60,23 @@
 #pragma mark - private method
 
 - (void)_initCurrentWallet {
-    _currentWalletModel = [TPOSContext shareInstance].currentWallet;
+    _currentWallet = [TPOSContext shareInstance].currentWallet;
 }
 
 - (void)loadData {
     __weak typeof(self) weakSelf = self;
-    [[WalletManage shareInstance] getTransactionHistory:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6" page:_currentPage :^(NSDictionary *response) {
+    [[WalletManage shareWalletManage] getTransactionHistory:_currentWallet.address page:_currentPage :^(NSDictionary *response) {
         NSArray *list = [NSMutableArray array];
         if (![[[response valueForKey:@"count"] stringValue] isEqualToString:@"0"]){
             list = [response valueForKey:@"list"];
         }
         if (_currentPage == 0) {
             [weakSelf.dataList removeAllObjects];
+            [weakSelf.tableView.mj_header endRefreshing];
         }
         if (list.count < 10) {
             [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
         }else {
-            [weakSelf.tableView.mj_header endRefreshing];
             [weakSelf.tableView.mj_footer endRefreshing];
         }
         NSSortDescriptor *seqSD = [NSSortDescriptor sortDescriptorWithKey:@"time" ascending:NO];
@@ -95,7 +95,7 @@
 }
 
 - (void)changeWallet:(NSNotification *)note {
-    _currentWalletModel = note.object;
+    _currentWallet = note.object;
     [self.tableView.mj_header beginRefreshing];
 }
 
@@ -146,7 +146,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     TransactionDetailViewController *transactionDetailViewController = [[TransactionDetailViewController alloc] init];
     transactionDetailViewController.currentTransactionHash = [_dataList[indexPath.row] valueForKey:@"hash"];
-    transactionDetailViewController.currentWalletAddress = @"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6";
+    transactionDetailViewController.currentWalletAddress = _currentWallet.address;
     //_currentWalletModel.address;
     [self.navigationController pushViewController:transactionDetailViewController animated:YES];
 }

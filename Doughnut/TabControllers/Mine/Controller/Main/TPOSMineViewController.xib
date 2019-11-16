@@ -37,7 +37,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fQv-f0-Zsn">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0vA-hN-6wG">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="228"/>
@@ -120,7 +120,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Xs-yc-cnb" customClass="UIScrollView">
-                            <rect key="frame" x="0.0" y="185" width="414" height="370"/>
+                            <rect key="frame" x="0.0" y="185" width="414" height="390"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJi-fd-ceO" userLabel="Control1" customClass="UIControl">
                                     <rect key="frame" x="19" y="20" width="376" height="55"/>
@@ -304,6 +304,7 @@
                                         <constraint firstItem="tLR-kW-yhI" firstAttribute="centerY" secondItem="Y8I-86-9Q3" secondAttribute="centerY" id="9fT-Ed-VMt"/>
                                         <constraint firstItem="fSv-3w-E0Q" firstAttribute="leading" secondItem="Y8I-86-9Q3" secondAttribute="trailing" constant="20" id="Bm0-eB-M4u"/>
                                         <constraint firstItem="tLR-kW-yhI" firstAttribute="top" secondItem="fSv-3w-E0Q" secondAttribute="top" id="GD3-PZ-b7S"/>
+                                        <constraint firstAttribute="trailing" secondItem="JZn-M6-hMV" secondAttribute="trailing" constant="6" id="KSP-fG-xXT"/>
                                         <constraint firstAttribute="height" constant="55" id="MJb-ZB-PlH"/>
                                         <constraint firstItem="Y8I-86-9Q3" firstAttribute="leading" secondItem="g7Q-q8-agb" secondAttribute="leading" id="MKN-TB-vWP"/>
                                         <constraint firstItem="fSv-3w-E0Q" firstAttribute="leading" secondItem="g7Q-q8-agb" secondAttribute="leading" constant="40" id="ejU-8n-0K6"/>
@@ -363,7 +364,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Ms-wd-u47">
-                            <rect key="frame" x="0.0" y="563" width="414" height="90"/>
+                            <rect key="frame" x="0.0" y="583" width="414" height="90"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ggs-cx-BVs">
                                     <rect key="frame" x="20" y="20" width="177" height="55"/>
@@ -434,7 +435,7 @@
             <constraints>
                 <constraint firstItem="fQv-f0-Zsn" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="2n5-a7-tZA"/>
                 <constraint firstItem="fQv-f0-Zsn" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4Zu-61-PU8"/>
-                <constraint firstAttribute="bottom" secondItem="fQv-f0-Zsn" secondAttribute="bottom" id="GaR-YL-cMS"/>
+                <constraint firstAttribute="bottom" secondItem="fQv-f0-Zsn" secondAttribute="bottom" constant="-20" id="Dwo-r7-KUe"/>
                 <constraint firstAttribute="trailing" secondItem="fQv-f0-Zsn" secondAttribute="trailing" id="gPz-ng-pd5"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="qY3-Ux-yzG"/>

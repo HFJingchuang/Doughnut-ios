@@ -78,4 +78,11 @@ static inline NSString * NSStringCCHashFunction(unsigned char *(function)(const 
     return currentDateString;
 }
 
+- (BOOL)checkPassword{
+    NSString *pattern =@"^(?![0-9]+$)(?![0-9A-Z]+$)(?![0-9a-z]+$)(?![a-zA-Z]+$)[a-zA-Z0-9]{8,64}";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",pattern];
+    BOOL isMatch = [pred evaluateWithObject:self];
+    return isMatch;
+}
+
 @end

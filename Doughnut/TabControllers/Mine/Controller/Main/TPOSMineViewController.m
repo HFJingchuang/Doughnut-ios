@@ -68,7 +68,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.bottomConstraint.constant = kIphoneX?83:49;
+    self.bottomConstraint.constant = kIphoneX?110:70;
     [self setNavigationBarColor];
 }
 
@@ -95,7 +95,6 @@
 #pragma mark - Private
 
 - (void) loadCurrentWallet {
-    __weak typeof(self) weakSelf = self;
     _currentWallet = [TPOSContext shareInstance].currentWallet;
     if(_currentWallet) {
         _walletName.text = _currentWallet.walletName;
@@ -124,20 +123,17 @@
 
 - (void)setupSubviews {
     [self.view sendSubviewToBack:_mineHeaderView];
+    _actionView.layer.cornerRadius = 20;
+    _actionView.layer.masksToBounds = YES;
+    _walletAddr.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    _current.layer.masksToBounds = YES;
+    _current.layer.cornerRadius = 4;
 }
 
 - (void)setNavigationBarColor {
     self.navigationController.navigationBarHidden = YES;
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:_actionView.bounds byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(20,20)];//圆角大小
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = _actionView.bounds;
-    maskLayer.path = maskPath.CGPath;
-    _actionView.layer.mask = maskLayer;
-    _walletAddr.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    _current.layer.masksToBounds = YES;
-    _current.layer.cornerRadius = 4;
 }
 
 - (IBAction)walletManageAction:(id)sender {

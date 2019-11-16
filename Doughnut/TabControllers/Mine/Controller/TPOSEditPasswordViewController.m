@@ -18,8 +18,8 @@
 #import "TPOSPasswordView.h"
 #import "PasswordEyeController.h"
 
-#import <SVProgressHUD/SVProgressHUD.h>;
-#import <Toast/Toast.h>;
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <Toast/Toast.h>
 
 typedef NS_ENUM(NSUInteger, TPOSEditPasswordResult) {
     TPOSEditPasswordResultSuccess = 1,

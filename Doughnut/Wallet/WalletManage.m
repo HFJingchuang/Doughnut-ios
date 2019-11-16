@@ -42,7 +42,6 @@ static NSString *CONFIG_HOST = @"https://weidex.vip";
 static NSString *COUNTER = @"CNT";
 @interface WalletManage (){
     NSURLSession *_sharedSession;
-    Remote *remote;
     CaclUtil *caclUtil;
     JccdexConfig *jccdexConfig;
     JccdexInfo *jccdexInfo;
@@ -53,6 +52,7 @@ static NSString *COUNTER = @"CNT";
     int accountOffersId;
     int accountTXId;
     int transactionId;
+    BOOL isCurrent;
 }
 
 @property (nonatomic, copy) AccountInfoModal *accountInfo;
@@ -63,38 +63,35 @@ static NSString *COUNTER = @"CNT";
 @end
 @implementation WalletManage
 
-+ (instancetype)shareInstance {
++ (instancetype)shareWalletManage {
     static dispatch_once_t onceToken;
     static WalletManage *manager;
     dispatch_once(&onceToken, ^{
-        manager = [[WalletManage alloc] init];
+        manager = [[WalletManage alloc]init];
+        [manager createRemote];
     });
     return manager;
 }
 
 - (Remote *) createRemote{
-    remote = [Remote instance];
+    _remote = [Remote instance];
     caclUtil = [[CaclUtil alloc]init];
     jccdexConfig = [JccdexConfig shareInstance];
     jccdexInfo = [JccdexInfo shareInstance];
-    if (_remoteAddr||_remoteAddr.length == 0){
-        _remoteAddr = @"ws://106.14.154.38:5020";
-    }
-    [remote connectWithURLString:_remoteAddr local_sign:YES];
+    [_remote connectWithURLString:@"ws://106.14.154.38:5020" local_sign:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountInfo:) name:requestAccountInfoFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountRelationsTrust:) name:requestAccountRelationsTrustFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountRelationsFreeze:) name:requestAccountRelationsFreezeFlag object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountOffers:) name:requestAccountOffersFlag object:nil];
-    return remote;
+    return _remote;
 }
 
 - (void) changeUrl:(NSString *) url {
-    [remote disconnect];
-    Remote * remote1 = [Remote instance];
-    [remote1 connectWithURLString:url local_sign:YES];
-    remote = remote1;
+    [_remote disconnect];
+    _remote = [Remote instance];
+    [_remote connectWithURLString:url local_sign:YES];
 }
 
 - (void) SRWebSocketDidOpen {
@@ -142,14 +139,14 @@ static NSString *COUNTER = @"CNT";
 }
 
 //创建钱包
-- (void) createWallet{
+- (NSDictionary *) createWallet{
     NSDictionary * wallet = [Wallet generate];
-    NSLog(@"the wallet is %@", wallet);
+    return wallet;
 }
-
-- (void) createWalletWithSecret:(NSString *) secret {
+//用私钥创建钱包
+- (NSDictionary *) createWalletWithSecret:(NSString *) secret {
     NSDictionary * wallet = [Wallet fromSecret:secret];
-    NSLog(@"the wallet is %@", wallet);
+    return wallet;
 }
 
 //转账
@@ -166,7 +163,7 @@ static NSString *COUNTER = @"CNT";
         Transaction *tx = [[Remote instance] buildPaymentTx:options];
         //[tx setSecret:@"sn37nYrQ6KPJvTFmaBYokS3FjXUWd"];
         [tx addMemo:[txData valueForKey:@"account"]];
-        transactionId = remote->req_id;
+        transactionId = _remote->req_id;
         [tx submit];
     }
 }
@@ -175,14 +172,12 @@ static NSString *COUNTER = @"CNT";
 - (void) requestAccountInfoByAddress:(NSString *)address {
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     [options setObject:address forKey:@"account"];
-    accountInfoId = remote->req_id;
-    [remote requestAccountInfo:options];
+    accountInfoId = _remote->req_id;
+    [_remote requestAccountInfo:options];
     
 }
 
 -(void) getAccountInfo:(NSNotification *) notification {
-    NSString * message = notification.object;
-    NSLog(@"the info from server is: %@", message);
     NSDictionary *accountData = [notification.object objectForKey:@"account_data"];
     _accountInfo = [AccountInfoModal mj_objectWithKeyValues:accountData];
     [self getBalance];
@@ -192,8 +187,8 @@ static NSString *COUNTER = @"CNT";
 - (void)requestAccountTumByAddress:(NSString *)address {
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     [options setObject:address forKey:@"account"];
-    accountTumsId = remote->req_id;
-    [remote requestAccountTums:options];
+    accountTumsId = _remote->req_id;
+    [_remote requestAccountTums:options];
     
 }
 
@@ -201,8 +196,8 @@ static NSString *COUNTER = @"CNT";
 - (void)requestAccountOffersByAddress:(NSString *)address {
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     [options setObject:address forKey:@"account"];
-    accountOffersId = remote->req_id;
-    [remote requestAccountOffers:options];
+    accountOffersId = _remote->req_id;
+    [_remote requestAccountOffers:options];
 }
 
 - (void)getAccountOffers:(NSNotification *) notification {
@@ -225,8 +220,8 @@ static NSString *COUNTER = @"CNT";
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     [options setObject:address forKey:@"account"];
     [options setObject:@"trust" forKey:@"type"];
-    accountRelationsTrustId = remote->req_id;
-    [remote requestAccountRelations:options];
+    accountRelationsTrustId = _remote->req_id;
+    [_remote requestAccountRelations:options];
 }
 
 -(void) getAccountRelationsTrust:(NSNotification *) notification {
@@ -239,8 +234,8 @@ static NSString *COUNTER = @"CNT";
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
     [options setObject:address forKey:@"account"];
     [options setObject:@"freeze" forKey:@"type"];
-    accountRelationsFreezeId = remote->req_id;
-    [remote requestAccountRelations:options];
+    accountRelationsFreezeId = _remote->req_id;
+    [_remote requestAccountRelations:options];
 }
 
 -(void) getAccountRelationsFreeze:(NSNotification *) notification {
@@ -255,8 +250,8 @@ static NSString *COUNTER = @"CNT";
     NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
     [options setObject:address forKey:@"account"];
     [options setObject:limit forKey:@"limit"];
-    accountTXId = remote->req_id;
-    [remote requestAccountTx:options];
+    accountTXId = _remote->req_id;
+    [_remote requestAccountTx:options];
 }
 
 //获取具体交易信息
@@ -361,7 +356,8 @@ static NSString *COUNTER = @"CNT";
     }];
 }
 
--(void) requestBalanceByAddress:(NSString *)address {
+-(void) requestBalanceByAddress:(NSString *)address current:(BOOL)curr {
+    isCurrent = curr;
     [self requestAccountRelationByAddressTrust:address];
     [self requestAccountRelationByAddressFreeze:address];
     [self requestAccountOffersByAddress:address];
@@ -424,7 +420,11 @@ static NSString *COUNTER = @"CNT";
         _trustlines = nil;
         _freezeLines = nil;
         _offerlist = nil;
-        [[NSNotificationCenter defaultCenter] postNotificationName:_accountInfo.Account object:data];
+        if (isCurrent){
+            [[NSNotificationCenter defaultCenter] postNotificationName:getCurrentWalletBalance object:data];
+        }else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:_accountInfo.Account object:data];
+        }
         _accountInfo = nil;
     }
 }
@@ -447,7 +447,6 @@ static NSString *COUNTER = @"CNT";
     } onFail:^(NSError *error) {
         failure(error);
     }];
-    
 }
 
 -(void)getAllTokenPrice:(void(^)(NSArray *))success failure:(void(^)(NSError *error))failure {
@@ -483,11 +482,6 @@ static NSString *COUNTER = @"CNT";
 - (NSError *)errorDomain:(NSString *)domain reason:(NSString *)reason {
     NSError *error = [NSError errorWithDomain:@"" code:-1 userInfo:@{NSLocalizedDescriptionKey:reason}];
     return error;
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 @end

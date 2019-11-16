@@ -11,6 +11,7 @@
 #import "TPOSCustomMJRefreshFooter.h"
 #import "TPOSLocalizedHelper.h"
 #import "UIColor+Hex.h"
+#import <SVProgressHUD/SVProgressHUD.h>
 
 typedef void (^tableHeaderRefreshAction)(void);
 

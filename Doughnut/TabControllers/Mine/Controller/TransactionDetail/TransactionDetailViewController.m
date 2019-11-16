@@ -75,7 +75,7 @@
     self.transactionInfoView.layer.shadowOffset = CGSizeMake(0,5);
     self.transactionInfoView.layer.shadowOpacity = 1;
     self.transactionInfoView.layer.shadowRadius = 15;
-    UIView *back = [[UIView alloc]initWithFrame:CGRectMake(_infoScrollView.frame.origin.x ,_infoScrollView.frame.origin.y - 2, _infoScrollView.frame.size.width,50)];
+    UIView *back = [[UIView alloc]initWithFrame:CGRectMake(_infoScrollView.frame.origin.x ,_infoScrollView.frame.origin.y - 2, ([UIScreen mainScreen].bounds.size.width) - 19,50)];
     back.backgroundColor = [UIColor colorWithHex:0x3B6CA6];
     back.layer.cornerRadius = 6;
     [self.view addSubview:back];
@@ -99,7 +99,7 @@
 -(void)loadData {
      __weak typeof(self) weakSelf = self;
     _currentHash.text = _currentTransactionHash;
-    [[WalletManage shareInstance] getTransactionDetail:_currentTransactionHash :^(NSDictionary *response) {
+    [[WalletManage shareWalletManage] getTransactionDetail:_currentTransactionHash :^(NSDictionary *response) {
         NSString *type = [response valueForKey:@"type"];
         if ([type isEqualToString:@"Payment"]){
             weakSelf.dataLabel1.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"payment"];
@@ -278,25 +278,25 @@
             NSString *price = priceArr[0];
             NSString *cny = priceArr[1];
             NSAttributedString *priceAttr = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
-//            if ([[arr[i] valueForKey:@"account"] isEqualToString:_currentWalletAddress]){
-//                imgV.contentItemLabel2.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"side"];
-//                NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
-//                imageAttachment.image = [UIImage imageNamed:[response valueForKey:@"type"]];
-//                imageAttachment.bounds = CGRectMake(-5, -4, 20, 20);
-//                NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-//                NSMutableAttributedString *completeText= [[NSMutableAttributedString alloc] initWithString:@""];
-//                [completeText appendAttributedString:attachmentString];
-//                [completeText appendAttributedString:weakSelf.dataLabel1.attributedText];
-//                imgV.contentDataLabel2.attributedText = completeText;
-//                imgV.contentItemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"content"];
-//                imgV.contentDataLabel3.attributedText = content;
-//                imgV.contentDataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
-//                imgV.contentDataLabel3.textAlignment = NSTextAlignmentRight;
-//                imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"price"];
-//                imgV.contentDataLabel4.attributedText = priceAttr;
-//                imgV.contentDataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
-//                imgV.contentDataLabel4.textAlignment = NSTextAlignmentRight;
-//            }else {
+            if ([[arr[i] valueForKey:@"account"] isEqualToString:_currentWalletAddress]){
+                imgV.contentItemLabel2.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"side"];
+                NSTextAttachment *imageAttachment = [[NSTextAttachment alloc] init];
+                imageAttachment.image = [UIImage imageNamed:[response valueForKey:@"type"]];
+                imageAttachment.bounds = CGRectMake(-5, -4, 20, 20);
+                NSAttributedString *attachmentString = [NSAttributedString attributedStringWithAttachment:imageAttachment];
+                NSMutableAttributedString *completeText= [[NSMutableAttributedString alloc] initWithString:@""];
+                [completeText appendAttributedString:attachmentString];
+                [completeText appendAttributedString:weakSelf.dataLabel1.attributedText];
+                imgV.contentDataLabel2.attributedText = completeText;
+                imgV.contentItemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"content"];
+                imgV.contentDataLabel3.attributedText = content;
+                imgV.contentDataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+                imgV.contentDataLabel3.textAlignment = NSTextAlignmentRight;
+                imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"price"];
+                imgV.contentDataLabel4.attributedText = priceAttr;
+                imgV.contentDataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+                imgV.contentDataLabel4.textAlignment = NSTextAlignmentRight;
+            }else {
                 imgV.contentItemLabel2.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"content"];
                 imgV.contentDataLabel2.attributedText = content;
                 imgV.contentDataLabel2.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
@@ -305,9 +305,9 @@
                 imgV.contentDataLabel3.attributedText = priceAttr;
                 imgV.contentDataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
                 imgV.contentDataLabel3.textAlignment = NSTextAlignmentRight;
-                imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"price"];
+                imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"trans_to"];
                 imgV.contentDataLabel4.text = [arr[i] valueForKey:@"account"];
-//            }
+            }
             [weakSelf.effectNodesScrollView addSubview:imgV];
         }
     }

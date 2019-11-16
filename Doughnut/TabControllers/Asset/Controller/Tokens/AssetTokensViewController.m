@@ -78,7 +78,7 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 -(void)loadData {
-    [[WalletManage shareInstance] getAllTokens:^(NSDictionary *response) {
+    [[WalletManage shareWalletManage] getAllTokens:^(NSDictionary *response) {
         if (response){
             NSMutableArray *data = [NSMutableArray arrayWithObject:response][0];
             if (!_tokenArray) {
@@ -151,7 +151,7 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 76;
+    return 86;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

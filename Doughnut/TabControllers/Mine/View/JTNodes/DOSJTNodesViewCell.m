@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nodeAddr;
 @property (weak, nonatomic) IBOutlet UILabel *pingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *clickImage;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loading;
 
 @end
 
@@ -28,6 +29,9 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.nodeView.layer.cornerRadius = 10;
     _nodeView.layer.borderWidth = 1;
+    self.loading.hidesWhenStopped = YES;
+    [self.loading startAnimating];
+    self.pingLabel.hidden = YES;
 }
 
 
@@ -46,7 +50,6 @@
         _nodeView.layer.borderColor = [UIColor colorWithHex:0xEEEEF2].CGColor;
         _clickImage.highlighted = selected;
     }
-    
 }
 
 - (void)updateWithData:(NSDictionary *)data {
@@ -56,6 +59,8 @@
     if ([self.pingLabel.text isEqualToString:@"-- ms"]){
         self.pingLabel.textColor = [UIColor redColor];
     }
+    self.pingLabel.hidden = NO;
+    [self.loading stopAnimating];
 }
 
 @end

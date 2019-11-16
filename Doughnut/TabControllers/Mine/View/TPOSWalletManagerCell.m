@@ -26,8 +26,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *walletType;
 @property (weak, nonatomic) IBOutlet UILabel *createTime;
 
-
-@property (nonatomic, strong) WalletManage *walletManage;
 @property (nonatomic, strong) CaclUtil *caclUtil;
 
 @end
@@ -70,16 +68,14 @@
     _QRCodeImage.userInteractionEnabled = YES;
     _backupView.hidden = walletModel.isBackup;
     _createTime.text = [NSString stringWithFormat:@"%@:%@", [[TPOSLocalizedHelper standardHelper]stringWithKey:@"export_time"],walletModel.createTime?walletModel.createTime:@"---"];
-    _walletManage = [[WalletManage alloc]init];
     _caclUtil = [[CaclUtil alloc]init];
-    [_walletManage createRemote];
-    [_walletManage requestBalanceByAddress:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6"];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6" object:nil];
+    [[WalletManage shareWalletManage] requestBalanceByAddress:walletModel.address current:NO];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:walletModel.address object:nil];
 }
 
 -(void) getBalanceListAction:(NSNotification *) notification {
     NSMutableArray<NSMutableDictionary *> *data = notification.object;
-    [_walletManage getAllTokenPrice:^(NSArray *priceData) {
+    [[WalletManage shareWalletManage] getAllTokenPrice:^(NSArray *priceData) {
         // 钱包总价值
         NSString *values = @"0.00";
         // 钱包折换总SWT
@@ -132,6 +128,7 @@
 -(void)updateLabels:(NSArray *)data{
     _walletBalanceLabel.text = data[0];
     _balanceCNYLabel.text = [NSString stringWithFormat:@"≈￥%@",data[1]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
