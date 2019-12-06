@@ -695,7 +695,8 @@ NSString * const kWebSocketdidReceiveMessage = @"kWebSocketdidReceiveMessage";
     
     if ([currency isEqualToString:@"SWT"]) {
         long mul = 1000000;
-        long value2 = (long)value * mul;
+//        long value2 = (long)value * mul;
+        long value2 = [valuestr doubleValue] * mul;
         ret = [NSString stringWithFormat:@"%ld", value2];
     } else {
         ret = amount;

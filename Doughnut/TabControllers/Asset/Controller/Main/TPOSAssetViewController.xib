@@ -189,7 +189,6 @@
                         <constraint firstItem="Tdl-SE-hxl" firstAttribute="leading" secondItem="1CC-J5-ddC" secondAttribute="leading" id="a3F-HQ-0Ng"/>
                         <constraint firstItem="Tdl-SE-hxl" firstAttribute="bottom" secondItem="bgx-jg-pUL" secondAttribute="bottomMargin" constant="-21.333333333333343" id="cyj-qj-BnC"/>
                         <constraint firstItem="bqu-v2-vcp" firstAttribute="leading" secondItem="bgx-jg-pUL" secondAttribute="leading" constant="40" id="dDB-Sa-wFu"/>
-                        <constraint firstItem="cGU-q5-TI8" firstAttribute="leading" secondItem="1CC-J5-ddC" secondAttribute="trailing" constant="72" id="f7D-uR-Lpi"/>
                         <constraint firstItem="cGU-q5-TI8" firstAttribute="top" secondItem="bgx-jg-pUL" secondAttribute="top" constant="26" id="lgP-Jf-yAX"/>
                         <constraint firstItem="b7I-uL-jVi" firstAttribute="top" secondItem="1CC-J5-ddC" secondAttribute="bottom" constant="15" id="pWM-Vm-QMA"/>
                         <constraint firstItem="JE0-AS-CpQ" firstAttribute="leading" secondItem="bgx-jg-pUL" secondAttribute="leading" constant="40" id="stK-K3-YAA"/>

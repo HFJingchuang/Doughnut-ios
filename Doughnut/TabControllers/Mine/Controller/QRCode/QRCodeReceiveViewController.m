@@ -29,6 +29,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *tokenSelectView;
 @property (nonatomic, weak) IBOutlet UILabel *tokenSelectLabel;
+@property (weak, nonatomic) IBOutlet UIButton *saveCodeBtn;
 
 @end
 
@@ -43,6 +44,12 @@
     [self.tipLabel sizeToFit];
     [self loadData];
     [self registerNotifications];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{NSForegroundColorAttributeName:[UIColor colorWithHex:0x021E38]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -98,6 +105,23 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)exportAction:(id)sender {
+    UIImage *image = self.codeView.image;
+    if (!image){
+        return;
+    }
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(savedPhotoImage:didFinishSavingWithError:contextInfo:),nil);
+    
+}
+
+- (void) savedPhotoImage:(UIImage*)image didFinishSavingWithError: (NSError*)error contextInfo: (void*)contextInfo {
+    if(error) {
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save_fail"]];
+    }else{
+        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save_succ"]];
+    }
+}
+
 - (void)responseLeftButton {
     if (self.presentingViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -109,13 +133,14 @@
 -(void)loadData {
     self.walletNameLabel.text = self.walletName?self.walletName:@"--";
     self.walletAddressLabel.text = self.walletAddress?self.walletAddress:@"--";
+    [self.walletAddressLabel addCopyBtnWithImg];
     if (self.walletName && self.walletAddress && self.amountTextField.text.length == 0){
         NSMutableDictionary *data = [NSMutableDictionary new];
         [data setValue:[NSString stringWithFormat:@"%@_%@",self.tokenName?self.tokenName:@"SWTC",self.tokenIssuer?self.tokenIssuer:@""] forKey:@"Token_Name"];
         [data setValue:self.walletAddress forKey:@"Receive_Address"];
         [data setValue:@"0" forKey:@"Token_Amount"];
         NSString *str = [data mj_JSONString];
-        UIImage *code = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:str imageViewWidth:150];
+        UIImage *code = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:str imageViewWidth:200];
         self.codeView.image = code;
         self.codeView.contentMode = UIViewContentModeScaleAspectFit;
     }
@@ -151,7 +176,7 @@
         [data setValue:self.walletAddress forKey:@"Receive_Address"];
         [data setValue:sender.text forKey:@"Token_Amount"];
         NSString *str = [data mj_JSONString];
-        UIImage *code = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:str imageViewWidth:150];
+        UIImage *code = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:str imageViewWidth:200];
         self.codeView.image = code;
         self.codeView.contentMode = UIViewContentModeScaleAspectFit;
     }

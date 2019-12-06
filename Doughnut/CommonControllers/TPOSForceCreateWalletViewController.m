@@ -15,7 +15,6 @@
 #import "TPOSH5ViewController.h"
 #import "CreateWalletViewController.h"
 #import "ImportWalletViewController.h"
-//#import "TPOSConfirmMemonicViewController.h"
 #import "TPOSCameraUtils.h"
 #import "TPOSQRResultHandler.h"
 #import "TPOSQRCodeResult.h"
@@ -55,11 +54,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.view.backgroundColor = [UIColor colorWithHex:0xFFFFFF];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     [self animation];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushToScan)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scanAction)];
     [self.scanView addGestureRecognizer:tapGesture];
     self.scanView.userInteractionEnabled = YES;
 }
@@ -68,12 +68,8 @@
     return YES;
 }
 
-- (void)pushToScan {
-    __weak typeof(self) weakSelf = self;
-    [[TPOSCameraUtils sharedInstance] startScanCameraWithVC:self completion:^(NSString *result) {
-        TPOSQRCodeResult *qrResult = [[TPOSQRResultHandler sharedInstance] codeResultWithScannedString:result];
-        
-    }];
+- (void)scanAction {
+    [self pushToScan:self];
 }
 
 - (void)animation {
@@ -109,8 +105,8 @@
 }
 
 - (IBAction)importAction {
-    ImportWalletViewController *injectWalletViewController = [[ImportWalletViewController alloc] init];
-    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:injectWalletViewController] animated:YES completion:nil];
+    ImportWalletViewController *vc = [[ImportWalletViewController alloc] init];
+    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
 
 @end

@@ -16,9 +16,9 @@
 @property (nonatomic, copy) NSString *walletName;
 @property (nonatomic, copy) NSString *walletIcon;
 @property (nonatomic, copy) NSString *address;
-@property (nonatomic, copy) NSString *password;
-@property (nonatomic, copy) NSString *passwordTips;
+@property (nonatomic, copy) NSString *keyStore;
 @property (nonatomic, copy) NSString *privateKey;
+@property (nonatomic, copy) NSString *password;
 @property (nonatomic, copy) NSString *createTime;
 @property (nonatomic, copy) NSString *balanceSWTC;
 @property (nonatomic, copy) NSString *balanceCNY;

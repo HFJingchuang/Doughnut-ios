@@ -7,7 +7,6 @@
 //
 
 #import "TPOSMineViewController.h"
-#import "TPOSTransactionViewController.h"
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 #import <Masonry/Masonry.h>
@@ -182,8 +181,7 @@
         qrVC.walletAddress = _currentWallet.address;
         qrVC.walletName = _currentWallet.walletName;
 //      qrVC.tokenAmount = 0;
-        TPOSNavigationController *navi = [[TPOSNavigationController alloc] initWithRootViewController:qrVC];
-        [self presentViewController:navi animated:YES completion:nil];
+        [self.navigationController pushViewController:qrVC animated:YES];
     }
     else {
         __weak typeof(self) weakSelf = self;

@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/xumingyang/OC projects/Doughnut-ios/Doughnut-ios/Doughnut.xcodeproj">
+      location = "group:Doughnut.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

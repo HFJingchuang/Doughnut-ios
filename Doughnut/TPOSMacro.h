@@ -45,7 +45,7 @@
 #define CURRENCY_CNY @"CNY"
 
 #define getChangeToken @"getChangeToken"
-
+#define getTransactionAddress @"getTransactionAddress"
 #define getCurrentWalletBalance @"getCurrentWalletBalance"
 #define transactionFlag @"transactionFlag"
 

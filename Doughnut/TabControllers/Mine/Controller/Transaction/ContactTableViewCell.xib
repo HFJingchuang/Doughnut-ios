@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="76" id="i0Z-yK-Fbn" customClass="ContactTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="76"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="i0Z-yK-Fbn" id="pGg-IB-oDS">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="75.666666666666671"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xY1-tJ-OLJ">
+                        <rect key="frame" x="224" y="27" width="150" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="ImQ-qW-ttt"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x5a-dv-CSW">
+                        <rect key="frame" x="40" y="17" width="150" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="k2s-hv-85R"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0078431372550000003" green="0.1176470588" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qqp-ry-HgF">
+                        <rect key="frame" x="40" y="44" width="150" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="ehY-6x-6op"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="0.53333333329999999" green="0.53333333329999999" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Qqp-ry-HgF" firstAttribute="bottom" secondItem="pGg-IB-oDS" secondAttribute="bottomMargin" id="1Ge-hD-3kP"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="xY1-tJ-OLJ" secondAttribute="trailing" constant="20" id="1Na-Pf-R6e"/>
+                    <constraint firstItem="x5a-dv-CSW" firstAttribute="leading" secondItem="pGg-IB-oDS" secondAttribute="leadingMargin" constant="20" id="9a8-bZ-vUh"/>
+                    <constraint firstItem="Qqp-ry-HgF" firstAttribute="leading" secondItem="pGg-IB-oDS" secondAttribute="leadingMargin" constant="20" id="aJn-7i-3Yj"/>
+                    <constraint firstItem="Qqp-ry-HgF" firstAttribute="top" secondItem="x5a-dv-CSW" secondAttribute="bottom" constant="6" id="bpU-dN-veJ"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="xY1-tJ-OLJ" secondAttribute="bottom" constant="17" id="ee8-d7-cDk"/>
+                    <constraint firstItem="xY1-tJ-OLJ" firstAttribute="top" secondItem="pGg-IB-oDS" secondAttribute="topMargin" constant="16" id="gKk-YY-Ehm"/>
+                    <constraint firstItem="xY1-tJ-OLJ" firstAttribute="leading" secondItem="Qqp-ry-HgF" secondAttribute="trailing" constant="34" id="oei-eG-9uA"/>
+                    <constraint firstItem="x5a-dv-CSW" firstAttribute="top" secondItem="pGg-IB-oDS" secondAttribute="topMargin" constant="6" id="qNj-9A-Aoh"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressLabel" destination="x5a-dv-CSW" id="ieF-qP-yW2"/>
+                <outlet property="contentLabel" destination="xY1-tJ-OLJ" id="Fhz-Xy-sKa"/>
+                <outlet property="dateLabel" destination="Qqp-ry-HgF" id="oaT-ua-IPy"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="491.57608695652175"/>
+        </tableViewCell>
+    </objects>
+</document>

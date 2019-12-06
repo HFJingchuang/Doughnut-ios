@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PKImportWalletViewController : TPOSBaseViewController
-
+@property (nonatomic, strong) NSString *scanResult;
 @end
 
 NS_ASSUME_NONNULL_END

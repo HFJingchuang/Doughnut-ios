@@ -8,8 +8,8 @@
 #import "UIImage+TPOS.h"
 #import "ImportWalletViewController.h"
 #import "TPOSPrivateKeyImportWalletViewController.h"
-//#import "TPOSKeystoreImportWalletViewController.h"
 #import "PKImportWalletViewController.h"
+#import "KSImportWalletViewController.h"
 #import "TPOSScrollContentView.h"
 #import "TPOSScanQRCodeViewController.h"
 #import "UIColor+Hex.h"
@@ -24,7 +24,7 @@
 @property (nonatomic, strong) NSMutableArray *importTypeTitles;
 
 @property (nonatomic, strong) PKImportWalletViewController *pkVC;
-//@property (nonatomic, strong) TPOSKeystoreImportWalletViewController *keystoreVC;
+@property (nonatomic, strong) KSImportWalletViewController *keystoreVC;
 @end
 
 @implementation ImportWalletViewController
@@ -74,7 +74,7 @@
     self.titleView.titleSelectColor = [UIColor colorWithHex:0x021E38];
     self.titleView.titleSelectFont = [UIFont fontWithName:@"PingFangSC-Medium" size:16];
     self.titleView.titleFont = [UIFont fontWithName:@"PingFangSC-Medium" size:16];
-    self.titleView.selectIndex = 0;
+    self.titleView.selectIndex = self.importFlag?self.importFlag:0;
     [self.view addSubview:_titleView];
     [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.equalTo(self.view);
@@ -82,16 +82,16 @@
     }];
     NSMutableArray *childVCs = [[NSMutableArray alloc]init];
         _pkVC = [[PKImportWalletViewController alloc] initWithNibName:@"PKImportWalletViewController" bundle:nil];
+    _pkVC.scanResult = self.privateKey;
         [childVCs addObject:_pkVC];
         [self addChildViewController:_pkVC];
-//    if ((self.importTypes & TPOSImportWalletTypeKeyStore) > 0) {
-//        _keystoreVC = [[TPOSKeystoreImportWalletViewController alloc] initWithNibName:@"TPOSKeystoreImportWalletViewController" bundle:nil];
-//        _keystoreVC.blockchain = self.blockchain;
-//        [childVCs addObject:_keystoreVC];
-//        [self addChildViewController:_keystoreVC];
-//    }
+        _keystoreVC = [[KSImportWalletViewController alloc] initWithNibName:@"KSImportWalletViewController" bundle:nil];
+    _keystoreVC.scanResult = self.keyStore;
+        [childVCs addObject:_keystoreVC];
+        [self addChildViewController:_keystoreVC];
     self.pageContentView = [[TPOSPageContentView alloc]initWithFrame:CGRectMake(0, 45.5, kScreenWidth, CGRectGetHeight(self.view.bounds)-55.5) childVCs:childVCs parentVC:self delegate:self];
-    self.pageContentView.contentViewCurrentIndex = 0;
+    self.pageContentView.contentViewCanScroll = NO;
+    self.pageContentView.contentViewCurrentIndex = self.importFlag?self.importFlag:0;
     [self.view addSubview:_pageContentView];
     [self setupNavigationBarItem];
 }
@@ -101,12 +101,7 @@
 }
 
 - (void)gotoQRScanner {
-    __weak typeof(self) weakSelf = self;
-    TPOSScanQRCodeViewController *scanVC = [[TPOSScanQRCodeViewController alloc] init];
-    scanVC.kTPOSScanQRCodeResult = ^(NSString *result) {
-        NSInteger index = weakSelf.titleView.selectIndex;
-    };
-    [self.navigationController pushViewController:scanVC animated:YES];
+    [self pushToScan:self];
 }
 
 #pragma mark - TPOSPageContentViewDelegate & TPOSSegmentTitleViewDelegate

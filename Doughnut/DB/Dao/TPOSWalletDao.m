@@ -27,13 +27,18 @@
         BOOL addWalletResult;
         @try {
             FMResultSet *resultSet = [db executeQuery:@"select walletId from table_current_wallet"];
+            FMResultSet *resultSet2 = [db executeQuery:@"select * from table_wallet where address = ?;", walletModel.address];
             NSString *sql;
             if (resultSet.next) {
                 sql = @"update table_current_wallet set walletId = ?;";
             } else {
                 sql = @"insert into table_current_wallet(walletId)VALUES(?);";
             }
-            addWalletResult = [db executeUpdate:@"insert into table_wallet(address,walletId,info)VALUES(?,?,?);",walletModel.address,walletModel.walletId,[walletModel mj_JSONString]];
+            if (resultSet2.next) {
+                addWalletResult = [db executeUpdate:@"update table_wallet set walletId = ?,info = ? where address = ?;",walletModel.walletId,[walletModel mj_JSONString],walletModel.address];
+            }else {
+                addWalletResult = [db executeUpdate:@"insert into table_wallet(address,walletId,info)VALUES(?,?,?);",walletModel.address,walletModel.walletId,[walletModel mj_JSONString]];
+            }
             updateCurrentWalletResult = [db executeUpdate:sql,walletModel.walletId];
             if (addWalletResult && updateCurrentWalletResult) {
                 *rollback = NO;
@@ -60,31 +65,6 @@
         BOOL result = [db executeUpdate:@"update table_wallet set address = ?,info = ? where walletId = ?;",walletModel.address,[walletModel mj_JSONString],walletModel.walletId];
         if (complement) {
             complement(result);
-        }
-    }];
-}
-
-- (void)updateWalletInfoWithWalletModel:(TPOSWalletModel *)walletModel complement:(void (^)(BOOL success))complement {
-    [self.dataBaseQueue inTransaction:^(FMDatabase * _Nonnull db, BOOL * _Nonnull rollback) {
-        BOOL result;
-        @try {
-            result = [db executeUpdate:@"update table_wallet set address = ?,info = ? where walletId = ?;",walletModel.address,[walletModel mj_JSONString],walletModel.walletId];
-            if (result) {
-                *rollback = NO;
-            } else {
-                *rollback = YES;
-            }
-        } @catch (NSException *exception) {
-            *rollback = NO;
-            [db rollback];
-        } @finally {
-            if(!*rollback) {
-                [db commit];
-            }
-            [db close];
-            if(complement) {
-                complement(result);
-            }
         }
     }];
 }

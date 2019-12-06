@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *tokenIssuer;
 @property (nonatomic, strong) NSString *tokenBalance;
 @property (nonatomic, strong) NSString *gasValue;
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSString *amount;
 
 @end
 

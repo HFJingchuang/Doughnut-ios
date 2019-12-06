@@ -48,12 +48,12 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EU7-RM-STV">
                     <rect key="frame" x="20" y="64" width="80" height="25"/>
-                    <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.8862745098" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="AIA-mX-Z9G"/>
                         <constraint firstAttribute="height" constant="25" id="Dch-g6-bi9"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                     <state key="normal" title="0.00001SWTC">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -67,7 +67,7 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="CUm-mx-lpS"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                     <state key="normal" title="0.001SWTC">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -82,7 +82,7 @@
                         <constraint firstAttribute="height" constant="25" id="4wp-rq-OBt"/>
                         <constraint firstAttribute="width" constant="80" id="oNJ-ps-hBj"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                     <state key="normal" title="0.01SWTC">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -109,9 +109,8 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="快" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hm-5w-RGO">
-                    <rect key="frame" x="336" y="175" width="20" height="21"/>
+                    <rect key="frame" x="340.5" y="175" width="15.5" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="20" id="G1h-cW-e6V"/>
                         <constraint firstAttribute="height" constant="21" id="Sgm-Tf-Ubi"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>

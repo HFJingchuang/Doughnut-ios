@@ -21,6 +21,9 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "PasswordEyeController.h"
 #import "WalletManage.h"
+#import "NAChloride.h"
+#import "TPOSTabBarController.h"
+
 
 @interface PKImportWalletViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -28,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *walletNameTF;
 @property (weak, nonatomic) IBOutlet UITextField *walletPasswordTF;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTF;
+@property (weak, nonatomic) IBOutlet UILabel *privateKeyTip;
 @property (weak, nonatomic) IBOutlet UIButton *comfirmButton;
 @property (weak, nonatomic) IBOutlet UILabel *passwordTip;
 @property (weak, nonatomic) IBOutlet UILabel *confiremTip;
@@ -49,15 +53,13 @@
 }
 
 - (void)responseLeftButton {
-    if (self.presentingViewController) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [(UINavigationController *)self.view.window.rootViewController setViewControllers:@[[[TPOSTabBarController alloc] init]] animated:NO];
+    [self.navigationController pushViewController:[[TPOSTabBarController alloc] init] animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.scrollView.bounces = NO;
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithHex:0xffffff]];
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithHex:0xffffff]];
@@ -71,7 +73,9 @@
     self.walletNameTF.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"set_wallet_name"];
     self.walletPasswordTF.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"set_pwd"];
     self.confirmPasswordTF.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"repeat_pwd"];
-    [self.comfirmButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"done"] forState:UIControlStateNormal]; ;
+    [self.comfirmButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_wallet"] forState:UIControlStateNormal];
+    self.privateKeyTip.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"error_privateKey"];
+    self.privateKeyTip.hidden = YES;
     self.passwordTip.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_tip"];
     self.confiremTip.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_not_match"];
     self.confiremTip.hidden = YES;
@@ -84,6 +88,7 @@
     self.walletPasswordTF.delegate = self;
     self.confirmPasswordTF.delegate = self;
     [self.walletNameTF addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
+    [self.privateKeyTF addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
     [self.walletPasswordTF addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
     [self.confirmPasswordTF addTarget:self action:@selector(textFieldDidChanged:) forControlEvents:UIControlEventEditingChanged];
     PasswordEyeController *eyeBtn1 = [[PasswordEyeController alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
@@ -96,6 +101,9 @@
     self.confirmPasswordTF.rightView = eyeBtn2;
     self.comfirmButton.enabled = NO;
     [self.comfirmButton setBackgroundColor:self.comfirmButton.enabled?[UIColor colorWithHex:0x383B3E alpha:1]:[UIColor colorWithHex:0x383B3E alpha:0.5]];
+    if (self.scanResult&&self.scanResult.length != 0){
+        self.privateKeyTF.text = self.scanResult;
+    }
 }
 
 -(void)clickEyeBtn1 {
@@ -108,9 +116,10 @@
 
 - (IBAction)clickProtocolButton:(id)sender {
     TPOSH5ViewController *h5VC = [[TPOSH5ViewController alloc] init];
-    //    h5VC.urlString = @"http://tokenpocket.skyfromwell.com/terms/index.html";
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"service" ofType:@"html" inDirectory:@""];
+    h5VC.urlString = [[NSURL fileURLWithPath:filePath] absoluteString];
     h5VC.viewType = kH5ViewTypeTerms;
-    h5VC.titleString = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"service_privacy"];
+    h5VC.titleString = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"term_service"];
     [self.navigationController pushViewController:h5VC animated:YES];
 }
 
@@ -126,21 +135,19 @@
     if (wallet){
         NSString *address = [wallet valueForKey:@"address"];
         NSString *secret = [wallet valueForKey:@"secret"];
-        [self createWalletToServerWithAddress:address toLocalWithPrivateKey:secret mnemonic:nil blockchainId:@""];
+        [self createWalletToServerWithAddress:address toLocalWithPrivateKey:secret mnemonic:nil];
     }else{
-        [SVProgressHUD showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"create_fail"]];
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_fail"]];
         self.creating = NO;
         [self checkCreateButtonStatus];
     }
     
 }
 
-- (void)createWalletToServerWithAddress:(NSString *)address toLocalWithPrivateKey:(NSString *)privateKey mnemonic:(NSString *)mnemonic blockchainId:(NSString *)blockchainId {
+- (void)createWalletToServerWithAddress:(NSString *)address toLocalWithPrivateKey:(NSString *)privateKey mnemonic:(NSString *)mnemonic {
     __weak typeof(self) weakSelf = self;
     NSString *walletName = self.walletNameTF.text;
     NSString *password = self.walletPasswordTF.text;
-    NSString *passwordPrivate = [password tb_md5];
-    NSString *enPrivateKey = [privateKey tb_encodeStringWithKey:passwordPrivate];
     NSTimeInterval milisecondedDate = ([[NSDate date] timeIntervalSince1970] * 1000);
     NSString *walletId = [NSString stringWithFormat:@"%.0f", milisecondedDate];
     TPOSWalletModel *walletModel = [TPOSWalletModel new];
@@ -149,22 +156,25 @@
     walletModel.createTime = [formatter stringFromDate:[NSDate date]];
     walletModel.walletName = walletName;
     walletModel.address = address;
-    walletModel.privateKey = enPrivateKey;
+    NAChlorideInit();
+    Seed * seed = [Seed alloc];
+    Keypairs *keypairs = [seed deriveKeyPair:privateKey];
+    Wallet *wallet = [[Wallet alloc]initWithKeypairs:keypairs private:privateKey];
+    KeyStoreFileModel *keyStoreFile = [KeyStore createLight:password wallet:wallet];
+    walletModel.keyStore = [keyStoreFile toJSONString];
     walletModel.walletId = walletId;
-    walletModel.mnemonic = [mnemonic tb_encodeStringWithKey:passwordPrivate];
-    walletModel.blockChainId = blockchainId;
     walletModel.dbVersion = kDBVersion;
     //存到本地
     [weakSelf.walletDao addWalletWithWalletModel:walletModel complement:^(BOOL success) {
         if (success) {
             [TPOSThreadUtils runOnMainThread:^{
-                [SVProgressHUD showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"create_succ"]];
+                [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_succ"]];
                 weakSelf.creating = NO;
                 [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
                 [weakSelf responseLeftButton];
             }];
         }else {
-            [SVProgressHUD showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"create_fail"]];
+            [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_fail"]];
             weakSelf.creating = NO;
             [weakSelf checkCreateButtonStatus];
         }
@@ -173,13 +183,13 @@
 
 - (void)checkCreateButtonStatus {
     BOOL enable = YES;
-    if (_privateKeyTF.text.length == 0) {
+    if (_privateKeyTF.text.length == 0||![Wallet isValidSecret:_privateKeyTF.text]) {
         enable = NO;
     }
     if (_walletNameTF.text.length == 0) {
         enable = NO;
     }
-    if (_walletPasswordTF.text.length == 0 || _confirmPasswordTF.text.length == 0) {
+    if (_walletPasswordTF.text.length == 0 || _confirmPasswordTF.text.length == 0 ||![self.confirmPasswordTF.text isEqualToString:self.walletPasswordTF.text]) {
         enable = NO;
     }
     if (!_agreeButton.selected){
@@ -207,8 +217,14 @@
             [self checkCreateButtonStatus];
             self.confiremTip.hidden = YES;
         }
-    }else {
-        [self checkCreateButtonStatus];
+    }else if ([textfield isEqual:self.privateKeyTF]){
+        if ([Wallet isValidSecret:self.privateKeyTF.text]){
+            [self checkCreateButtonStatus];
+            self.privateKeyTip.hidden = YES;
+        }else{
+            self.privateKeyTip.hidden = NO;
+        }
+        
     }
 }
 

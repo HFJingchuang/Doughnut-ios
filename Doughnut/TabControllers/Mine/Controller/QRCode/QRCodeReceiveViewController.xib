@@ -16,6 +16,7 @@
                 <outlet property="amountView" destination="EdK-HJ-eF1" id="ISL-zv-qjF"/>
                 <outlet property="codeView" destination="Ivs-fg-F7M" id="AZ9-fS-Qba"/>
                 <outlet property="contentView" destination="Lh9-kA-dUR" id="5Ck-RH-wnd"/>
+                <outlet property="saveCodeBtn" destination="MBm-Tv-3dM" id="RaG-j4-UOu"/>
                 <outlet property="scrollView" destination="4D8-3Y-T7q" id="mCi-tM-w4J"/>
                 <outlet property="tipLabel" destination="eag-jl-RnX" id="5Iq-vs-D8P"/>
                 <outlet property="tokenSelectLabel" destination="yII-VD-Fl7" id="70h-AC-W5y"/>
@@ -133,6 +134,17 @@
                                     </constraints>
                                     <viewLayoutGuide key="safeArea" id="cKT-iW-HfR"/>
                                 </view>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBm-Tv-3dM">
+                                    <rect key="frame" x="30" y="491" width="314" height="19"/>
+                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="13"/>
+                                    <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" title="保存二维码" image="icon_download_b">
+                                        <color key="titleColor" red="0.23137254900000001" green="0.42352941179999998" blue="0.65098039220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="exportAction:" destination="-1" eventType="touchUpInside" id="m22-Xi-0ss"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -145,13 +157,18 @@
                                 <constraint firstAttribute="height" constant="556" id="M0d-uN-PXu"/>
                                 <constraint firstAttribute="trailing" secondItem="kVn-BI-nNm" secondAttribute="trailing" id="RYy-Gb-tBc"/>
                                 <constraint firstAttribute="trailing" secondItem="EdK-HJ-eF1" secondAttribute="trailing" constant="20" id="TBc-f5-XMY"/>
+                                <constraint firstItem="MBm-Tv-3dM" firstAttribute="centerX" secondItem="Lh9-kA-dUR" secondAttribute="centerX" id="TP2-G8-h1g"/>
+                                <constraint firstAttribute="bottom" secondItem="MBm-Tv-3dM" secondAttribute="bottom" constant="46" id="Tob-r1-Qzs"/>
+                                <constraint firstAttribute="trailing" secondItem="MBm-Tv-3dM" secondAttribute="trailing" constant="30" id="ZOB-p8-7I3"/>
                                 <constraint firstItem="Ivs-fg-F7M" firstAttribute="centerX" secondItem="Lh9-kA-dUR" secondAttribute="centerX" id="duW-12-ZjA"/>
                                 <constraint firstItem="EdK-HJ-eF1" firstAttribute="leading" secondItem="Lh9-kA-dUR" secondAttribute="leading" constant="20" id="e92-Oi-xdk"/>
                                 <constraint firstItem="8R2-Ld-kG3" firstAttribute="centerX" secondItem="Lh9-kA-dUR" secondAttribute="centerX" id="fmY-HM-HGF"/>
                                 <constraint firstAttribute="bottom" secondItem="EdK-HJ-eF1" secondAttribute="bottom" constant="92" id="hY6-RK-Qix"/>
                                 <constraint firstItem="eag-jl-RnX" firstAttribute="top" secondItem="Lh9-kA-dUR" secondAttribute="top" constant="21" id="i5a-7J-vwe"/>
+                                <constraint firstItem="MBm-Tv-3dM" firstAttribute="top" secondItem="EdK-HJ-eF1" secondAttribute="bottom" constant="27" id="icc-vK-eao"/>
                                 <constraint firstItem="Ivs-fg-F7M" firstAttribute="top" secondItem="kVn-BI-nNm" secondAttribute="bottom" constant="41" id="noK-hm-eG9"/>
                                 <constraint firstItem="cH5-Fh-qeZ" firstAttribute="top" secondItem="8R2-Ld-kG3" secondAttribute="bottom" constant="17" id="psf-D6-6ZQ"/>
+                                <constraint firstItem="MBm-Tv-3dM" firstAttribute="leading" secondItem="Lh9-kA-dUR" secondAttribute="leading" constant="30" id="w84-E6-7zP"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -177,6 +194,7 @@
         </view>
     </objects>
     <resources>
+        <image name="icon_download_b" width="16" height="16"/>
         <image name="triangle" width="5" height="8"/>
     </resources>
 </document>

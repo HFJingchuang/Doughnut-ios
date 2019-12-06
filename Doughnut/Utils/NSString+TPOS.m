@@ -53,13 +53,13 @@ static inline NSString * NSStringCCHashFunction(unsigned char *(function)(const 
         c2 = @"CNT";
     }
     if ([type isEqualToString:@"offer"]){
-        str = [NSString stringWithFormat:@"<right><font color=\"#3B6CA6\">%@<font color=\"#021E38\">%@ <font color=\"#A6A9AD\">→ <font color=\"#3B6CA6\">%@<font color=\"#021E38\">%@</right>",v1,c1,v2,c2];
+        str = [NSString stringWithFormat:@"<right><font color=\"#3B6CA6\">%@ <font color=\"#021E38\">%@ <font color=\"#A6A9AD\">→ <font color=\"#3B6CA6\">%@ <font color=\"#021E38\">%@</right>",v1,c1,v2,c2];
     }else if([type isEqualToString:@"send"]){
-        str = [NSString stringWithFormat:@"<right><font color=\"#F55758\" size=>%@<font color=\"#021E38\"> %@<right>",v1,c1];
+        str = [NSString stringWithFormat:@"<right><font color=\"#F55758\" size=>%@ <font color=\"#021E38\"> %@<right>",v1,c1];
     }else if([type isEqualToString:@"receive"]){
-        str = [NSString stringWithFormat:@"<right><font color=\"#27B498\" size=>%@<font color=\"#021E38\"> %@<right>",v1,c1];
+        str = [NSString stringWithFormat:@"<right><font color=\"#27B498\" size=>%@ <font color=\"#021E38\"> %@<right>",v1,c1];
     }else{
-        str = [NSString stringWithFormat:@"<right><font color=\"#4682B4\" size=>%@<font color=\"#021E38\"> %@<right>",v1,c1];
+        str = [NSString stringWithFormat:@"<right><font color=\"#4682B4\" size=>%@ <font color=\"#021E38\"> %@<right>",v1,c1];
     }
     NSAttributedString *attrStr = [[NSAttributedString alloc] initWithData:[str dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error:nil];
     return attrStr;

@@ -99,6 +99,7 @@
 -(void)loadData {
      __weak typeof(self) weakSelf = self;
     _currentHash.text = _currentTransactionHash;
+    [_currentHash addCopyBtnWithImg];
     [[WalletManage shareWalletManage] getTransactionDetail:_currentTransactionHash :^(NSDictionary *response) {
         NSString *type = [response valueForKey:@"type"];
         if ([type isEqualToString:@"Payment"]){
@@ -107,6 +108,7 @@
             if([weakSelf isCurrentAddress:[response valueForKey:@"account"]]){
                 weakSelf.dataLabel2.textColor = [UIColor colorWithHex:0xFFA500];
             }
+            [weakSelf.dataLabel2 addLongPressCopy];
             weakSelf.itemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"trans_amount"];
             weakSelf.dataLabel3.attributedText = [@"" getAttrStringWithV1:[[response valueForKey:@"amount"] valueForKey:@"value"] C1:[[response valueForKey:@"amount"] valueForKey:@"currency"] V2:nil C2:nil TYPE:@""];
             weakSelf.dataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
@@ -116,6 +118,7 @@
             if([weakSelf isCurrentAddress:[response valueForKey:@"dest"]]){
                 weakSelf.dataLabel4.textColor = [UIColor colorWithHex:0xFFA500];
             }
+            [weakSelf.dataLabel4 addLongPressCopy];
             [self hideLabels];
         }else if([type isEqualToString:@"OfferCreate"]){
             NSNumber *flag = [response valueForKey:@"flag"];
@@ -152,48 +155,62 @@
             if([weakSelf isCurrentAddress:[response valueForKey:@"account"]]){
                 weakSelf.dataLabel2.textColor = [UIColor colorWithHex:0xFFA500];
             }
-            NSString *v1 = @"";
-            NSString *c1 = @"";
-            NSString *v2 = @"";
-            NSString *c2 = @"";
-            v1 = [_cacl formatAmount:[[response valueForKey:@"takerGets"]valueForKey:@"value"] :2 :NO :NO];
-            c1 = [[response valueForKey:@"takerGets"]valueForKey:@"currency"];
-            v2 = [_cacl formatAmount:[[response valueForKey:@"takerPays"]valueForKey:@"value"] :2 :NO :NO];
-            c2 = [[response valueForKey:@"takerPays"]valueForKey:@"currency"];
+            [weakSelf.dataLabel2 addLongPressCopy];
             weakSelf.itemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_amount"];
-            weakSelf.dataLabel3.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
-            weakSelf.dataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
-            weakSelf.dataLabel3.textAlignment = NSTextAlignmentRight;
             weakSelf.itemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_price"];
-            NSString *price = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][0];
-            NSString *cny = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][1];
-            weakSelf.dataLabel4.attributedText = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
-            weakSelf.dataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
-            weakSelf.dataLabel4.textAlignment = NSTextAlignmentRight;
+            if ([[response allKeys]containsObject:@"takerGets"]&&[[response allKeys]containsObject:@"takerPays"]){
+                NSString *v1 = @"";
+                NSString *c1 = @"";
+                NSString *v2 = @"";
+                NSString *c2 = @"";
+                v1 = [_cacl formatAmount:[[response valueForKey:@"takerGets"]valueForKey:@"value"] :2 :NO :NO];
+                c1 = [[response valueForKey:@"takerGets"]valueForKey:@"currency"];
+                v2 = [_cacl formatAmount:[[response valueForKey:@"takerPays"]valueForKey:@"value"] :2 :NO :NO];
+                c2 = [[response valueForKey:@"takerPays"]valueForKey:@"currency"];
+                
+                weakSelf.dataLabel3.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
+                weakSelf.dataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
+                weakSelf.dataLabel3.textAlignment = NSTextAlignmentRight;
+               
+                NSString *price = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][0];
+                NSString *cny = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][1];
+                weakSelf.dataLabel4.attributedText = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
+                weakSelf.dataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
+                weakSelf.dataLabel4.textAlignment = NSTextAlignmentRight;
+            }else {
+                weakSelf.dataLabel3.text = @"---";
+                weakSelf.dataLabel4.text = @"---";
+            }
         }else if([type isEqualToString:@"OfferCancel"]){
             weakSelf.dataLabel1.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_cancel"];
             weakSelf.dataLabel2.text = [response valueForKey:@"account"];
             if([weakSelf isCurrentAddress:[response valueForKey:@"account"]]){
                 weakSelf.dataLabel2.textColor = [UIColor colorWithHex:0xFFA500];
             }
-            NSString *v1 = @"";
-            NSString *c1 = @"";
-            NSString *v2 = @"";
-            NSString *c2 = @"";
-            v1 = [_cacl formatAmount:[[response valueForKey:@"takerGets"]valueForKey:@"value"] :2 :NO :NO];
-            c1 = [[response valueForKey:@"takerGets"]valueForKey:@"currency"];
-            v2 = [_cacl formatAmount:[[response valueForKey:@"takerPays"]valueForKey:@"value"] :2 :NO :NO];
-            c2 = [[response valueForKey:@"takerPays"]valueForKey:@"currency"];
+            [weakSelf.dataLabel2 addLongPressCopy];
             weakSelf.itemLabel3.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_amount"];
-            weakSelf.dataLabel3.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
-            weakSelf.dataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
-            weakSelf.dataLabel3.textAlignment = NSTextAlignmentRight;
             weakSelf.itemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"offer_price"];
-            NSString *price = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][0];
-            NSString *cny = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][1];
-            weakSelf.dataLabel4.attributedText = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
-            weakSelf.dataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
-            weakSelf.dataLabel4.textAlignment = NSTextAlignmentRight;
+            if ([[response allKeys]containsObject:@"takerGets"]&&[[response allKeys]containsObject:@"takerPays"]){
+                NSString *v1 = @"";
+                NSString *c1 = @"";
+                NSString *v2 = @"";
+                NSString *c2 = @"";
+                v1 = [_cacl formatAmount:[[response valueForKey:@"takerGets"]valueForKey:@"value"] :2 :NO :NO];
+                c1 = [[response valueForKey:@"takerGets"]valueForKey:@"currency"];
+                v2 = [_cacl formatAmount:[[response valueForKey:@"takerPays"]valueForKey:@"value"] :2 :NO :NO];
+                c2 = [[response valueForKey:@"takerPays"]valueForKey:@"currency"];
+                weakSelf.dataLabel3.attributedText = [@"" getAttrStringWithV1:v1 C1:c1 V2:v2 C2:c2 TYPE:@"offer"];
+                weakSelf.dataLabel3.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
+                weakSelf.dataLabel3.textAlignment = NSTextAlignmentRight;
+                NSString *price = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][0];
+                NSString *cny = [weakSelf getPriceWithV1:[[response valueForKey:@"takerGets"]valueForKey:@"value"] V2:[[response valueForKey:@"takerPays"]valueForKey:@"value"] C1:c1 C2:c2 ][1];
+                weakSelf.dataLabel4.attributedText = [@"" getAttrStringWithV1:price C1:cny V2:nil C2:nil TYPE:@""];
+                weakSelf.dataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:14];
+                weakSelf.dataLabel4.textAlignment = NSTextAlignmentRight;
+            }else {
+                weakSelf.dataLabel3.text = @"---";
+                weakSelf.dataLabel4.text = @"---";
+            }
             [weakSelf hideLabels];
         }
         NSNumber *fee = [response valueForKey:@"fee"];
@@ -252,7 +269,6 @@
         imgV.contentDataLabel4.attributedText = weakSelf.dataLabel4.attributedText;
         [weakSelf.effectNodesScrollView addSubview:imgV];
         [imgV.contentDataLabel2 sizeToFit];
-        
     }else{
         pages = [NSNumber numberWithInteger:arr.count];
         for (int i = 0; i < arr.count; i++) {

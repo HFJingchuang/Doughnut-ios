@@ -5,13 +5,17 @@
 //  Created by MarcusWoo on 04/01/2018.
 //  Copyright © 2018 MarcusWoo. All rights reserved.
 //
-
 #import <UIKit/UIKit.h>
 #import "MJRefreshGifHeader+TPOS.h"
 #import "TPOSCustomMJRefreshFooter.h"
 #import "TPOSLocalizedHelper.h"
 #import "UIColor+Hex.h"
+#import "KeyStoreFile.h"
+#import "KeyStore.h"
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "TPOSMacro.h"
+#import "TPOSCameraUtils.h"
+#import "UILabel+Btn.h"
 
 typedef void (^tableHeaderRefreshAction)(void);
 
@@ -42,5 +46,14 @@ typedef void (^tableHeaderRefreshAction)(void);
                                        RefreshingBlock:(tableHeaderRefreshAction)actionBlock;
 // 读取本地JSON文件
 - (id)readLocalFileWithName:(NSString *)name;
+//json转字典
+- (id)dictionaryWithJsonString:(NSString *)jsonString;
+//写入json文件
+- (void)writeLoaclFileWithPath:(NSString *)path content:(id)data;
+// 扫码
+- (void)pushToScan:(UIViewController *)viewController;
 
+- (void) showErrorWithStatus:(NSString *)msg;
+- (void) showInfoWithStatus:(NSString *)msg;
+- (void) showSuccessWithStatus:(NSString *)msg;
 @end

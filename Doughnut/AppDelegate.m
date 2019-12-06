@@ -113,6 +113,7 @@
     [[TPOSCommonInfoManager shareInstance] storeAllBlockchainInfos];
     //恢复数据
     [TPOSContext shareInstance];
+    [WalletManage shareWalletManage];
     [self registerNotifications];
     //检查数据库更新
     [self checkDBVersion];
@@ -151,11 +152,11 @@
             if (obj.dbVersion < 1) {
                 obj.dbVersion = 1;
                 if ([ethChain isEqualToString:obj.blockChainId]) {
-                    if (obj.isBackup) {
-                        obj.mnemonic = nil;
-                    } else {
-                        obj.mnemonic = [obj.mnemonic tb_encodeStringWithKey:obj.password];
-                    }
+//                    if (obj.isBackup) {
+//                        obj.mnemonic = nil;
+//                    } else {
+//                        obj.mnemonic = [obj.mnemonic tb_encodeStringWithKey:obj.password];
+//                    }
                 } else {
                     obj.backup = NO;
                 }

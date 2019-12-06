@@ -54,8 +54,9 @@
 -(void)updateQRCode{
     self.walletNameLabel.text = _walletName;
     self.walletAddrLabel.text = _walletAddr;
+    [self.walletAddrLabel addCopyBtnWithImg];
     if (_walletAddrLabel.text){
-        UIImage *code = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:_walletAddr imageViewWidth:150];
+        UIImage *code = [SGQRCodeGenerateManager generateWithDefaultQRCodeData:_walletAddr imageViewWidth:200];
         _QRCodeView.image = code;
         _QRCodeView.contentMode = UIViewContentModeScaleAspectFit;
     }

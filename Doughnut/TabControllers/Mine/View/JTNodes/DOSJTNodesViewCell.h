@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateWithData:(NSDictionary *)data;
 
+- (void)updateSelectStatus:(BOOL)selected;
+
 @end
 
 NS_ASSUME_NONNULL_END

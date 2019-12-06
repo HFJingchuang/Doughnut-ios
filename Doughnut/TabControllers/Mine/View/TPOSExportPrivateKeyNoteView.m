@@ -66,7 +66,7 @@
 
 - (void)setWalletModel:(TPOSWalletModel *)walletModel {
     _walletModel = walletModel;
-    _keyLabel.text = [walletModel.privateKey tb_encodeStringWithKey:walletModel.password];
+    _keyLabel.text = walletModel.keyStore;
     CGSize size = [_keyLabel.text boundingRectWithSize:CGSizeMake(kScreenWidth-90, MAXFLOAT) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
     CGFloat heightAddtion = (size.height-33.5);
     self.frame = CGRectMake(0, 0, kScreenWidth - 40, CGRectGetHeight(self.frame) + heightAddtion);

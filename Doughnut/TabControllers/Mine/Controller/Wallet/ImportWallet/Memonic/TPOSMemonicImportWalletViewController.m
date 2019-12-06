@@ -21,8 +21,8 @@
 #import "TPOSPasswordView.h"
 
 
-#import <Toast/Toast.h>;
-#import <SVProgressHUD/SVProgressHUD.h>;
+#import <Toast/Toast.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface TPOSMemonicImportWalletViewController ()<UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *memonicBg;
@@ -274,9 +274,6 @@
     TPOSWalletModel *walletModel = [TPOSWalletModel new];
     walletModel.walletName = walletName;
     walletModel.address = address;
-    walletModel.privateKey = enprivateKey;
-    walletModel.password = password;
-    walletModel.passwordTips = hit;
     walletModel.walletId = walletId;
     walletModel.blockChainId = blockchainId;
     walletModel.dbVersion = kDBVersion;

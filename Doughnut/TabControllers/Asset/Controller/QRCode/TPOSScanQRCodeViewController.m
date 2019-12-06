@@ -105,9 +105,10 @@
 
 - (void)QRCodeAlbumManager:(SGQRCodeAlbumManager *)albumManager didFinishPickingMediaWithResult:(NSString *)result {
     if (self.kTPOSScanQRCodeResult) {
+        [self.navigationController popViewControllerAnimated:NO];
         self.kTPOSScanQRCodeResult(result);
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - - - SGQRCodeScanManagerDelegate
@@ -121,15 +122,17 @@
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
 //         TPOSLog(@"scan result:%@",[obj stringValue]);
         if (self.kTPOSScanQRCodeResult) {
+            [self.navigationController popViewControllerAnimated:NO];
             self.kTPOSScanQRCodeResult([obj stringValue]);
         }
-        [self.navigationController popViewControllerAnimated:NO];
+        //[self.navigationController popViewControllerAnimated:NO];
     } else {
 //        TPOSLog([[TPOSLocalizedHelper standardHelper] stringWithKey:@""]@"暂未识别出扫描的二维码");
         if (self.kTPOSScanQRCodeResult) {
+            [self.navigationController popViewControllerAnimated:NO];
             self.kTPOSScanQRCodeResult(nil);
         }
-        [self.navigationController popViewControllerAnimated:YES];
+        //[self.navigationController popViewControllerAnimated:YES];
     }
 }
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager brightnessValue:(CGFloat)brightnessValue {

@@ -5,8 +5,11 @@
 //  Created by xumingyang on 2019/11/14.
 //  Copyright © 2019 jch. All rights reserved.
 //
+#import "TPOSTabBarController.h"
 #import "TPOSBackupAlert.h"
 #import "CreateSuccessViewController.h"
+#import "ExportWalletViewController.h"
+#import "TPOSNavigationController.h"
 
 @interface CreateSuccessViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -14,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *backupButton;
 @property (weak, nonatomic) IBOutlet UIButton *skipButton;
+
 
 @end
 
@@ -51,15 +55,15 @@
 }
 
 - (IBAction)backupNowAction:(id)sender {
-    [TPOSBackupAlert showWithWalletModel:_walletModel inView:self.view.window.rootViewController.view navigation:(id)self.view.window.rootViewController];
+    ExportWalletViewController *vc = [[ExportWalletViewController alloc] init];
+    vc.walletModel = _walletModel;
+    vc.isFirst = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)skipAction:(id)sender {
-    if (self.presentingViewController) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self.navigationController popViewControllerAnimated:YES];
-    }
+    [(UINavigationController *)self.view.window.rootViewController setViewControllers:@[[[TPOSTabBarController alloc] init]] animated:NO];
+    [self.navigationController pushViewController:[[TPOSTabBarController alloc] init] animated:NO];
 }
 
 @end

@@ -32,9 +32,13 @@ PODS:
     - ISO8601DateFormatter
     - OpenSSL-Universal (= 1.0.1.16)
     - SocketRocket
+  - JSONModel (1.8.0)
+  - libsodium (1.0.12)
   - Masonry (1.1.0)
   - MJExtension (3.0.15.1)
   - MJRefresh (3.1.15.7)
+  - NAChloride (2.3.0):
+    - libsodium
   - OpenSSL-Universal (1.0.1.16)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
@@ -53,9 +57,11 @@ DEPENDENCIES:
   - jcc_oc_base_lib
   - jcc_rpc_oc
   - jingtum-lib-objectc
+  - JSONModel
   - Masonry
   - MJExtension
   - MJRefresh
+  - NAChloride
   - SDWebImage
   - SVProgressHUD
   - Toast
@@ -83,6 +89,9 @@ SPEC REPOS:
     - WechatOpenSDK
   trunk:
     - jcc_rpc_oc
+    - JSONModel
+    - libsodium
+    - NAChloride
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -94,9 +103,12 @@ SPEC CHECKSUMS:
   jcc_oc_base_lib: 6632ef63dd82c0b5fda63ab6e78da92b30d60a94
   jcc_rpc_oc: c3715381f07235cc869febd7a990efeda853f0b3
   jingtum-lib-objectc: f0058bc332878779c9ab31208639357c8c480533
+  JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
+  libsodium: 9a8faa5ef2fa0d2d57bd7f7d79bf8fb7c1a9f0ea
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   MJRefresh: 697f8ec75ebdbe9207767bb682cf0f51b0d8a41f
+  NAChloride: e290c884034a2be2c43f31dec1097ad3152d982a
   OpenSSL-Universal: 85ef63bf81d0741b03c8719cd29685c37c59518d
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
@@ -105,6 +117,6 @@ SPEC CHECKSUMS:
   WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
   WechatOpenSDK: 3117412f8aafde4758cac1e8d20b93c67cafcfef
 
-PODFILE CHECKSUM: cbe053b9ce7faf4945171c4154fb7fbcdc0d72d8
+PODFILE CHECKSUM: ff0f220e4b51fbaa3ead2b61bb439226b613ade9
 
 COCOAPODS: 1.8.0.beta.1

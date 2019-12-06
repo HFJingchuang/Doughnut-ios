@@ -14,6 +14,10 @@
 #import <Masonry/Masonry.h>
 #import <MJRefresh/MJRefresh.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "TPOSCameraUtils.h"
+#import "ImportWalletViewController.h"
+#import "TransactionViewController.h"
+#import "WalletManage.h"
 
 @interface TPOSBaseViewController ()
 @property (nonatomic, copy) void (^rightButtonAction)(UIButton *rightBtn);
@@ -52,8 +56,30 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [SVProgressHUD setContainerView:self.view];
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, -200)];
+    [SVProgressHUD setMinimumDismissTimeInterval:2];
+    [SVProgressHUD setContainerView:[[UIApplication sharedApplication].windows lastObject]];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
 }
+
+- (void) showErrorWithStatus:(NSString *)msg {
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHex:0xF55758]];
+    [SVProgressHUD setForegroundColor:[UIColor colorWithHex:0xFFFFFF]];
+    [SVProgressHUD showErrorWithStatus:msg];
+}
+
+- (void) showInfoWithStatus:(NSString *)msg {
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHex:0x3B6CA6]];
+    [SVProgressHUD setForegroundColor:[UIColor colorWithHex:0xFFFFFF]];
+    [SVProgressHUD showInfoWithStatus:msg];
+}
+
+- (void) showSuccessWithStatus:(NSString *)msg {
+    [SVProgressHUD setBackgroundColor:[UIColor colorWithHex:0x27B498]];
+    [SVProgressHUD setForegroundColor:[UIColor colorWithHex:0xFFFFFF]];
+    [SVProgressHUD showSuccessWithStatus:msg];
+}
+
 
 - (MJRefreshGifHeader *)colorfulTableHeaderWithBigSize:(BOOL)isBigone
                                        RefreshingBlock:(tableHeaderRefreshAction)actionBlock {
@@ -267,6 +293,55 @@
     NSData *data = [[NSData alloc] initWithContentsOfFile:path];
     // 对数据进行JSON格式化并返回字典形式
     return [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+}
+
+// 写入本地JSON文件
+- (void)writeLoaclFileWithPath:(NSString *)path content:(id)data {
+    //创建数据缓冲
+    NSMutableData *writer = [[NSMutableData alloc]init];
+    //将字符串添加到缓冲中
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:data options:NSJSONWritingPrettyPrinted error:&error];
+    [writer appendData:jsonData];
+    [writer writeToFile:path atomically:YES];
+}
+
+- (id)dictionaryWithJsonString:(NSString *)jsonString{
+    if (jsonString == nil) {
+        return nil;
+    }
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    return [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:nil];
+}
+
+- (void)pushToScan:(UIViewController *)viewController{
+    [[TPOSCameraUtils sharedInstance] startScanCameraWithVC:viewController completion:^(NSString *result) {
+        if ([Wallet isValidSecret:result]){
+            ImportWalletViewController *vc = [[ImportWalletViewController alloc]init];
+            vc.privateKey = result;
+            vc.importFlag = 0;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if ([[Remote instance] isValidAddress:result]){
+            TransactionViewController *vc = [[TransactionViewController alloc]init];
+            vc.address = result;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            NSDictionary *data = [self dictionaryWithJsonString:result];
+            NSArray *keys = [data allKeys];
+            if ([keys containsObject:@"Receive_Address"]&&[keys containsObject:@"Token_Amount"]&&[keys containsObject:@"Token_Name"]){
+                TransactionViewController *vc = [[TransactionViewController alloc]init];
+                vc.address = [data valueForKey:@"Receive_Address"];
+                vc.tokenName = [data valueForKey:@"Token_Name"];
+                vc.amount = [data valueForKey:@"Token_Amount"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else if (data){
+                ImportWalletViewController *vc = [[ImportWalletViewController alloc]init];
+                vc.keyStore = result;
+                vc.importFlag = 1;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
+    }];
 }
 
 @end

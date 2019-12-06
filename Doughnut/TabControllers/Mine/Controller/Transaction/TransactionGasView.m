@@ -10,6 +10,7 @@
 #import "TPOSMacro.h"
 #import "TPOSLocalizedHelper.h"
 #import "TPOSWeb3Handler.h"
+#import "CaclUtil.h"
 
 @interface TransactionGasView()
 
@@ -37,16 +38,12 @@
 + (TransactionGasView *)transactionViewWithMinFee:(CGFloat)min maxFee:(CGFloat)max recommentFee:(CGFloat)recomment {
     TransactionGasView *transactionGasView = [[NSBundle mainBundle] loadNibNamed:@"TransactionGasView" owner:nil options:nil].firstObject;
     transactionGasView.frame = CGRectMake(0, 0, kScreenWidth, 330);
-    //transactionGasView.bottomOffset = 15;
     transactionGasView.layer.cornerRadius = 10;
     transactionGasView.layer.masksToBounds = YES;
     transactionGasView.gasSlider.minimumValue = min;
     transactionGasView.gasSlider.maximumValue = max;
     transactionGasView.gasSlider.value = recomment;
     transactionGasView.gasUnitLabel.text = @"SWT";
-    transactionGasView.commonValue1.layer.cornerRadius = 10;
-    transactionGasView.commonValue2.layer.cornerRadius = 10;
-    transactionGasView.commonValue3.layer.cornerRadius = 10;
     transactionGasView.gasValieLabel.text = @"0.00001 SWTC";
     [transactionGasView.gasSlider setNeedsDisplay];
     [transactionGasView updateFee];
@@ -57,6 +54,9 @@
     [super awakeFromNib];
     _confirmButton.layer.cornerRadius = 4;
     _gasValieLabel.font = [UIFont fontWithName:@"DINAlternate-Bold" size:18];
+    _commonValue1.layer.cornerRadius = 10;
+    _commonValue2.layer.cornerRadius = 10;
+    _commonValue3.layer.cornerRadius = 10;
     [self changeLanguage];
 }
 
@@ -67,22 +67,35 @@
     [self.confirmButton setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"done"] forState:UIControlStateNormal];
 }
 
+-(void)changeColor:(UIButton *)btn {
+    _commonValue1.backgroundColor = [UIColor colorWithHex:0xEEEEE2];
+    [_commonValue1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _commonValue2.backgroundColor = [UIColor colorWithHex:0xEEEEE2];
+    [_commonValue2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    _commonValue3.backgroundColor = [UIColor colorWithHex:0xEEEEE2];
+    [_commonValue3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn.backgroundColor = [UIColor colorWithHex:0x32CD32];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
 - (IBAction)closeAction {
     [self hide];
 }
 
 - (IBAction)commonValueAction1:(id)sender {
-    //_commonValue1.backgroundColor = [UIColor colorWithHex:0x32CD32];
+    [self changeColor:_commonValue1];
     _gasSlider.value = 0.00001;
     [self updateFee];
 }
 
 - (IBAction)commonValueAction2:(id)sender {
+    [self changeColor:_commonValue2];
     _gasSlider.value = 0.001;
     [self updateFee];
 }
 
 - (IBAction)commonValueAction3:(id)sender {
+    [self changeColor:_commonValue3];
     _gasSlider.value = 0.01;
     [self updateFee];
 }
@@ -92,7 +105,7 @@
 }
 
 - (void)updateFee {
-    _gasValieLabel.text = [NSString stringWithFormat:@"%f SWTC",_gasSlider.value];
+    _gasValieLabel.text = [NSString stringWithFormat:@"%@ SWTC",[[[CaclUtil alloc]init]formatAmount:[NSString stringWithFormat:@"%f",_gasSlider.value]:6 :YES :NO]];
 }
 
 - (IBAction)confirmAction {

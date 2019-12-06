@@ -10,5 +10,8 @@
 
 @interface ImportWalletViewController : TPOSBaseViewController
 
-@property (nonatomic, assign) BOOL importFlag;
+@property (nonatomic, assign) NSInteger *importFlag;
+
+@property (nonatomic, copy) NSString *privateKey;
+@property (nonatomic, copy) NSString *keyStore;
 @end

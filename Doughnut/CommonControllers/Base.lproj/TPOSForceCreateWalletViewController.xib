@@ -32,7 +32,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="扫描或点击下方按钮添加钱包" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMr-zi-MUE">
-                            <rect key="frame" x="20" y="396" width="374" height="21"/>
+                            <rect key="frame" x="20" y="392.33333333333331" width="374" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="Rd7-GI-xyg"/>
                             </constraints>
@@ -41,7 +41,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您还未添加钱包" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tn3-te-g7e">
-                            <rect key="frame" x="20" y="367" width="374" height="21"/>
+                            <rect key="frame" x="20" y="363.33333333333331" width="374" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="fw8-tC-2XP"/>
                             </constraints>
@@ -50,7 +50,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="基于SWTC公链的钱包" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nvC-tJ-acJ">
-                            <rect key="frame" x="20" y="120" width="374" height="21"/>
+                            <rect key="frame" x="20" y="129" width="374" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="EXB-N4-oXF"/>
                             </constraints>
@@ -59,9 +59,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="甜甜圈钱包" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZEU-NV-efb">
-                            <rect key="frame" x="20" y="80" width="329" height="21"/>
+                            <rect key="frame" x="20" y="80" width="329" height="30"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="21" id="rbJ-gz-zx9"/>
+                                <constraint firstAttribute="height" constant="30" id="rbJ-gz-zx9"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="24"/>
                             <color key="textColor" red="0.0078431372549019607" green="0.098039215686274508" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -119,8 +119,8 @@
                                 <constraint firstAttribute="height" constant="25" id="g3W-pG-TSp"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="create_success" translatesAutoresizingMaskIntoConstraints="NO" id="npO-dL-lyA">
-                            <rect key="frame" x="117" y="228" width="180" height="119"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="empty_wallet" translatesAutoresizingMaskIntoConstraints="NO" id="npO-dL-lyA">
+                            <rect key="frame" x="117" y="228.00000000000003" width="180" height="115.33333333333334"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="180" id="Yo3-0p-d74"/>
                             </constraints>
@@ -164,7 +164,7 @@
     </objects>
     <resources>
         <image name="create-wallet" width="20" height="20"/>
-        <image name="create_success" width="128" height="119"/>
+        <image name="empty_wallet" width="128" height="115.33333587646484"/>
         <image name="icon_sao" width="21.333333969116211" height="21.333333969116211"/>
         <image name="import-wallet" width="19.333333969116211" height="19.333333969116211"/>
     </resources>

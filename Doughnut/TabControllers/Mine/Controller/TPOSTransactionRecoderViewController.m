@@ -65,7 +65,8 @@
 
 - (void)loadData {
     __weak typeof(self) weakSelf = self;
-    [[WalletManage shareWalletManage] getTransactionHistory:_currentWallet.address page:_currentPage :^(NSDictionary *response) {
+    //_currentWallet.address
+    [[WalletManage shareWalletManage] getTransactionHistory:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6" page:_currentPage :^(NSDictionary *response) {
         NSArray *list = [NSMutableArray array];
         if (![[[response valueForKey:@"count"] stringValue] isEqualToString:@"0"]){
             list = [response valueForKey:@"list"];

@@ -26,7 +26,7 @@
                                 <rect key="frame" x="287" y="18" width="15" height="16.5"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="默认节点" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDR-0g-251">
-                                <rect key="frame" x="18" y="9" width="149" height="18"/>
+                                <rect key="frame" x="18" y="9" width="179" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -52,7 +52,7 @@
                             <constraint firstItem="4t6-5A-9PC" firstAttribute="centerY" secondItem="I2O-nc-5Oo" secondAttribute="centerY" id="GFc-yM-3er"/>
                             <constraint firstItem="I2O-nc-5Oo" firstAttribute="top" secondItem="rVN-Bl-a1K" secondAttribute="top" constant="18" id="K7U-gT-TLx"/>
                             <constraint firstItem="I2O-nc-5Oo" firstAttribute="centerY" secondItem="rVN-Bl-a1K" secondAttribute="centerY" id="LZ9-1f-DDH"/>
-                            <constraint firstItem="HDR-0g-251" firstAttribute="trailing" secondItem="CR0-TI-CHg" secondAttribute="trailing" constant="-51" id="OBA-GG-vQZ"/>
+                            <constraint firstItem="HDR-0g-251" firstAttribute="trailing" secondItem="CR0-TI-CHg" secondAttribute="trailing" constant="-21" id="OBA-GG-vQZ"/>
                             <constraint firstItem="HDR-0g-251" firstAttribute="top" secondItem="rVN-Bl-a1K" secondAttribute="top" constant="9" id="Rid-UU-2Zb"/>
                             <constraint firstItem="HDR-0g-251" firstAttribute="leading" secondItem="CR0-TI-CHg" secondAttribute="leading" id="VE9-OQ-8Zu"/>
                             <constraint firstItem="HDR-0g-251" firstAttribute="leading" secondItem="rVN-Bl-a1K" secondAttribute="leading" constant="18" id="VWZ-Ia-8DZ"/>

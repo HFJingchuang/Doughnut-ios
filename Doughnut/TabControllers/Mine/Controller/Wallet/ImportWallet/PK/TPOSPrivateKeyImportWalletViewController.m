@@ -24,8 +24,8 @@
 #import <jcc_oc_base_lib/JTWalletManager.h>
 #import <jcc_oc_base_lib/JccChains.h>
 
-#import <Toast/Toast.h>;
-#import <SVProgressHUD/SVProgressHUD.h>;
+#import <Toast/Toast.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 @interface TPOSPrivateKeyImportWalletViewController ()<UITextViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *pkBg;
@@ -172,10 +172,10 @@
     NSString *privateKey = _pkTextview.text;
     [self.walletDao findAllWithComplement:^(NSArray<TPOSWalletModel *> *walletModels) {
         [walletModels enumerateObjectsUsingBlock:^(TPOSWalletModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.privateKey isEqualToString:privateKey]) {
-                exist = YES;
-                *stop = YES;
-            }
+//            if ([obj.privateKey isEqualToString:privateKey]) {
+//                exist = YES;
+//                *stop = YES;
+//            }
         }];
     }];
     
@@ -233,9 +233,6 @@
     TPOSWalletModel *walletModel = [TPOSWalletModel new];
     walletModel.walletName = walletName;
     walletModel.address = address;
-    walletModel.privateKey = enprivateKey;
-    walletModel.password = password;
-    walletModel.passwordTips = hit;
     walletModel.walletId = walletId;
     walletModel.mnemonic = mnemonic;
     walletModel.blockChainId = blockchainId;

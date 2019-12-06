@@ -136,7 +136,7 @@
 }
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    if (tabBar.tag == 0){
+    if (item.tag == 0){
         [_assetVC loadCurrentWallet];
     }
 }
