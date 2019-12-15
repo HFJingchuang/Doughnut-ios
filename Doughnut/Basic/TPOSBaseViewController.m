@@ -57,7 +57,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, -200)];
-    [SVProgressHUD setMinimumDismissTimeInterval:2];
+    [SVProgressHUD setMinimumDismissTimeInterval:1];
     [SVProgressHUD setContainerView:[[UIApplication sharedApplication].windows lastObject]];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
 }

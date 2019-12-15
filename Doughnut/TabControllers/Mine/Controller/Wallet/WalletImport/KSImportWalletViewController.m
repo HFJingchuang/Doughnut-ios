@@ -14,7 +14,6 @@
 #import "TPOSMacro.h"
 #import "TPOSBlockChainModel.h"
 #import "TPOSThreadUtils.h"
-#import "TPOSWeb3Handler.h"
 #import "NSString+TPOS.h"
 #import "TPOSContext.h"
 #import "TPOSWalletModel.h"

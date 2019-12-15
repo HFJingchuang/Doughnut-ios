@@ -77,9 +77,12 @@ SPEC REPOS:
     - ISO8601DateFormatter
     - jcc_oc_base_lib
     - jingtum-lib-objectc
+    - JSONModel
+    - libsodium
     - Masonry
     - MJExtension
     - MJRefresh
+    - NAChloride
     - OpenSSL-Universal
     - SDWebImage
     - SocketRocket
@@ -89,9 +92,6 @@ SPEC REPOS:
     - WechatOpenSDK
   trunk:
     - jcc_rpc_oc
-    - JSONModel
-    - libsodium
-    - NAChloride
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057

@@ -9,7 +9,6 @@
 #import "TransactionGasView.h"
 #import "TPOSMacro.h"
 #import "TPOSLocalizedHelper.h"
-#import "TPOSWeb3Handler.h"
 #import "CaclUtil.h"
 
 @interface TransactionGasView()

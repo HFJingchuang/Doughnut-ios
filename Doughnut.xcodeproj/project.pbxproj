@@ -105,6 +105,16 @@
 		B6E856C42390C184001A2895 /* MessageAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E856C32390C184001A2895 /* MessageAlertView.m */; };
 		B6E856C82390C1E3001A2895 /* MessageAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E856C72390C1E3001A2895 /* MessageAlertView.xib */; };
 		B6FA80E323951DFF00D42FAF /* UILabel+Btn.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA80E223951DFF00D42FAF /* UILabel+Btn.m */; };
+		B6FA80EF239A52E600D42FAF /* DappMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA80ED239A52E600D42FAF /* DappMainViewController.m */; };
+		B6FA80F0239A52E600D42FAF /* DappMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6FA80EE239A52E600D42FAF /* DappMainViewController.xib */; };
+		B6FA811223A24DBA00D42FAF /* DappTransferDetailDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6FA810C23A24DBA00D42FAF /* DappTransferDetailDialog.xib */; };
+		B6FA811323A24DBA00D42FAF /* DappWKWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA810D23A24DBA00D42FAF /* DappWKWebViewController.m */; };
+		B6FA811423A24DBA00D42FAF /* donut.js in Resources */ = {isa = PBXBuildFile; fileRef = B6FA810F23A24DBA00D42FAF /* donut.js */; };
+		B6FA811523A24DBA00D42FAF /* hello.html in Resources */ = {isa = PBXBuildFile; fileRef = B6FA811023A24DBA00D42FAF /* hello.html */; };
+		B6FA811623A24DBA00D42FAF /* button.css in Resources */ = {isa = PBXBuildFile; fileRef = B6FA811123A24DBA00D42FAF /* button.css */; };
+		B6FA811923A24DF700D42FAF /* DappTransferDetailDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA811823A24DF700D42FAF /* DappTransferDetailDialog.m */; };
+		B6FA811C23A32CC200D42FAF /* TransferDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FA811B23A32CC200D42FAF /* TransferDialogView.m */; };
+		B6FA811E23A32CEE00D42FAF /* TransferDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6FA811D23A32CEE00D42FAF /* TransferDialogView.xib */; };
 		D063A48C218E001500750001 /* TPOSJTPOSalance.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47D218E001500750001 /* TPOSJTPOSalance.m */; };
 		D063A48D218E001500750001 /* TPOSJTPaymentResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A47F218E001500750001 /* TPOSJTPaymentResult.m */; };
 		D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A483218E001500750001 /* TPOSJTPaymentInfo.m */; };
@@ -431,6 +441,21 @@
 		B6E856C72390C1E3001A2895 /* MessageAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageAlertView.xib; sourceTree = "<group>"; };
 		B6FA80E123951DFF00D42FAF /* UILabel+Btn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+Btn.h"; sourceTree = "<group>"; };
 		B6FA80E223951DFF00D42FAF /* UILabel+Btn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Btn.m"; sourceTree = "<group>"; };
+		B6FA80EC239A52E600D42FAF /* DappMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DappMainViewController.h; sourceTree = "<group>"; };
+		B6FA80ED239A52E600D42FAF /* DappMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DappMainViewController.m; sourceTree = "<group>"; };
+		B6FA80EE239A52E600D42FAF /* DappMainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DappMainViewController.xib; sourceTree = "<group>"; };
+		B6FA80F2239F75F000D42FAF /* libAFNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAFNetworking.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6FA810B23A24DBA00D42FAF /* DappWKWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DappWKWebViewController.h; sourceTree = "<group>"; };
+		B6FA810C23A24DBA00D42FAF /* DappTransferDetailDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DappTransferDetailDialog.xib; sourceTree = "<group>"; };
+		B6FA810D23A24DBA00D42FAF /* DappWKWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DappWKWebViewController.m; sourceTree = "<group>"; };
+		B6FA810F23A24DBA00D42FAF /* donut.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = donut.js; sourceTree = "<group>"; };
+		B6FA811023A24DBA00D42FAF /* hello.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = hello.html; sourceTree = "<group>"; };
+		B6FA811123A24DBA00D42FAF /* button.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = button.css; sourceTree = "<group>"; };
+		B6FA811723A24DF600D42FAF /* DappTransferDetailDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DappTransferDetailDialog.h; sourceTree = "<group>"; };
+		B6FA811823A24DF700D42FAF /* DappTransferDetailDialog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DappTransferDetailDialog.m; sourceTree = "<group>"; };
+		B6FA811A23A32CC200D42FAF /* TransferDialogView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransferDialogView.h; sourceTree = "<group>"; };
+		B6FA811B23A32CC200D42FAF /* TransferDialogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TransferDialogView.m; sourceTree = "<group>"; };
+		B6FA811D23A32CEE00D42FAF /* TransferDialogView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TransferDialogView.xib; sourceTree = "<group>"; };
 		D063A47B218E001500750001 /* TPOSJTManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTManager.h; sourceTree = "<group>"; };
 		D063A47D218E001500750001 /* TPOSJTPOSalance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSJTPOSalance.m; sourceTree = "<group>"; };
 		D063A47E218E001500750001 /* TPOSJTPaymentInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSJTPaymentInfo.h; sourceTree = "<group>"; };
@@ -627,17 +652,17 @@
 		D063A79E218E00DA00750001 /* TPOSWalletDetailDaoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSWalletDetailDaoManager.h; sourceTree = "<group>"; };
 		D063A79F218E00DA00750001 /* TPOSDataBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSDataBaseManager.m; sourceTree = "<group>"; };
 		D063A7A6218E00E400750001 /* TPOSMacro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPOSMacro.h; sourceTree = "<group>"; };
-		D063A7AB218E022800750001 /* TPOSEditWalletViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPOSEditWalletViewController.xib; sourceTree = "<group>"; };
-		D063A7AC218E022800750001 /* TPOSEditWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSEditWalletViewController.h; sourceTree = "<group>"; };
+		D063A7AB218E022800750001 /* TPOSEditWalletViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TPOSEditWalletViewController.xib; path = ../TPOSEditWalletViewController.xib; sourceTree = "<group>"; };
+		D063A7AC218E022800750001 /* TPOSEditWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPOSEditWalletViewController.h; path = ../TPOSEditWalletViewController.h; sourceTree = "<group>"; };
 		D063A7AE218E022800750001 /* TPOSWalletManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSWalletManagerViewController.m; sourceTree = "<group>"; };
 		D063A7AF218E022800750001 /* TPOSSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSSettingViewController.m; sourceTree = "<group>"; };
 		D063A7B1218E022800750001 /* TPOSAboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSAboutUsViewController.h; sourceTree = "<group>"; };
 		D063A7B5218E022800750001 /* TPOSExchangeWalletVewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSExchangeWalletVewController.h; sourceTree = "<group>"; };
-		D063A7B7218E022800750001 /* TPOSEditPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPOSEditPasswordViewController.xib; sourceTree = "<group>"; };
-		D063A7B8218E022800750001 /* TPOSEditPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSEditPasswordViewController.h; sourceTree = "<group>"; };
+		D063A7B7218E022800750001 /* TPOSEditPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TPOSEditPasswordViewController.xib; path = ../TPOSEditPasswordViewController.xib; sourceTree = "<group>"; };
+		D063A7B8218E022800750001 /* TPOSEditPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPOSEditPasswordViewController.h; path = ../TPOSEditPasswordViewController.h; sourceTree = "<group>"; };
 		D063A7B9218E022800750001 /* TPOSLanguageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSLanguageViewController.h; sourceTree = "<group>"; };
 		D063A7BA218E022800750001 /* TPOSTransactionRecoderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSTransactionRecoderViewController.h; sourceTree = "<group>"; };
-		D063A7BE218E022800750001 /* TPOSEditWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSEditWalletViewController.m; sourceTree = "<group>"; };
+		D063A7BE218E022800750001 /* TPOSEditWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPOSEditWalletViewController.m; path = ../TPOSEditWalletViewController.m; sourceTree = "<group>"; };
 		D063A7BF218E022800750001 /* TPOSExchangeWalletVewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSExchangeWalletVewController.m; sourceTree = "<group>"; };
 		D063A7C0218E022800750001 /* TPOSAboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSAboutUsViewController.m; sourceTree = "<group>"; };
 		D063A7C2218E022800750001 /* TPOSConfirmMemonicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSConfirmMemonicViewController.m; sourceTree = "<group>"; };
@@ -666,7 +691,7 @@
 		D063A7DC218E022800750001 /* TPOSChooseTokenSystemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSChooseTokenSystemViewController.m; sourceTree = "<group>"; };
 		D063A7DE218E022800750001 /* TPOSSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSSettingViewController.h; sourceTree = "<group>"; };
 		D063A7DF218E022800750001 /* TPOSWalletManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSWalletManagerViewController.h; sourceTree = "<group>"; };
-		D063A7E0218E022800750001 /* TPOSEditPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSEditPasswordViewController.m; sourceTree = "<group>"; };
+		D063A7E0218E022800750001 /* TPOSEditPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPOSEditPasswordViewController.m; path = ../TPOSEditPasswordViewController.m; sourceTree = "<group>"; };
 		D063A7E2218E022800750001 /* TPOSTransactionRecoderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSTransactionRecoderViewController.m; sourceTree = "<group>"; };
 		D063A7E3218E022800750001 /* TPOSLanguageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSLanguageViewController.m; sourceTree = "<group>"; };
 		D063A7E5218E022800750001 /* TPOSWalletModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSWalletModel.m; sourceTree = "<group>"; };
@@ -783,6 +808,7 @@
 		2CE5C8121FF8A364008AB801 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B6FA80F2239F75F000D42FAF /* libAFNetworking.a */,
 				D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */,
 				D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */,
 				D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */,
@@ -947,21 +973,24 @@
 		B63F18D32375763B00D7F8D5 /* Transaction */ = {
 			isa = PBXGroup;
 			children = (
-				B63F18E4237B996A00D7F8D5 /* TransactionGasView.h */,
-				B63F18E5237B996A00D7F8D5 /* TransactionGasView.m */,
-				B63F18E3237B996A00D7F8D5 /* TransactionGasView.xib */,
-				B63F18D42375765800D7F8D5 /* TransactionViewController.h */,
-				B63F18D52375765800D7F8D5 /* TransactionViewController.m */,
-				B63F18D62375765800D7F8D5 /* TransactionViewController.xib */,
-				B63F18D923796C8800D7F8D5 /* TransactionTokensViewController.h */,
-				B63F18DA23796C8800D7F8D5 /* TransactionTokensViewController.m */,
-				B63F18DB23796C8800D7F8D5 /* TransactionTokensViewController.xib */,
-				B625D2112385535C00E76DB3 /* ContactViewController.h */,
-				B625D2122385535C00E76DB3 /* ContactViewController.m */,
-				B625D2132385535C00E76DB3 /* ContactViewController.xib */,
 				B625D21623856F9300E76DB3 /* ContactTableViewCell.h */,
 				B625D21723856F9300E76DB3 /* ContactTableViewCell.m */,
 				B625D21823856F9300E76DB3 /* ContactTableViewCell.xib */,
+				B625D2112385535C00E76DB3 /* ContactViewController.h */,
+				B625D2122385535C00E76DB3 /* ContactViewController.m */,
+				B625D2132385535C00E76DB3 /* ContactViewController.xib */,
+				B63F18E4237B996A00D7F8D5 /* TransactionGasView.h */,
+				B63F18E5237B996A00D7F8D5 /* TransactionGasView.m */,
+				B63F18E3237B996A00D7F8D5 /* TransactionGasView.xib */,
+				B63F18D923796C8800D7F8D5 /* TransactionTokensViewController.h */,
+				B63F18DA23796C8800D7F8D5 /* TransactionTokensViewController.m */,
+				B63F18DB23796C8800D7F8D5 /* TransactionTokensViewController.xib */,
+				B63F18D42375765800D7F8D5 /* TransactionViewController.h */,
+				B63F18D52375765800D7F8D5 /* TransactionViewController.m */,
+				B63F18D62375765800D7F8D5 /* TransactionViewController.xib */,
+				B6FA811A23A32CC200D42FAF /* TransferDialogView.h */,
+				B6FA811B23A32CC200D42FAF /* TransferDialogView.m */,
+				B6FA811D23A32CEE00D42FAF /* TransferDialogView.xib */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -1038,6 +1067,78 @@
 				B6E856C72390C1E3001A2895 /* MessageAlertView.xib */,
 			);
 			path = Message;
+			sourceTree = "<group>";
+		};
+		B6FA80E6239A527400D42FAF /* Dapp */ = {
+			isa = PBXGroup;
+			children = (
+				B6FA810923A24DBA00D42FAF /* View */,
+				B6FA80E7239A528600D42FAF /* Controller */,
+			);
+			path = Dapp;
+			sourceTree = "<group>";
+		};
+		B6FA80E7239A528600D42FAF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B6FA80E8239A529800D42FAF /* Main */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B6FA80E8239A529800D42FAF /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B6FA80EC239A52E600D42FAF /* DappMainViewController.h */,
+				B6FA80ED239A52E600D42FAF /* DappMainViewController.m */,
+				B6FA80EE239A52E600D42FAF /* DappMainViewController.xib */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		B6FA810323A2363300D42FAF /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				D063A7B8218E022800750001 /* TPOSEditPasswordViewController.h */,
+				D063A7E0218E022800750001 /* TPOSEditPasswordViewController.m */,
+				D063A7B7218E022800750001 /* TPOSEditPasswordViewController.xib */,
+				D063A7AC218E022800750001 /* TPOSEditWalletViewController.h */,
+				D063A7BE218E022800750001 /* TPOSEditWalletViewController.m */,
+				D063A7AB218E022800750001 /* TPOSEditWalletViewController.xib */,
+			);
+			name = Edit;
+			path = Doughnut/TabControllers/Mine/Controller/Edit;
+			sourceTree = SOURCE_ROOT;
+		};
+		B6FA810923A24DBA00D42FAF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B6FA810A23A24DBA00D42FAF /* Handler */,
+				B6FA810E23A24DBA00D42FAF /* Resource */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B6FA810A23A24DBA00D42FAF /* Handler */ = {
+			isa = PBXGroup;
+			children = (
+				B6FA811723A24DF600D42FAF /* DappTransferDetailDialog.h */,
+				B6FA811823A24DF700D42FAF /* DappTransferDetailDialog.m */,
+				B6FA810C23A24DBA00D42FAF /* DappTransferDetailDialog.xib */,
+				B6FA810B23A24DBA00D42FAF /* DappWKWebViewController.h */,
+				B6FA810D23A24DBA00D42FAF /* DappWKWebViewController.m */,
+			);
+			path = Handler;
+			sourceTree = "<group>";
+		};
+		B6FA810E23A24DBA00D42FAF /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				B6FA810F23A24DBA00D42FAF /* donut.js */,
+				B6FA811023A24DBA00D42FAF /* hello.html */,
+				B6FA811123A24DBA00D42FAF /* button.css */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		D063A475218E001500750001 /* JTum */ = {
@@ -1297,6 +1398,7 @@
 		D063A576218E006900750001 /* TabControllers */ = {
 			isa = PBXGroup;
 			children = (
+				B6FA80E6239A527400D42FAF /* Dapp */,
 				D063A7A7218E022800750001 /* Mine */,
 				D063A584218E006900750001 /* Asset */,
 				D063A60E218E006900750001 /* Common */,
@@ -1595,6 +1697,7 @@
 		D063A7A8218E022800750001 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B6FA810323A2363300D42FAF /* Edit */,
 				B63F18D32375763B00D7F8D5 /* Transaction */,
 				B63F18C8237551A100D7F8D5 /* QRCode */,
 				B65861062366C309003CE9C0 /* TransactionDetail */,
@@ -1608,12 +1711,6 @@
 				B65804EB2302BBF400F3380B /* DOSPointSettingViewController.xib */,
 				D063A7B1218E022800750001 /* TPOSAboutUsViewController.h */,
 				D063A7C0218E022800750001 /* TPOSAboutUsViewController.m */,
-				D063A7B8218E022800750001 /* TPOSEditPasswordViewController.h */,
-				D063A7E0218E022800750001 /* TPOSEditPasswordViewController.m */,
-				D063A7B7218E022800750001 /* TPOSEditPasswordViewController.xib */,
-				D063A7AC218E022800750001 /* TPOSEditWalletViewController.h */,
-				D063A7BE218E022800750001 /* TPOSEditWalletViewController.m */,
-				D063A7AB218E022800750001 /* TPOSEditWalletViewController.xib */,
 				D063A7B5218E022800750001 /* TPOSExchangeWalletVewController.h */,
 				D063A7BF218E022800750001 /* TPOSExchangeWalletVewController.m */,
 				D063A7B9218E022800750001 /* TPOSLanguageViewController.h */,
@@ -1864,9 +1961,11 @@
 				D063A834218E022800750001 /* TPOSBackupWalletViewController.xib in Resources */,
 				B625D028237E5B9B00E76DB3 /* PKImportWalletViewController.xib in Resources */,
 				B625D2152385535C00E76DB3 /* ContactViewController.xib in Resources */,
+				B6FA811523A24DBA00D42FAF /* hello.html in Resources */,
 				B65804F22302BD6700F3380B /* DOSCopyrightViewController.xib in Resources */,
 				D063A6D7218E006A00750001 /* TPOSTransactionTextField.xib in Resources */,
 				D063A4B9218E004700750001 /* mnemonic.html in Resources */,
+				B6FA811223A24DBA00D42FAF /* DappTransferDetailDialog.xib in Resources */,
 				B625CBE0237D33B700E76DB3 /* CreateWalletViewController.xib in Resources */,
 				B62190FF2320F0BF00DCCC88 /* DOSJTNodesViewCell.xib in Resources */,
 				B625D20B23837F7D00E76DB3 /* PKExportViewController.xib in Resources */,
@@ -1874,6 +1973,7 @@
 				D063A70A218E006A00750001 /* TPOSBackupAlert.xib in Resources */,
 				B625D21023837F9B00E76DB3 /* KSExportViewController.xib in Resources */,
 				2CB10F282044643A0026F7AA /* Localizable.strings in Resources */,
+				B6FA811E23A32CEE00D42FAF /* TransferDialogView.xib in Resources */,
 				B625D21A23856F9300E76DB3 /* ContactTableViewCell.xib in Resources */,
 				B63F18BD2372CA5600D7F8D5 /* publicNodes.json in Resources */,
 				D063A84D218E022800750001 /* TPOSTransactionRecoderCell.xib in Resources */,
@@ -1888,6 +1988,7 @@
 				D063A6EE218E006A00750001 /* TPOSAssetAddTokenCell.xib in Resources */,
 				9E42CAAB21B4FEA800267076 /* TPOSWalletManagerCell.xib in Resources */,
 				9E42CABD21BB97E500267076 /* TPOSAssetCell.xib in Resources */,
+				B6FA811623A24DBA00D42FAF /* button.css in Resources */,
 				B63F18C4237444CE00D7F8D5 /* QRCodeViewController.xib in Resources */,
 				B65861052366C2BE003CE9C0 /* TransactionDetailViewController.xib in Resources */,
 				2C16631D20021D0000E60CBD /* sound.caf in Resources */,
@@ -1895,6 +1996,7 @@
 				D063A4BA218E004700750001 /* mnemonic.js in Resources */,
 				9E42CAB721BB70A700267076 /* TBShareMenuView.xib in Resources */,
 				9E40006B21C22F83005B2311 /* TPOSAuthPasswordViewController.xib in Resources */,
+				B6FA80F0239A52E600D42FAF /* DappMainViewController.xib in Resources */,
 				D063A831218E022800750001 /* TPOSConfirmMemonicViewController.xib in Resources */,
 				D063A77D218E00C800750001 /* TPOSProtocolViewController.xib in Resources */,
 				D063A825218E022800750001 /* TPOSEditPasswordViewController.xib in Resources */,
@@ -1919,6 +2021,7 @@
 				D063A853218E022800750001 /* TPOSChooseTokenSystemCell.xib in Resources */,
 				D063A85C218FE22E00750001 /* TPOSForceCreateWalletViewController.xib in Resources */,
 				D063A6DE218E006A00750001 /* TPOSTransactionHighOptionView.xib in Resources */,
+				B6FA811423A24DBA00D42FAF /* donut.js in Resources */,
 				B69FEBCF23506BCB002FD419 /* TokenTableViewCell.xib in Resources */,
 				B625D1FB237FEFDD00E76DB3 /* KSImportWalletViewController.xib in Resources */,
 				D063A82C218E022800750001 /* TPOSCreateMemonicViewController.xib in Resources */,
@@ -2003,6 +2106,7 @@
 				D063A849218E022800750001 /* TPOSTransactionRecoderCell.m in Sources */,
 				D063A708218E006A00750001 /* TPOSBlockChainModel.m in Sources */,
 				B63F18DC23796C8800D7F8D5 /* TransactionTokensViewController.m in Sources */,
+				B6FA811323A24DBA00D42FAF /* DappWKWebViewController.m in Sources */,
 				B625D049237FD8F500E76DB3 /* NADigest.m in Sources */,
 				B658610D236C334C003CE9C0 /* TransactionNodeView.m in Sources */,
 				2CE5C7FD1FF8A2DB008AB801 /* ViewController.m in Sources */,
@@ -2079,10 +2183,12 @@
 				D063A852218E022800750001 /* TPOSPasswordView.m in Sources */,
 				D063A55F218E005E00750001 /* UILabel+SpacesAdjust.m in Sources */,
 				D063A822218E022800750001 /* TPOSSettingViewController.m in Sources */,
+				B6FA811923A24DF700D42FAF /* DappTransferDetailDialog.m in Sources */,
 				D063A829218E022800750001 /* TPOSAboutUsViewController.m in Sources */,
 				D063A7A1218E00DA00750001 /* TPOSBaseDao.m in Sources */,
 				B625D02D237E824F00E76DB3 /* ExportWalletViewController.m in Sources */,
 				2CE5C8081FF8A2DB008AB801 /* main.m in Sources */,
+				B6FA80EF239A52E600D42FAF /* DappMainViewController.m in Sources */,
 				D063A562218E005E00750001 /* TPOSLocalizedHelper.m in Sources */,
 				D063A846218E022800750001 /* TPOSWalletChainCell.m in Sources */,
 				D063A83F218E022800750001 /* TPOSQRCodeResult.m in Sources */,
@@ -2103,6 +2209,7 @@
 				D063A830218E022800750001 /* TPOSPrivateKeyImportWalletViewController.m in Sources */,
 				D063A710218E006A00750001 /* TPOSShareCCell.m in Sources */,
 				D063A78E218E00D000750001 /* TPOSBaseViewController.m in Sources */,
+				B6FA811C23A32CC200D42FAF /* TransferDialogView.m in Sources */,
 				D063A6D1218E006900750001 /* TPOSTokenHistoryModel.m in Sources */,
 				D063A48F218E001500750001 /* TPOSJTPaymentInfo.m in Sources */,
 				D063A7A5218E00DA00750001 /* TPOSDataBaseManager.m in Sources */,
@@ -2376,6 +2483,30 @@
 				INFOPLIST_FILE = Doughnut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/AFNetworking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CoreBitcoin\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FMDB\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ISO8601DateFormatter\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JSONModel\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJExtension\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/NAChloride\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SocketRocket\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Toast\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WebViewJavascriptBridge\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/jcc_oc_base_lib\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/jcc_rpc_oc\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/jingtum-lib-objectc\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/libsodium\"",
+					"\"${PODS_ROOT}/OpenSSL-Universal/lib-ios\"",
+					"\"${PODS_ROOT}/WechatOpenSDK/WeChatSDK1.8.3\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -2479,6 +2610,30 @@
 				INFOPLIST_FILE = Doughnut/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/AFNetworking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CoreBitcoin\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FMDB\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/IQKeyboardManager\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ISO8601DateFormatter\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/JSONModel\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJExtension\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/NAChloride\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SVProgressHUD\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SocketRocket\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Toast\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/WebViewJavascriptBridge\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/jcc_oc_base_lib\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/jcc_rpc_oc\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/jingtum-lib-objectc\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/libsodium\"",
+					"\"${PODS_ROOT}/OpenSSL-Universal/lib-ios\"",
+					"\"${PODS_ROOT}/WechatOpenSDK/WeChatSDK1.8.3\"",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",

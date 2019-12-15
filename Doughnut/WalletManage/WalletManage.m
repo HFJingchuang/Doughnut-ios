@@ -84,8 +84,13 @@ static NSString *COUNTER = @"CNT";
     caclUtil = [[CaclUtil alloc]init];
     jccdexConfig = [JccdexConfig shareInstance];
     jccdexInfo = [JccdexInfo shareInstance];
-    [_remote connectWithURLString:@"wss://s.jingtum.com:5020" local_sign:YES];
-    _currentNode = @"wss://s.jingtum.com:5020";
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    if (![defaults objectForKey:@"currentNode"] || ![[defaults objectForKey:@"currentNode"] isKindOfClass:NSString.class]){
+        _currentNode = @"wss://s.jingtum.com:5020";
+    }else {
+        _currentNode = [defaults objectForKey:@"currentNode"];
+    }
+    [_remote connectWithURLString:_currentNode local_sign:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidReceiveMsg:) name:kWebSocketdidReceiveMessage object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getAccountInfo:) name:requestAccountInfoFlag object:nil];
@@ -99,6 +104,9 @@ static NSString *COUNTER = @"CNT";
     [_remote disconnect];
     _remote = [Remote instance];
     [_remote connectWithURLString:url local_sign:YES];
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    [defaults setObject:url forKey:@"currentNode"];
+    [defaults synchronize];
     _currentNode = url;
     return _remote;
 }

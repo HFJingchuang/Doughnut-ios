@@ -13,6 +13,7 @@
 
 #import "TPOSAssetViewController.h"
 #import "TPOSMineViewController.h"
+#import "DappMainViewController.h"
 #import "TPOSMacro.h"
 
 #define CustomTabBarHeight 200
@@ -20,6 +21,7 @@
 @interface TPOSTabBarController ()
 @property (nonatomic, strong) TPOSAssetViewController *assetVC;    //资产
 @property (nonatomic, strong) TPOSMineViewController *mineVC;     //我
+@property (nonatomic, strong) DappMainViewController *dappVC;     //dapp
 
 @property (nonatomic, assign) BOOL tabBarHidden;
 @property (nonatomic, strong) NSArray *barTitles;
@@ -69,7 +71,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.barTitles = @[@"wallet",@"Profile"];
+    self.barTitles = @[@"wallet",@"Profile",@"Dapp"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveLocalizedNotification) name:kLocalizedNotification object:nil];
     
@@ -83,13 +85,21 @@
     tabBarFrame.origin.y = self.view.frame.size.height - CustomTabBarHeight;
     self.tabBar.frame = tabBarFrame;
     
-    //资产
+    /**资产**/
     _assetVC = [[TPOSAssetViewController alloc] init];
     [self setUpChildControllerWith:_assetVC
                           norImage:[UIImage imageNamed:@"icon_tab_asset_normal"]
                           selImage:[UIImage imageNamed:@"icon_tab_asset_selected"]
                              title:[[TPOSLocalizedHelper standardHelper] stringWithKey:self.barTitles[0]]
                                tag:0];
+    
+    /** DAPP */
+    _dappVC = [[DappMainViewController alloc]init];
+    [self setUpChildControllerWith:_dappVC
+                          norImage:[UIImage imageNamed:@"icon_ok"]
+                          selImage:[UIImage imageNamed:@"icon_ok"]
+                             title:@"Dapp"
+                               tag:2];
     
     /** 我 */
     _mineVC = [[TPOSMineViewController alloc] init];
@@ -174,6 +184,7 @@
     
     _assetVC.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:self.barTitles[0]];
     _mineVC.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:self.barTitles[1]];
+    _dappVC.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:self.barTitles[2]];
 }
 
 @end

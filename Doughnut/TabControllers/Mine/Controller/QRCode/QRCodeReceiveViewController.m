@@ -9,7 +9,6 @@
 #import "QRCodeReceiveViewController.h"
 #import "TPOSMacro.h"
 #import "SGQRCodeGenerateManager.h"
-#import "TPOSWeb3Handler.h"
 #import "TPOSNavigationController.h"
 #import "UIImage+TPOS.h"
 #import "NSObject+MJKeyValue.h"
