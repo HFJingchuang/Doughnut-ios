@@ -9,13 +9,14 @@
 #import "TPOSImportWalletViewController.h"
 #import "TPOSMemonicImportWalletViewController.h"
 #import "TPOSPrivateKeyImportWalletViewController.h"
+//#import "TPOSKeystoreImportWalletViewController.h"
 #import "TPOSScrollContentView.h"
 #import "TPOSScanQRCodeViewController.h"
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 #import "TPOSBlockChainModel.h"
 
-#import <Masonry/Masonry.h>;
+#import <Masonry/Masonry.h>
 
 @interface TPOSImportWalletViewController ()<TPOSPageContentViewDelegate,TPOSSegmentTitleViewDelegate>
 @property (nonatomic, strong) TPOSPageContentView *pageContentView;
@@ -25,6 +26,7 @@
 
 @property (nonatomic, strong) TPOSMemonicImportWalletViewController *memonicVC;
 @property (nonatomic, strong) TPOSPrivateKeyImportWalletViewController *pkVC;
+//@property (nonatomic, strong) TPOSKeystoreImportWalletViewController *keystoreVC;
 @end
 
 @implementation TPOSImportWalletViewController
@@ -93,18 +95,24 @@
     
     NSMutableArray *childVCs = [[NSMutableArray alloc]init];
     
-    if ((self.importTypes & TPOSImportWalletTypeMemonic) > 0) {
-        _memonicVC = [[TPOSMemonicImportWalletViewController alloc] initWithNibName:@"TPOSMemonicImportWalletViewController" bundle:nil];
-        _memonicVC.blockchain = self.blockchain;
-        [childVCs addObject:_memonicVC];
-        [self addChildViewController:_memonicVC];
-    }
+//    if ((self.importTypes & TPOSImportWalletTypeMemonic) > 0) {
+//        _memonicVC = [[TPOSMemonicImportWalletViewController alloc] initWithNibName:@"TPOSMemonicImportWalletViewController" bundle:nil];
+//        _memonicVC.blockchain = self.blockchain;
+//        [childVCs addObject:_memonicVC];
+//        [self addChildViewController:_memonicVC];
+//    }
     if ((self.importTypes & TPOSImportWalletTypePrivateKey) > 0) {
         _pkVC = [[TPOSPrivateKeyImportWalletViewController alloc] initWithNibName:@"TPOSPrivateKeyImportWalletViewController" bundle:nil];
         _pkVC.blockchain = self.blockchain;
         [childVCs addObject:_pkVC];
         [self addChildViewController:_pkVC];
     }
+//    if ((self.importTypes & TPOSImportWalletTypeKeyStore) > 0) {
+//        _keystoreVC = [[TPOSKeystoreImportWalletViewController alloc] initWithNibName:@"TPOSKeystoreImportWalletViewController" bundle:nil];
+//        _keystoreVC.blockchain = self.blockchain;
+//        [childVCs addObject:_keystoreVC];
+//        [self addChildViewController:_keystoreVC];
+//    }
     
     self.pageContentView = [[TPOSPageContentView alloc]initWithFrame:CGRectMake(0, 45.5, kScreenWidth, CGRectGetHeight(self.view.bounds)-65.5) childVCs:childVCs parentVC:self delegate:self];
     self.pageContentView.contentViewCurrentIndex = 0;

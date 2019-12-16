@@ -19,8 +19,6 @@
 //修改钱包
 - (void)updateWalletWithWalletModel:(TPOSWalletModel *)walletModel complement:(void (^)(BOOL success))complement;
 
-- (void)updateWalletInfoWithWalletModel:(TPOSWalletModel *)walletModel complement:(void (^)(BOOL success))complement;
-
 //删除钱包
 - (void)deleteWalletWithAddress:(NSString *)address complement:(void (^)(BOOL success))complement;
 

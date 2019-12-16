@@ -11,9 +11,6 @@
 #import "WalletManage.h"
 
 @interface TPOSAssetViewController : TPOSBaseViewController
-{
-    WalletManage *walletManage;
-}
 
 - (void)autoRefreshData;
 

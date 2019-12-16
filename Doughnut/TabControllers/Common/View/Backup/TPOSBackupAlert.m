@@ -64,7 +64,10 @@
     __weak typeof(self) weakSelf = self;
     __weak typeof(alertController) weakAlertController = alertController;
     [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        if ([[weakAlertController.textFields.firstObject.text tb_md5] isEqualToString:weakSelf.walletModel.password]) {
+        NSError* err = nil;
+        KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:weakSelf.walletModel.keyStore error:&err];
+        Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
+        if (decryptEthECKeyPair) {
             [weakSelf nextAction];
         } else {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_error"] message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -83,7 +86,7 @@
         if (_walletModel.dbVersion < 1) {
             createPrivateKeyViewController.privateWords = [_walletModel.mnemonic componentsSeparatedByString:@" "];
         } else {
-            createPrivateKeyViewController.privateWords = [[_walletModel.mnemonic tb_encodeStringWithKey:_walletModel.password] componentsSeparatedByString:@" "];
+//            createPrivateKeyViewController.privateWords = [[_walletModel.mnemonic tb_encodeStringWithKey:_walletModel.password] componentsSeparatedByString:@" "];
         }
         
         [self.navi presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:createPrivateKeyViewController] animated:YES completion:nil];

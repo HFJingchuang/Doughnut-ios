@@ -27,8 +27,8 @@
 #import <jcc_oc_base_lib/JTWalletManager.h>
 #import <jcc_oc_base_lib/JccChains.h>
 
-#import <SVProgressHUD/SVProgressHUD.h>;
-#import <IQKeyboardManager/IQKeyboardManager.h>;
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 #define itemHeight 66
 
@@ -256,9 +256,6 @@
     TPOSWalletModel *walletModel = [TPOSWalletModel new];
     walletModel.walletName = walletName;
     walletModel.address = address;
-    walletModel.privateKey = enPrivateKey;
-    walletModel.password = passwordPrivate;
-    walletModel.passwordTips = tips;
     walletModel.walletId = walletId;
     walletModel.mnemonic = [mnemonic tb_encodeStringWithKey:passwordPrivate];
     walletModel.blockChainId = blockchainId;

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1504.76">
+  <style type="text/css">
+    p.p1 {
+      margin: 0.0px 0.0px 0.0px 0.0px;
+      font: 12.0px Helvetica
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="./button.css">
+  <script type="text/javascript" src="donut.min.js"></script>
+  <script>
+    test();
+    function test() {
+
+      var isConnected = donut.isConnected();
+      alert("isConnected: " + isConnected);
+
+      donut.getAppInfo().then(res => {
+        showElement(JSON.stringify(res));
+      });
+
+      donut.getCurrentWallet().then(res => {
+        showElement(JSON.stringify(res));
+      });
+
+      // donut.invokeQRScanner().then(res => {
+      //   showElement(JSON.stringify(res));
+      // });
+
+      donut.getDeviceId().then(res => {
+        showElement(JSON.stringify(res));
+      });
+
+      var tx = {
+        "to": "jKBCwv4EcyvYtD4PafP17PLpnnZ16szQsC",
+        "currency": "swt",
+        "issuer": "",
+        "value": "0.001",
+        "memo": "子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约，其提供子链运行前和运行中的一些必要接口子链控制合约subchainbase是DAPP用户使用子链的基本合约，其提供子链运行前和运行中的一些必要接口子链控制合约subchainbase是DAPP用户使用子链的基本合约，其提供子链运行前和运行中的一些必要接口",
+        "gas": "0.0001"
+      }
+
+      // donut.transfer(tx).then(res => {
+      //   showElement(JSON.stringify(res));
+      // });
+
+      donut.sign(tx).then(res => {
+        showElement(JSON.stringify(res));
+      });
+
+      donut.getWallets().then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+
+    function showElement(msg) {
+      var div = document.getElementById("div_box");  //获取div
+      var ele = document.createElement('h6');    //创建h2元素节点
+      ele.innerHTML = msg;                //设置h2节点的内容
+      div.appendChild(ele);                    //添加子节点ele
+    }
+
+  </script>
+</head>
+
+<body style="width: 100%;height: 100%;padding: 0px">
+  <div id="div_box"
+    style="width: 100%;min-height: 100%;position: absolute;background: #0ff;margin-top: -50px;margin: 0px">
+  </div>
+</body>
+
+</html>

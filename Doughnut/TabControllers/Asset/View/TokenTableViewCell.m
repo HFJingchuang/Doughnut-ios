@@ -27,7 +27,8 @@
     self.cellView.backgroundColor = [UIColor colorWithHex:0xF4F5F6];
     self.cellView.layer.borderWidth = 1;
     self.cellView.layer.borderColor = [UIColor colorWithHex:0xEEEEF2].CGColor;
-    self.cellView.layer.cornerRadius = 11;
+    self.cellView.layer.cornerRadius = 10;
+    self.cellView.layer.masksToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     _cellNameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     _tokenIssuerLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
@@ -37,6 +38,8 @@
     frame.origin.y += 10;
     frame.size.height -= 10;
     [super setFrame:frame];
+    self.cellView.layer.cornerRadius = 10;
+    self.cellView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

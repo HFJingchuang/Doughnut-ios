@@ -18,5 +18,6 @@ pod 'WechatOpenSDK'
 pod 'jcc_oc_base_lib'
 pod 'jingtum-lib-objectc'
 pod 'jcc_rpc_oc'
-
+pod 'JSONModel'
+pod 'NAChloride'
 end

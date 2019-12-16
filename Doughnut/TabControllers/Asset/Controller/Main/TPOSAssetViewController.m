@@ -14,12 +14,8 @@
 #import "TPOSQRCodeReceiveViewController.h"
 #import "TPOSNavigationController.h"
 #import <AVFoundation/AVFoundation.h>
-#import "TPOSScanQRCodeViewController.h"
-#import "TPOSCameraUtils.h"
-#import "TPOSQRResultHandler.h"
-#import "TPOSQRCodeResult.h"
 #import "TPOSCreateWalletViewController.h"
-#import "TPOSTransactionViewController.h"
+#import "TransactionViewController.h"
 #import "TPOSTokenModel.h"
 #import "TPOSContext.h"
 #import "TPOSWalletModel.h"
@@ -31,10 +27,10 @@
 #import "AssetTableViewCell.h"
 #import "TPOSBackupAlert.h"
 #import "TPOSJTManager.h"
-#import "TPOSSelectChainTypeViewController.h"
+#import "ImportWalletViewController.h"
 #import "AssetTokensViewController.h"
 #import <Toast/Toast.h>
-
+#import "CreateWalletViewController.h"
 #import "TPOSWalletDetailDaoManager.h"
 #import "WalletManage.h"
 #import "AccountInfoModal.h"
@@ -104,6 +100,9 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 @property (nonatomic, strong) NSTimer *timer;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *totalLoading;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *cnyLoading;
+
 @end
 
 @implementation TPOSAssetViewController
@@ -125,6 +124,16 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self setNavigationBarColor];
+    [self.assetSeeButton setImage:[UIImage imageNamed:@"icon_see"] forState:UIControlStateNormal];
+    [self.assetSeeButton setImage:[UIImage imageNamed:@"icon_navi_nosee"] forState:UIControlStateSelected];
+    self.tokenZeroSwitch.onTintColor = [UIColor colorWithHex:0x021933];
+    self.tokenZeroSwitch.transform = CGAffineTransformMakeScale(0.3, 0.3);
+    [self.tokenZeroLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+}
+
+- (void)setNavigationBarColor {
+    self.navigationController.navigationBarHidden = NO;
     self.navigationItem.title = @"";
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
@@ -133,16 +142,16 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     self.navigationItem.leftBarButtonItem = leftBtnItem;
     [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:24],NSForegroundColorAttributeName :[UIColor colorWithHex:0x021933]} forState:UIControlStateNormal];
     [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:24],NSForegroundColorAttributeName :[UIColor colorWithHex:0x021933]} forState:UIControlStateSelected];
-    [self.assetSeeButton setImage:[UIImage imageNamed:@"icon_see"] forState:UIControlStateNormal];
-    [self.assetSeeButton setImage:[UIImage imageNamed:@"icon_navi_nosee"] forState:UIControlStateSelected];
-    self.tokenZeroSwitch.onTintColor = [UIColor colorWithHex:0x021933];
-    self.tokenZeroSwitch.transform = CGAffineTransformMakeScale(0.3, 0.3);
-    [self.tokenZeroLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    self.totalAssetValueLabel.hidden = YES;
+    self.totalPointValueLabel.hidden = YES;
+    self.CNYBalanceValueLabel.hidden = YES;
+    self.CNYPointValueLabel.hidden = YES;
     [self loadCurrentWallet];
+    [self loadBalance];
 }
 
 -(void) TapWalletName {
@@ -152,8 +161,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 }
 
 -(void)TapRightImage {
-    __weak typeof(self) weakSelf = self;
-    [weakSelf pushToScan];
+    [super pushToScan:self];
 }
 
 - (void)changeLanguage{
@@ -169,6 +177,9 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     self.CNYBalanceLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"toCNY"];
     self.tokenZeroLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"token_zero"];
     [self.tokenZeroLabel sizeToFit];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(taptapZeroLabel)];
+    [self.tokenZeroLabel addGestureRecognizer:tapGesture];
+    self.tokenZeroLabel.userInteractionEnabled = YES;
     self.tokenZeroSwitchConstraint.constant = self.tokenZeroLabel.frame.size.width + self.myAssetLabel.frame.size.width;
 }
 
@@ -187,6 +198,15 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     }
     [self.table reloadData];
     [self refreshConstraint];
+}
+
+- (void)taptapZeroLabel {
+    [_tokenZeroSwitch setOn:!_tokenZeroSwitch.on animated:YES];
+    _valueHidden = !_tokenZeroSwitch.on;
+    if (_valueHidden){
+        [_zeroCells removeAllObjects];
+    }
+    [self.table reloadData];
 }
 
 - (IBAction)tapZeroSwitch:(id)sender {
@@ -229,7 +249,9 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 - (void) loadCurrentWallet {
     _currentWallet = [TPOSContext shareInstance].currentWallet;
-    [self loadBalance];
+    [self setNavigationBarColor];
+    [self.totalLoading startAnimating];
+    [self.cnyLoading startAnimating];
 }
 
 - (TPOSWalletDao *)walletDao {
@@ -242,49 +264,47 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 - (void)loadBalance {
     __weak typeof (self) weakSelf = self;
     _cellHidden = NO;
+    self.assetSeeButton.enabled = NO;
     [_hiddenCells removeAllObjects];
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    [defaults setObject:nil forKey:@"currentTokenForTransaction"];
+    [defaults synchronize];
     if (weakSelf.currentWallet) {
-        [walletManage requestBalanceByAddress:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6"];
+        [[WalletManage shareWalletManage] requestBalanceByAddress:_currentWallet.address current:YES];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:_currentWallet.address object:nil];
         self.timer = [NSTimer timerWithTimeInterval:10 target:self selector:@selector(action) userInfo:nil repeats:NO];
         [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
     }
 }
 
+-(void)SRWebSocketDidOpen {
+    [self loadBalance];
+}
+
 -(void)action{
     if (self.collectionView.mj_header.state == MJRefreshStateRefreshing){
         [self.collectionView.mj_header endRefreshing];
-        [self.view makeToast:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"load_error"]];
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"load_error"]];
     }
     [self.timer invalidate];
     self.timer = nil;
 }
 
-- (void)checkBackup {
-    __weak typeof(self) weakSelf = self;
-    [[[TPOSWalletDao alloc] init] findAllWithComplement:^(NSArray<TPOSWalletModel *> *walletModels) {
-        [walletModels enumerateObjectsUsingBlock:^(TPOSWalletModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (!obj.backup) {
-                [TPOSBackupAlert showWithWalletModel:obj inView:[UIApplication sharedApplication].keyWindow.rootViewController.view navigation:(id)weakSelf.navigationController];
-            }
-        }];
-    }];
-}
-
 - (void)registerNotifications {
-    walletManage = [[WalletManage alloc]init];
-    [walletManage createRemote];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SRWebSocketDidOpen) name:kWebSocketDidOpen object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeWallet:) name:kChangeWalletNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteWallet:) name:kDeleteWalletNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addWallet:) name:kCreateWalletNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(editWallet:) name:kEditWalletNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:@"jBvrdYc6G437hipoCiEpTwrWSRBS2ahXN6" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getBalanceListAction:) name:getCurrentWalletBalance object:nil];
 }
 
 -(void) getBalanceListAction:(NSNotification *) notification {
     __weak typeof(self) weakSelf = self;
-    NSString * message = notification.object;
-    NSLog(@"the info from server is: %@", message);
     NSMutableArray<NSMutableDictionary *> *data = notification.object;
+    if (!data){
+        return;
+    }
     [_tokenCells removeAllObjects];
     NSArray *arr = [_currentWallet.viewTokens componentsSeparatedByString:@","];
     NSMutableArray<NSString *> *arr2 = [[NSMutableArray alloc]init];
@@ -321,7 +341,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     temp = [temp sortedArrayUsingDescriptors:@[balanceSD,freezeSD,nameSD]];
     [_tokenCells removeAllObjects];
     [_tokenCells addObjectsFromArray:temp];
-    [walletManage getAllTokenPrice:^(NSArray *priceData) {
+    [[WalletManage shareWalletManage] getAllTokenPrice:^(NSArray *priceData) {
         // 钱包总价值
         NSString *values = @"0.00";
         // 钱包折换总SWT
@@ -351,6 +371,12 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
                     price = @"1";
                 } else if([currency isEqualToString:CURRENCY_SWTC]) {
                     price = swtPrice;
+                    NSMutableDictionary *data = [NSMutableDictionary new];
+                    [data setValue:currency forKey:@"name"];
+                    [data setValue:balance forKey:@"value"];
+                    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+                    [defaults setObject:data forKey:@"currentTokenForTransaction"];
+                    [defaults synchronize];
                 }else{
                     NSString *currency_cny = [NSString stringWithFormat:@"%@%@",currency,@"-CNY"];
                     NSArray<NSString *> *currencyLst = [priceData valueForKey:currency_cny];
@@ -405,6 +431,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
             [self.totalPointValueLabel performSelectorOnMainThread:@selector(setText:) withObject:@"" waitUntilDone:YES];
         }
         [self performSelectorOnMainThread:@selector(updateCurrentWallet) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(showValueLabel) withObject:nil waitUntilDone:YES];
         [self performSelectorOnMainThread:@selector(updateLayout) withObject:nil waitUntilDone:YES];
     } failure:^(NSError *error) {
         NSLog(@"%@", error);
@@ -415,12 +442,21 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 -(void)updateCurrentWallet{
     [_currentWallet setBalanceSWTC:[NSString stringWithFormat:@"%@%@",self.totalAssetValueLabel.text,self.totalPointValueLabel.text]];
     [_currentWallet setBalanceCNY:[NSString stringWithFormat:@"%@%@",self.CNYBalanceValueLabel.text,self.CNYPointValueLabel.text]];
-    NSLog(@"%@",[_currentWallet mj_JSONString]);
-    [_walletDao updateWalletInfoWithWalletModel:_currentWallet complement:^(BOOL success) {
+    [self.walletDao updateWalletWithWalletModel:self.currentWallet complement:^(BOOL success) {
         if (success){
             [[NSNotificationCenter defaultCenter] postNotificationName:kEditWalletNotification object:self.currentWallet];
         }
     }];
+}
+
+-(void)showValueLabel{
+    self.assetSeeButton.enabled = YES;
+    [self.totalLoading stopAnimating];
+    [self.cnyLoading stopAnimating];
+    self.totalAssetValueLabel.hidden = NO;
+    self.totalPointValueLabel.hidden = NO;
+    self.CNYBalanceValueLabel.hidden = NO;
+    self.CNYPointValueLabel.hidden = NO;
 }
 
 //刷新小数点标签距离
@@ -458,11 +494,14 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 - (void)setupSubviews {
     __weak typeof(self) weakSelf = self;
+    self.totalLoading.hidesWhenStopped = YES;
+    self.cnyLoading.hidesWhenStopped = YES;
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
     _collectionView.backgroundColor = [UIColor colorWithHex:0xffffff];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    self.collectionView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
@@ -477,7 +516,6 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
         [weakSelf loadBalance];
     }];
     self.collectionView.mj_header = header;
-    [self loadBalance];
 }
 
 - (IBAction)tapCreateAction:(id)sender {
@@ -486,14 +524,6 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 - (IBAction)tapImportAction:(id)sender {
     [self pushToImportWallet];
-}
-
-#pragma mark - TPOSAssetEmptyViewDelegate
-- (void)TPOSAssetEmptyViewDidTapAddAssetButton {
-}
-
-- (void)changeWalletAction {
-    
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource
@@ -516,8 +546,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     return YES;
 }
 
-- (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 
@@ -597,12 +626,18 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
             cell.hidden = YES;
         }
     }
+    cell.layer.cornerRadius = 10;
+    cell.layer.masksToBounds = YES;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self pushToTransaction];
+    TokenCellModel *data = _tokenCells[indexPath.row];
+    TransactionViewController *vc = [[TransactionViewController alloc] init];
+    vc.tokenName = data.name;
+    vc.tokenBalance = data.balance;
+    vc.tokenIssuer = data.issuer;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -632,99 +667,22 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     return 0;
 }
 
-#pragma mark - TPOSAssetHeaderDelegate
-
-- (void)TPOSAssetHeaderDidTapTransactionButton {
-    [self pushToTransaction];
-}
-
-- (void)TPOSAssetHeaderDidTapReceiverButton {
-    [self showQRCodeReceiver];
-}
-
 #pragma mark - push
-- (void)pushToTransaction {
-    TPOSTransactionViewController *transactionViewController = [[TPOSTransactionViewController alloc] init];
-    
-    [_tokenModels enumerateObjectsUsingBlock:^(TPOSTokenModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.token_type == 0) {
-            transactionViewController.currentTokenModel = obj;
-            *stop = YES;
-        }
-    }];
-    [self.navigationController pushViewController:transactionViewController animated:YES];
-}
 
 - (void)pushToImportWallet {
-    TPOSSelectChainTypeViewController *vc = [[TPOSSelectChainTypeViewController alloc] init];
-    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+    ImportWalletViewController *vc = [[ImportWalletViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
-
-- (void)pushToScan {
-    
-    __weak typeof(self) weakSelf = self;
-    
-    [[TPOSCameraUtils sharedInstance] startScanCameraWithVC:self completion:^(NSString *result) {
-        TPOSQRCodeResult *qrResult = [[TPOSQRResultHandler sharedInstance] codeResultWithScannedString:result];
-        if (qrResult != nil) {
-            TPOSTransactionViewController *vc = [[TPOSTransactionViewController alloc] init];
-            vc.qrResult = qrResult;
-            TPOSNavigationController *nvc = [[TPOSNavigationController alloc] initWithRootViewController:vc];
-            [weakSelf presentViewController:nvc animated:YES completion:nil];
-        }
-    }];
-}
-
-- (void)showQRCodeReceiver {
-//    TPOSQRCodeReceiveViewController *qrVC = [[TPOSQRCodeReceiveViewController alloc] init];
-//
-//    if (_currentWallet) {
-//        qrVC.address = _currentWallet.address;
-//        qrVC.tokenType = [_currentWallet.blockChainId isEqualToString:ethChain] ? @"ETH" : @"SWT" ;
-//        qrVC.tokenAmount = 0;
-//        qrVC.basicType = [_currentWallet.blockChainId isEqualToString:ethChain] ? TPOSBasicTokenTypeEtheruem : TPOSBasicTokenTypeJingTum;
-//        TPOSNavigationController *navi = [[TPOSNavigationController alloc] initWithRootViewController:qrVC];
-//        [self presentViewController:navi animated:YES completion:nil];
-//    } else {
-//
-//        __weak typeof(self) weakSelf = self;
-//
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"no_wallet_tips"] preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"ok"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            [weakSelf pushToCreateWallet];
-//        }];
-//        [alert addAction:confirmAction];
-//
-//        [self presentViewController:alert animated:YES completion:nil];
-    }
-//}
 
 - (void)pushToCreateWallet {
-    TPOSCreateWalletViewController *createWalletViewController = [[TPOSCreateWalletViewController alloc] init];
-    TPOSNavigationController *navi = [[TPOSNavigationController alloc] initWithRootViewController:createWalletViewController];
-    [self presentViewController:navi animated:YES completion:nil];
+    CreateWalletViewController *vc = [[CreateWalletViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if(self.collectionView.contentOffset.y >= self.collectionView.contentSize.height - self.collectionView.bounds.size.height) {
         self.collectionView.contentOffset = CGPointMake(0, 0);
     }
-}
-
-#pragma mark -
-- (void)onScanButtonTapped:(UIButton *)btn {
-    
-    __weak typeof(self) weakSelf = self;
-    
-    [[TPOSCameraUtils sharedInstance] startScanCameraWithVC:self completion:^(NSString *result) {
-        TPOSQRCodeResult *qrResult = [[TPOSQRResultHandler sharedInstance] codeResultWithScannedString:result];
-        if (qrResult != nil) {
-            TPOSTransactionViewController *vc = [[TPOSTransactionViewController alloc] init];
-            vc.qrResult = qrResult;
-            TPOSNavigationController *nvc = [[TPOSNavigationController alloc] initWithRootViewController:vc];
-            [weakSelf presentViewController:nvc animated:YES completion:nil];
-        }
-    }];
 }
 
 #pragma mark - Getter & Setter

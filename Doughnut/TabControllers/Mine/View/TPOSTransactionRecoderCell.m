@@ -84,6 +84,9 @@
         self.moneyLabel.font = [UIFont fontWithName:@"DIN Alternate Bold" size:16];
         self.moneyLabel.textAlignment = NSTextAlignmentRight;
     }
+    if ([c1 tb_isEmpty]&&[c2 tb_isEmpty]&&[v2 tb_isEmpty]&&[v2 tb_isEmpty]){
+        self.moneyLabel.text = @"---";
+    }
     NSNumber *timestamp = [cellData valueForKey:@"time"];
     self.dateLabel.text = [@"" getDate:timestamp year:NO];
     

@@ -11,7 +11,7 @@
 #import "UIColor+Hex.h"
 #import <Masonry/Masonry.h>
 #import "TPOSMacro.h"
-
+#import "WalletManage.h"
 
 @interface DOSPointSettingViewController ()
     <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
@@ -35,6 +35,7 @@
 @property (nonatomic, strong) void (^isClickBg)(BOOL isClick);
 
 @property (nonatomic, strong) NSNumber *index;
+@property (nonatomic, strong) NSString *currentNode;
 
 @end
 
@@ -80,6 +81,10 @@
 
 -(void)loadData{
     self.publicNodes = [self readLocalFileWithName:@"publicNodes"];
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    _customNodes = [NSMutableArray new];
+    [_customNodes addObjectsFromArray:[defaults objectForKey:@"customNodes"]];
+    _currentNode = [WalletManage shareWalletManage].currentNode;
     [self.tableView.mj_header endRefreshing];
     [self.tableView reloadData];
 }
@@ -109,6 +114,12 @@
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 1){
         UITableViewRowAction *action0 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"delete"] handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+            [_customNodes removeObjectAtIndex:indexPath.row];
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+            [self.tableView reloadData];
+            NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+            [defaults setObject:_customNodes forKey:@"customNodes"];
+            [defaults synchronize];
         }];
         return @[action0];
     }else{
@@ -138,6 +149,17 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *add;
+    if (indexPath.section == 0) {
+        add = [_publicNodes[indexPath.row] valueForKey:@"node"];
+    }else {
+        add = [_customNodes[indexPath.row] valueForKey:@"node"];
+    }
+    if (![add isEqualToString:[WalletManage shareWalletManage].currentNode]){
+        [[WalletManage shareWalletManage]changeNodeAddress:add];
+        [self.tableView reloadData];
+        [self showSuccessWithStatus:[NSString stringWithFormat:@"%@ %@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"node_changed"],add]];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -179,6 +201,7 @@
         //_tableView.bounces = NO;
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
         
         if (@available(iOS 11,*)) {
             _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
@@ -286,16 +309,21 @@
             if (_nodeAddr.text.length != 0){
                 NSString *str = _nodeAddr.text;
                 NSMutableDictionary *node = [NSMutableDictionary new];
-                [node setValue:[NSString stringWithFormat:@"%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"custom_node"],[_index stringValue]] forKey:@"name"];
-                _index = [NSNumber numberWithInt:[_index intValue] + 1];
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"MM/dd HH:mm:ss"];
+                [node setValue:[NSString stringWithFormat:@"%@(%@)",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"custom_node"],[formatter stringFromDate:[NSDate date]]] forKey:@"name"];
                 [node setValue:str forKey:@"node"];
-                if (!_customNodes){
-                    _customNodes = [NSMutableArray new];
+                if ([self isNodeUrl:str]){
+                    [_customNodes addObject:node];
+                    [self.tableView reloadData];
+                    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+                    [defaults setObject:_customNodes forKey:@"customNodes"];
+                    [defaults synchronize];
+                    _alertbackView.hidden = YES;
+                }else {
+                    self.warnLabel.hidden = NO;
                 }
-                [_customNodes addObject:node];
-                [self.tableView reloadData];
             }
-            _alertbackView.hidden = YES;
             _nodeAddr.text = @"";
             break;
         default:
@@ -330,7 +358,12 @@
     _nodeAddr.leftViewMode = UITextFieldViewModeAlways;
     _nodeAddr.leftView = label;
     _nodeAddr.placeholder = @"ws://";
+    [_nodeAddr addTarget:self action:@selector(textFieldEndEditing:) forControlEvents:UIControlEventEditingDidBegin];
     return _nodeAddr;
+}
+
+- (void)textFieldEndEditing:(UITextField *)textfield {
+    self.warnLabel.hidden = YES;
 }
 
 - (UIButton *)cancelBtn{
@@ -364,6 +397,15 @@
     [_confirmBtn addTarget:self action:@selector(clickBtn:) forControlEvents:UIControlEventTouchUpInside];
     return _confirmBtn;
 }
-
+    
+- (BOOL)isNodeUrl:(NSString *)node{
+    if([node hasPrefix:@"ws://"]||[node hasPrefix:@"wss://"]){
+        NSArray *arr = [[[node stringByReplacingOccurrencesOfString:@"ws://" withString:@""] stringByReplacingOccurrencesOfString:@"wss://" withString:@""] componentsSeparatedByString:@":"];
+        if (arr.count != 2) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 @end

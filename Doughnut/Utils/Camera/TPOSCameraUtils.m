@@ -35,12 +35,12 @@
                     dispatch_sync(dispatch_get_main_queue(), ^{
                         
                         TPOSScanQRCodeViewController *vc = [[TPOSScanQRCodeViewController alloc] init];
+                        [viewController.navigationController pushViewController:vc animated:YES];
                         vc.kTPOSScanQRCodeResult = ^(NSString *result) {
                             if (resultBlock) {
                                 resultBlock(result);
                             }
                         };
-                        [weakVC.navigationController pushViewController:vc animated:YES];
                     });
                     // 用户第一次同意了访问相机权限
                     TPOSLog(@"用户第一次同意了访问相机权限 - - %@", [NSThread currentThread]);
@@ -52,12 +52,12 @@
             }];
         } else if (status == AVAuthorizationStatusAuthorized) { // 用户允许当前应用访问相机
             TPOSScanQRCodeViewController *vc = [[TPOSScanQRCodeViewController alloc] init];
+            [viewController.navigationController pushViewController:vc animated:YES];
             vc.kTPOSScanQRCodeResult = ^(NSString *result) {
                 if (resultBlock) {
                     resultBlock(result);
                 }
             };
-            [viewController.navigationController pushViewController:vc animated:YES];
         } else if (status == AVAuthorizationStatusDenied) { // 用户拒绝当前应用访问相机
             UIAlertController *alertC = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"warm_tip"] message:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"camera_setting_tips"] preferredStyle:(UIAlertControllerStyleAlert)];
             UIAlertAction *alertA = [UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {

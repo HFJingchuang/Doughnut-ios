@@ -7,6 +7,7 @@
 //
 
 #import "TPOSWalletManagerViewController.h"
+#import "ImportWalletViewController.h"
 #import "TPOSWalletManagerCell.h"
 #import "UIColor+Hex.h"
 #import "TPOSCreateWalletViewController.h"
@@ -18,6 +19,7 @@
 #import "TPOSNavigationController.h"
 #import "TPOSSelectChainTypeViewController.h"
 #import "TPOSAssetViewController.h"
+#import "CreateWalletViewController.h"
 
 @interface TPOSWalletManagerViewController () <UITableViewDataSource,UITableViewDelegate>
 
@@ -85,12 +87,12 @@
 }
 
 - (IBAction)createWallet {
-    TPOSCreateWalletViewController *createWalletViewController = [[TPOSCreateWalletViewController alloc] init];
+    CreateWalletViewController *createWalletViewController = [[CreateWalletViewController alloc] init];
     [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:createWalletViewController] animated:YES completion:nil];
 }
 
 - (IBAction)importWallet {
-    TPOSSelectChainTypeViewController *vc = [[TPOSSelectChainTypeViewController alloc] init];
+    ImportWalletViewController *vc = [[ImportWalletViewController alloc] init];
     [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
 
@@ -138,6 +140,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_flag){
         TPOSWalletModel *model = _dataList[indexPath.section];
+        [self.walletDao updateCurrentWalletID:model.walletId complement:nil];
         [[TPOSContext shareInstance] setCurrentWallet:model];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
@@ -145,7 +148,7 @@
     editWalletViewController.currentWallet = _dataList[indexPath.section];
     TPOSWalletManagerCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     editWalletViewController.currentWallet.balanceSWTC = cell.walletBalanceLabel.text;
-    editWalletViewController.currentWallet.balanceCNY = [cell.balanceCNYLabel.text stringByReplacingOccurrencesOfString:@"≈￥ " withString:@""];
+    editWalletViewController.currentWallet.balanceCNY = [cell.balanceCNYLabel.text stringByReplacingOccurrencesOfString:@"≈￥" withString:@""];
     [self.navigationController pushViewController:editWalletViewController animated:YES];
     }
     _flag = NO;

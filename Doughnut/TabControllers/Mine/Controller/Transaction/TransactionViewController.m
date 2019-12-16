@@ -16,13 +16,16 @@
 #import "TPOSWalletDao.h"
 #import "NSString+TPOS.h"
 #import "UIImage+TPOS.h"
-#import "TPOSTransactionViewController.h"
-
+#import "WalletManage.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <Masonry/Masonry.h>
 #import <Toast/Toast.h>
 #import "TransactionViewController.h"
 #import "TransactionTokensViewController.h"
+#import "TransactionGasView.h"
+#import "TPOSNavigationController.h"
+#import "ContactViewController.h"
+#import "CaclUtil.h"
 
 @interface TransactionViewController ()<UITextFieldDelegate,UITextViewDelegate>
 
@@ -32,13 +35,18 @@
 @property (weak, nonatomic) IBOutlet UILabel *remarkLabel;
 @property (weak, nonatomic) IBOutlet UILabel *gasLabel;
 @property (weak, nonatomic) IBOutlet UILabel *balanceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tokenNameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *addressTF;
+@property (weak, nonatomic) IBOutlet UILabel *addressTip;
 @property (weak, nonatomic) IBOutlet UITextField *amountTF;
+@property (weak, nonatomic) IBOutlet UILabel *amountTip;
 @property (weak, nonatomic) IBOutlet UITextView *remarkTV;
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
 
 @property (weak, nonatomic) IBOutlet UIView *tokenSelectView;
 @property (nonatomic, weak) IBOutlet UILabel *tokenSelectLabel;
+
+@property (nonatomic, assign) CGFloat gas;
 
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
 
@@ -49,6 +57,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadCurrentWallet];
+    [self loadData];
     [self setupSubviews];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"transaction"];
@@ -68,8 +77,11 @@
     self.addressLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"enter_receive_addr"];
     self.amountLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"enter_amount"];
     self.remarkLabel.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"enter_memos"];
+    self.addressTip.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"wrong_addr_tips"];
+    self.addressTip.hidden = YES;
+    self.amountTip.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"amount_zore"];
+    self.amountTip.hidden = YES;
     [self.doneButton setTitle:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"done"] forState:UIControlStateNormal];
-   
 }
 
 -(void)setNavigation{
@@ -77,13 +89,17 @@
         self.navigationController.navigationBarHidden = NO;
     }
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
-    [self addRightBarButtonImage:[UIImage imageNamed:@"icon_transaction_qcode"] action:@selector(transgferWithQRCode)];
+    [self addRightBarButtonImage:[UIImage imageNamed:@"icon_sao"] action:@selector(toScan)];
 }
 
-- (void)transgferWithQRCode {}
+- (void)toScan {
+    [self pushToScan:self];
+}
 
 - (void)registerNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTokenType:) name:getChangeToken object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTransactionAddr:) name:getTransactionAddress object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTransactionResult:) name:transactionFlag object:nil];
 }
 
 -(void)changeTokenType:(NSNotification *)notification{
@@ -91,8 +107,48 @@
     _tokenName = [data valueForKey:@"name"];
     _tokenIssuer = [data valueForKey:@"issuer"];
     _tokenBalance = [data valueForKey:@"balance"];
-    _balanceLabel.text = [NSString stringWithFormat:@"%@:%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"balance_amount"],_tokenBalance ];
-    _tokenSelectLabel.text = self.tokenName?self.tokenName:@"CNT";
+    _balanceLabel.text = [NSString stringWithFormat:@"%@:%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"balance_amount"],_tokenBalance];
+    _tokenNameLabel.text = _tokenName;
+    _tokenSelectLabel.text = self.tokenName;
+}
+
+-(void)getTransactionAddr:(NSNotification *)notification{
+    NSDictionary *data = notification.object;
+    _addressTF.text = [data valueForKey:@"address"]?[data valueForKey:@"address"]:@"";
+}
+
+-(void)getTransactionResult:(NSNotification *)notification {
+    NSDictionary *tx = notification.object;
+    if([[tx valueForKey:@"engine_result"] isEqualToString:@"tesSUCCESS"]){
+        NSDictionary *txJson = [tx objectForKey:@"tx_json"];
+        NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+        NSMutableArray *records = [NSMutableArray new];
+        [records addObjectsFromArray:[defaults objectForKey:@"transactionContacts"]];
+        NSMutableDictionary *record = [NSMutableDictionary new];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [record setValue:self.addressTF.text forKey:@"address"];
+        [record setValue:[formatter stringFromDate:[NSDate date]] forKey:@"date"];
+        [record setValue:[NSString stringWithFormat:@"%@ %@",[txJson valueForKey:@"Amount"],_tokenSelectLabel.text] forKey:@"content"];
+        [records addObject:record];
+        [defaults setObject:records forKey:@"transactionContacts"];
+        [defaults synchronize];
+        self.addressTF.text = @"";
+        self.amountTF.text = @"";
+        self.remarkTV.text = @"";
+        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_suc"]];
+        [self checkDoneButtonStatus];
+    }else {
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_fai"]];
+    }
+}
+
+- (void)loadData {
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *data = [defaults objectForKey:@"currentTokenForTransaction"];
+    _tokenName = [data valueForKey:@"name"]?[data valueForKey:@"name"]:@"SWTC";
+    _tokenIssuer = [data valueForKey:@"issuer"];
+    _tokenBalance = [data valueForKey:@"value"]?[data valueForKey:@"value"]:@"---";
 }
 
 - (void)setupSubviews{
@@ -105,14 +161,34 @@
     contacts.userInteractionEnabled = YES;
     self.addressTF.rightView = contacts;
     self.addressTF.rightViewMode = UITextFieldViewModeAlways;
-    _balanceLabel.text = [NSString stringWithFormat:@"%@:%@%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"balance_amount"],_tokenBalance?_tokenBalance:@"0.00",self.tokenName?self.tokenName:@"CNT" ];
-    _tokenSelectLabel.text = self.tokenName?self.tokenName:@"CNT";
+    _balanceLabel.text = [NSString stringWithFormat:@"%@:%@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"balance_amount"],_tokenBalance];
+    _tokenNameLabel.text = self.tokenName;
+    _tokenSelectLabel.text = self.tokenName?self.tokenName:@"SWTC";
     UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTokenName)];
     [_tokenSelectView addGestureRecognizer:tapGesture2];
     _tokenSelectView.userInteractionEnabled = YES;
     self.amountTF.rightView = _tokenSelectView;
     self.amountTF.rightViewMode = UITextFieldViewModeAlways;
     [self.amountTF bringSubviewToFront:_tokenSelectView];
+    self.gas = 0.00001;
+    self.gasLabel.text = [NSString stringWithFormat:@"%@ %@ %@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"gas_fee"],[[[CaclUtil alloc]init]formatAmount:[NSString stringWithFormat:@"%f",self.gas]:6 :YES :NO],@"SWTC"];
+    UITapGestureRecognizer *tapGesture3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickFeeLabel)];
+    [self.gasLabel addGestureRecognizer:tapGesture3];
+    self.gasLabel.userInteractionEnabled = YES;
+    [self.addressTF addTarget:self action:@selector(textFieldDidEditing:) forControlEvents:UIControlEventEditingDidEnd];
+    [self.amountTF addTarget:self action:@selector(textFieldDidEditing:) forControlEvents:UIControlEventEditingDidEnd];
+    self.addressTF.delegate = self;
+    self.amountTF.delegate = self;
+    [self checkDoneButtonStatus];
+    if (self.address&& [[Remote instance]isValidAddress:self.address]){
+        self.addressTF.text = self.address;
+    }
+    if (self.amount&& [[[CaclUtil alloc]init] compare:_amountTF.text :@"0"] != NSOrderedDescending ){
+        self.amountTF.text = self.amount;
+    }
+    if (!_tokenBalance||[[[CaclUtil alloc]init] compare:_tokenBalance :@"0"] != NSOrderedDescending){
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"no_enough_token"]];
+    }
 }
 
 - (void)clickTokenName {
@@ -121,32 +197,102 @@
 }
 
 -(void)clickContact {
-    TPOSTransactionViewController *vc = [[TPOSTransactionViewController alloc]init];
+    ContactViewController *vc = [[ContactViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (textField == self.amountTF){
-        return [self validateNumber:string];
-    }
-    return YES;
+- (void)textFieldDidEditing:(UITextField *)textField {
+    [self checkDoneButtonStatus];
 }
 
-- (BOOL)validateNumber:(NSString*)number {
-    BOOL res = YES;
-    NSCharacterSet* tmpSet = [NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
-    int i = 0;
-    while (i < number.length) {
-        NSString * string = [number substringWithRange:NSMakeRange(i, 1)];
-        NSRange range = [string rangeOfCharacterFromSet:tmpSet];
-        if (range.length == 0) {
-            res = NO;
-            break;
-        }
-        i++;
+- (void)checkDoneButtonStatus {
+    BOOL enable = YES;
+    if (_addressTF.text.length == 0) {
+        enable = NO;
     }
-    return res;
+    if ([[[CaclUtil alloc]init] compare:_tokenBalance :@"0"] != NSOrderedDescending){
+        enable = NO;
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"no_enough_token"]];
+    }
+    if (![[WalletManage shareWalletManage].remote isValidAddress:_addressTF.text]) {
+        enable = NO;
+        self.addressTip.hidden = NO;
+    }else {
+        self.addressTip.hidden = YES;
+    }
+    if (_amountTF.text.length == 0||[[[CaclUtil alloc]init] compare:_amountTF.text :@"0"] != NSOrderedDescending) {
+        enable = NO;
+        self.amountTip.hidden = NO;
+    }else if ([[[CaclUtil alloc]init] compare:_amountTF.text :_tokenBalance] == NSOrderedDescending){
+        enable = NO;
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"no_enough_token"]];
+    }else {
+        self.amountTip.hidden = YES;
+    }
+    if ([_addressTF.text isEqualToString:_currentWallet.address]){
+        enable = NO;
+        self.addressTip.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"wrong_addr_tips"];
+        self.addressTip.hidden = NO;
+    }else {
+        self.addressTip.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_to_self"];
+        self.addressTip.hidden = YES;
+    }
+    self.doneButton.enabled = enable;
+    [self.doneButton setBackgroundColor:enable?[UIColor colorWithHex:0x383B3E alpha:1]:[UIColor colorWithHex:0x383B3E alpha:0.5]];
 }
+
+-(void)clickFeeLabel{
+    [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
+    TransactionGasView *transactionGasView = [TransactionGasView transactionViewWithMinFee:0.00001 maxFee:1 recommentFee:self.gas];
+    transactionGasView.getGasPrice = ^(CGFloat gas) {
+        self.gas = gas;
+        self.gasLabel.text = [NSString stringWithFormat:@"%@ %@ %@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"gas_fee"], [[[CaclUtil alloc]init]formatAmount:[NSString stringWithFormat:@"%f",self.gas]:6 :YES :NO],@"SWTC"];
+        ;
+    };
+    [transactionGasView showWithAnimate:TPOSAlertViewAnimateBottomUp inView:self.view.window];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSString * str = [NSString stringWithFormat:@"%@%@",textField.text,string];
+    NSPredicate * predicate0 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0][0-9]+$"];
+    NSPredicate * predicate1 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^(([1-9]{1}[0-9]*|[0])\.?[0-9]{0,6})$"];
+    return ![predicate0 evaluateWithObject:str] && [predicate1 evaluateWithObject:str] ? YES : NO;
+}
+- (IBAction)transactionAction:(id)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"] message:nil preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"];
+        textField.secureTextEntry = YES;
+    }];
+    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"cancel"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    __weak typeof(alertController) weakAlertController = alertController;
+    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        NSError* err = nil;
+        KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
+        Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
+        if (decryptEthECKeyPair) {
+            NSMutableDictionary *data = [NSMutableDictionary new];
+            [data setValue:self.currentWallet.address forKey:@"account"];
+            [data setValue:self.addressTF.text forKey:@"to"];
+            [data setValue:[NSNumber numberWithFloat:[self.amountTF.text floatValue]] forKey:@"value"];
+            [data setValue:self.tokenName forKey:@"currency"];
+            [data setValue:self.tokenIssuer forKey:@"issuer"];
+            [data setValue:[NSNumber numberWithFloat:self.gas * 1000000] forKey:@"fee"];
+            [data setValue:self.remarkTV.text forKey:@"memo"];
+            [data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
+            [[WalletManage shareWalletManage]transactionWithData:data];
+        } else {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_error"] message:nil preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            }]];
+            [self.navigationController presentViewController:alertController animated:YES completion:nil];
+        }
+    }]];
+    [self.navigationController presentViewController:alertController animated:YES completion:nil];
+}
+
+
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];

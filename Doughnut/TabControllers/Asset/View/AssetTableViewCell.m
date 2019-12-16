@@ -27,7 +27,8 @@
     self.layer.cornerRadius = 10;
     self.layer.masksToBounds = YES;
     self.tokenCellView.backgroundColor = [UIColor colorWithHex:0xF4F5F6];
-    self.tokenCellView.layer.cornerRadius = 11;
+    self.tokenCellView.layer.cornerRadius = 10;
+    self.tokenCellView.layer.masksToBounds = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     _tokenNameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     _issuerLabel.hidden = YES;
@@ -37,6 +38,8 @@
     frame.origin.y += 10;
     frame.size.height -= 10;
     [super setFrame:frame];
+    self.tokenCellView.layer.cornerRadius = 10;
+    self.tokenCellView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

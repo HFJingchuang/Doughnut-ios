@@ -22,11 +22,11 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVN-Bl-a1K">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="52.5"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_no_click" highlightedImage="icon_click" translatesAutoresizingMaskIntoConstraints="NO" id="I2O-nc-5Oo">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_click" highlightedImage="icon_click_selected" translatesAutoresizingMaskIntoConstraints="NO" id="I2O-nc-5Oo">
                                 <rect key="frame" x="287" y="18" width="15" height="16.5"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="默认节点" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDR-0g-251">
-                                <rect key="frame" x="18" y="9" width="149" height="18"/>
+                                <rect key="frame" x="18" y="9" width="179" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -52,7 +52,7 @@
                             <constraint firstItem="4t6-5A-9PC" firstAttribute="centerY" secondItem="I2O-nc-5Oo" secondAttribute="centerY" id="GFc-yM-3er"/>
                             <constraint firstItem="I2O-nc-5Oo" firstAttribute="top" secondItem="rVN-Bl-a1K" secondAttribute="top" constant="18" id="K7U-gT-TLx"/>
                             <constraint firstItem="I2O-nc-5Oo" firstAttribute="centerY" secondItem="rVN-Bl-a1K" secondAttribute="centerY" id="LZ9-1f-DDH"/>
-                            <constraint firstItem="HDR-0g-251" firstAttribute="trailing" secondItem="CR0-TI-CHg" secondAttribute="trailing" constant="-51" id="OBA-GG-vQZ"/>
+                            <constraint firstItem="HDR-0g-251" firstAttribute="trailing" secondItem="CR0-TI-CHg" secondAttribute="trailing" constant="-21" id="OBA-GG-vQZ"/>
                             <constraint firstItem="HDR-0g-251" firstAttribute="top" secondItem="rVN-Bl-a1K" secondAttribute="top" constant="9" id="Rid-UU-2Zb"/>
                             <constraint firstItem="HDR-0g-251" firstAttribute="leading" secondItem="CR0-TI-CHg" secondAttribute="leading" id="VE9-OQ-8Zu"/>
                             <constraint firstItem="HDR-0g-251" firstAttribute="leading" secondItem="rVN-Bl-a1K" secondAttribute="leading" constant="18" id="VWZ-Ia-8DZ"/>
@@ -62,17 +62,24 @@
                             <constraint firstItem="CR0-TI-CHg" firstAttribute="top" secondItem="HDR-0g-251" secondAttribute="bottom" id="xZf-9q-BoP"/>
                         </constraints>
                     </view>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Acv-lJ-Vid">
+                        <rect key="frame" x="254" y="16" width="20" height="20.5"/>
+                    </activityIndicatorView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="rVN-Bl-a1K" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2YV-Xb-wng"/>
                     <constraint firstItem="rVN-Bl-a1K" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="RnA-tQ-cbS"/>
+                    <constraint firstItem="Acv-lJ-Vid" firstAttribute="centerY" secondItem="rVN-Bl-a1K" secondAttribute="centerY" id="Z2j-Nx-psO"/>
                     <constraint firstItem="rVN-Bl-a1K" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="jHh-jW-Lun"/>
                     <constraint firstAttribute="trailing" secondItem="rVN-Bl-a1K" secondAttribute="trailing" id="l6Z-nk-sU7"/>
+                    <constraint firstAttribute="trailing" secondItem="Acv-lJ-Vid" secondAttribute="trailing" constant="46" id="qIm-r9-AJN"/>
+                    <constraint firstItem="Acv-lJ-Vid" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-39" id="sEx-Wu-ylC"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="aW0-zy-SZf"/>
             <connections>
                 <outlet property="clickImage" destination="I2O-nc-5Oo" id="RQC-rK-8MI"/>
+                <outlet property="loading" destination="Acv-lJ-Vid" id="afw-fZ-qcR"/>
                 <outlet property="nodeAddr" destination="CR0-TI-CHg" id="s8u-x1-QT9"/>
                 <outlet property="nodeName" destination="HDR-0g-251" id="PLl-Jh-RaJ"/>
                 <outlet property="nodeView" destination="rVN-Bl-a1K" id="A3c-8I-1e6"/>
@@ -83,6 +90,6 @@
     </objects>
     <resources>
         <image name="icon_click" width="15" height="15"/>
-        <image name="icon_no_click" width="15" height="15"/>
+        <image name="icon_click_selected" width="15" height="15"/>
     </resources>
 </document>

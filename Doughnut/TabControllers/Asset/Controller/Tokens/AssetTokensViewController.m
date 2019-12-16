@@ -78,12 +78,15 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 -(void)loadData {
-    [[WalletManage shareInstance] getAllTokens:^(NSDictionary *response) {
+    _tokenArray = [NSMutableArray new];
+//    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+//    [_tokenArray addObjectsFromArray:[defaults objectForKey:@"tokens"]];
+//    if (_tokenArray.count != 0){
+//        return;
+//    }
+    [[WalletManage shareWalletManage] getAllTokens:^(NSDictionary *response) {
         if (response){
             NSMutableArray *data = [NSMutableArray arrayWithObject:response][0];
-            if (!_tokenArray) {
-                _tokenArray = [NSMutableArray new];
-            }
             if (!_visibleResults) {
                 _visibleResults = [NSMutableArray new];
             }
@@ -117,7 +120,26 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 -(void)reloadTable {
+//    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+//    [defaults setObject:[_tokenArray[1] mj_JSONString] forKey:@"tokens"];
+//    [defaults synchronize];
     [self.tokensTable reloadData];
+}
+
+- (NSString *)toJsonStrWithArray:(NSArray *)arr {
+    if ([arr isKindOfClass:[NSString class]]) {
+        return (NSString *)arr;
+    }
+    NSError *parseError = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:arr options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    jsonStr = [jsonStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    jsonStr = [jsonStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    jsonStr = [jsonStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    if (parseError) {
+        jsonStr = @"";
+    }
+    return jsonStr;
 }
 
 - (void)setupSubviews {
@@ -151,7 +173,7 @@ static NSString * const cellID = @"TokenTableViewCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 76;
+    return 86;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -181,6 +203,8 @@ static NSString * const cellID = @"TokenTableViewCell";
     if (_singleFlag){
         cell.clickImage.hidden = YES;
     }
+    cell.layer.cornerRadius = 10;
+    cell.layer.masksToBounds = YES;
     return cell;
 }
 
@@ -308,12 +332,9 @@ static NSString * const cellID = @"TokenTableViewCell";
             }
         }
     }
-    [_walletDao updateWalletInfoWithWalletModel:_currentWallet complement:^(BOOL success) {
-        if(success){
-            [[NSNotificationCenter defaultCenter] postNotificationName:kEditWalletNotification object:_currentWallet];
-        }
+    [self.walletDao updateWalletWithWalletModel:self.currentWallet complement:^(BOOL success) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kEditWalletNotification object:self.currentWallet];
     }];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kChangeWalletNotification object:_currentWallet];
 }
 
 @end

@@ -105,8 +105,9 @@
                         <constraint firstAttribute="trailing" secondItem="KpF-zd-KTP" secondAttribute="trailing" constant="20" id="1fO-Cr-joF"/>
                         <constraint firstItem="3EM-KL-5j9" firstAttribute="trailing" secondItem="NH1-fC-nCc" secondAttribute="trailing" id="2eS-n0-rCw"/>
                         <constraint firstItem="JKO-Od-2Lz" firstAttribute="top" secondItem="aab-AA-0cu" secondAttribute="bottom" constant="10" id="8NC-nv-CtT"/>
-                        <constraint firstItem="JKO-Od-2Lz" firstAttribute="trailing" secondItem="aab-AA-0cu" secondAttribute="trailing" id="9kJ-F9-jgc"/>
+                        <constraint firstItem="Ath-IB-qie" firstAttribute="trailing" secondItem="aab-AA-0cu" secondAttribute="trailing" id="9kJ-F9-jgc"/>
                         <constraint firstItem="5Uw-Xr-8cg" firstAttribute="leading" secondItem="NH1-fC-nCc" secondAttribute="leading" id="CLM-qU-QeF"/>
+                        <constraint firstAttribute="trailing" secondItem="JKO-Od-2Lz" secondAttribute="trailing" constant="20" id="Ci0-kw-bjR"/>
                         <constraint firstItem="aab-AA-0cu" firstAttribute="leading" secondItem="5Uw-Xr-8cg" secondAttribute="trailing" constant="20" id="HZf-qC-0K3"/>
                         <constraint firstItem="Ath-IB-qie" firstAttribute="trailing" secondItem="KpF-zd-KTP" secondAttribute="trailing" id="HhB-8r-dTI"/>
                         <constraint firstItem="Ath-IB-qie" firstAttribute="firstBaseline" secondItem="NH1-fC-nCc" secondAttribute="firstBaseline" id="JAX-nP-ekO"/>

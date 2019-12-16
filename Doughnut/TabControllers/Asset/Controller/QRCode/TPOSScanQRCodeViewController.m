@@ -100,13 +100,15 @@
 
 #pragma mark - - - SGQRCodeAlbumManagerDelegate
 - (void)QRCodeAlbumManagerDidCancelWithImagePickerController:(SGQRCodeAlbumManager *)albumManager {
-    [self.view addSubview:self.scanningView];
+    //[self.view addSubview:self.scanningView];
 }
+
 - (void)QRCodeAlbumManager:(SGQRCodeAlbumManager *)albumManager didFinishPickingMediaWithResult:(NSString *)result {
     if (self.kTPOSScanQRCodeResult) {
+        [self.navigationController popViewControllerAnimated:NO];
         self.kTPOSScanQRCodeResult(result);
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - - - SGQRCodeScanManagerDelegate
@@ -120,15 +122,17 @@
         AVMetadataMachineReadableCodeObject *obj = metadataObjects[0];
 //         TPOSLog(@"scan result:%@",[obj stringValue]);
         if (self.kTPOSScanQRCodeResult) {
+            [self.navigationController popViewControllerAnimated:NO];
             self.kTPOSScanQRCodeResult([obj stringValue]);
         }
-        [self.navigationController popViewControllerAnimated:NO];
+        //[self.navigationController popViewControllerAnimated:NO];
     } else {
 //        TPOSLog([[TPOSLocalizedHelper standardHelper] stringWithKey:@""]@"暂未识别出扫描的二维码");
         if (self.kTPOSScanQRCodeResult) {
+            [self.navigationController popViewControllerAnimated:NO];
             self.kTPOSScanQRCodeResult(nil);
         }
-        [self.navigationController popViewControllerAnimated:YES];
+        //[self.navigationController popViewControllerAnimated:YES];
     }
 }
 - (void)QRCodeScanManager:(SGQRCodeScanManager *)scanManager brightnessValue:(CGFloat)brightnessValue {
@@ -171,13 +175,13 @@
     if (!_flashlightBtn) {
         // 添加闪光灯按钮
         _flashlightBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        CGFloat flashlightBtnW = 30;
-        CGFloat flashlightBtnH = 30;
+        CGFloat flashlightBtnW = 50;
+        CGFloat flashlightBtnH = 50;
         CGFloat flashlightBtnX = 0.5 * (self.view.frame.size.width - flashlightBtnW);
-        CGFloat flashlightBtnY = 0.55 * self.view.frame.size.height;
+        CGFloat flashlightBtnY = 0.85 * self.view.frame.size.height;
         _flashlightBtn.frame = CGRectMake(flashlightBtnX, flashlightBtnY, flashlightBtnW, flashlightBtnH);
-        [_flashlightBtn setBackgroundImage:[UIImage imageNamed:@"SGQRCodeFlashlightOpenImage"] forState:(UIControlStateNormal)];
-        [_flashlightBtn setBackgroundImage:[UIImage imageNamed:@"SGQRCodeFlashlightCloseImage"] forState:(UIControlStateSelected)];
+        [_flashlightBtn setBackgroundImage:[UIImage imageNamed:@"icon_light"] forState:(UIControlStateNormal)];
+        [_flashlightBtn setBackgroundImage:[UIImage imageNamed:@"icon_light"] forState:(UIControlStateSelected)];
         [_flashlightBtn addTarget:self action:@selector(flashlightBtn_action:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _flashlightBtn;
@@ -209,22 +213,24 @@
         _naviView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 64)];
         _naviView.backgroundColor = [UIColor clearColor];
         UIButton *btn = [self backStyleButton];
-        btn.frame = CGRectMake(0, 20, 64, 44);
+        [btn setImage:[UIImage imageNamed:@"icon_back_withe"] forState:UIControlStateNormal] ;
+        btn.frame = CGRectMake(10, 46, 64, 44);
+
         if (@available(iOS 11.0, *)) {
             btn.imageEdgeInsets = UIEdgeInsetsMake(0, -46, 0, 0);
         } else {
-            btn.imageEdgeInsets = UIEdgeInsetsMake(0, -15, 0, 0);
+            btn.imageEdgeInsets = UIEdgeInsetsMake(0, -46, 0, 0);
         }
         [_naviView addSubview:btn];
         
         UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        rightBtn.frame = CGRectMake(kScreenWidth - 64, 20, 64, 44);
+        rightBtn.frame = CGRectMake(kScreenWidth - 64, 46, 64, 44);
         [rightBtn addTarget:self action:@selector(rightBarButtonItenAction) forControlEvents:UIControlEventTouchUpInside];
         [rightBtn setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"album"] forState:UIControlStateNormal];
         [rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_naviView addSubview:rightBtn];
         
-        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 150, 44)];
+        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0, 46, 150, 44)];
         title.font = [UIFont systemFontOfSize:18];
         title.textColor = [UIColor whiteColor];
         title.text = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"scan"];

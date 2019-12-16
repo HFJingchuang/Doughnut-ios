@@ -46,10 +46,7 @@
         self.title = self.titleString;
     }
     [self.view setBackgroundColor:[UIColor colorWithHex:0xf5f5f9]];
-    
-    if (self.navigationController.viewControllers.firstObject == self) {
-        [self addLeftBarButtonImage:[[UIImage imageNamed:@"icon_guanbi"] tb_imageWithTintColor:[UIColor whiteColor]] action:@selector(responseLeftButton)];
-    }
+    [self addLeftBarButtonImage:[UIImage imageNamed:@"icon_navi_back"] action:@selector(responseLeftButton)];
     
     _webView = [[WKWebView alloc] init];
     _webView.navigationDelegate = self;
@@ -62,7 +59,7 @@
     [_webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
-    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     CGFloat progressBarHeight = 2.f;
     CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
     CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height - progressBarHeight, navigationBarBounds.size.width, progressBarHeight);
@@ -87,8 +84,9 @@
     if ([self.parentViewController isKindOfClass:[UINavigationController class]]) {
         [self.navigationController setNavigationBarHidden:NO animated:YES];
     }
-    
-    [self setNavigationTitleColor:[UIColor whiteColor] barColor:[UIColor colorWithHex:0x2890FE]];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    [self setNavigationTitleColor:[UIColor colorWithHex:0x021E38] barColor:[UIColor colorWithHex:0xffffff]];
     [self.navigationController.navigationBar addSubview:_wk_progressView];    
 }
 

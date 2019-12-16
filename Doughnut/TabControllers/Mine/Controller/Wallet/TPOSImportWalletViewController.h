@@ -12,7 +12,7 @@
 
 typedef NS_ENUM(NSInteger, TPOSImportWalletType) {
     TPOSImportWalletTypeMemonic = 1 << 0,
-    TPOSImportWalletTypePrivateKey = 1 << 1
+    TPOSImportWalletTypePrivateKey = 1 << 1,
 };
 
 @interface TPOSImportWalletViewController : TPOSBaseViewController
