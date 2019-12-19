@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina5_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -85,7 +83,6 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="6ss-5Z-9xy"/>
                                     </constraints>
-                                    <nil key="textColor"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -114,9 +111,12 @@
                                 <color key="titleColor" red="0.0078431372550000003" green="0.1176470588" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <state key="selected" image="icon_click_selected"/>
+                            <connections>
+                                <action selector="noPwdBtnAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="uMy-MT-Pxa"/>
+                            </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="输入密码有误，请重新输入" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xd-aL-DjL">
-                            <rect key="frame" x="20" y="41" width="259" height="21"/>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="输入密码有误，请重新输入" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xd-aL-DjL">
+                            <rect key="frame" x="20" y="47.666666666666664" width="147.33333333333334" height="14.333333333333336"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" red="0.96078431369999995" green="0.3411764706" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -161,9 +161,9 @@
                 <outlet property="cancelBtn" destination="3H9-l5-ia6" id="YYx-k5-MiE"/>
                 <outlet property="confirmBtn" destination="Ixc-3S-fAE" id="Ri4-Fi-Xnf"/>
                 <outlet property="noPwdBtn" destination="hXl-xo-xzb" id="I05-34-eO6"/>
+                <outlet property="passwordTF" destination="gjM-40-gRz" id="1eX-Th-qGr"/>
                 <outlet property="tipLabel" destination="2xd-aL-DjL" id="6R9-ff-RAf"/>
                 <outlet property="titileLabel" destination="cOf-gM-2hI" id="8Rg-NZ-FY4"/>
-                <outletCollection property="passwordTF" destination="gjM-40-gRz" id="XMN-d7-Smz"/>
             </connections>
             <point key="canvasLocation" x="34.782608695652179" y="41.576086956521742"/>
         </view>

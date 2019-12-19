@@ -341,7 +341,7 @@
 -(void)setPageControl:(NSNumber *)pages{
     [self addPageControl];
     float height = _effectNodesScrollView.frame.origin.y + _effectNodesScrollView.frame.size.height;
-    _pageControl.frame=CGRectMake(5, height ,_effectNodesScrollView.frame.size.width, 30);
+    _pageControl.frame=CGRectMake(5, height ,kScreenWidth - 40, 30);
     _pageControl.numberOfPages = [pages integerValue];
     _pageControl.currentPage = 0;
     [self.view addSubview:_pageControl];
@@ -419,7 +419,7 @@
 
 - (XHPageControl *)addPageControl {
     _pageControl = [[XHPageControl alloc] init];
-    _pageControl.frame=CGRectMake(0, _effectNodesScrollView.bounds.size.height + 50,[UIScreen mainScreen].bounds.size.width, 30);
+    _pageControl.frame=CGRectMake(0, _effectNodesScrollView.bounds.size.height + 50,kScreenWidth - 40, 30);
     _pageControl.delegate=self;
     _pageControl.currentColor = [UIColor colorWithHex:0x3B6CA6];
     _pageControl.currentMultiple = 3;

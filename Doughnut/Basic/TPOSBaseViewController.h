@@ -16,6 +16,7 @@
 #import "TPOSMacro.h"
 #import "TPOSCameraUtils.h"
 #import "UILabel+Btn.h"
+#import "NSString+TPOS.h"
 
 typedef void (^tableHeaderRefreshAction)(void);
 

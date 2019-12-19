@@ -8,6 +8,8 @@
 
 #import "DappMainViewController.h"
 #import "TransferDialogView.h"
+#import "NSString+TPOS.h"
+#import "DappWKWebViewController.h"
 
 @interface DappMainViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -39,11 +41,25 @@
     self.navigationItem.title = @"";
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    UIBarButtonItem* leftBtnItem = [[UIBarButtonItem alloc]initWithTitle:@"DAPP" style:UIBarButtonItemStylePlain target:self action:nil];
+    self.navigationItem.leftBarButtonItem = leftBtnItem;
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:24],NSForegroundColorAttributeName :[UIColor colorWithHex:0x021933]} forState:UIControlStateNormal];
+    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"PingFangSC-Semibold" size:24],NSForegroundColorAttributeName :[UIColor colorWithHex:0x021933]} forState:UIControlStateSelected];
 }
 
 - (IBAction)searchAction:(id)sender {
-    TransferDialogView *transferDialogView = [TransferDialogView transactionDialogView];
-    [transferDialogView showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
+    NSString *searchUrl = _linkTF.text;
+           if (![searchUrl tb_isEmpty]) {
+               if ([searchUrl hasPrefix:@"http://"] || [searchUrl hasPrefix:@"https://"]) {
+                   DappWKWebViewController *vc = [[DappWKWebViewController alloc]init];
+                   vc.htmlUrl = searchUrl;
+                   [self.navigationController pushViewController:vc animated:YES];
+               } else {
+                   [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"err_link"]];
+               }
+           }
+//    TransferDialogView *transferDialogView = [TransferDialogView transactionDialogView];
+//    [transferDialogView showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
 }
 
 

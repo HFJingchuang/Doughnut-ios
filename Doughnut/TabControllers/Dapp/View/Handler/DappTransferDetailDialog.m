@@ -32,7 +32,7 @@
 
 + (DappTransferDetailDialog *)DappTransferDetailDialogInit {
     DappTransferDetailDialog *dappTransferDetailDialog = [[NSBundle mainBundle] loadNibNamed:@"DappTransferDetailDialog" owner:nil options:nil].firstObject;
-    dappTransferDetailDialog.frame = CGRectMake(40, 0, kScreenWidth - 80, 420);
+    dappTransferDetailDialog.frame = CGRectMake(40, 0, kScreenWidth - 80, 400);
     dappTransferDetailDialog.layer.cornerRadius = 10;
     dappTransferDetailDialog.layer.masksToBounds = YES;
     dappTransferDetailDialog.bottomOffset = kScreenHeight/2;
@@ -48,5 +48,13 @@
     [self hide];
 }
 
+- (void)setValues:(NSMutableDictionary *)data {
+    self.fromLabel.text = [data valueForKey:@"from"];
+    self.toLabel.text = [data valueForKey:@"to"];
+    self.feeLabel.text = [data valueForKey:@"fee"];
+    self.contentLabel.text = [data valueForKey:@"content"];
+    self.memoTV.text = [data valueForKey:@"memo"];
+    
+}
 
 @end

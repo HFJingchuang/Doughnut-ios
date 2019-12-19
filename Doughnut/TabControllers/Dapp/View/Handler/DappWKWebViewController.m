@@ -63,16 +63,24 @@ static NSString *MSG_SUCCESS = @"success";
 }
 
 - (void)initWKWebView {
+    self.view.backgroundColor = [UIColor redColor];
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     WKPreferences *preferences = [WKPreferences new];
     preferences.javaScriptCanOpenWindowsAutomatically = YES;
     preferences.minimumFontSize = 40.0;
     configuration.preferences = preferences;
     self.webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-    NSString *urlStr = [[NSBundle mainBundle] pathForResource:@"hello.html" ofType:nil];
-    NSURL *fileURL = [NSURL fileURLWithPath:urlStr];
-    [self.webView loadFileURL:fileURL allowingReadAccessToURL:fileURL];
-    
+//    NSString *urlStr = [[NSBundle mainBundle] pathForResource:@"hello.html" ofType:nil];
+//    NSURL *fileURL = [NSURL fileURLWithPath:urlStr];
+//    [self.webView loadFileURL:fileURL allowingReadAccessToURL:fileURL];
+    NSString *bundlePath=[[NSBundle mainBundle]bundlePath];
+    NSString *path=[bundlePath stringByAppendingPathComponent:@"hello.html"];
+    NSURL *url=[NSURL fileURLWithPath:path];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    [self.webView loadRequest:request];
+    //NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    [self.webView loadRequest:request];
     self.webView.UIDelegate = self;
     [self.view addSubview:self.webView];
 }
@@ -194,6 +202,12 @@ static NSString *MSG_SUCCESS = @"success";
 }
 
 - (void)sign:(NSString *)params :(NSString *)callbackId {
+    DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
+    dialog.confirmBack = ^(int i){
+        TransferDialogView *view = [TransferDialogView transactionDialogView];
+        [view showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
+    };
+    [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
     [self.webView evaluateJavaScript:@"" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
         NSLog(@"%@----%@",result, error);
     }];

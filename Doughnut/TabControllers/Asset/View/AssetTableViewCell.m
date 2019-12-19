@@ -38,8 +38,6 @@
     frame.origin.y += 10;
     frame.size.height -= 10;
     [super setFrame:frame];
-    self.tokenCellView.layer.cornerRadius = 10;
-    self.tokenCellView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

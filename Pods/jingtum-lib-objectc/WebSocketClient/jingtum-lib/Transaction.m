@@ -81,7 +81,7 @@
     [_memo addObject:dic];
 }
 
--(void)submit
+-(NSString *)submit:(BOOL)isDo
 {
     NSLog(@"we are in submit");
     NSString *TransactionType = [tx_json objectForKey:@"TransactionType"];
@@ -93,7 +93,11 @@
         NSNumber *Sequence = [tx_json objectForKey:@"Sequence"];
         if (Sequence != nil) {
             // 这边做真正的签名动作
-            [self signing];
+            if(isDo){
+                return [self signingAndBack];
+            }else {
+                [self signing];
+            }
         } else {
             // 获取源账户的 AccountInfo 信息，在里面获取到 Sequence
             NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
@@ -108,6 +112,7 @@
         [dic setObject:tx_json forKey:@"tx_json"];
         [remote sendUnsignTx:dic];
     }
+    return @"";
 }
 
 -(void)sign:(id)message
@@ -191,6 +196,61 @@
 //  [tx_json setObject:blob forKey:@"blob"];
     
     [remote sendSignTx:blob];
+}
+
+-(NSString *)signingAndBack
+{
+    NSNumber *fee = [tx_json objectForKey:@"Fee"];
+    if (fee != nil) {
+        double value = [fee doubleValue]/1000000;
+        NSNumber *newfee = [NSNumber numberWithDouble:value];
+        [tx_json setObject:newfee forKey:@"Fee"];
+    }
+    // payment
+    id amount = [tx_json objectForKey:@"Amount"];
+    if (amount != nil && ![amount isKindOfClass:[NSDictionary class]]) {
+        double newvalue = [((NSString*)amount) doubleValue] / 1000000;
+        NSNumber *value = [NSNumber numberWithDouble:newvalue];
+        [tx_json setObject:value forKey:@"Amount"];
+    }
+    
+    if ([_memo count] > 0) {
+        [tx_json setObject:_memo forKey:@"Memos"];
+    }
+    
+    // order
+    id takerPays = [tx_json objectForKey:@"TakerPays"];
+    if (takerPays != nil && ![takerPays isKindOfClass:[NSDictionary class]]) {
+        double newvalue = [((NSString*)takerPays) doubleValue] / 1000000;
+        NSNumber *value = [NSNumber numberWithDouble:newvalue];
+        [tx_json setObject:value forKey:@"TakerPays"];
+    }
+    id takerGets = [tx_json objectForKey:@"TakerGets"];
+    if (takerGets != nil && ![takerGets isKindOfClass:[NSDictionary class]]) {
+        double newvalue = [((NSString*)takerGets) doubleValue] / 1000000;
+        NSNumber *value = [NSNumber numberWithDouble:newvalue];
+        [tx_json setObject:value forKey:@"TakerGets"];
+    }
+    
+    Seed *seed = [[Seed alloc] init];
+    
+    Keypairs *keypairs = [seed deriveKeyPair:_secret];
+    NSData *pub = [keypairs getPublicKey];
+    
+    [tx_json setObject:pub forKey:@"SigningPubKey"];
+    
+    long prefix = 0x53545800;
+    Serializer *getHashSerialize = [[Serializer alloc] init];
+    [getHashSerialize from_json:tx_json];
+    NSData *hash = [getHashSerialize hash:prefix];
+    
+    NSData *txnSignature = [seed signTx:hash];
+    [tx_json setObject:txnSignature forKey:@"TxnSignature"];
+    Serializer *getBlobSerialize = [[Serializer alloc] init];
+    NSString *blob = [getBlobSerialize from_json:tx_json];
+    NSLog(@"the blob is %@", blob);
+//  [tx_json setObject:blob forKey:@"blob"];
+    return blob;
 }
 
 -(void)setFlags:(id)flags

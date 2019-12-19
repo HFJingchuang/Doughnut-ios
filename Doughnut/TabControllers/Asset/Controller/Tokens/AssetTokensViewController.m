@@ -203,8 +203,6 @@ static NSString * const cellID = @"TokenTableViewCell";
     if (_singleFlag){
         cell.clickImage.hidden = YES;
     }
-    cell.layer.cornerRadius = 10;
-    cell.layer.masksToBounds = YES;
     return cell;
 }
 
@@ -253,6 +251,7 @@ static NSString * const cellID = @"TokenTableViewCell";
     _tokensTable.backgroundColor = [UIColor colorWithHex:0xffffff];
     _tokensTable.separatorColor = [UIColor colorWithHex:0xF5F5F9];
     _tokensTable.showsVerticalScrollIndicator = NO;
+    _tokensTable.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tokensTable.delegate = self;
     _tokensTable.dataSource = self;
     if (@available(iOS 11,*)) {
