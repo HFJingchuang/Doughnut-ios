@@ -10,6 +10,14 @@
 #import "TPOSAlertView.h"
 
 @interface TransferDialogView : TPOSAlertView
+
+@property (nonatomic, copy) void (^confirmAction)(void);
+
 + (TransferDialogView *)transactionDialogView;
+
+-(void)errorPwd;
+
+-(void)correctPwd;
+
 @end
 

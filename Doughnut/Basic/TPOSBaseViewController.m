@@ -59,7 +59,7 @@
     [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, -200)];
     [SVProgressHUD setMinimumDismissTimeInterval:1];
     [SVProgressHUD setContainerView:[[UIApplication sharedApplication].windows lastObject]];
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    //[SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
 }
 
 - (void) showErrorWithStatus:(NSString *)msg {

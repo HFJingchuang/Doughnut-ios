@@ -162,7 +162,7 @@
 
 - (IBAction)importAction {
     ImportWalletViewController *vc = [[ImportWalletViewController alloc] init];
-    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (TPOSWalletDao *)walletDao {

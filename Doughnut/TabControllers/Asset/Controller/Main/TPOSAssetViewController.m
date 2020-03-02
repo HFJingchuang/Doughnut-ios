@@ -14,7 +14,6 @@
 #import "TPOSQRCodeReceiveViewController.h"
 #import "TPOSNavigationController.h"
 #import <AVFoundation/AVFoundation.h>
-#import "TPOSCreateWalletViewController.h"
 #import "TransactionViewController.h"
 #import "TPOSTokenModel.h"
 #import "TPOSContext.h"
@@ -540,15 +539,15 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{}
+//
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return YES;
+//}
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    return YES;
-}
-
-- (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
-}
+//- (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return NO;
+//}
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewRowAction *action0 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"hide"] handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
@@ -626,8 +625,8 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
             cell.hidden = YES;
         }
     }
-    cell.layer.cornerRadius = 10;
-    cell.layer.masksToBounds = YES;
+//    cell.layer.cornerRadius = 10;
+//    cell.layer.masksToBounds = YES;
     return cell;
 }
 
@@ -692,6 +691,7 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     _table.backgroundColor = [UIColor colorWithHex:0xffffff];
     _table.separatorColor = [UIColor colorWithHex:0xF5F5F9];
     _table.showsVerticalScrollIndicator = NO;
+    _table.separatorStyle = UITableViewCellSeparatorStyleNone;
     _table.delegate = self;
     _table.dataSource = self;
     if (@available(iOS 11,*)) {

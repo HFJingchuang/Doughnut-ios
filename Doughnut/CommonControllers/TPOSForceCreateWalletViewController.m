@@ -7,11 +7,9 @@
 //
 
 #import "TPOSForceCreateWalletViewController.h"
-#import "TPOSCreateWalletViewController.h"
 #import "TPOSNavigationController.h"
 #import "TPOSMacro.h"
 #import "UIColor+Hex.h"
-#import "TPOSSelectChainTypeViewController.h"
 #import "TPOSH5ViewController.h"
 #import "CreateWalletViewController.h"
 #import "ImportWalletViewController.h"
@@ -101,12 +99,14 @@
 - (IBAction)createAction {
     CreateWalletViewController *createWalletViewController = [[CreateWalletViewController alloc] init];
     createWalletViewController.ignoreBackup = NO;
-    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:createWalletViewController] animated:YES completion:nil];
+    [self.navigationController pushViewController:createWalletViewController animated:YES];
+    //[self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:createWalletViewController] animated:YES completion:nil];
 }
 
 - (IBAction)importAction {
     ImportWalletViewController *vc = [[ImportWalletViewController alloc] init];
-    [self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+    //[self presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
 
 @end

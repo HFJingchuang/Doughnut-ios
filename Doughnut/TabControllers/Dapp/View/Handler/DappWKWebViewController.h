@@ -11,4 +11,6 @@
 
 @interface DappWKWebViewController : TPOSBaseViewController
 
+@property (nonatomic, strong) NSString *htmlUrl;
+
 @end

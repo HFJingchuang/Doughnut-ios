@@ -24,7 +24,7 @@
 
 -(void)setSecret:(NSString*)secret;
 -(void)addMemo:(NSString*)memo;
--(void)submit;
+-(NSString *)submit:(BOOL)isDo;
 -(void)sign:(id)message;
 -(void)setFlags:(id)flags;
 

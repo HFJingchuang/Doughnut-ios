@@ -10,7 +10,6 @@
 #import "TPOSWalletModel.h"
 #import "TPOSLocalizedHelper.h"
 #import "NSString+TPOS.h"
-#import "TPOSCreateMemonicViewController.h"
 #import "TPOSExportPrivateKeyNoteView.h"
 #import "TPOSNavigationController.h"
 #import "TPOSWalletDao.h"
@@ -52,57 +51,57 @@
 }
 
 - (IBAction)backupAction {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"] message:@"" preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"password";
-        textField.secureTextEntry = YES;
-    }];
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"cancel"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }]];
-    
-    __weak typeof(self) weakSelf = self;
-    __weak typeof(alertController) weakAlertController = alertController;
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        NSError* err = nil;
-        KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:weakSelf.walletModel.keyStore error:&err];
-        Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
-        if (decryptEthECKeyPair) {
-            [weakSelf nextAction];
-        } else {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_error"] message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            }]];
-            [weakSelf.navi presentViewController:alertController animated:YES completion:nil];
-        }
-    }]];
-    [self.navi presentViewController:alertController animated:YES completion:nil];
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"] message:@"" preferredStyle:UIAlertControllerStyleAlert];
+//    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+//        textField.placeholder = @"password";
+//        textField.secureTextEntry = YES;
+//    }];
+//    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"cancel"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//
+//    }]];
+//
+//    __weak typeof(self) weakSelf = self;
+//    __weak typeof(alertController) weakAlertController = alertController;
+//    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+//        NSError* err = nil;
+//        KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:weakSelf.walletModel.keyStore error:&err];
+//        Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
+//        if (decryptEthECKeyPair) {
+//            [weakSelf nextAction];
+//        } else {
+//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_error"] message:nil preferredStyle:UIAlertControllerStyleAlert];
+//            [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//            }]];
+//            [weakSelf.navi presentViewController:alertController animated:YES completion:nil];
+//        }
+//    }]];
+//    [self.navi presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)nextAction {
-    if ([ethChain isEqualToString:_walletModel.blockChainId]) { //ETH
-        TPOSCreateMemonicViewController *createPrivateKeyViewController = [[TPOSCreateMemonicViewController alloc] init];
-        createPrivateKeyViewController.walletModel = _walletModel;
-        if (_walletModel.dbVersion < 1) {
-            createPrivateKeyViewController.privateWords = [_walletModel.mnemonic componentsSeparatedByString:@" "];
-        } else {
-//            createPrivateKeyViewController.privateWords = [[_walletModel.mnemonic tb_encodeStringWithKey:_walletModel.password] componentsSeparatedByString:@" "];
-        }
-        
-        [self.navi presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:createPrivateKeyViewController] animated:YES completion:nil];
-        [self hide];
-    } else { //JT
-        TPOSExportPrivateKeyNoteView *exportPrivateKeyNoteView = [TPOSExportPrivateKeyNoteView exportPrivateKeyNoteViewWithWalletModel:self.walletModel];
-        [exportPrivateKeyNoteView showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.container];
-        self.walletModel.backup = YES;
-        __weak typeof(self) weakSelf = self;
-        [[[TPOSWalletDao alloc] init] updateWalletWithWalletModel:self.walletModel complement:^(BOOL success) {
-            if (success) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kBackupWalletNotification object:weakSelf.walletModel];
-            }
-            [weakSelf hide];
-        }];
-    }
+//    if ([ethChain isEqualToString:_walletModel.blockChainId]) { //ETH
+//        TPOSCreateMemonicViewController *createPrivateKeyViewController = [[TPOSCreateMemonicViewController alloc] init];
+//        createPrivateKeyViewController.walletModel = _walletModel;
+//        if (_walletModel.dbVersion < 1) {
+//            createPrivateKeyViewController.privateWords = [_walletModel.mnemonic componentsSeparatedByString:@" "];
+//        } else {
+////            createPrivateKeyViewController.privateWords = [[_walletModel.mnemonic tb_encodeStringWithKey:_walletModel.password] componentsSeparatedByString:@" "];
+//        }
+//
+//        [self.navi presentViewController:[[TPOSNavigationController alloc] initWithRootViewController:createPrivateKeyViewController] animated:YES completion:nil];
+//        [self hide];
+//    } else { //JT
+//        TPOSExportPrivateKeyNoteView *exportPrivateKeyNoteView = [TPOSExportPrivateKeyNoteView exportPrivateKeyNoteViewWithWalletModel:self.walletModel];
+//        [exportPrivateKeyNoteView showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.container];
+//        self.walletModel.backup = YES;
+//        __weak typeof(self) weakSelf = self;
+//        [[[TPOSWalletDao alloc] init] updateWalletWithWalletModel:self.walletModel complement:^(BOOL success) {
+//            if (success) {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:kBackupWalletNotification object:weakSelf.walletModel];
+//            }
+//            [weakSelf hide];
+//        }];
+//    }
 }
 
 @end

@@ -15,5 +15,7 @@
 
 + (DappTransferDetailDialog *)DappTransferDetailDialogInit;
 
+-(void)setValues:(NSMutableDictionary *)data;
+
 @end
 

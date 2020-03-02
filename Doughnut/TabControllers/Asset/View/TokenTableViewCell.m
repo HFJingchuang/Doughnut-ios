@@ -38,8 +38,6 @@
     frame.origin.y += 10;
     frame.size.height -= 10;
     [super setFrame:frame];
-    self.cellView.layer.cornerRadius = 10;
-    self.cellView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

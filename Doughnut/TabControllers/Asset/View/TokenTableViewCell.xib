@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,14 +11,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="68" id="KGk-i7-Jjw" customClass="TokenTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="68"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="67.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D3w-lj-jrN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="81"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_default" translatesAutoresizingMaskIntoConstraints="NO" id="kdy-Ll-Wjw">
                                 <rect key="frame" x="18" y="15" width="36" height="36"/>
@@ -50,7 +48,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="kdy-Ll-Wjw" firstAttribute="top" secondItem="D3w-lj-jrN" secondAttribute="top" constant="15" id="9CP-eK-J3a"/>
-                            <constraint firstItem="kdy-Ll-Wjw" firstAttribute="centerY" secondItem="D3w-lj-jrN" secondAttribute="centerY" constant="-7.5" id="Aqb-qb-BZQ"/>
+                            <constraint firstItem="kdy-Ll-Wjw" firstAttribute="centerY" secondItem="D3w-lj-jrN" secondAttribute="centerY" constant="-5" id="Aqb-qb-BZQ"/>
                             <constraint firstItem="kdy-Ll-Wjw" firstAttribute="centerY" secondItem="s3q-qF-s2R" secondAttribute="centerY" constant="-0.5" id="GHZ-p8-FzB"/>
                             <constraint firstItem="s3q-qF-s2R" firstAttribute="centerY" secondItem="eBl-7p-ide" secondAttribute="centerY" id="SXo-dd-P62"/>
                             <constraint firstItem="s3q-qF-s2R" firstAttribute="leading" secondItem="D3w-lj-jrN" secondAttribute="leading" constant="62" id="Sk4-NI-lYi"/>
