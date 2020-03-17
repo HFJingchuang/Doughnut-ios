@@ -253,12 +253,18 @@
 		D08DC91D204BE7B3008A27B2 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */; };
 		D08DC91F204BE81A008A27B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D0F5E117201C9CB700C60EA6 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */; };
+		E94698D123D4780300B339B3 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = E94698D023D4780300B339B3 /* test.html */; };
+		E94698D323D59F0C00B339B3 /* donut.min.js in Resources */ = {isa = PBXBuildFile; fileRef = E94698D223D59F0C00B339B3 /* donut.min.js */; };
 		E9EE062A23A9CDCB00185FB2 /* DOSJTNodeDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EE062923A9CDCB00185FB2 /* DOSJTNodeDialogView.m */; };
 		E9EE062C23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9EE062B23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib */; };
 		E9EE063323A9E62800185FB2 /* TPOSEditWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9EE062D23A9E62800185FB2 /* TPOSEditWalletViewController.xib */; };
 		E9EE063423A9E62800185FB2 /* TPOSEditPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EE062E23A9E62800185FB2 /* TPOSEditPasswordViewController.m */; };
 		E9EE063523A9E62800185FB2 /* TPOSEditWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EE062F23A9E62800185FB2 /* TPOSEditWalletViewController.m */; };
 		E9EE063623A9E62800185FB2 /* TPOSEditPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9EE063223A9E62800185FB2 /* TPOSEditPasswordViewController.xib */; };
+		E9EE064523AB1BE200185FB2 /* PasswordDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EE064423AB1BE200185FB2 /* PasswordDialogView.m */; };
+		E9EE064723AB1BF700185FB2 /* PasswordDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9EE064623AB1BF700185FB2 /* PasswordDialogView.xib */; };
+		E9EE065123AB2D5500185FB2 /* ChangeNameDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EE064E23AB2D5400185FB2 /* ChangeNameDialogView.m */; };
+		E9EE065223AB2D5500185FB2 /* ChangeNameDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9EE065023AB2D5400185FB2 /* ChangeNameDialogView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -696,6 +702,8 @@
 		D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = TokenBank/Vendor/Tencent/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		E94698D023D4780300B339B3 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
+		E94698D223D59F0C00B339B3 /* donut.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = donut.min.js; sourceTree = "<group>"; };
 		E9EE062823A9CDCB00185FB2 /* DOSJTNodeDialogView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSJTNodeDialogView.h; sourceTree = "<group>"; };
 		E9EE062923A9CDCB00185FB2 /* DOSJTNodeDialogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSJTNodeDialogView.m; sourceTree = "<group>"; };
 		E9EE062B23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSJTNodeDialogView.xib; sourceTree = "<group>"; };
@@ -705,6 +713,12 @@
 		E9EE063023A9E62800185FB2 /* TPOSEditWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSEditWalletViewController.h; sourceTree = "<group>"; };
 		E9EE063123A9E62800185FB2 /* TPOSEditPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSEditPasswordViewController.h; sourceTree = "<group>"; };
 		E9EE063223A9E62800185FB2 /* TPOSEditPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TPOSEditPasswordViewController.xib; sourceTree = "<group>"; };
+		E9EE064323AB1BE200185FB2 /* PasswordDialogView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordDialogView.h; sourceTree = "<group>"; };
+		E9EE064423AB1BE200185FB2 /* PasswordDialogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordDialogView.m; sourceTree = "<group>"; };
+		E9EE064623AB1BF700185FB2 /* PasswordDialogView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PasswordDialogView.xib; sourceTree = "<group>"; };
+		E9EE064E23AB2D5400185FB2 /* ChangeNameDialogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeNameDialogView.m; sourceTree = "<group>"; };
+		E9EE064F23AB2D5400185FB2 /* ChangeNameDialogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeNameDialogView.h; sourceTree = "<group>"; };
+		E9EE065023AB2D5400185FB2 /* ChangeNameDialogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeNameDialogView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1099,9 +1113,11 @@
 		B6FA810E23A24DBA00D42FAF /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				E94698D223D59F0C00B339B3 /* donut.min.js */,
 				B6FA810F23A24DBA00D42FAF /* donut.js */,
 				B6FA811023A24DBA00D42FAF /* hello.html */,
 				B6FA811123A24DBA00D42FAF /* button.css */,
+				E94698D023D4780300B339B3 /* test.html */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -1752,6 +1768,8 @@
 		D063A7EB218E022800750001 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E9EE064823AB2C9E00185FB2 /* NewName */,
+				E9EE064223AB1BB800185FB2 /* Password */,
 				D063A7F8218E022800750001 /* Asset */,
 				B62190F42320F01C00DCCC88 /* JTNodes */,
 				D063A800218E022800750001 /* TPOSAboutUsCell.h */,
@@ -1809,6 +1827,26 @@
 				D063A814218E022800750001 /* TPOSChooseTokenSystemCell.m */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		E9EE064223AB1BB800185FB2 /* Password */ = {
+			isa = PBXGroup;
+			children = (
+				E9EE064323AB1BE200185FB2 /* PasswordDialogView.h */,
+				E9EE064423AB1BE200185FB2 /* PasswordDialogView.m */,
+				E9EE064623AB1BF700185FB2 /* PasswordDialogView.xib */,
+			);
+			path = Password;
+			sourceTree = "<group>";
+		};
+		E9EE064823AB2C9E00185FB2 /* NewName */ = {
+			isa = PBXGroup;
+			children = (
+				E9EE064F23AB2D5400185FB2 /* ChangeNameDialogView.h */,
+				E9EE064E23AB2D5400185FB2 /* ChangeNameDialogView.m */,
+				E9EE065023AB2D5400185FB2 /* ChangeNameDialogView.xib */,
+			);
+			path = NewName;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1949,13 +1987,17 @@
 				9E42CAB721BB70A700267076 /* TBShareMenuView.xib in Resources */,
 				9E40006B21C22F83005B2311 /* TPOSAuthPasswordViewController.xib in Resources */,
 				B6FA80F0239A52E600D42FAF /* DappMainViewController.xib in Resources */,
+				E9EE064723AB1BF700185FB2 /* PasswordDialogView.xib in Resources */,
 				D063A77D218E00C800750001 /* TPOSProtocolViewController.xib in Resources */,
 				D063A6D8218E006A00750001 /* TPOSChooseTokenCell.xib in Resources */,
 				E9EE062C23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib in Resources */,
+				E9EE065223AB2D5500185FB2 /* ChangeNameDialogView.xib in Resources */,
 				B625D1FF2382848900E76DB3 /* logo.png in Resources */,
 				D063A850218E022800750001 /* TPOSWalletChainCell.xib in Resources */,
 				B658610F236C338C003CE9C0 /* TransactionNodeView.xib in Resources */,
+				E94698D323D59F0C00B339B3 /* donut.min.js in Resources */,
 				9E42CAAF21B524EC00267076 /* TPOSAboutUsCell.xib in Resources */,
+				E94698D123D4780300B339B3 /* test.html in Resources */,
 				B63F18D82375765800D7F8D5 /* TransactionViewController.xib in Resources */,
 				B63F18DD23796C8800D7F8D5 /* TransactionTokensViewController.xib in Resources */,
 				B625D20523829F5300E76DB3 /* wechat-qrcode.jpg in Resources */,
@@ -2057,6 +2099,7 @@
 				B63F18DC23796C8800D7F8D5 /* TransactionTokensViewController.m in Sources */,
 				B6FA811323A24DBA00D42FAF /* DappWKWebViewController.m in Sources */,
 				B625D049237FD8F500E76DB3 /* NADigest.m in Sources */,
+				E9EE064523AB1BE200185FB2 /* PasswordDialogView.m in Sources */,
 				B658610D236C334C003CE9C0 /* TransactionNodeView.m in Sources */,
 				2CE5C7FD1FF8A2DB008AB801 /* ViewController.m in Sources */,
 				D063A6E6218E006A00750001 /* TPOSSearchTitleView.m in Sources */,
@@ -2111,6 +2154,7 @@
 				D063A527218E005400750001 /* TAAbstractDotView.m in Sources */,
 				B6E856C1238B8760001A2895 /* NENPingManager.m in Sources */,
 				D063A6E5218E006A00750001 /* TPOSAssetItem.m in Sources */,
+				E9EE065123AB2D5500185FB2 /* ChangeNameDialogView.m in Sources */,
 				D063A525218E005400750001 /* TAPageControl.m in Sources */,
 				D063A56C218E005E00750001 /* SGQRCodeGenerateManager.m in Sources */,
 				D063A78F218E00D000750001 /* TPOSNavigationController.m in Sources */,

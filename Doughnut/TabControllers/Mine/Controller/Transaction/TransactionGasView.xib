@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -35,7 +33,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C4v-36-6us">
-                    <rect key="frame" x="16" y="269" width="339" height="45"/>
+                    <rect key="frame" x="16" y="256" width="339" height="45"/>
                     <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="0af-W3-hFd"/>
@@ -132,7 +130,7 @@
                 <constraint firstItem="JGX-Ca-23g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="Mt0-AF-WOj"/>
                 <constraint firstItem="Vtj-9Q-9X2" firstAttribute="top" secondItem="TMH-va-3i6" secondAttribute="bottom" constant="33" id="UQt-wB-gQT"/>
                 <constraint firstItem="2hm-5w-RGO" firstAttribute="centerY" secondItem="Z0L-uV-xjw" secondAttribute="centerY" constant="-2" id="UX0-pC-kRb"/>
-                <constraint firstItem="C4v-36-6us" firstAttribute="top" secondItem="2hm-5w-RGO" secondAttribute="bottom" constant="73" id="UiX-VU-1gl"/>
+                <constraint firstItem="C4v-36-6us" firstAttribute="top" secondItem="2hm-5w-RGO" secondAttribute="bottom" constant="60" id="UiX-VU-1gl"/>
                 <constraint firstItem="2hm-5w-RGO" firstAttribute="top" secondItem="HHD-Xz-98k" secondAttribute="bottom" constant="4" id="Vq6-sL-nKe"/>
                 <constraint firstItem="C4v-36-6us" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="WhS-zp-e7k"/>
                 <constraint firstItem="EU7-RM-STV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="dTI-S9-gh2"/>

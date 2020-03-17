@@ -24,5 +24,7 @@
 - (NSString *)getDate:(NSNumber *)date year:(BOOL)year;
 //密码验证
 - (BOOL)checkPassword;
+//去除数字后面的0
+- (NSString *)deleteFloatAllZero;
 
 @end

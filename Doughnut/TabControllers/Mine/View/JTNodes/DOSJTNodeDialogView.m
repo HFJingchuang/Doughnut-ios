@@ -45,7 +45,7 @@
     self.nodeAddrTF.placeholder = @"ws://";
     [self.confirmBtn setTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] forState:UIControlStateNormal];
     self.nodeAddrTF.delegate = self;
-    [self.nodeAddrTF addTarget:self action:@selector(clearTip) forControlEvents:UIControlEventEditingDidBegin];
+    [self.nodeAddrTF addTarget:self action:@selector(clearTip) forControlEvents:UIControlEventEditingChanged];
 }
 
 - (IBAction)closeAction {
@@ -66,10 +66,11 @@
 }
 
 - (void)clearTip {
-    if(!_tipLabel.hidden){
-        _tipLabel.hidden = NO;
+    if (_nodeAddrTF.text.length != 0){
+        if(!_tipLabel.hidden){
+            _tipLabel.hidden = YES;
+        }
     }
-    _nodeAddrTF.text = @"";
 }
 
 - (BOOL)isNodeUrl:(NSString *)node{

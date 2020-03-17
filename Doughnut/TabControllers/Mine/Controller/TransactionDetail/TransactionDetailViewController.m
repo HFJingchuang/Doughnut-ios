@@ -8,7 +8,7 @@
 
 #import "TransactionDetailViewController.h"
 #import "UIColor+Hex.h"
-#import <Toast/Toast.h>;//
+#import <Toast/Toast.h>
 #import "NSString+TPOS.h"
 #import "CaclUtil.h"
 #import "XHPageControl.h"
@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *transactionInfoView;
 @property (weak, nonatomic) IBOutlet UIScrollView *infoScrollView;
 @property (weak, nonatomic) IBOutlet UILabel *currentHashLabel;
+@property (weak, nonatomic) IBOutlet UIButton *hashCopyBtn;
 @property (weak, nonatomic) IBOutlet UILabel *currentHash;
 @property (weak, nonatomic) IBOutlet UILabel *itemLabel1;
 @property (weak, nonatomic) IBOutlet UILabel *itemLabel2;
@@ -84,6 +85,16 @@
     self.infoScrollView.contentSize = CGSizeMake(self.transactionInfoView.frame.size.width,self.transactionInfoView.frame.size.height);
     self.infoScrollView.bounces = NO;
     self.navigationController.navigationBarHidden = NO;
+    UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickCopyBtn)];
+    [_hashCopyBtn addGestureRecognizer:tapGesture2];
+    _hashCopyBtn.userInteractionEnabled = YES;
+}
+
+-(void)clickCopyBtn{
+    if (_currentHash.text &&_currentHash.text.length >0){
+        [[UIPasteboard generalPasteboard] setString:_currentHash.text];
+        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"copy_to_board"]];
+    }
 }
 
 - (void)changeLanguage {
@@ -99,7 +110,6 @@
 -(void)loadData {
      __weak typeof(self) weakSelf = self;
     _currentHash.text = _currentTransactionHash;
-    [_currentHash addCopyBtnWithImg];
     [[WalletManage shareWalletManage] getTransactionDetail:_currentTransactionHash :^(NSDictionary *response) {
         NSString *type = [response valueForKey:@"type"];
         if ([type isEqualToString:@"Payment"]){
@@ -323,6 +333,8 @@
                 imgV.contentDataLabel3.textAlignment = NSTextAlignmentRight;
                 imgV.contentItemLabel4.text = [[TPOSLocalizedHelper standardHelper]stringWithKey:@"trans_to"];
                 imgV.contentDataLabel4.text = [arr[i] valueForKey:@"account"];
+                imgV.contentDataLabel4.font = [UIFont fontWithName:@"PingFangSC-Medium" size:13];
+                [imgV.contentDataLabel4 addLongPressCopy];
             }
             [weakSelf.effectNodesScrollView addSubview:imgV];
         }

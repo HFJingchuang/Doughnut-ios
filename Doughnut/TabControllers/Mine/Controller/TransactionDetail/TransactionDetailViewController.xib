@@ -23,6 +23,7 @@
                 <outlet property="dataLabel8" destination="3QH-3p-B0V" id="qtT-lm-FQx"/>
                 <outlet property="dataLabel9" destination="geM-RH-GrY" id="WOU-wr-7Rh"/>
                 <outlet property="effectNodesScrollView" destination="AkL-qs-gZy" id="l95-XP-Mme"/>
+                <outlet property="hashCopyBtn" destination="hxE-Pn-cz2" id="Jdx-vu-5NQ"/>
                 <outlet property="infoScrollView" destination="396-sz-zYb" id="MaO-uz-3ts"/>
                 <outlet property="itemLabel1" destination="JeS-XF-ivg" id="HWl-Q6-BQh"/>
                 <outlet property="itemLabel10" destination="VwN-V8-rVQ" id="F03-m7-J0b"/>
@@ -54,10 +55,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="395" height="452"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="当前交易哈希值" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEQ-yg-CoD">
-                                    <rect key="frame" x="19" y="25" width="275" height="28"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="275" id="ATn-LM-WNA"/>
-                                    </constraints>
+                                    <rect key="frame" x="19" y="25" width="119" height="28"/>
                                     <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="17"/>
                                     <color key="textColor" red="0.0078431372549019607" green="0.11764705882352941" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
@@ -222,6 +220,17 @@
                                     <color key="textColor" red="0.0078431372550000003" green="0.1176470588" blue="0.21960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hxE-Pn-cz2">
+                                    <rect key="frame" x="146" y="32.666666666666664" width="13" height="13"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="13" id="CzU-2h-YGd"/>
+                                        <constraint firstAttribute="width" constant="13" id="Zd3-f0-CjG"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <state key="normal" image="icon_wallet_rename">
+                                        <color key="titleColor" red="0.15686274510000001" green="0.56470588239999997" blue="0.99607843139999996" alpha="1" colorSpace="deviceRGB"/>
+                                    </state>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
@@ -291,6 +300,7 @@
                                 <constraint firstItem="ZdX-35-jiQ" firstAttribute="leading" secondItem="7tZ-P6-4UZ" secondAttribute="trailing" constant="20" id="jOx-M3-hNj"/>
                                 <constraint firstItem="b3Z-h2-I2D" firstAttribute="centerX" secondItem="38D-cK-iqo" secondAttribute="centerX" id="kRi-lD-rd8"/>
                                 <constraint firstItem="VwN-V8-rVQ" firstAttribute="top" secondItem="kCv-GA-gMa" secondAttribute="bottom" constant="160" id="lSO-Ms-6Wp"/>
+                                <constraint firstItem="hxE-Pn-cz2" firstAttribute="centerY" secondItem="sEQ-yg-CoD" secondAttribute="centerY" id="lUZ-UB-7O1"/>
                                 <constraint firstItem="gwz-Ey-Wja" firstAttribute="trailing" secondItem="rVX-Vd-L2F" secondAttribute="trailing" id="lsT-rW-3Gu"/>
                                 <constraint firstItem="unE-Hn-Ir8" firstAttribute="leading" secondItem="vmk-b4-eko" secondAttribute="trailing" constant="20" id="mJO-bX-jyr"/>
                                 <constraint firstItem="FeV-kX-aju" firstAttribute="top" secondItem="kCv-GA-gMa" secondAttribute="bottom" constant="130" id="odK-dp-1jY"/>
@@ -301,6 +311,7 @@
                                 <constraint firstItem="WIE-J6-11h" firstAttribute="baseline" secondItem="3wA-St-9wF" secondAttribute="baseline" id="rsT-0G-a3R"/>
                                 <constraint firstItem="JeS-XF-ivg" firstAttribute="baseline" secondItem="rVX-Vd-L2F" secondAttribute="baseline" id="tse-Kq-5i4"/>
                                 <constraint firstItem="7tZ-P6-4UZ" firstAttribute="baseline" secondItem="ZdX-35-jiQ" secondAttribute="baseline" id="uGD-eT-yJi"/>
+                                <constraint firstItem="hxE-Pn-cz2" firstAttribute="leading" secondItem="sEQ-yg-CoD" secondAttribute="trailing" constant="8" id="uNR-DM-oNb"/>
                                 <constraint firstItem="kCv-GA-gMa" firstAttribute="baseline" secondItem="XmJ-f8-eSb" secondAttribute="baseline" id="umQ-5f-Ifo"/>
                                 <constraint firstItem="FeV-kX-aju" firstAttribute="top" secondItem="Zih-4G-OPh" secondAttribute="bottom" constant="10" id="uxc-Ig-hZt"/>
                                 <constraint firstItem="7tZ-P6-4UZ" firstAttribute="top" secondItem="ZdX-35-jiQ" secondAttribute="top" id="vWl-oe-muS"/>
@@ -343,4 +354,7 @@
             <point key="canvasLocation" x="131.8840579710145" y="105.97826086956522"/>
         </view>
     </objects>
+    <resources>
+        <image name="icon_wallet_rename" width="16" height="16"/>
+    </resources>
 </document>

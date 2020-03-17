@@ -20,7 +20,8 @@
 #import "TPOSNavigationController.h"
 #import "TPOSQRCodeReceiveViewController.h"
 #import "TPOSBlockChainModel.h"
-
+#import "PasswordDialogView.h"
+#import "ChangeNameDialogView.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <Toast/Toast.h>
 
@@ -120,28 +121,16 @@
 }
 
 - (void) clickRename {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"set_wallet_name"] message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"set_wallet_name"];
-    }];
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"cancel"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-    }]];
-    __weak typeof(alertController) weakAlertController = alertController;
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        NSString *name = weakAlertController.textFields.firstObject.text;
-        if (name && name.length > 0) {
-            self.currentWallet.walletName = name;
+    ChangeNameDialogView *dialog = [ChangeNameDialogView changeNameDialogViewDialogView];
+    dialog.confirmAction = ^(NSString *newName) {
+        if (newName && newName.length > 0) {
+            self.currentWallet.walletName = newName;
             [self.walletDao updateWalletWithWalletModel:self.currentWallet complement:^(BOOL success) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:kEditWalletNotification object:self.currentWallet];
             }];
-        }else {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wallet_name_null"] message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            }]];
-            [self.navigationController presentViewController:alertController animated:YES completion:nil];
         }
-    }]];
-    [self.navigationController presentViewController:alertController animated:YES completion:nil];
+    };
+    [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
 }
 
 -(void)clickCopyBtn{
@@ -161,60 +150,39 @@
 
 - (IBAction)deleteAction {
     __weak typeof(self) weakSelf = self;
-    [self alertRequiredPasswordWithSubTilte:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"delete_caution"] action:^{
-        weakSelf.deleteButton.userInteractionEnabled = NO;
-        [SVProgressHUD showWithStatus:nil];
-        [weakSelf.walletDao deleteWalletWithAddress:weakSelf.currentWallet.address complement:^(BOOL success) {
-            if (success) {
-                [TPOSThreadUtils runOnMainThread:^{
-                    [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"delete_succ"]];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:kDeleteWalletNotification object:weakSelf.currentWallet];
-                    [weakSelf responseLeftButton];
-                }];
-            } else {
-                weakSelf.deleteButton.userInteractionEnabled = YES;
-                [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"delete_fail"]];
-            }
-        }];
-    }];
-}
-
-- (void)alertRequiredPasswordWithSubTilte:(NSString *)subTitle action:(void (^)(void))actionBlock {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"] message:subTitle preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"];
-        textField.secureTextEntry = YES;
-    }];
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"cancel"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }]];
-    
-    __weak typeof(alertController) weakAlertController = alertController;
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        NSError* err = nil;
-        KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
-        Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
-        if (decryptEthECKeyPair) {
-            _currentWallet.password = weakAlertController.textFields.firstObject.text;
-            _currentWallet.privateKey = [decryptEthECKeyPair secret];
-            actionBlock();
-        } else {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_error"] message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            }]];
-            [self.navigationController presentViewController:alertController animated:YES completion:nil];
-        }
-    }]];
-    [self.navigationController presentViewController:alertController animated:YES completion:nil];
+    PasswordDialogView *dialog = [PasswordDialogView passwordDialogViewWithTip:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"delete_caution"]];
+       dialog.wallet = _currentWallet;
+       dialog.confirmAction = ^(BOOL *back) {
+           if (back){
+               [weakSelf.walletDao deleteWalletWithAddress:weakSelf.currentWallet.address complement:^(BOOL success) {
+                   if (success) {
+                       [TPOSThreadUtils runOnMainThread:^{
+                           [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"delete_succ"]];
+                           [[NSNotificationCenter defaultCenter] postNotificationName:kDeleteWalletNotification object:weakSelf.currentWallet];
+                           [weakSelf responseLeftButton];
+                       }];
+                   } else {
+                       weakSelf.deleteButton.userInteractionEnabled = YES;
+                       [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"delete_fail"]];
+                   }
+               }];
+           }
+       };
+       [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
 }
 
 - (IBAction)exportAction {
     __weak typeof(self) weakSelf = self;
-    [self alertRequiredPasswordWithSubTilte:nil action:^{
-        ExportWalletViewController *vc = [[ExportWalletViewController alloc] init];
-        vc.walletModel = _currentWallet;
-        [weakSelf.navigationController pushViewController:vc animated:YES];
-    }];
+    PasswordDialogView *dialog = [PasswordDialogView passwordDialogViewWithTip:@""];
+    dialog.wallet = _currentWallet;
+    dialog.confirmAction = ^(BOOL *back) {
+        if (back){
+            ExportWalletViewController *vc = [[ExportWalletViewController alloc] init];
+            vc.walletModel = _currentWallet;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }
+    };
+    [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
 }
 
 - (IBAction)editPasswordAction {

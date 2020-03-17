@@ -15,8 +15,16 @@
 #import "TPOSContext.h"
 #import "DappTransferDetailDialog.h"
 #import "TransferDialogView.h"
+#import "WalletManage.h"
+#import "CaclUtil.h"
+#import "TPOSShareMenuView.h"
+#import "TPOSShareView.h"
+#import "WXApi.h"
+#import <TencentOpenAPI/QQApiInterfaceObject.h>
+#import <TencentOpenAPI/QQApiInterface.h>
 
 static NSString *MSG_SUCCESS = @"success";
+static long FIFTEEN = 15 * 60 * 1000;
 @interface DappWKWebViewController()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
 {
    NSString *mFrom, *mTo, *mValue, *mToken, *mIssuer, *mGas, *mMemo;
@@ -32,6 +40,7 @@ static NSString *MSG_SUCCESS = @"success";
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self initWKWebView];
+    [self registerNotifications];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,19 +79,30 @@ static NSString *MSG_SUCCESS = @"success";
     preferences.minimumFontSize = 40.0;
     configuration.preferences = preferences;
     self.webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-//    NSString *urlStr = [[NSBundle mainBundle] pathForResource:@"hello.html" ofType:nil];
-//    NSURL *fileURL = [NSURL fileURLWithPath:urlStr];
-//    [self.webView loadFileURL:fileURL allowingReadAccessToURL:fileURL];
-    NSString *bundlePath=[[NSBundle mainBundle]bundlePath];
-    NSString *path=[bundlePath stringByAppendingPathComponent:@"hello.html"];
-    NSURL *url=[NSURL fileURLWithPath:path];
-    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+//    NSString *bundlePath=[[NSBundle mainBundle]bundlePath];
+//    NSString *path=[bundlePath stringByAppendingPathComponent:_htmlUrl];
+//    NSURL *url=[NSURL fileURLWithPath:path];
+//    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
     [self.webView loadRequest:request];
-    //NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-//    [self.webView loadRequest:request];
     self.webView.UIDelegate = self;
     [self.view addSubview:self.webView];
+}
+
+- (void)registerNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTransactionResult:) name:transactionFlag object:nil];
+}
+
+-(void)getTransactionResult:(NSNotification *)notification {
+    NSDictionary *tx = notification.object;
+    if([[tx valueForKey:@"engine_result"] isEqualToString:@"tesSUCCESS"]){
+        NSDictionary *txJson = [tx objectForKey:@"tx_json"];
+        NSLog(@"%@", txJson);
+        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_suc"]];
+    }else {
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_fai"]];
+    }
 }
 
 - (TPOSWalletDao *)walletDao {
@@ -96,10 +116,11 @@ static NSString *MSG_SUCCESS = @"success";
     NSLog(@"message.name====%@  body=%@",message.name,message.body);
     NSString *params = @"";
     NSString *callbackId = @"";
-    NSDictionary *body = message.body;
+    NSMutableDictionary *body = message.body;
     if(body) {
-        params = [body objectForKey:@"params"];
-        callbackId = [body objectForKey:@"callback"];
+        NSDictionary *data = [body objectForKey:@"body"];
+        params = [data valueForKey:@"params"];
+        callbackId = [data valueForKey:@"callback"];
     }
     if ([message.name isEqualToString:@"getAppInfo"]) {
         [self getAppInfo:callbackId];
@@ -121,6 +142,8 @@ static NSString *MSG_SUCCESS = @"success";
         [self fullScreen:params];
     } else if ([message.name isEqualToString:@"close"]) {
         [self close];
+    } else if ([message.name isEqualToString:@"shareToSNS"]) {
+        [self shareToSNS:callbackId];
     }
 }
 
@@ -148,7 +171,7 @@ static NSString *MSG_SUCCESS = @"success";
     [_result setValue:@(YES) forKey:@"result"];
     [_result setObject:infoData forKey:@"data"];
     [_result setValue:MSG_SUCCESS forKey:@"msg"];
-    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@(%@)",callbackId, [_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",callbackId, [_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
         NSLog(@"%@----%@",result, error);
     }];
 }
@@ -157,7 +180,7 @@ static NSString *MSG_SUCCESS = @"success";
     CFUUIDRef puuid = CFUUIDCreate( nil );
     CFStringRef uuidString = CFUUIDCreateString(nil, puuid);
     NSString *result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
-    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@(%@)",callbackId, result] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",callbackId, result] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
         NSLog(@"%@----%@",result, error);
     }];
 }
@@ -180,7 +203,7 @@ static NSString *MSG_SUCCESS = @"success";
     [_result setValue:@(YES) forKey:@"result"];
     [_result setObject:infoData forKey:@"data"];
     [_result setValue:MSG_SUCCESS forKey:@"msg"];
-    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@(%@)",callbackId, [_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",callbackId, [_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
         NSLog(@"%@----%@",result, error);
     }];
 }
@@ -196,7 +219,7 @@ static NSString *MSG_SUCCESS = @"success";
     [_result setValue:@(YES) forKey:@"result"];
     [_result setObject:wallet forKey:@"data"];
     [_result setValue:MSG_SUCCESS forKey:@"msg"];
-    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@(%@)",callbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+    [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",callbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
         NSLog(@"%@----%@",result, error);
     }];
 }
@@ -223,39 +246,40 @@ static NSString *MSG_SUCCESS = @"success";
         mMemo = [tx valueForKey:@"memo"]?[tx valueForKey:@"memo"]:@"";
         mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
         
-        NSDecimalNumber *fee = [[NSDecimalNumber decimalNumberWithString:mGas] decimalNumberByMultiplyingBy: [NSDecimalNumber decimalNumberWithString:@"1000000"]];
+        NSString *fee = [[[NSDecimalNumber decimalNumberWithString:mGas] decimalNumberByMultiplyingBy: [NSDecimalNumber decimalNumberWithString:@"1000000"]] stringValue];
+        _currentWallet = [TPOSContext shareInstance].currentWallet;
+        NSMutableDictionary *data = [NSMutableDictionary new];
+        [data setValue:_currentWallet.address forKey:@"from"];
+        [data setValue:mTo forKey:@"to"];
+        [data setValue:fee forKey:@"fee"];
+        [data setValue:[NSString stringWithFormat:@"%@ %@",mValue,mToken] forKey:@"content"];
+        [data setValue:mMemo forKey:@"memo"];
         DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
+        [dialog setValues:data];
         dialog.confirmBack = ^(int i){
-            TransferDialogView *view = [TransferDialogView transactionDialogView];
-            [self showInfoWithStatus:@"222"];
+            NSError* err = nil;
+            KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
+            NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+            NSString *time = [defaults objectForKey:@"setTime"];
+            long deff = [[[[CaclUtil alloc]init] sub:[NSString stringWithFormat:@"%.f",([[NSDate date] timeIntervalSince1970]*1000)] :time] longLongValue];
+            if (deff > FIFTEEN){
+                TransferDialogView *dialog = [TransferDialogView transactionDialogView];
+                dialog.wallet = _currentWallet;
+                dialog.confirmAction = ^(NSString *backSecret) {
+                    if (backSecret){
+                        [data setValue:backSecret forKey:@"secret"];
+                        [[WalletManage shareWalletManage]transactionWithData:data];
+                    }
+                };
+                [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
+            }else {
+                NSString *password = [defaults objectForKey:@"setPassword"];
+                Wallet *decryptEthECKeyPair = [KeyStore decrypt:password wallerFile:keystore];
+                [data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
+                [[WalletManage shareWalletManage]transactionWithData:data];
+            }
         };
         [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
-//            @Override
-//            public void run() {
-//                new TransferDetailDialog(mContext, new TransferDetailDialog.OnListener() {
-//                    @Override
-//                    public void onBack() {
-//                        if (!WithNoPwd(null, callbackId)) {
-//                            new TransferDialog(mContext, mCurrentWallet)
-//                            .setResultListener(new TransferDialog.PwdResultListener() {
-//                                @Override
-//                                public void authPwd(boolean res, String key) {
-//                                    if (res) {
-//                                        mWalletManager.transferForHash(key, mCurrentWallet, mTo, mToken, mIssuer, mValue, fee.stripTrailingZeros().toPlainString(), mMemo, new ICallBack() {
-//                                            @Override
-//                                            public void onResponse(Object object) {
-//                                                GsonUtil res = (GsonUtil) object;
-//                                                mAgentWeb.getJsAccessEntrace().callJs("javascript:" + callbackId + "('" + res.toString() + "')");
-//                                            }
-//                                        });
-//                                    }
-//                                }
-//                            }).show();
-//                        }
-//                    }
-//                }).setFrom(mCurrentWallet).setValue(formatHtml()).setTo(mTo).setGas(mGas).setMemo(mMemo).show();
-//            }
-        //});
     } @catch (NSException *e) {
         _result = [NSMutableDictionary new];
         [_result setValue:@(NO) forKey:@"result"];
@@ -283,6 +307,47 @@ static NSString *MSG_SUCCESS = @"success";
 
 - (void)close {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)shareToSNS:(NSString *)callbackId {
+    [TPOSShareMenuView showInView:nil complement:^(TPOSShareType type) {
+            UIImage *image = [TPOSShareView shareImageByQrcodeImage:[UIImage imageNamed:@"OK"] address:@"232323"];
+            [self shareActionWithImage:image type:type];
+    }];
+}
+
+- (void)shareActionWithImage:(UIImage *)image type:(TPOSShareType)type {
+    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    NSData *thumbData = UIImageJPEGRepresentation(image, 0.01);
+    if (type < TPOSShareTypeQQSession) {
+        WXImageObject *imageObject = [WXImageObject object];
+        imageObject.imageData = imageData;
+        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+        WXMediaMessage *message = [WXMediaMessage message];
+        message.mediaObject = imageObject;
+        message.thumbData = thumbData;
+        req.bText = NO;
+        if (type == TPOSShareTypeWechatSession) {
+            req.scene = WXSceneSession;
+        } else {
+            req.scene = WXSceneTimeline;
+        }
+        req.message = message;
+        BOOL result = [WXApi sendReq:req];
+        if (result) {
+            
+        }
+    } else {
+        QQApiImageObject *obj = [[QQApiImageObject alloc] init];
+        obj.data = imageData;
+        obj.previewImageData = thumbData;
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:obj];
+        BOOL result = [QQApiInterface sendReq:req];
+        if (result) {
+            
+        }
+    }
+    
 }
 
 

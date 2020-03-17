@@ -139,9 +139,14 @@
     KeyStoreFileModel *keyStoreFile = [KeyStore createLight:self.newsPasswordField.text wallet:decryptEthECKeyPair];
     self.walletModel.keyStore = [keyStoreFile toJSONString];
     [self.walletDao updateWalletWithWalletModel:self.walletModel complement:^(BOOL success) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kEditWalletNotification object:self.walletModel];
-        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save_succ"]];
-        [self.navigationController popViewControllerAnimated:YES];
+        if(success){
+            [[NSNotificationCenter defaultCenter] postNotificationName:kEditWalletNotification object:self.walletModel];
+            NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+            [defaults setObject:@"0" forKey:@"setTime"];
+            [defaults synchronize];
+            [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"save_succ"]];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
 }
 
