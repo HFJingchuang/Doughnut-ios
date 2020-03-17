@@ -85,4 +85,14 @@ static inline NSString * NSStringCCHashFunction(unsigned char *(function)(const 
     return isMatch;
 }
 
+-(NSString*)deleteFloatAllZero{
+    NSArray * arrStr=[self componentsSeparatedByString:@"."];
+    NSString *str=arrStr.firstObject;
+    NSString *str1=arrStr.lastObject;
+    while ([str1 hasSuffix:@"0"]) {
+        str1=[str1 substringToIndex:(str1.length-1)];
+    }
+    return (str1.length>0)?[NSString stringWithFormat:@"%@.%@",str,str1]:str;
+}
+
 @end

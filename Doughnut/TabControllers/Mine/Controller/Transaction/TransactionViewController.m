@@ -26,7 +26,10 @@
 #import "TPOSNavigationController.h"
 #import "ContactViewController.h"
 #import "CaclUtil.h"
+#import "TransferDialogView.h"
 
+
+static long FIFTEEN = 15 * 60 * 1000;
 @interface TransactionViewController ()<UITextFieldDelegate,UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -129,7 +132,8 @@
         [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         [record setValue:self.addressTF.text forKey:@"address"];
         [record setValue:[formatter stringFromDate:[NSDate date]] forKey:@"date"];
-        [record setValue:[NSString stringWithFormat:@"%@ %@",[txJson valueForKey:@"Amount"],_tokenSelectLabel.text] forKey:@"content"];
+        float amount = [[txJson valueForKey:@"Amount"] floatValue]/1000000;
+        [record setValue:[NSString stringWithFormat:@"%@ %@", [[NSString stringWithFormat:@"%f",amount] deleteFloatAllZero], _tokenSelectLabel.text] forKey:@"content"];
         [records addObject:record];
         [defaults setObject:records forKey:@"transactionContacts"];
         [defaults synchronize];
@@ -146,9 +150,11 @@
 - (void)loadData {
     NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
     NSMutableDictionary *data = [defaults objectForKey:@"currentTokenForTransaction"];
-    _tokenName = [data valueForKey:@"name"]?[data valueForKey:@"name"]:@"SWTC";
-    _tokenIssuer = [data valueForKey:@"issuer"];
-    _tokenBalance = [data valueForKey:@"value"]?[data valueForKey:@"value"]:@"---";
+    if (!_tokenName && !_tokenIssuer &&!_tokenBalance){
+        _tokenName = [data valueForKey:@"name"]?[data valueForKey:@"name"]:@"SWTC";
+        _tokenIssuer = [data valueForKey:@"issuer"];
+        _tokenBalance = [data valueForKey:@"value"]?[data valueForKey:@"value"]:@"---";
+    }
 }
 
 - (void)setupSubviews{
@@ -176,7 +182,7 @@
     [self.gasLabel addGestureRecognizer:tapGesture3];
     self.gasLabel.userInteractionEnabled = YES;
     [self.addressTF addTarget:self action:@selector(textFieldDidEditing:) forControlEvents:UIControlEventEditingDidEnd];
-    [self.amountTF addTarget:self action:@selector(textFieldDidEditing:) forControlEvents:UIControlEventEditingDidEnd];
+    [self.amountTF addTarget:self action:@selector(textFieldDidEditing:) forControlEvents:UIControlEventEditingChanged];
     self.addressTF.delegate = self;
     self.amountTF.delegate = self;
     [self checkDoneButtonStatus];
@@ -247,52 +253,53 @@
     transactionGasView.getGasPrice = ^(CGFloat gas) {
         self.gas = gas;
         self.gasLabel.text = [NSString stringWithFormat:@"%@ %@ %@",[[TPOSLocalizedHelper standardHelper]stringWithKey:@"gas_fee"], [[[CaclUtil alloc]init]formatAmount:[NSString stringWithFormat:@"%f",self.gas]:6 :YES :NO],@"SWTC"];
-        ;
     };
     [transactionGasView showWithAnimate:TPOSAlertViewAnimateBottomUp inView:self.view.window];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSString * str = [NSString stringWithFormat:@"%@%@",textField.text,string];
-    NSPredicate * predicate0 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0][0-9]+$"];
-    NSPredicate * predicate1 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^(([1-9]{1}[0-9]*|[0])\.?[0-9]{0,6})$"];
-    return ![predicate0 evaluateWithObject:str] && [predicate1 evaluateWithObject:str] ? YES : NO;
+    if (textField == _amountTF){
+        NSString * str = [NSString stringWithFormat:@"%@%@",textField.text,string];
+        NSPredicate * predicate0 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^[0][0-9]+$"];
+        NSPredicate * predicate1 = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",@"^(([1-9]{1}[0-9]*|[0])\.?[0-9]{0,6})$"];
+        return ![predicate0 evaluateWithObject:str] && [predicate1 evaluateWithObject:str] ? YES : NO;
+    }else {
+        return YES;
+    }
 }
 - (IBAction)transactionAction:(id)sender {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"] message:nil preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = [[TPOSLocalizedHelper standardHelper] stringWithKey:@"input_pwd"];
-        textField.secureTextEntry = YES;
-    }];
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"cancel"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-    }]];
-    __weak typeof(alertController) weakAlertController = alertController;
-    [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        NSError* err = nil;
-        KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
-        Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
-        if (decryptEthECKeyPair) {
-            NSMutableDictionary *data = [NSMutableDictionary new];
-            [data setValue:self.currentWallet.address forKey:@"account"];
-            [data setValue:self.addressTF.text forKey:@"to"];
-            [data setValue:[NSNumber numberWithFloat:[self.amountTF.text floatValue]] forKey:@"value"];
-            [data setValue:self.tokenName forKey:@"currency"];
-            [data setValue:self.tokenIssuer forKey:@"issuer"];
-            [data setValue:[NSNumber numberWithFloat:self.gas * 1000000] forKey:@"fee"];
-            [data setValue:self.remarkTV.text forKey:@"memo"];
-            [data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
-            [[WalletManage shareWalletManage]transactionWithData:data];
-        } else {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"pwd_error"] message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"confirm"] style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            }]];
-            [self.navigationController presentViewController:alertController animated:YES completion:nil];
-        }
-    }]];
-    [self.navigationController presentViewController:alertController animated:YES completion:nil];
+    NSError* err = nil;
+    KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
+    //Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
+    NSMutableDictionary *data = [NSMutableDictionary new];
+    [data setValue:self.currentWallet.address forKey:@"account"];
+    [data setValue:self.addressTF.text forKey:@"to"];
+    [data setValue:[NSNumber numberWithFloat:[self.amountTF.text floatValue]] forKey:@"value"];
+    [data setValue:self.tokenName forKey:@"currency"];
+    [data setValue:self.tokenIssuer?self.tokenIssuer:@"" forKey:@"issuer"];
+    [data setValue:[NSNumber numberWithFloat:self.gas * 1000000] forKey:@"fee"];
+    [data setValue:self.remarkTV.text forKey:@"memo"];
+    //[data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    NSString *time = [defaults objectForKey:@"setTime"]?[defaults objectForKey:@"setTime"]:@"0";
+    long deff = [[[[CaclUtil alloc]init] sub:[NSString stringWithFormat:@"%.f",([[NSDate date] timeIntervalSince1970]*1000)] :time] longLongValue];
+    if (deff > FIFTEEN){
+        TransferDialogView *dialog = [TransferDialogView transactionDialogView];
+        dialog.wallet = _currentWallet;
+        dialog.confirmAction = ^(NSString *backSecret) {
+            if (backSecret){
+                [data setValue:backSecret forKey:@"secret"];
+                [[WalletManage shareWalletManage]transactionWithData:data];
+            }
+        };
+        [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
+    }else {
+        NSString *password = [defaults objectForKey:@"setPassword"];
+        Wallet *decryptEthECKeyPair = [KeyStore decrypt:password wallerFile:keystore];
+        [data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
+        [[WalletManage shareWalletManage]transactionWithData:data];
+    }
 }
-
-
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];

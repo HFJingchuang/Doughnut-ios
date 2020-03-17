@@ -51,7 +51,7 @@
 - (void)setValues:(NSMutableDictionary *)data {
     self.fromLabel.text = [data valueForKey:@"from"];
     self.toLabel.text = [data valueForKey:@"to"];
-    self.feeLabel.text = [data valueForKey:@"fee"];
+    self.feeValueLabel.text = [data valueForKey:@"fee"];
     self.contentLabel.text = [data valueForKey:@"content"];
     self.memoTV.text = [data valueForKey:@"memo"];
     

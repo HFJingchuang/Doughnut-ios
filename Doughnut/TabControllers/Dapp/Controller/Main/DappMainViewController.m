@@ -10,6 +10,12 @@
 #import "TransferDialogView.h"
 #import "NSString+TPOS.h"
 #import "DappWKWebViewController.h"
+#import "TPOSShareMenuView.h"
+#import "TPOSShareView.h"
+#import "WXApi.h"
+#import <TencentOpenAPI/QQApiInterfaceObject.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+
 
 @interface DappMainViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -49,17 +55,54 @@
 
 - (IBAction)searchAction:(id)sender {
     NSString *searchUrl = _linkTF.text;
-           if (![searchUrl tb_isEmpty]) {
-               if ([searchUrl hasPrefix:@"http://"] || [searchUrl hasPrefix:@"https://"]) {
-                   DappWKWebViewController *vc = [[DappWKWebViewController alloc]init];
-                   vc.htmlUrl = searchUrl;
-                   [self.navigationController pushViewController:vc animated:YES];
-               } else {
-                   [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"err_link"]];
-               }
-           }
-//    TransferDialogView *transferDialogView = [TransferDialogView transactionDialogView];
-//    [transferDialogView showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
+    if (![searchUrl tb_isEmpty]) {
+       if ([searchUrl hasPrefix:@"http://"] || [searchUrl hasPrefix:@"https://"]) {
+           DappWKWebViewController *vc = [[DappWKWebViewController alloc]init];
+           vc.htmlUrl = searchUrl;
+           [self.navigationController pushViewController:vc animated:YES];
+       } else {
+           [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"err_link"]];
+       }
+    }else {
+        [self showInfoWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"null_link"]];
+    }
+//    [TPOSShareMenuView showInView:nil complement:^(TPOSShareType type) {
+//        UIImage *image = [TPOSShareView shareImageByQrcodeImage:[UIImage imageNamed:@"OK"] address:@"232323"];
+//        [self shareActionWithImage:image type:type];
+//    }];
+}
+
+- (void)shareActionWithImage:(UIImage *)image type:(TPOSShareType)type {
+    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    NSData *thumbData = UIImageJPEGRepresentation(image, 0.01);
+    if (type < TPOSShareTypeQQSession) {
+        WXImageObject *imageObject = [WXImageObject object];
+        imageObject.imageData = imageData;
+        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+        WXMediaMessage *message = [WXMediaMessage message];
+        message.mediaObject = imageObject;
+        message.thumbData = thumbData;
+        req.bText = NO;
+        if (type == TPOSShareTypeWechatSession) {
+            req.scene = WXSceneSession;
+        } else {
+            req.scene = WXSceneTimeline;
+        }
+        req.message = message;
+        BOOL result = [WXApi sendReq:req];
+        if (result) {
+            
+        }
+    } else {
+        QQApiImageObject *obj = [[QQApiImageObject alloc] init];
+        obj.data = imageData;
+        obj.previewImageData = thumbData;
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:obj];
+        BOOL result = [QQApiInterface sendReq:req];
+        if (result) {
+            
+        }
+    }
 }
 
 

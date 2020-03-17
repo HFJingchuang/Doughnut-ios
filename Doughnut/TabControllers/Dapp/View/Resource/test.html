@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1504.76">
+  <style type="text/css">
+    p.p1 {
+      margin: 0.0px 0.0px 0.0px 0.0px;
+      font: 12.0px Helvetica
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="./button.css">
+  <script type="text/javascript" src="./donut.min.js"></script>
+  <script language="javascript">
+    function testConnected() {
+        showElement("");
+      var isConnected = donut.isConnected();
+      showElement(JSON.stringify(isConnected));
+    }
+
+    function getAppInfo() {
+        showElement("");
+      donut.getAppInfo().then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+
+    function getCurrentWallet() {
+        showElement("");
+      donut.getCurrentWallet().then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+
+    function invokeQRScanner() {
+        showElement("");
+      donut.invokeQRScanner().then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+
+    function getDeviceId() {
+        showElement("");
+      donut.getDeviceId().then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+
+    var tx = {
+      "to": "jKBCwv4EcyvYtD4PafP17PLpnnZ16szQsC",
+      "currency": "swt",
+      "issuer": "",
+      "value": "0.001",
+      "memo": "子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约子链控制合约subchainbase是DAPP用户使用子链的基本合约，其提供子链运行前和运行中的一些必要接口子链控制合约subchainbase是DAPP用户使用子链的基本合约，其提供子链运行前和运行中的一些必要接口子链控制合约subchainbase是DAPP用户使用子链的基本合约，其提供子链运行前和运行中的一些必要接口",
+      "gas": "0.0001"
+    }
+    function transfer() {
+        showElement("");
+      donut.transfer(tx).then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+
+    function sign() {
+        showElement("");
+      donut.sign(tx).then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+
+    function getWallets() {
+      showElement("");
+      donut.getWallets().then(res => {
+        showElement(JSON.stringify(res));
+      });
+    }
+  
+  function shareToSNS() {
+    showElement("");
+    donut.shareToSNS().then(res => {
+      showElement(JSON.stringify(res));
+    });
+  }
+
+    function showElement(msg) {
+      var div = document.getElementById("returnValue");
+      div.value = msg;
+    }
+  
+  shareToSNS
+
+  </script>
+</head>
+
+<body style="width: 100%;height: 100%;padding: 0px">
+  <div id="div_box"
+    style="width: 100%;min-height: auto;position: absolute;background: #ffffff;margin-top: -50px;padding: 20px">
+    <h1>Dapp测试页面</h1>
+    <button class="button" onclick="testConnected()">检查连接状态</button>
+    <button class="button" onclick="getAppInfo()">获取app信息</button>
+    <button class="button" onclick="getDeviceId()">获取设备信息</button>
+    <button class="button" onclick="transfer()">转账操作</button>
+    <button class="button" onclick="getCurrentWallet()">获取钱包</button>
+    <button class="button" onclick="sign()">签名</button>
+    <button class="button" onclick="getWallets()">获取钱包列表</button>
+    <button class="button" onclick="invokeQRScanner()">开启摄像头</button>
+    <button class="button" onclick="shareToSNS()">分享</button>
+    <h6>这是回调结果展示区</h6>
+      <textarea id ="returnValue" type="value" rows="5" cols="40" readonly>
+      </textarea>
+    </div>
+  </div>
+</body>
+
+</html>
+
