@@ -13,6 +13,7 @@
 #import "CaclUtil.h"
 #import "XHPageControl.h"
 #import "TransactionNodeView.h"
+#import <Masonry/Masonry.h>
 
 @interface TransactionDetailViewController ()<UIScrollViewDelegate ,XHPageControlDelegate>
 @property (weak, nonatomic) IBOutlet UIView *transactionInfoView;
@@ -353,11 +354,17 @@
 -(void)setPageControl:(NSNumber *)pages{
     [self addPageControl];
     float height = _effectNodesScrollView.frame.origin.y + _effectNodesScrollView.frame.size.height;
-    _pageControl.frame=CGRectMake(5, height ,kScreenWidth - 40, 30);
+    _pageControl.frame=CGRectMake(0, height ,kScreenWidth - 40, 30);
     _pageControl.numberOfPages = [pages integerValue];
     _pageControl.currentPage = 0;
     [self.view addSubview:_pageControl];
     [self.view bringSubviewToFront:_pageControl];
+    [_pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(self.view.frame.size.width - 40);
+        make.height.mas_equalTo(30);
+        make.centerX.equalTo(self.view.mas_centerX);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-10);
+    }];
 }
 
 -(void) hideLabels{
@@ -431,7 +438,7 @@
 
 - (XHPageControl *)addPageControl {
     _pageControl = [[XHPageControl alloc] init];
-    _pageControl.frame=CGRectMake(0, _effectNodesScrollView.bounds.size.height + 50,kScreenWidth - 40, 30);
+    _pageControl.frame = CGRectMake(0, _effectNodesScrollView.bounds.size.height + 50,kScreenWidth - 40, 30);
     _pageControl.delegate=self;
     _pageControl.currentColor = [UIColor colorWithHex:0x3B6CA6];
     _pageControl.currentMultiple = 3;

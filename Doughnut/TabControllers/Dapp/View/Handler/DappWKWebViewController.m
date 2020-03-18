@@ -76,7 +76,6 @@ static long FIFTEEN = 15 * 60 * 1000;
     WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
     WKPreferences *preferences = [WKPreferences new];
     preferences.javaScriptCanOpenWindowsAutomatically = YES;
-    preferences.minimumFontSize = 40.0;
     configuration.preferences = preferences;
     self.webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
 //    NSString *bundlePath=[[NSBundle mainBundle]bundlePath];
@@ -166,7 +165,6 @@ static long FIFTEEN = 15 * 60 * 1000;
     [infoData setValue:version forKey:@"version"];
     [infoData setValue:[infoDictionary objectForKey:@"CFBundleVersion"] forKey:@"sys_version"];
     //infoData.putString("sys_version", Build.VERSION.SDK_INT + "");
-    
     _result = [NSMutableDictionary new];
     [_result setValue:@(YES) forKey:@"result"];
     [_result setObject:infoData forKey:@"data"];
@@ -187,16 +185,14 @@ static long FIFTEEN = 15 * 60 * 1000;
 
 - (void)getWallets:(NSString *)callbackId {
     NSMutableArray *infoData = [NSMutableArray new];
-    [_walletDao findAllWithComplement:^(NSArray<TPOSWalletModel *> *walletModels) {
-        if(walletModels && walletModels.count > 0){
-            for (int i = 0; i < walletModels.count; i++) {
-                NSMutableDictionary *wallet = [NSMutableDictionary new];
-                NSString *address = walletModels[i].address;
-                NSString *name = walletModels[i].walletName;
-                [wallet setValue:address forKey:@"address"];
-                [wallet setValue:name forKey:@"name"];
-                [infoData addObject:wallet];
-            }
+    [self.walletDao findAllWithComplement:^(NSArray<TPOSWalletModel *> *walletModels) {
+        for (int i = 0; i < walletModels.count; i++) {
+            NSMutableDictionary *wallet = [NSMutableDictionary new];
+            NSString *address = walletModels[i].address;
+            NSString *name = walletModels[i].walletName;
+            [wallet setValue:address forKey:@"address"];
+            [wallet setValue:name forKey:@"name"];
+            [infoData addObject:wallet];
         }
     }];
     _result = [NSMutableDictionary new];
@@ -225,18 +221,6 @@ static long FIFTEEN = 15 * 60 * 1000;
 }
 
 - (void)sign:(NSString *)params :(NSString *)callbackId {
-    DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
-    dialog.confirmBack = ^(int i){
-        TransferDialogView *view = [TransferDialogView transactionDialogView];
-        [view showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
-    };
-    [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
-    [self.webView evaluateJavaScript:@"" completionHandler:^(id _Nullable result, NSError * _Nullable error) {
-        NSLog(@"%@----%@",result, error);
-    }];
-}
-
-- (void)transfer:(NSString *)params :(NSString *)callbackId {
     @try {
         NSDictionary *tx = [self dictionaryWithJsonString:params];
         mTo = [tx valueForKey:@"to"]?[tx valueForKey:@"to"]:@"";
@@ -245,7 +229,6 @@ static long FIFTEEN = 15 * 60 * 1000;
         mValue = [tx valueForKey:@"value"]?[tx valueForKey:@"value"]:@"";
         mMemo = [tx valueForKey:@"memo"]?[tx valueForKey:@"memo"]:@"";
         mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
-        
         NSString *fee = [[[NSDecimalNumber decimalNumberWithString:mGas] decimalNumberByMultiplyingBy: [NSDecimalNumber decimalNumberWithString:@"1000000"]] stringValue];
         _currentWallet = [TPOSContext shareInstance].currentWallet;
         NSMutableDictionary *data = [NSMutableDictionary new];
@@ -260,7 +243,60 @@ static long FIFTEEN = 15 * 60 * 1000;
             NSError* err = nil;
             KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
             NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
-            NSString *time = [defaults objectForKey:@"setTime"];
+            NSString *time = [defaults objectForKey:@"setTime"]?[defaults objectForKey:@"setTime"]:@"0";
+            long deff = [[[[CaclUtil alloc]init] sub:[NSString stringWithFormat:@"%.f",([[NSDate date] timeIntervalSince1970]*1000)] :time] longLongValue];
+            if (deff > FIFTEEN){
+                TransferDialogView *dialog = [TransferDialogView transactionDialogView];
+                dialog.wallet = _currentWallet;
+                dialog.confirmAction = ^(NSString *backSecret) {
+                    if (backSecret){
+                        [data setValue:backSecret forKey:@"secret"];
+                        [[WalletManage shareWalletManage]transactionWithData:data];
+                    }
+                };
+                [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
+            }else {
+                NSString *password = [defaults objectForKey:@"setPassword"];
+                Wallet *decryptEthECKeyPair = [KeyStore decrypt:password wallerFile:keystore];
+                [data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
+                [[WalletManage shareWalletManage]transactionWithData:data];
+            }
+        };
+        [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
+    } @catch (NSException *e) {
+        _result = [NSMutableDictionary new];
+        [_result setValue:@(NO) forKey:@"result"];
+        [_result setValue:e forKey:@"msg"];
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@(%@)",callbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            NSLog(@"%@----%@",result, error);
+        }];
+    }
+}
+
+- (void)transfer:(NSString *)params :(NSString *)callbackId {
+    @try {
+        NSDictionary *tx = [self dictionaryWithJsonString:params];
+        mTo = [tx valueForKey:@"to"]?[tx valueForKey:@"to"]:@"";
+        mToken = [tx valueForKey:@"currency"]?[tx valueForKey:@"currency"]:@"";
+        mIssuer = [tx valueForKey:@"issuer"]?[tx valueForKey:@"issuer"]:@"";
+        mValue = [tx valueForKey:@"value"]?[tx valueForKey:@"value"]:@"";
+        mMemo = [tx valueForKey:@"memo"]?[tx valueForKey:@"memo"]:@"";
+        mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
+        NSString *fee = [[[NSDecimalNumber decimalNumberWithString:mGas] decimalNumberByMultiplyingBy: [NSDecimalNumber decimalNumberWithString:@"1000000"]] stringValue];
+        _currentWallet = [TPOSContext shareInstance].currentWallet;
+        NSMutableDictionary *data = [NSMutableDictionary new];
+        [data setValue:_currentWallet.address forKey:@"from"];
+        [data setValue:mTo forKey:@"to"];
+        [data setValue:fee forKey:@"fee"];
+        [data setValue:[NSString stringWithFormat:@"%@ %@",mValue,mToken] forKey:@"content"];
+        [data setValue:mMemo forKey:@"memo"];
+        DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
+        [dialog setValues:data];
+        dialog.confirmBack = ^(int i){
+            NSError* err = nil;
+            KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
+            NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+            NSString *time = [defaults objectForKey:@"setTime"]?[defaults objectForKey:@"setTime"]:@"0";
             long deff = [[[[CaclUtil alloc]init] sub:[NSString stringWithFormat:@"%.f",([[NSDate date] timeIntervalSince1970]*1000)] :time] longLongValue];
             if (deff > FIFTEEN){
                 TransferDialogView *dialog = [TransferDialogView transactionDialogView];
@@ -311,8 +347,8 @@ static long FIFTEEN = 15 * 60 * 1000;
 
 -(void)shareToSNS:(NSString *)callbackId {
     [TPOSShareMenuView showInView:nil complement:^(TPOSShareType type) {
-            UIImage *image = [TPOSShareView shareImageByQrcodeImage:[UIImage imageNamed:@"OK"] address:@"232323"];
-            [self shareActionWithImage:image type:type];
+        UIImage *image = [TPOSShareView shareImageByQrcodeImage:[UIImage imageNamed:@"OK"] address:@"232323"];
+        [self shareActionWithImage:image type:type];
     }];
 }
 

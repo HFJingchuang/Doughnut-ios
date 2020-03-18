@@ -196,6 +196,31 @@ static NSString *COUNTER = @"CNT";
     }
 }
 
+//签名
+- (void) signWithData:(NSMutableDictionary *)txData {
+    if (txData){
+        NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
+        [options setObject:[txData valueForKey:@"account"] forKey:@"account"];
+        [options setObject:[txData valueForKey:@"to"] forKey:@"to"];
+        NSMutableDictionary *amount = [[NSMutableDictionary alloc] init];
+        [amount setObject:[txData valueForKey:@"value"] forKey:@"value"];
+        [amount setObject:[txData valueForKey:@"currency"] forKey:@"currency"];
+        if ([[txData valueForKey:@"currency"] isEqualToString:CURRENCY_SWTC]) {
+            [amount setObject:CURRENCY_SWT forKey:@"currency"];
+        } else if([[txData valueForKey:@"currency"] isEqualToString:@"CNT"]){
+            [amount setObject:CURRENCY_CNY forKey:@"currency"];
+        }
+        [amount setObject:[txData valueForKey:@"issuer"] forKey:@"issuer"];
+        [options setObject:amount forKey:@"amount"];
+        [options setObject:[txData valueForKey:@"fee"] forKey:@"fee"];
+        Transaction *tx = [[Remote instance] buildPaymentTx:options];
+        [tx setSecret:[txData valueForKey:@"secret"]];
+        [tx addMemo:[txData valueForKey:@"memo"]];
+        transactionId = _remote->req_id + 1;
+        [tx submit:YES];
+    }
+}
+
 //获取账号信息
 - (void) requestAccountInfoByAddress:(NSString *)address {
     NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
