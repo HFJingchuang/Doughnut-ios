@@ -30,6 +30,8 @@
 - (NSDictionary *) createWalletWithSecret:(NSString *) secret;
 //转账
 - (void) transactionWithData:(NSMutableDictionary *)txData;
+//签名
+- (void) signWithData:(NSMutableDictionary *)txData;
 ////获取账号信息
 //- (void) getAccountInfoByAddress:(NSString *)address;
 ////获取账号关系(可用)
