@@ -1900,7 +1900,7 @@
 				TargetAttributes = {
 					2CE5C7F41FF8A2DB008AB801 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					B65860E72359ADA6003CE9C0 = {
 						CreatedOnToolsVersion = 10.2;
@@ -2431,9 +2431,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q9Y45LCBM4;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ningbo Yang (JE65PQHAN3)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 7RPL5FD33B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2544,10 +2544,10 @@
 					"-framework",
 					"\"WebKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.doughnut.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jc.doughnut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = ttq.dev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2558,9 +2558,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q9Y45LCBM4;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Anhui Gaoshan Technology Co., Ltd. (7RPL5FD33B)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 7RPL5FD33B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -2672,10 +2672,10 @@
 					"-framework",
 					"\"WebKit\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.doughnut.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jc.doughnut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = ttq.appstore;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

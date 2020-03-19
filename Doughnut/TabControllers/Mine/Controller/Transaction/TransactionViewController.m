@@ -121,8 +121,9 @@ static long FIFTEEN = 15 * 60 * 1000;
 }
 
 -(void)getTransactionResult:(NSNotification *)notification {
-    NSDictionary *tx = notification.object;
-    if([[tx valueForKey:@"engine_result"] isEqualToString:@"tesSUCCESS"]){
+    NSDictionary *result = notification.object;
+    if([[result valueForKey:@"status"] isEqualToString:@"success"]){
+        NSDictionary *tx = [result objectForKey:@"result"];
         NSDictionary *txJson = [tx objectForKey:@"tx_json"];
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSMutableArray *records = [NSMutableArray new];

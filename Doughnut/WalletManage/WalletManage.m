@@ -33,7 +33,7 @@
 #define JC_SCAN_SERVER @"https://swtcscan.jccdex.cn"
 
 static NSString *SUCCESS = @"success";
-static NSString *Error = @"error";
+static NSString *ERROR = @"error";
 static NSString *TOKEN_ROUTER = @"/sum/all/";
 static NSString *TX_ROUTER = @"/wallet/trans/";
 static NSString *HASH_ROUTER = @"/hash/detail/";
@@ -58,6 +58,7 @@ static NSString *COUNTER = @"CNT";
     int accountTumsId;
     int accountTXId;
     int transactionId;
+    int signId;
     BOOL isCurrent;
 }
 
@@ -118,7 +119,14 @@ static NSString *COUNTER = @"CNT";
 - (void) SRWebSocketDidReceiveMsg:(NSNotification *) notification {
     NSString * message = notification.object;
     NSDictionary *data = [self dictionaryWithJsonString:message];
-    NSDictionary *result = [[self dictionaryWithJsonString:message] objectForKey:@"result"];
+    NSMutableDictionary *result = [NSMutableDictionary new];
+    if ([[data valueForKey:@"status"] isEqualToString:SUCCESS]){
+        [result setObject:@"success" forKey:@"status"];
+        [result setObject:[data objectForKey:@"result"] forKey:@"result"];
+    }else if ([[data valueForKey:@"status"] isEqualToString:ERROR]){
+        [result setObject:@"error" forKey:@"status"];
+        [result setObject:[data objectForKey:@"error"] forKey:@"result"];
+    }
     int requestFlag = [[[self dictionaryWithJsonString:message] objectForKey:@"id"] intValue];
     if(requestFlag == accountInfoId || [accountInfoIds containsObject:[NSNumber numberWithInt:requestFlag]]){
         if([[[self dictionaryWithJsonString:message] valueForKey:@"status"]isEqualToString:SUCCESS]){
@@ -134,13 +142,10 @@ static NSString *COUNTER = @"CNT";
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountRelationsFreezeFlag object:result];
     }else if (requestFlag == accountOffersId || [accountOffersIds containsObject:[NSNumber numberWithInt:requestFlag]]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:requestAccountOffersFlag object:result];
-    }
-//    else if (requestFlag == accountTXId) {
-//        [[NSNotificationCenter defaultCenter]
-//         postNotificationName:requestAcountTXFlag object:data];
-//    }
-    else if(requestFlag == transactionId){
+    }else if(requestFlag == transactionId){
         [[NSNotificationCenter defaultCenter]postNotificationName:transactionFlag object:result];
+    }else if(requestFlag == signId){
+        [[NSNotificationCenter defaultCenter]postNotificationName:signFlag object:result];
     }
 };
 
@@ -216,7 +221,7 @@ static NSString *COUNTER = @"CNT";
         Transaction *tx = [[Remote instance] buildPaymentTx:options];
         [tx setSecret:[txData valueForKey:@"secret"]];
         [tx addMemo:[txData valueForKey:@"memo"]];
-        transactionId = _remote->req_id + 1;
+        signId = _remote->req_id + 1;
         [tx submit:YES];
     }
 }
@@ -237,7 +242,7 @@ static NSString *COUNTER = @"CNT";
 }
 
 -(void) getAccountInfo:(NSNotification *) notification {
-    NSDictionary *accountData = [notification.object objectForKey:@"account_data"];
+    NSDictionary *accountData = [[notification.object objectForKey:@"result"]objectForKey:@"account_data"];
     if (accountData){
         _accountInfo = [AccountInfoModal mj_objectWithKeyValues:accountData];
     }else {
@@ -271,7 +276,7 @@ static NSString *COUNTER = @"CNT";
 }
 
 - (void)getAccountOffers:(NSNotification *) notification {
-    _offerlist = [notification.object objectForKey:@"offers"];
+    _offerlist = [[notification.object objectForKey:@"result"]objectForKey:@"offers"];
     for (int i = 0;i < _offerlist.count ;i++){
         if ([[_offerlist[i] valueForKey:@"taker_gets"] isKindOfClass:NSString.class]){
             NSMutableDictionary *da = [NSMutableDictionary new];
@@ -301,7 +306,7 @@ static NSString *COUNTER = @"CNT";
 }
 
 -(void) getAccountRelationsTrust:(NSNotification *) notification {
-    _trustlines = [notification.object objectForKey:@"lines"];
+    _trustlines = [[notification.object objectForKey:@"result"]objectForKey:@"lines"];
     [self getBalance];
 }
 
@@ -323,7 +328,7 @@ static NSString *COUNTER = @"CNT";
 -(void) getAccountRelationsFreeze:(NSNotification *) notification {
     NSString * message = notification.object;
     NSLog(@"the Relations2 from server is: %@", message);
-    _freezeLines = [notification.object objectForKey:@"lines"];
+    _freezeLines = [[notification.object objectForKey:@"result"]objectForKey:@"lines"];
     [self getBalance];
 }
 

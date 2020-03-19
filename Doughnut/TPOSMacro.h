@@ -48,6 +48,7 @@
 #define getTransactionAddress @"getTransactionAddress"
 #define getCurrentWalletBalance @"getCurrentWalletBalance"
 #define transactionFlag @"transactionFlag"
+#define signFlag @"signFlag"
 
 #define getBalanceList @"getBalanceList"
 #define requestAcountTXFlag @"requestAccountTXFlag"

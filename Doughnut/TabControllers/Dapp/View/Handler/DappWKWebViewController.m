@@ -34,6 +34,9 @@ static long FIFTEEN = 15 * 60 * 1000;
 @property (nonatomic, strong) NSMutableDictionary *result;
 @property (nonatomic, strong) TPOSWalletDao *walletDao;
 @property (nonatomic, strong) TPOSWalletModel *currentWallet;
+
+@property (nonatomic, strong) NSString *transactionCallbackId;
+@property (nonatomic, strong) NSString *signCallbackId;
 @end
 
 @implementation DappWKWebViewController
@@ -91,16 +94,52 @@ static long FIFTEEN = 15 * 60 * 1000;
 
 - (void)registerNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getTransactionResult:) name:transactionFlag object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getSignResult:) name:signFlag object:nil];
 }
 
 -(void)getTransactionResult:(NSNotification *)notification {
-    NSDictionary *tx = notification.object;
-    if([[tx valueForKey:@"engine_result"] isEqualToString:@"tesSUCCESS"]){
+    NSDictionary *result = notification.object;
+    if([[result valueForKey:@"status"] isEqualToString:@"success"]){
+        NSDictionary *tx = [result objectForKey:@"result"];
         NSDictionary *txJson = [tx objectForKey:@"tx_json"];
         NSLog(@"%@", txJson);
         [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_suc"]];
-    }else {
+        [_result setValue:@(YES) forKey:@"result"];
+        [_result setValue:MSG_SUCCESS forKey:@"msg"];
+        [_result setValue:[txJson objectForKey:@"hash"] forKey:@"hash"];
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",_transactionCallbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            NSLog(@"%@----%@",result, error);
+        }];
+    }else if([[result valueForKey:@"status"] isEqualToString:@"error"]){
         [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_fai"]];
+        [_result setValue:@(NO) forKey:@"result"];
+        [_result setValue:[result valueForKey:@"error"] forKey:@"msg"];
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",_transactionCallbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            NSLog(@"%@----%@",result, error);
+        }];
+    }
+}
+
+-(void)getSignResult:(NSNotification *)notification {
+    NSDictionary *result = notification.object;
+    if([[result valueForKey:@"status"] isEqualToString:@"success"]){
+        NSDictionary *tx = [result objectForKey:@"result"];
+        NSDictionary *txJson = [tx objectForKey:@"tx_json"];
+        NSLog(@"%@", txJson);
+        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_suc"]];
+        [_result setValue:@(YES) forKey:@"result"];
+        [_result setValue:MSG_SUCCESS forKey:@"msg"];
+        [_result setValue:[tx objectForKey:@"tx_blob"] forKey:@"signedTx"];
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",_signCallbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            NSLog(@"%@----%@",result, error);
+        }];
+    }else if([[result valueForKey:@"status"] isEqualToString:@"error"]){
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_fai"]];
+        [_result setValue:@(NO) forKey:@"result"];
+        [_result setValue:[result valueForKey:@"error"] forKey:@"msg"];
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",_signCallbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+            NSLog(@"%@----%@",result, error);
+        }];
     }
 }
 
@@ -224,21 +263,29 @@ static long FIFTEEN = 15 * 60 * 1000;
     @try {
         NSDictionary *tx = [self dictionaryWithJsonString:params];
         mTo = [tx valueForKey:@"to"]?[tx valueForKey:@"to"]:@"";
-        mToken = [tx valueForKey:@"currency"]?[tx valueForKey:@"currency"]:@"";
+        mToken = [tx valueForKey:@"currency"]?[[tx valueForKey:@"currency"]uppercaseString]:@"";
         mIssuer = [tx valueForKey:@"issuer"]?[tx valueForKey:@"issuer"]:@"";
         mValue = [tx valueForKey:@"value"]?[tx valueForKey:@"value"]:@"";
         mMemo = [tx valueForKey:@"memo"]?[tx valueForKey:@"memo"]:@"";
         mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
-        NSString *fee = [[[NSDecimalNumber decimalNumberWithString:mGas] decimalNumberByMultiplyingBy: [NSDecimalNumber decimalNumberWithString:@"1000000"]] stringValue];
         _currentWallet = [TPOSContext shareInstance].currentWallet;
         NSMutableDictionary *data = [NSMutableDictionary new];
         [data setValue:_currentWallet.address forKey:@"from"];
         [data setValue:mTo forKey:@"to"];
-        [data setValue:fee forKey:@"fee"];
+        [data setValue:mGas forKey:@"fee"];
         [data setValue:[NSString stringWithFormat:@"%@ %@",mValue,mToken] forKey:@"content"];
         [data setValue:mMemo forKey:@"memo"];
+        NSMutableDictionary *txData = [NSMutableDictionary new];
+        [txData setValue:_currentWallet.address forKey:@"account"];
+        [txData setValue:mTo forKey:@"to"];
+        [txData setValue:[NSNumber numberWithFloat:[mValue floatValue]] forKey:@"value"];
+        [txData setValue:mToken forKey:@"currency"];
+        [txData setValue:@"" forKey:@"issuer"];
+        [txData setValue:[NSNumber numberWithFloat:[mGas floatValue] * 1000000] forKey:@"fee"];
+        [txData setValue:mMemo forKey:@"memo"];
         DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
         [dialog setValues:data];
+        _signCallbackId = callbackId;
         dialog.confirmBack = ^(int i){
             NSError* err = nil;
             KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
@@ -250,16 +297,16 @@ static long FIFTEEN = 15 * 60 * 1000;
                 dialog.wallet = _currentWallet;
                 dialog.confirmAction = ^(NSString *backSecret) {
                     if (backSecret){
-                        [data setValue:backSecret forKey:@"secret"];
-                        [[WalletManage shareWalletManage]transactionWithData:data];
+                        [txData setValue:backSecret forKey:@"secret"];
+                        [[WalletManage shareWalletManage]transactionWithData:txData];
                     }
                 };
                 [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
             }else {
                 NSString *password = [defaults objectForKey:@"setPassword"];
                 Wallet *decryptEthECKeyPair = [KeyStore decrypt:password wallerFile:keystore];
-                [data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
-                [[WalletManage shareWalletManage]transactionWithData:data];
+                [txData setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
+                [[WalletManage shareWalletManage]transactionWithData:txData];
             }
         };
         [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
@@ -267,7 +314,7 @@ static long FIFTEEN = 15 * 60 * 1000;
         _result = [NSMutableDictionary new];
         [_result setValue:@(NO) forKey:@"result"];
         [_result setValue:e forKey:@"msg"];
-        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@(%@)",callbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",callbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
             NSLog(@"%@----%@",result, error);
         }];
     }
@@ -277,21 +324,29 @@ static long FIFTEEN = 15 * 60 * 1000;
     @try {
         NSDictionary *tx = [self dictionaryWithJsonString:params];
         mTo = [tx valueForKey:@"to"]?[tx valueForKey:@"to"]:@"";
-        mToken = [tx valueForKey:@"currency"]?[tx valueForKey:@"currency"]:@"";
+        mToken = [tx valueForKey:@"currency"]?[[tx valueForKey:@"currency"]uppercaseString]:@"";
         mIssuer = [tx valueForKey:@"issuer"]?[tx valueForKey:@"issuer"]:@"";
         mValue = [tx valueForKey:@"value"]?[tx valueForKey:@"value"]:@"";
         mMemo = [tx valueForKey:@"memo"]?[tx valueForKey:@"memo"]:@"";
         mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
-        NSString *fee = [[[NSDecimalNumber decimalNumberWithString:mGas] decimalNumberByMultiplyingBy: [NSDecimalNumber decimalNumberWithString:@"1000000"]] stringValue];
         _currentWallet = [TPOSContext shareInstance].currentWallet;
         NSMutableDictionary *data = [NSMutableDictionary new];
-        [data setValue:_currentWallet.address forKey:@"from"];
+       [data setValue:_currentWallet.address forKey:@"from"];
         [data setValue:mTo forKey:@"to"];
-        [data setValue:fee forKey:@"fee"];
+        [data setValue:mGas forKey:@"fee"];
         [data setValue:[NSString stringWithFormat:@"%@ %@",mValue,mToken] forKey:@"content"];
         [data setValue:mMemo forKey:@"memo"];
+        NSMutableDictionary *txData = [NSMutableDictionary new];
+        [txData setValue:_currentWallet.address forKey:@"account"];
+        [txData setValue:mTo forKey:@"to"];
+        [txData setValue:[NSNumber numberWithFloat:[mValue floatValue]] forKey:@"value"];
+        [txData setValue:mToken forKey:@"currency"];
+        [txData setValue:@"" forKey:@"issuer"];
+        [txData setValue:[NSNumber numberWithFloat:[mGas floatValue] * 1000000] forKey:@"fee"];
+        [txData setValue:mMemo forKey:@"memo"];
         DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
         [dialog setValues:data];
+        _transactionCallbackId = callbackId;
         dialog.confirmBack = ^(int i){
             NSError* err = nil;
             KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
@@ -311,8 +366,8 @@ static long FIFTEEN = 15 * 60 * 1000;
             }else {
                 NSString *password = [defaults objectForKey:@"setPassword"];
                 Wallet *decryptEthECKeyPair = [KeyStore decrypt:password wallerFile:keystore];
-                [data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
-                [[WalletManage shareWalletManage]transactionWithData:data];
+                [txData setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
+                [[WalletManage shareWalletManage]transactionWithData:txData];
             }
         };
         [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
@@ -320,7 +375,7 @@ static long FIFTEEN = 15 * 60 * 1000;
         _result = [NSMutableDictionary new];
         [_result setValue:@(NO) forKey:@"result"];
         [_result setValue:e forKey:@"msg"];
-        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@(%@)",callbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",callbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
             NSLog(@"%@----%@",result, error);
         }];
     }
