@@ -18,7 +18,6 @@
 		2CE5C8051FF8A2DB008AB801 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CE5C8031FF8A2DB008AB801 /* LaunchScreen.storyboard */; };
 		2CE5C8081FF8A2DB008AB801 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE5C8071FF8A2DB008AB801 /* main.m */; };
 		2CE5C8141FF8A364008AB801 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE5C8131FF8A364008AB801 /* JavaScriptCore.framework */; };
-		5618B2399459C92D3F36DCD3 /* libPods-Doughnut.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DFF5D969D35CD4BBFF0F335 /* libPods-Doughnut.a */; };
 		5FA814A62425E76200931AB9 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA814832425E76200931AB9 /* UIProgressView+AFNetworking.m */; };
 		5FA814A72425E76200931AB9 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA814852425E76200931AB9 /* UIRefreshControl+AFNetworking.m */; };
 		5FA814A82425E76200931AB9 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FA814882425E76200931AB9 /* AFNetworkActivityIndicatorManager.m */; };
@@ -586,7 +585,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0DFF5D969D35CD4BBFF0F335 /* libPods-Doughnut.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Doughnut.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C16630A20021CFC00E60CBD /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		2C16632E20025B8100E60CBD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		2C3C953B1FFDF32D005A8F39 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -1473,7 +1471,6 @@
 		B6FA80EC239A52E600D42FAF /* DappMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DappMainViewController.h; sourceTree = "<group>"; };
 		B6FA80ED239A52E600D42FAF /* DappMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DappMainViewController.m; sourceTree = "<group>"; };
 		B6FA80EE239A52E600D42FAF /* DappMainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DappMainViewController.xib; sourceTree = "<group>"; };
-		B6FA80F2239F75F000D42FAF /* libAFNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAFNetworking.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6FA810B23A24DBA00D42FAF /* DappWKWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DappWKWebViewController.h; sourceTree = "<group>"; };
 		B6FA810C23A24DBA00D42FAF /* DappTransferDetailDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DappTransferDetailDialog.xib; sourceTree = "<group>"; };
 		B6FA810D23A24DBA00D42FAF /* DappWKWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DappWKWebViewController.m; sourceTree = "<group>"; };
@@ -1736,25 +1733,6 @@
 		D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		E94698D023D4780300B339B3 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		E94698D223D59F0C00B339B3 /* donut.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = donut.min.js; sourceTree = "<group>"; };
-		E9573BF024248A0500426EF8 /* libAFNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAFNetworking.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573BF224248A0500426EF8 /* libCoreBitcoin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libCoreBitcoin.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573BF424248A0500426EF8 /* libFMDB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFMDB.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573BF624248A0500426EF8 /* libIQKeyboardManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libIQKeyboardManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573BF824248A0500426EF8 /* libISO8601DateFormatter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libISO8601DateFormatter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573BFA24248A0500426EF8 /* libjcc_oc_base_lib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libjcc_oc_base_lib.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573BFC24248A0500426EF8 /* libjcc_rpc_oc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libjcc_rpc_oc.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573BFE24248A0500426EF8 /* libjingtum-lib-objectc.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libjingtum-lib-objectc.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0024248A0500426EF8 /* libJSONModel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libJSONModel.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0224248A0500426EF8 /* liblibsodium.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = liblibsodium.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0424248A0500426EF8 /* libMasonry.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libMasonry.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0624248A0500426EF8 /* libMJExtension.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libMJExtension.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0824248A0500426EF8 /* libMJRefresh.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libMJRefresh.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0A24248A0500426EF8 /* libNAChloride.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libNAChloride.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0C24248A0500426EF8 /* libSDWebImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSDWebImage.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C0E24248A0500426EF8 /* libSocketRocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSocketRocket.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C1024248A0500426EF8 /* libSVProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libSVProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C1224248A0500426EF8 /* libToast.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libToast.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9573C1424248A0500426EF8 /* libWebViewJavascriptBridge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libWebViewJavascriptBridge.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9EE062823A9CDCB00185FB2 /* DOSJTNodeDialogView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSJTNodeDialogView.h; sourceTree = "<group>"; };
 		E9EE062923A9CDCB00185FB2 /* DOSJTNodeDialogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSJTNodeDialogView.m; sourceTree = "<group>"; };
 		E9EE062B23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSJTNodeDialogView.xib; sourceTree = "<group>"; };
@@ -1778,7 +1756,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FA8188B2425EA5B00931AB9 /* libssl.a in Frameworks */,
-				5618B2399459C92D3F36DCD3 /* libPods-Doughnut.a in Frameworks */,
 				D08DC91F204BE81A008A27B2 /* SystemConfiguration.framework in Frameworks */,
 				D063A520218E005400750001 /* TencentOpenAPI.framework in Frameworks */,
 				D0F5E117201C9CB700C60EA6 /* LocalAuthentication.framework in Frameworks */,
@@ -1852,33 +1829,12 @@
 		2CE5C8121FF8A364008AB801 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E9573BF024248A0500426EF8 /* libAFNetworking.a */,
-				E9573BF224248A0500426EF8 /* libCoreBitcoin.a */,
-				E9573BF424248A0500426EF8 /* libFMDB.a */,
-				E9573BF624248A0500426EF8 /* libIQKeyboardManager.a */,
-				E9573BF824248A0500426EF8 /* libISO8601DateFormatter.a */,
-				E9573BFA24248A0500426EF8 /* libjcc_oc_base_lib.a */,
-				E9573BFC24248A0500426EF8 /* libjcc_rpc_oc.a */,
-				E9573BFE24248A0500426EF8 /* libjingtum-lib-objectc.a */,
-				E9573C0024248A0500426EF8 /* libJSONModel.a */,
-				E9573C0224248A0500426EF8 /* liblibsodium.a */,
-				E9573C0424248A0500426EF8 /* libMasonry.a */,
-				E9573C0624248A0500426EF8 /* libMJExtension.a */,
-				E9573C0824248A0500426EF8 /* libMJRefresh.a */,
-				E9573C0A24248A0500426EF8 /* libNAChloride.a */,
-				E9573C0C24248A0500426EF8 /* libSDWebImage.a */,
-				E9573C0E24248A0500426EF8 /* libSocketRocket.a */,
-				E9573C1024248A0500426EF8 /* libSVProgressHUD.a */,
-				E9573C1224248A0500426EF8 /* libToast.a */,
-				E9573C1424248A0500426EF8 /* libWebViewJavascriptBridge.a */,
-				B6FA80F2239F75F000D42FAF /* libAFNetworking.a */,
 				D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */,
 				D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */,
 				D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */,
 				2C16632E20025B8100E60CBD /* AVFoundation.framework */,
 				2C3C953B1FFDF32D005A8F39 /* Accelerate.framework */,
 				2CE5C8131FF8A364008AB801 /* JavaScriptCore.framework */,
-				0DFF5D969D35CD4BBFF0F335 /* libPods-Doughnut.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
