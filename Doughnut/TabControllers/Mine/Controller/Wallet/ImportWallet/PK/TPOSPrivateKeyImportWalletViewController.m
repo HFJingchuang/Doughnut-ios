@@ -20,12 +20,12 @@
 #import "TPOSBlockChainModel.h"
 #import "TPOSPasswordView.h"
 #import "NJOPasswordStrengthEvaluator.h"
-#import <jcc_oc_base_lib/JingtumWallet.h>
-#import <jcc_oc_base_lib/JTWalletManager.h>
-#import <jcc_oc_base_lib/JccChains.h>
+#import "JingtumWallet.h"
+#import "JTWalletManager.h"
+#import "JccChains.h"
 
-#import <Toast/Toast.h>
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "UIView+Toast.h"
+#import "SVProgressHUD.h"
 
 @interface TPOSPrivateKeyImportWalletViewController ()<UITextViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *pkBg;

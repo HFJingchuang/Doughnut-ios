@@ -17,9 +17,9 @@
 #import "NSString+TPOS.h"
 #import "UIImage+TPOS.h"
 #import "WalletManage.h"
-#import <SVProgressHUD/SVProgressHUD.h>
-#import <Masonry/Masonry.h>
-#import <Toast/Toast.h>
+#import "SVProgressHUD.h"
+#import "Masonry.h"
+#import "UIView+Toast.h"
 #import "TransactionViewController.h"
 #import "TransactionTokensViewController.h"
 #import "TransactionGasView.h"

@@ -8,7 +8,7 @@
 
 #import "QRCodeViewController.h"
 #import "SGQRCode.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 #import "UIColor+Hex.h"
 #import "TPOSNavigationController.h"
 

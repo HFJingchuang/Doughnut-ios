@@ -18,8 +18,8 @@
 #import "TPOSMacro.h"
 #import "TPOSLocalizedHelper.h"
 #import "TPOSTokenModel.h"
-#import <jcc_oc_base_lib/JTWalletManager.h>
-#import <jcc_oc_base_lib/JccChains.h>
+#import "JTWalletManager.h"
+#import "JccChains.h"
 
 #define kJTApiPrefix @"https://api.jingtum.com"
 

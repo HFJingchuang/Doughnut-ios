@@ -8,7 +8,7 @@
 
 #import "TPOSTransactionView.h"
 #import "UIColor+Hex.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 #import "TPOSTransactionTextField.h"
 #import "TPOSTransactionNormalOptionView.h"
 #import "TPOSTransactionHighOptionView.h"

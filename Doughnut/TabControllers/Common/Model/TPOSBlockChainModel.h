@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <MJExtension/MJExtension.h>
+#import "MJExtension.h"
 
 //{"hid":1,"title":"以太坊","desc":"以太坊体系","default_token":"eth","url":"https://ethereum.org/","status":0,"create_time":"2018-01-08T22:11:20Z"}
 

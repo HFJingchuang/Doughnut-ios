@@ -13,7 +13,7 @@
 #import "TokenCellModel.h"
 #import "TPOSWalletModel.h"
 #import "TPOSWalletDao.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 #import "TPOSContext.h"
 #import "TPOSAssetViewController.h"
 #import "QRCodeReceiveViewController.h"

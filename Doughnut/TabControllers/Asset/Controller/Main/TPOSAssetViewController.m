@@ -28,7 +28,7 @@
 #import "TPOSJTManager.h"
 #import "ImportWalletViewController.h"
 #import "AssetTokensViewController.h"
-#import <Toast/Toast.h>
+#import "UIView+Toast.h"
 #import "CreateWalletViewController.h"
 #import "TPOSWalletDetailDaoManager.h"
 #import "WalletManage.h"
@@ -36,7 +36,7 @@
 #import "LineModel.h"
 #import "TokenCellModel.h"
 #import "CaclUtil.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 
 static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 

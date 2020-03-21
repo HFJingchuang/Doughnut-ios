@@ -10,7 +10,7 @@
 #import "UIColor+Hex.h"
 #import "TPOSLocalizedHelper.h"
 
-#import <Masonry/Masonry.h>;
+#import "Masonry.h";
 
 @interface TPOSTotalAssetHeaderView()
 

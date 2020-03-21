@@ -19,8 +19,8 @@
 #import "TPOSJTPaymentInfo.h"
 #import "TransactionDetailViewController.h"
 
-#import <Masonry/Masonry.h>
-#import <Toast/Toast.h>
+#import "Masonry.h"
+#import "UIView+Toast.h"
 
 @interface TPOSTransactionRecoderViewController () <UITableViewDelegate, UITableViewDataSource>
 

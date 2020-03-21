@@ -24,8 +24,8 @@
 #import "TPOSBackupAlert.h"
 #import "WalletManage.h"
 #import "PasswordEyeController.h"
-#import <Toast/Toast.h>
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "UIView+Toast.h"
+#import "SVProgressHUD.h"
 #import "KeyStoreFile.h"
 #import "KeyStore.h"
 #import "TPOSTabBarController.h"

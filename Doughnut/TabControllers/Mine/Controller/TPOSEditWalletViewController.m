@@ -22,8 +22,8 @@
 #import "TPOSBlockChainModel.h"
 #import "PasswordDialogView.h"
 #import "ChangeNameDialogView.h"
-#import <SVProgressHUD/SVProgressHUD.h>
-#import <Toast/Toast.h>
+#import "SVProgressHUD.h"
+#import "UIView+Toast.h"
 
 @interface TPOSEditWalletViewController ()
 

@@ -10,7 +10,7 @@
 #import "KeyStore.h"
 #import "NAChloride.h"
 #import "Wallet.h"
-#import "Seed.h"
+#import "JTSeed.h"
 
 #import "NSString+Base58.h"
 
@@ -179,7 +179,7 @@ static NSString* SCRYPT = @"scrypt";
     //NSData *privateKey = [self aesDecryptData:cipherText key:encryoptKey iv:iv];
     NSString *privateKeyUTF8 = [[NSString alloc] initWithData:privateKey encoding:NSUTF8StringEncoding];
 
-    Seed *seed = [[Seed alloc] init];
+    JTSeed *seed = [[JTSeed alloc] init];
     Keypairs *keypairs = [seed deriveKeyPair:privateKeyUTF8];
     Wallet *wallet = [[Wallet alloc] initWithKeypairs:keypairs private:privateKeyUTF8];
     return wallet;

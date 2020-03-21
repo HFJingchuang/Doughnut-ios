@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <MJExtension.h>
+#import "MJExtension.h"
 
 @interface LineModel : NSObject
 @property (copy,nonatomic)   NSString *account;

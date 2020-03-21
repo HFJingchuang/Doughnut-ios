@@ -8,7 +8,7 @@
 
 #import "DOSCopyrightViewController.h"
 #import "UIColor+Hex.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 
 @interface DOSCopyrightViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *icon;

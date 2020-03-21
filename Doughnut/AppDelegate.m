@@ -20,7 +20,6 @@
 #import "TPOSJTPayment.h"
 #import "TPOSCommonInfoManager.h"
 #import "TPOSEnterAuthViewController.h"
-#import "WXApi.h"
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "TPOSWalletModel.h"
@@ -29,11 +28,10 @@
 
 //#import "TPOSTransactionRecoderModel.h"
 
-#import <IQKeyboardManager/IQKeyboardManager.h>
-#import <AFNetworking/AFNetworking.h>
-#import <SDWebImage/UIImageView+WebCache.h>
-@import Bugly;
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "IQKeyboardManager.h"
+#import "AFNetworking.h"
+#import "UIImageView+WebCache.h"
+#import "SVProgressHUD.h"
 
 @interface AppDelegate ()
 
@@ -57,13 +55,8 @@
         [self.window makeKeyAndVisible];
     }];
     
-#ifndef DEBUG
-    //启动bugly crash 收集
-    [Bugly startWithAppId:kBuglyAppId];
-#endif
-    
     //注册微信
-    [WXApi registerApp:kWXAppId];
+//    [WXApi registerApp:kWXAppId];
     //注册QQ
     [[TencentOAuth alloc] initWithAppId:kQQAppId andDelegate:(id)self];
     
@@ -250,13 +243,13 @@
 //    }];
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    BOOL handle = [WXApi handleOpenURL:url delegate:(id)self];
-    if (!handle) {
-        handle = [QQApiInterface handleOpenURL:url delegate:(id)self];
-    }
-    return handle;
-}
+//- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+//    BOOL handle = [WXApi handleOpenURL:url delegate:(id)self];
+//    if (!handle) {
+//        handle = [QQApiInterface handleOpenURL:url delegate:(id)self];
+//    }
+//    return handle;
+//}
 
 - (TPOSWalletDao *)walletDao {
     if (!_walletDao) {

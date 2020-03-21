@@ -1,1 +1,0 @@
-../../../jingtum-lib-objectc/WebSocketClient/jingtum-lib/NSString+Base58.h

@@ -16,7 +16,7 @@
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 
 @interface ExportWalletViewController ()<TPOSPageContentViewDelegate,TPOSSegmentTitleViewDelegate>
 @property (nonatomic, strong) UIView *contentView;

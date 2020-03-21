@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <MJExtension/MJExtension.h>
+#import "MJExtension.h"
 
 @interface TPOSJTPOSalance : NSObject
 

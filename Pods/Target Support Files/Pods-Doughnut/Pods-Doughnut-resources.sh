@@ -97,18 +97,10 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
-  install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
-  install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
-  install_resource "${PODS_ROOT}/jcc_oc_base_lib/jcc_oc_base_lib/Jingtum/JingtumWebview/jingtum.html"
-  install_resource "${PODS_ROOT}/jcc_oc_base_lib/jcc_oc_base_lib/Jingtum/JingtumWebview/jingtum.js"
+
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
-  install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
-  install_resource "${PODS_ROOT}/SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
-  install_resource "${PODS_ROOT}/jcc_oc_base_lib/jcc_oc_base_lib/Jingtum/JingtumWebview/jingtum.html"
-  install_resource "${PODS_ROOT}/jcc_oc_base_lib/jcc_oc_base_lib/Jingtum/JingtumWebview/jingtum.js"
+
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

@@ -8,12 +8,12 @@
 
 #import "TransactionDetailViewController.h"
 #import "UIColor+Hex.h"
-#import <Toast/Toast.h>
+#import "UIView+Toast.h"
 #import "NSString+TPOS.h"
 #import "CaclUtil.h"
 #import "XHPageControl.h"
 #import "TransactionNodeView.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 
 @interface TransactionDetailViewController ()<UIScrollViewDelegate ,XHPageControlDelegate>
 @property (weak, nonatomic) IBOutlet UIView *transactionInfoView;

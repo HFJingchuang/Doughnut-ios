@@ -10,7 +10,7 @@
 #import "TPOSMacro.h"
 #import "TPOSGuideCCell.h"
 #import "UIColor+Hex.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 
 @interface TPOSGuideViewController () <UICollectionViewDelegateFlowLayout>
 

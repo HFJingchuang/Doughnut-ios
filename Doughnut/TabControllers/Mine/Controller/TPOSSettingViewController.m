@@ -13,7 +13,7 @@
 #import "TPOSAuthID.h"
 #import "TPOSMacro.h"
 
-#import <Masonry/Masonry.h>;
+#import "Masonry.h";
 @import LocalAuthentication;
 
 @interface TPOSSettingViewController () <UITableViewDelegate,UITableViewDataSource>

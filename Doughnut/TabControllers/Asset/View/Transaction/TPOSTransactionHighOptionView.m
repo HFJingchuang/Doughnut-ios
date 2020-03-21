@@ -8,7 +8,7 @@
 
 #import "TPOSTransactionHighOptionView.h"
 #import "UIColor+Hex.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 #import "TPOSLocalizedHelper.h"
 
 @interface TPOSTransactionHighOptionView()<UITextViewDelegate>

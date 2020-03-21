@@ -9,7 +9,7 @@
 #import "TPOSMineViewController.h"
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 #import "TPOSSettingViewController.h"
 #import "TPOSAboutUsViewController.h"
 #import "TPOSWalletManagerViewController.h"

@@ -19,8 +19,8 @@
 #import "PasswordEyeController.h"
 #import "NAChloride.h"
 #import "Seed.h"
-#import <SVProgressHUD/SVProgressHUD.h>
-#import <Toast/Toast.h>
+#import "SVProgressHUD.h"
+#import "UIView+Toast.h"
 
 @interface TPOSEditPasswordViewController ()<UITextFieldDelegate>
 

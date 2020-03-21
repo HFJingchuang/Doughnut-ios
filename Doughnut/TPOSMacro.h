@@ -18,7 +18,6 @@
 #define kIphone7 (kScreenHeight == 667)
 #define kIphonePlus (kScreenHeight == 736)
 
-#define kBuglyAppId @""
 #define kWXAppId @""
 #define kQQAppId @""
 

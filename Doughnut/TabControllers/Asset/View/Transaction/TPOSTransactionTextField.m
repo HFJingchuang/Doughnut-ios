@@ -7,7 +7,7 @@
 //
 
 #import "TPOSTransactionTextField.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 
 @interface TPOSTransactionTextField()
 @property (weak, nonatomic) IBOutlet UIView *line;

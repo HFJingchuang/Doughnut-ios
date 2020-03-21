@@ -7,7 +7,7 @@
 //
 
 #import "TPOSApiClient.h"
-#import <AFNetworking/AFNetworking.h>
+#import "AFNetworking.h"
 #import "TPOSThreadUtils.h"
 #import "UIDevice+Utility.h"
 #import "TPOSLocalizedHelper.h"

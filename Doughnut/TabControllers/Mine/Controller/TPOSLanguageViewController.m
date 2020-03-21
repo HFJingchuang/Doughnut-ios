@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSArray *langSymbols;
 @end
 
-#import <Masonry/Masonry.h>;
+#import "Masonry.h";
 
 @implementation TPOSLanguageViewController
 

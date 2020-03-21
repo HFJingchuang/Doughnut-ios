@@ -9,7 +9,7 @@
 #import "DOSPointSettingViewController.h"
 #import "DOSJTNodesViewCell.h"
 #import "UIColor+Hex.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 #import "TPOSMacro.h"
 #import "WalletManage.h"
 #import "DOSJTNodeDialogView.h"

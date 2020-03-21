@@ -14,7 +14,7 @@
 #import "NSObject+MJKeyValue.h"
 #import "AssetTokensViewController.h"
 
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 
 @interface QRCodeReceiveViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

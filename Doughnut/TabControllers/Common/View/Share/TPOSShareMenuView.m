@@ -9,7 +9,6 @@
 #import "TPOSShareMenuView.h"
 #import "TPOSShareCCell.h"
 #import "TPOSMacro.h"
-#import "WXApi.h"
 #import "TPOSShareView.h"
 #import "TPOSLocalizedHelper.h"
 

@@ -17,13 +17,13 @@
 #import "TPOSContext.h"
 #import "UIImage+TPOS.h"
 #import "TPOSBackupAlert.h"
-#import <SVProgressHUD/SVProgressHUD.h>
-#import <IQKeyboardManager/IQKeyboardManager.h>
+#import "SVProgressHUD.h"
+#import "IQKeyboardManager.h"
 #import "PasswordEyeController.h"
 #import "WalletManage.h"
 #import "NAChloride.h"
 #import "TPOSTabBarController.h"
-
+#import "JTSeed.h"
 
 @interface PKImportWalletViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -157,7 +157,7 @@
     walletModel.walletName = walletName;
     walletModel.address = address;
     NAChlorideInit();
-    Seed * seed = [Seed alloc];
+    JTSeed * seed = [JTSeed alloc];
     Keypairs *keypairs = [seed deriveKeyPair:privateKey];
     Wallet *wallet = [[Wallet alloc]initWithKeypairs:keypairs private:privateKey];
     KeyStoreFileModel *keyStoreFile = [KeyStore createLight:password wallet:wallet];

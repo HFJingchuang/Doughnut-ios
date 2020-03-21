@@ -21,8 +21,8 @@
 #import "TPOSPasswordView.h"
 
 
-#import <Toast/Toast.h>
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "UIView+Toast.h"
+#import "SVProgressHUD.h"
 
 @interface TPOSMemonicImportWalletViewController ()<UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *memonicBg;

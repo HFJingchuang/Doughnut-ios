@@ -10,7 +10,7 @@
 #import "TPOSBlockChainModel.h"
 #import "TPOSTokenModel.h"
 
-#import <SDWebImage/UIImageView+WebCache.h>;
+#import "UIImageView+WebCache.h";
 
 @interface TPOSAssetAddTokenCell()
 @property (weak, nonatomic) IBOutlet UIImageView *tokenIcon;

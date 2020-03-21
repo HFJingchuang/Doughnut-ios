@@ -19,7 +19,6 @@
 #import "CaclUtil.h"
 #import "TPOSShareMenuView.h"
 #import "TPOSShareView.h"
-#import "WXApi.h"
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 
@@ -411,23 +410,23 @@ static long FIFTEEN = 15 * 60 * 1000;
     NSData *imageData = UIImageJPEGRepresentation(image, 1);
     NSData *thumbData = UIImageJPEGRepresentation(image, 0.01);
     if (type < TPOSShareTypeQQSession) {
-        WXImageObject *imageObject = [WXImageObject object];
-        imageObject.imageData = imageData;
-        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-        WXMediaMessage *message = [WXMediaMessage message];
-        message.mediaObject = imageObject;
-        message.thumbData = thumbData;
-        req.bText = NO;
-        if (type == TPOSShareTypeWechatSession) {
-            req.scene = WXSceneSession;
-        } else {
-            req.scene = WXSceneTimeline;
-        }
-        req.message = message;
-        BOOL result = [WXApi sendReq:req];
-        if (result) {
-            
-        }
+//        WXImageObject *imageObject = [WXImageObject object];
+//        imageObject.imageData = imageData;
+//        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+//        WXMediaMessage *message = [WXMediaMessage message];
+//        message.mediaObject = imageObject;
+//        message.thumbData = thumbData;
+//        req.bText = NO;
+//        if (type == TPOSShareTypeWechatSession) {
+//            req.scene = WXSceneSession;
+//        } else {
+//            req.scene = WXSceneTimeline;
+//        }
+//        req.message = message;
+//        BOOL result = [WXApi sendReq:req];
+//        if (result) {
+//            
+//        }
     } else {
         QQApiImageObject *obj = [[QQApiImageObject alloc] init];
         obj.data = imageData;

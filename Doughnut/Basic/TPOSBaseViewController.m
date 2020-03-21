@@ -11,9 +11,9 @@
 #import "UIColor+Hex.h"
 #import "TPOSMacro.h"
 
-#import <Masonry/Masonry.h>
-#import <MJRefresh/MJRefresh.h>
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "Masonry.h"
+#import "MJRefresh.h"
+#import "SVProgressHUD.h"
 #import "TPOSCameraUtils.h"
 #import "ImportWalletViewController.h"
 #import "TransactionViewController.h"

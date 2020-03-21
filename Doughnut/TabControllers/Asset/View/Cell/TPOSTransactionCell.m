@@ -9,7 +9,7 @@
 #import "TPOSTransactionCell.h"
 #import "UIColor+Hex.h"
 
-#import <Masonry/Masonry.h>;
+#import "Masonry.h";
 
 @interface TPOSTransactionCell() <UITextFieldDelegate>
 

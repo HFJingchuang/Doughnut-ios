@@ -7,7 +7,7 @@
 //
 
 #import "TPOSGuideCCell.h"
-#import <SDWebImage/UIImage+GIF.h>
+#import "UIImage+GIF.h"
 #import "TPOSMacro.h"
 #import "YCFrameAnimator.h"
 

@@ -12,7 +12,7 @@
 #import "UIColor+Hex.h"
 #import "KeyStoreFile.h"
 #import "KeyStore.h"
-#import <SVProgressHUD/SVProgressHUD.h>
+#import "SVProgressHUD.h"
 #import "TPOSMacro.h"
 #import "TPOSCameraUtils.h"
 #import "UILabel+Btn.h"

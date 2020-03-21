@@ -1,1 +1,0 @@
-../../../jcc_oc_base_lib/jcc_oc_base_lib/Jingtum/JTWalletManager.h

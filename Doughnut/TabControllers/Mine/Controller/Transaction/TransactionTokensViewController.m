@@ -16,7 +16,7 @@
 #import "TokenCellModel.h"
 #import "TPOSWalletModel.h"
 #import "TPOSWalletDao.h"
-#import <Masonry/Masonry.h>
+#import "Masonry.h"
 #import "TPOSContext.h"
 #import "TransactionViewController.h"
 #import "TransactionTokensViewController.h"

@@ -10,7 +10,7 @@
 #import "TPOSBlockChainModel.h"
 #import "TPOSLocalizedHelper.h"
 
-#import <SDWebImage/UIImageView+WebCache.h>;
+#import "UIImageView+WebCache.h";
 
 @interface TPOSChooseTokenSystemCell()
 

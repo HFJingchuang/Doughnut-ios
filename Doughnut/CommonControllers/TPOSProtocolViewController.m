@@ -12,7 +12,7 @@
 #import "TPOSForceCreateWalletViewController.h"
 
 @import WebKit;
-#import <Masonry/Masonry.h>;
+#import "Masonry.h";
 
 @interface TPOSProtocolViewController ()
 @property (weak, nonatomic) IBOutlet UIView *webViewContrainer;
