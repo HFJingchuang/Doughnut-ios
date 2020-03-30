@@ -242,7 +242,7 @@ static NSString *COUNTER = @"CNT";
 }
 
 -(void) getAccountInfo:(NSNotification *) notification {
-    NSDictionary *accountData = [[notification.object objectForKey:@"result"]objectForKey:@"account_data"];
+      NSDictionary *accountData = [[notification.object objectForKey:@"result"]objectForKey:@"account_data"];
     if (accountData){
         _accountInfo = [AccountInfoModal mj_objectWithKeyValues:accountData];
     }else {
@@ -276,7 +276,9 @@ static NSString *COUNTER = @"CNT";
 }
 
 - (void)getAccountOffers:(NSNotification *) notification {
-    _offerlist = [[notification.object objectForKey:@"result"]objectForKey:@"offers"];
+     if ([[notification.object objectForKey:@"status"] isEqualToString:SUCCESS]){
+         _offerlist = [[notification.object objectForKey:@"result"]objectForKey:@"offers"];
+     }
     for (int i = 0;i < _offerlist.count ;i++){
         if ([[_offerlist[i] valueForKey:@"taker_gets"] isKindOfClass:NSString.class]){
             NSMutableDictionary *da = [NSMutableDictionary new];
@@ -306,7 +308,9 @@ static NSString *COUNTER = @"CNT";
 }
 
 -(void) getAccountRelationsTrust:(NSNotification *) notification {
-    _trustlines = [[notification.object objectForKey:@"result"]objectForKey:@"lines"];
+     if ([[notification.object objectForKey:@"status"] isEqualToString:SUCCESS]){
+         _trustlines = [[notification.object objectForKey:@"result"]objectForKey:@"lines"];
+     }
     [self getBalance];
 }
 
@@ -328,7 +332,9 @@ static NSString *COUNTER = @"CNT";
 -(void) getAccountRelationsFreeze:(NSNotification *) notification {
     NSString * message = notification.object;
     NSLog(@"the Relations2 from server is: %@", message);
-    _freezeLines = [[notification.object objectForKey:@"result"]objectForKey:@"lines"];
+     if ([[notification.object objectForKey:@"status"] isEqualToString:SUCCESS]){
+         _freezeLines = [[notification.object objectForKey:@"result"]objectForKey:@"lines"];
+     }
     [self getBalance];
 }
 
