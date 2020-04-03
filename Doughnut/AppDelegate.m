@@ -20,8 +20,6 @@
 #import "TPOSJTPayment.h"
 #import "TPOSCommonInfoManager.h"
 #import "TPOSEnterAuthViewController.h"
-#import <TencentOpenAPI/QQApiInterface.h>
-#import <TencentOpenAPI/TencentOAuth.h>
 #import "TPOSWalletModel.h"
 #import "NSString+TPOS.h"
 //#import "TPOSBackupAlert.h"
@@ -32,6 +30,7 @@
 #import "AFNetworking.h"
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
+#import <ShareSDK/ShareSDK.h>
 
 @interface AppDelegate ()
 
@@ -54,12 +53,13 @@
         self.window.rootViewController = navigationController;
         [self.window makeKeyAndVisible];
     }];
-    
-    //注册微信
-//    [WXApi registerApp:kWXAppId];
-    //注册QQ
-    [[TencentOAuth alloc] initWithAppId:kQQAppId andDelegate:(id)self];
-    
+    // 注册社交平台
+    [ShareSDK registPlatforms:^(SSDKRegister *platformsRegister) {
+        //QQ
+        [platformsRegister setupQQWithAppId:@"100371282" appkey:@"5d103e8cd309bdccdfb20157ebfc2f42"];
+        //WX
+        [platformsRegister setupWeChatWithAppId:@"wxe56d3277ffedce24" appSecret:@"e5a10698a5587003a028d0304099094f" universalLink:@""];
+    }];
     //设置IQKeyboard
     [[IQKeyboardManager sharedManager] setEnable:YES];
     [[IQKeyboardManager sharedManager] setShouldResignOnTouchOutside:YES];
@@ -242,14 +242,6 @@
 //        }];
 //    }];
 }
-
-//- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-//    BOOL handle = [WXApi handleOpenURL:url delegate:(id)self];
-//    if (!handle) {
-//        handle = [QQApiInterface handleOpenURL:url delegate:(id)self];
-//    }
-//    return handle;
-//}
 
 - (TPOSWalletDao *)walletDao {
     if (!_walletDao) {

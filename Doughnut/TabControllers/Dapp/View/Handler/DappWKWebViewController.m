@@ -19,8 +19,11 @@
 #import "CaclUtil.h"
 #import "TPOSShareMenuView.h"
 #import "TPOSShareView.h"
+#import <MOBFoundation/MobSDK+Privacy.h>
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
 #import <TencentOpenAPI/QQApiInterface.h>
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKUI/ShareSDK+SSUI.h>
 
 static NSString *MSG_SUCCESS = @"success";
 static long FIFTEEN = 15 * 60 * 1000;
@@ -57,6 +60,7 @@ static long FIFTEEN = 15 * 60 * 1000;
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:@"back"];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:@"fullScreen"];
     [self.webView.configuration.userContentController addScriptMessageHandler:self name:@"close"];
+    [self.webView.configuration.userContentController addScriptMessageHandler:self name:@"shareToSNS"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -71,6 +75,7 @@ static long FIFTEEN = 15 * 60 * 1000;
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"back"];
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"fullScreen"];
     [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"close"];
+    [self.webView.configuration.userContentController removeScriptMessageHandlerForName:@"shareToSNS"];
 }
 
 - (void)initWKWebView {
@@ -180,7 +185,7 @@ static long FIFTEEN = 15 * 60 * 1000;
     } else if ([message.name isEqualToString:@"close"]) {
         [self close];
     } else if ([message.name isEqualToString:@"shareToSNS"]) {
-        [self shareToSNS:callbackId];
+        [self shareToSNS:params :callbackId];
     }
 }
 
@@ -392,53 +397,57 @@ static long FIFTEEN = 15 * 60 * 1000;
 }
 
 - (void)fullScreen:(NSString *)params {
-    [self.navigationController setNavigationBarHidden:YES];
+    if([params isEqualToString:@"1"]){
+        [self.navigationController setNavigationBarHidden:YES];
+    }else{
+        [self.navigationController setNavigationBarHidden:NO];
+    }
 }
 
 - (void)close {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)shareToSNS:(NSString *)callbackId {
+-(void)shareToSNS:(NSString *)params :(NSString *)callbackId {
+    [MobSDK uploadPrivacyPermissionStatus:YES onResult:nil];
     [TPOSShareMenuView showInView:nil complement:^(TPOSShareType type) {
-        UIImage *image = [TPOSShareView shareImageByQrcodeImage:[UIImage imageNamed:@"OK"] address:@"232323"];
-        [self shareActionWithImage:image type:type];
+        [self shareActionWithContent:params];
     }];
 }
 
-- (void)shareActionWithImage:(UIImage *)image type:(TPOSShareType)type {
-    NSData *imageData = UIImageJPEGRepresentation(image, 1);
-    NSData *thumbData = UIImageJPEGRepresentation(image, 0.01);
-    if (type < TPOSShareTypeQQSession) {
-//        WXImageObject *imageObject = [WXImageObject object];
-//        imageObject.imageData = imageData;
-//        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-//        WXMediaMessage *message = [WXMediaMessage message];
-//        message.mediaObject = imageObject;
-//        message.thumbData = thumbData;
-//        req.bText = NO;
-//        if (type == TPOSShareTypeWechatSession) {
-//            req.scene = WXSceneSession;
-//        } else {
-//            req.scene = WXSceneTimeline;
-//        }
-//        req.message = message;
-//        BOOL result = [WXApi sendReq:req];
-//        if (result) {
-//            
-//        }
-    } else {
-        QQApiImageObject *obj = [[QQApiImageObject alloc] init];
-        obj.data = imageData;
-        obj.previewImageData = thumbData;
-        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:obj];
-        BOOL result = [QQApiInterface sendReq:req];
-        if (result) {
-            
+- (void)shareActionWithContent:(NSString *)params {
+    NSDictionary *paramData = [self dictionaryWithJsonString:params];
+    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+    NSArray* imageArray = @[[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[paramData valueForKey:@"imgUrl"]]]]];
+    [shareParams SSDKSetupShareParamsByText:[paramData valueForKey:@"text"]
+                                     images:imageArray
+                                        url:[paramData valueForKey:@"url"]
+                                      title:[paramData valueForKey:@"title"]
+                                       type:SSDKContentTypeAuto];
+[ShareSDK showShareActionSheet:nil //(第一个参数要显示菜单的视图, iPad版中此参数作为弹出菜单的参照视图，在ipad中要想弹出我们的分享菜单，这个参数必须要传值，可以传自己分享按钮的对象，或者可以创建一个小的view对象去传，传值与否不影响iphone显示)
+                   customItems:nil
+                   shareParams:shareParams
+         sheetConfiguration:nil
+             onStateChanged:^(SSDKResponseState state,
+                     SSDKPlatformType platformType,
+                     NSDictionary *userData,
+                     SSDKContentEntity *contentEntity,
+                     NSError *error,
+                     BOOL end)
+{
+   switch (state) {
+       case SSDKResponseStateSuccess:
+                NSLog(@"成功");//成功
+                break;
+       case SSDKResponseStateFail:
+                NSLog(@"--%@",error.description);//失败
+                break;
+       case SSDKResponseStateCancel:
+                break;
+       default:
+       break;
         }
-    }
-    
+    }];
 }
-
 
 @end

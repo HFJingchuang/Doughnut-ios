@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>MOBAppSecret</key>
+	<string>69c741bdf70f4fadc35477bf8c9e62eb</string>
+	<key>MOBAppKey</key>
+	<string>2d2d3976448fa</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -26,7 +30,9 @@
 			<key>CFBundleURLName</key>
 			<string>wx</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>wxe56d3277ffedce24</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -34,7 +40,9 @@
 			<key>CFBundleURLName</key>
 			<string>qq</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>QQ101828527</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
