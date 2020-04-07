@@ -56,9 +56,9 @@
     // 注册社交平台
     [ShareSDK registPlatforms:^(SSDKRegister *platformsRegister) {
         //QQ
-        [platformsRegister setupQQWithAppId:@"100371282" appkey:@"5d103e8cd309bdccdfb20157ebfc2f42"];
+        [platformsRegister setupQQWithAppId:@"101828527" appkey:@"5d103e8cd309bdccdfb20157ebfc2f42"];
         //WX
-        [platformsRegister setupWeChatWithAppId:@"wxe56d3277ffedce24" appSecret:@"e5a10698a5587003a028d0304099094f" universalLink:@""];
+        [platformsRegister setupWeChatWithAppId:@"wxe56d3277ffedce24" appSecret:@"e5a10698a5587003a028d0304099094f" universalLink:@"https://www.sjb9d.share2dlink.com/"];
     }];
     //设置IQKeyboard
     [[IQKeyboardManager sharedManager] setEnable:YES];

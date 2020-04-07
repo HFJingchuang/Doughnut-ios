@@ -410,9 +410,7 @@ static long FIFTEEN = 15 * 60 * 1000;
 
 -(void)shareToSNS:(NSString *)params :(NSString *)callbackId {
     [MobSDK uploadPrivacyPermissionStatus:YES onResult:nil];
-    [TPOSShareMenuView showInView:nil complement:^(TPOSShareType type) {
-        [self shareActionWithContent:params];
-    }];
+    [self shareActionWithContent:params];
 }
 
 - (void)shareActionWithContent:(NSString *)params {
@@ -421,33 +419,38 @@ static long FIFTEEN = 15 * 60 * 1000;
     NSArray* imageArray = @[[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[paramData valueForKey:@"imgUrl"]]]]];
     [shareParams SSDKSetupShareParamsByText:[paramData valueForKey:@"text"]
                                      images:imageArray
-                                        url:[paramData valueForKey:@"url"]
+                                        url:[NSURL URLWithString:[paramData valueForKey:@"url"]]
                                       title:[paramData valueForKey:@"title"]
                                        type:SSDKContentTypeAuto];
-[ShareSDK showShareActionSheet:nil //(第一个参数要显示菜单的视图, iPad版中此参数作为弹出菜单的参照视图，在ipad中要想弹出我们的分享菜单，这个参数必须要传值，可以传自己分享按钮的对象，或者可以创建一个小的view对象去传，传值与否不影响iphone显示)
-                   customItems:nil
-                   shareParams:shareParams
-         sheetConfiguration:nil
-             onStateChanged:^(SSDKResponseState state,
-                     SSDKPlatformType platformType,
-                     NSDictionary *userData,
-                     SSDKContentEntity *contentEntity,
-                     NSError *error,
-                     BOOL end)
-{
-   switch (state) {
-       case SSDKResponseStateSuccess:
-                NSLog(@"成功");//成功
-                break;
-       case SSDKResponseStateFail:
-                NSLog(@"--%@",error.description);//失败
-                break;
-       case SSDKResponseStateCancel:
-                break;
-       default:
-       break;
-        }
-    }];
+[ShareSDK showShareActionSheet:[UIView new]
+                                   customItems:nil
+                                   shareParams:shareParams
+                         sheetConfiguration:nil
+                             onStateChanged:^(SSDKResponseState state,
+                                     SSDKPlatformType platformType,
+                                     NSDictionary *userData,
+                                     SSDKContentEntity *contentEntity,
+                                     NSError *error,
+                                     BOOL end)
+         {
+
+                   switch (state) {
+
+                           case SSDKResponseStateSuccess:
+                                    NSLog(@"成功");//成功
+                                    break;
+                           case SSDKResponseStateFail:
+                              {
+                                    NSLog(@"--%@",error.description);
+                                    //失败
+                                    break;
+                               }
+                           case SSDKResponseStateCancel:
+                                    break;
+                           default:
+                           break;
+         }
+}];
 }
 
 @end

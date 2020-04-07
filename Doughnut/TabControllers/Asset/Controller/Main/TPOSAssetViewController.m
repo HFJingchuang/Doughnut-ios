@@ -112,6 +112,8 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
     self.bottomConstraint.constant = kIphoneX?83:49;
     self.cellHidden = NO;
     self.valueHidden = YES;
+    self.totalLoading.hidesWhenStopped = YES;
+    self.cnyLoading.hidesWhenStopped = YES;
     _caclUtil = [[CaclUtil alloc]init];
     _tokenCells = [NSMutableArray new];
     _hiddenCells = [NSMutableArray new];
@@ -493,8 +495,6 @@ static NSString * const AssetTableViewCellID = @"AssetTableViewCellIdentifier";
 
 - (void)setupSubviews {
     __weak typeof(self) weakSelf = self;
-    self.totalLoading.hidesWhenStopped = YES;
-    self.cnyLoading.hidesWhenStopped = YES;
     UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
     [layout setScrollDirection:UICollectionViewScrollDirectionVertical];
     _collectionView.backgroundColor = [UIColor colorWithHex:0xffffff];

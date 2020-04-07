@@ -41,14 +41,16 @@
 			<string>qq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ101828527</string>
+				<string>tencent101828527</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
-			<array/>
+			<array>
+				<string>QQ611C7AF</string>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -61,6 +63,11 @@
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>weixinULAPI</string>
+		<string>wechat</string>
+		<string>weixin</string>
+		<string>pinterestsdk.v1</string>
+		<string>pinit</string>
 		<string>weixin</string>
 		<string>itms-apps</string>
 		<string>sinaweibohd</string>

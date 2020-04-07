@@ -197,7 +197,7 @@ static NSString *COUNTER = @"CNT";
         [tx setSecret:[txData valueForKey:@"secret"]];
         [tx addMemo:[txData valueForKey:@"memo"]];
         transactionId = _remote->req_id + 1;
-        [tx submit:NO];
+//        [tx submit:NO];
     }
 }
 

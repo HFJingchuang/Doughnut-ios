@@ -439,7 +439,6 @@
 		D063A51D218E005400750001 /* TPOSAlertViewBaseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4F0218E005300750001 /* TPOSAlertViewBaseAnimation.m */; };
 		D063A51E218E005400750001 /* TPOSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4F1218E005300750001 /* TPOSAlertView.m */; };
 		D063A51F218E005400750001 /* YCFrameAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4F4218E005300750001 /* YCFrameAnimator.m */; };
-		D063A520218E005400750001 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D063A4F6218E005300750001 /* TencentOpenAPI.framework */; };
 		D063A521218E005400750001 /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4FB218E005300750001 /* SDCycleScrollView.m */; };
 		D063A522218E005400750001 /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4FC218E005300750001 /* UIView+SDExtension.m */; };
 		D063A523218E005400750001 /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A4FD218E005300750001 /* SDCollectionViewCell.m */; };
@@ -557,14 +556,12 @@
 		D063A854218E022800750001 /* TPOSChooseTokenSystemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A814218E022800750001 /* TPOSChooseTokenSystemCell.m */; };
 		D063A857218E022800750001 /* TPOSAboutUsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D063A81E218E022800750001 /* TPOSAboutUsCell.m */; };
 		D063A85C218FE22E00750001 /* TPOSForceCreateWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D063A85A218FE22E00750001 /* TPOSForceCreateWalletViewController.xib */; };
-		D08DC91D204BE7B3008A27B2 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */; };
 		D08DC91F204BE81A008A27B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D0F5E117201C9CB700C60EA6 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */; };
 		E94698D123D4780300B339B3 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = E94698D023D4780300B339B3 /* test.html */; };
 		E94698D323D59F0C00B339B3 /* donut.min.js in Resources */ = {isa = PBXBuildFile; fileRef = E94698D223D59F0C00B339B3 /* donut.min.js */; };
 		E96647D92435E58D0092C0CA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = E96647C32435E58D0092C0CA /* README.txt */; };
 		E96647DA2435E58D0092C0CA /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E96647C52435E58D0092C0CA /* libWeChatSDK.a */; };
-		E96647DB2435E58D0092C0CA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96647C72435E58D0092C0CA /* TencentOpenAPI.framework */; };
 		E96647DC2435E58D0092C0CA /* ShareSDKConnector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96647C92435E58D0092C0CA /* ShareSDKConnector.framework */; };
 		E96647DD2435E58D0092C0CA /* ShareSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E96647CA2435E58D0092C0CA /* ShareSDK.bundle */; };
 		E96647DE2435E58D0092C0CA /* ShareSDKUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E96647CC2435E58D0092C0CA /* ShareSDKUI.bundle */; };
@@ -581,6 +578,7 @@
 		E96647EA2435E6120092C0CA /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E96647E92435E6120092C0CA /* libz.tbd */; };
 		E96647EC2435E61C0092C0CA /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E96647EB2435E61C0092C0CA /* libc++.tbd */; };
 		E96647EE2435E62B0092C0CA /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = E96647ED2435E62B0092C0CA /* libsqlite3.tbd */; };
+		E96647F0243C3C840092C0CA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96647C72435E58D0092C0CA /* TencentOpenAPI.framework */; };
 		E9EE062A23A9CDCB00185FB2 /* DOSJTNodeDialogView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EE062923A9CDCB00185FB2 /* DOSJTNodeDialogView.m */; };
 		E9EE062C23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9EE062B23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib */; };
 		E9EE063323A9E62800185FB2 /* TPOSEditWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9EE062D23A9E62800185FB2 /* TPOSEditWalletViewController.xib */; };
@@ -1531,7 +1529,6 @@
 		D063A4F1218E005300750001 /* TPOSAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSAlertView.m; sourceTree = "<group>"; };
 		D063A4F3218E005300750001 /* YCFrameAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCFrameAnimator.h; sourceTree = "<group>"; };
 		D063A4F4218E005300750001 /* YCFrameAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCFrameAnimator.m; sourceTree = "<group>"; };
-		D063A4F6218E005300750001 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		D063A4F8218E005300750001 /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
 		D063A4F9218E005300750001 /* SDCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCycleScrollView.h; sourceTree = "<group>"; };
 		D063A4FA218E005300750001 /* SDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionViewCell.h; sourceTree = "<group>"; };
@@ -1747,7 +1744,6 @@
 		D063A81D218E022800750001 /* TPOSWalletChainCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPOSWalletChainCell.h; sourceTree = "<group>"; };
 		D063A81E218E022800750001 /* TPOSAboutUsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPOSAboutUsCell.m; sourceTree = "<group>"; };
 		D063A85B218FE22E00750001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TPOSForceCreateWalletViewController.xib; sourceTree = "<group>"; };
-		D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = TokenBank/Vendor/Tencent/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		E94698D023D4780300B339B3 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
@@ -1774,6 +1770,7 @@
 		E96647E92435E6120092C0CA /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		E96647EB2435E61C0092C0CA /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		E96647ED2435E62B0092C0CA /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		E96647EF24374EB80092C0CA /* Doughnut.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Doughnut.entitlements; sourceTree = "<group>"; };
 		E9EE062823A9CDCB00185FB2 /* DOSJTNodeDialogView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSJTNodeDialogView.h; sourceTree = "<group>"; };
 		E9EE062923A9CDCB00185FB2 /* DOSJTNodeDialogView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DOSJTNodeDialogView.m; sourceTree = "<group>"; };
 		E9EE062B23A9CDEB00185FB2 /* DOSJTNodeDialogView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOSJTNodeDialogView.xib; sourceTree = "<group>"; };
@@ -1796,6 +1793,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E96647F0243C3C840092C0CA /* TencentOpenAPI.framework in Frameworks */,
 				E96647EE2435E62B0092C0CA /* libsqlite3.tbd in Frameworks */,
 				E96647EC2435E61C0092C0CA /* libc++.tbd in Frameworks */,
 				E96647EA2435E6120092C0CA /* libz.tbd in Frameworks */,
@@ -1806,16 +1804,13 @@
 				E96647E22435E58D0092C0CA /* ShareSDKUI.framework in Frameworks */,
 				D08DC91F204BE81A008A27B2 /* SystemConfiguration.framework in Frameworks */,
 				E96647E82435E58D0092C0CA /* MOBFoundation.framework in Frameworks */,
-				D063A520218E005400750001 /* TencentOpenAPI.framework in Frameworks */,
 				E96647E42435E58D0092C0CA /* SMSConnector.framework in Frameworks */,
 				D0F5E117201C9CB700C60EA6 /* LocalAuthentication.framework in Frameworks */,
 				E96647E52435E58D0092C0CA /* QQConnector.framework in Frameworks */,
 				E96647DA2435E58D0092C0CA /* libWeChatSDK.a in Frameworks */,
-				D08DC91D204BE7B3008A27B2 /* TencentOpenAPI.framework in Frameworks */,
 				2C16632F20025B8100E60CBD /* AVFoundation.framework in Frameworks */,
 				E96647DC2435E58D0092C0CA /* ShareSDKConnector.framework in Frameworks */,
 				2C3C953C1FFDF32E005A8F39 /* Accelerate.framework in Frameworks */,
-				E96647DB2435E58D0092C0CA /* TencentOpenAPI.framework in Frameworks */,
 				E96647E02435E58D0092C0CA /* ShareSDKConfigFile.framework in Frameworks */,
 				2CE5C8141FF8A364008AB801 /* JavaScriptCore.framework in Frameworks */,
 				5FA8188A2425EA5B00931AB9 /* libcrypto.a in Frameworks */,
@@ -1857,6 +1852,7 @@
 		2CE5C7F71FF8A2DB008AB801 /* Doughnut */ = {
 			isa = PBXGroup;
 			children = (
+				E96647EF24374EB80092C0CA /* Doughnut.entitlements */,
 				5FA814802425E75800931AB9 /* Third */,
 				B625D02F237FD81000E76DB3 /* KeyStore */,
 				B658047522F9A91000F3380B /* WalletManage */,
@@ -1889,7 +1885,6 @@
 				E96647EB2435E61C0092C0CA /* libc++.tbd */,
 				E96647E92435E6120092C0CA /* libz.tbd */,
 				D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */,
-				D08DC91C204BE7B3008A27B2 /* TencentOpenAPI.framework */,
 				D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */,
 				2C16632E20025B8100E60CBD /* AVFoundation.framework */,
 				2C3C953B1FFDF32D005A8F39 /* Accelerate.framework */,
@@ -4030,7 +4025,6 @@
 				D063A4EA218E005300750001 /* PasswordStrength */,
 				D063A4ED218E005300750001 /* AlertView */,
 				D063A4F2218E005300750001 /* YCFrameAnimator */,
-				D063A4F5218E005300750001 /* Tencent */,
 				D063A4F7218E005300750001 /* SDCycleScrollView */,
 			);
 			path = Vendor;
@@ -4072,14 +4066,6 @@
 				D063A4F4218E005300750001 /* YCFrameAnimator.m */,
 			);
 			path = YCFrameAnimator;
-			sourceTree = "<group>";
-		};
-		D063A4F5218E005300750001 /* Tencent */ = {
-			isa = PBXGroup;
-			children = (
-				D063A4F6218E005300750001 /* TencentOpenAPI.framework */,
-			);
-			path = Tencent;
 			sourceTree = "<group>";
 		};
 		D063A4F7218E005300750001 /* SDCycleScrollView */ = {
@@ -5644,6 +5630,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Doughnut/Doughnut.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ningbo Yang (JE65PQHAN3)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7RPL5FD33B;
@@ -5691,7 +5678,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jc.doughnut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = ttq.dev;
+				PROVISIONING_PROFILE_SPECIFIER = ttq.devo;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -5703,6 +5690,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Doughnut/Doughnut.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Anhui Gaoshan Technology Co., Ltd. (7RPL5FD33B)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 7RPL5FD33B;
@@ -5751,7 +5739,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jc.doughnut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = ttq.appstore;
+				PROVISIONING_PROFILE_SPECIFIER = ttq.apps;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
