@@ -98,6 +98,12 @@
     }
 }
 
+- (void)shareToSMS {
+    if (_complement) {
+        _complement(TPOSShareTypeSMS);
+    }
+}
+
 - (void)registerCell {
     [self.collectionView registerNib:[UINib nibWithNibName:@"TPOSShareCCell" bundle:nil] forCellWithReuseIdentifier:@"TPOSShareCCell"];
 }
@@ -107,6 +113,7 @@
         _shareMenu = @[@{@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wx_frnds"],@"icon":@"icon_wechat",@"action":@"shareToWechat"},
                        @{@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wx_timeline"],@"icon":@"icon_wechat_friends",@"action":@"shareToWechatFriends"},
                        @{@"title":@"QQ",@"icon":@"icon_qq",@"action":@"shareToQQ"},
+                       @{@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"sms"],@"icon":@"icon_qq",@"action":@"shareToSMS"},
                        ];
     }
     return _shareMenu;

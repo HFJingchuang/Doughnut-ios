@@ -9,9 +9,10 @@
 #import "TPOSAlertView.h"
 
 typedef NS_ENUM(NSInteger,TPOSShareType){
+    TPOSShareTypeSMS = 0, //短信
     TPOSShareTypeWechatSession = 1, //微信好友
-    TPOSShareTypeWechatTimeline,   //朋友圈
-    TPOSShareTypeQQSession,   //QQ好友
+    TPOSShareTypeWechatTimeline = 2,   //朋友圈
+    TPOSShareTypeQQSession = 3   //QQ好友
 };
 
 @interface TPOSShareMenuView : TPOSAlertView

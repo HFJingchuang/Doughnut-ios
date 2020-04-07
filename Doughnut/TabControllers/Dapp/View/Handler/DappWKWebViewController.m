@@ -413,10 +413,12 @@ static long FIFTEEN = 15 * 60 * 1000;
 
 -(void)shareToSNS:(NSString *)params :(NSString *)callbackId {
     [MobSDK uploadPrivacyPermissionStatus:YES onResult:nil];
-    [self shareActionWithContent:params];
+    [TPOSShareMenuView showInView:nil complement:^(TPOSShareType type) {
+        [self shareActionWithContent:params type:&type];
+    }];
 }
 
-- (void)shareActionWithContent:(NSString *)params {
+- (void)shareActionWithContent:(NSString *)params type:(TPOSShareType *)type{
     NSDictionary *paramData = [self dictionaryWithJsonString:params];
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
     NSArray* imageArray = @[[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[paramData valueForKey:@"imgUrl"]]]]];
@@ -425,21 +427,31 @@ static long FIFTEEN = 15 * 60 * 1000;
                                         url:[NSURL URLWithString:[paramData valueForKey:@"url"]]
                                       title:[paramData valueForKey:@"title"]
                                        type:SSDKContentTypeAuto];
-    [ShareSDK showShareActionSheet:[UIView new]
-                                   customItems:nil
-                                   shareParams:shareParams
-                            sheetConfiguration:nil
-                                onStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType,  NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end){
+    SSDKPlatformType shareType = SSDKPlatformTypeSMS;
+    switch ((NSInteger)type ) {
+        case 0:shareType = SSDKPlatformTypeSMS;
+        break;
+        case 1:shareType = SSDKPlatformTypeWechat;
+        break;
+        case 2:shareType = SSDKPlatformSubTypeWechatTimeline;
+        break;
+        case 3:shareType = SSDKPlatformTypeQQ;
+        break;
+        default:
+        break;
+    }
+    [ShareSDK  share:shareType
+             parameters:shareParams
+    onStateChanged:^(SSDKResponseState state, NSDictionary *userData,
+    SSDKContentEntity *contentEntity, NSError *error) {
        switch (state) {
            case SSDKResponseStateSuccess:
                 [self.view makeToast:@"甜甜圈：分享成功"];
                 break;
            case SSDKResponseStateFail:
-              {
-                NSLog(@"--%@",error.description);
+               [self.view makeToast:[NSString stringWithFormat:@"甜甜圈:%@",[error.userInfo objectForKey:@"description"]]];
                 //失败
                 break;
-               }
            case SSDKResponseStateCancel:
                [self.view makeToast:@"甜甜圈：取消分享"];
                break;
