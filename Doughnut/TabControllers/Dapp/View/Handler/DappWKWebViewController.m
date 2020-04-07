@@ -24,6 +24,8 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
+#import "UIView+Toast.h"
+#import "WXApi.h"
 
 static NSString *MSG_SUCCESS = @"success";
 static long FIFTEEN = 15 * 60 * 1000;
@@ -91,9 +93,10 @@ static long FIFTEEN = 15 * 60 * 1000;
 //    NSURLRequest *request=[NSURLRequest requestWithURL:url];
     NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
+    [self.view addSubview:self.webView];
     [self.webView loadRequest:request];
     self.webView.UIDelegate = self;
-    [self.view addSubview:self.webView];
+
 }
 
 - (void)registerNotifications {
@@ -130,7 +133,7 @@ static long FIFTEEN = 15 * 60 * 1000;
         NSDictionary *tx = [result objectForKey:@"result"];
         NSDictionary *txJson = [tx objectForKey:@"tx_json"];
         NSLog(@"%@", txJson);
-        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_suc"]];
+        [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"sign_suc"]];
         [_result setValue:@(YES) forKey:@"result"];
         [_result setValue:MSG_SUCCESS forKey:@"msg"];
         [_result setValue:[tx objectForKey:@"tx_blob"] forKey:@"signedTx"];
@@ -138,7 +141,7 @@ static long FIFTEEN = 15 * 60 * 1000;
             NSLog(@"%@----%@",result, error);
         }];
     }else if([[result valueForKey:@"status"] isEqualToString:@"error"]){
-        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"trans_fai"]];
+        [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"sign_fai"]];
         [_result setValue:@(NO) forKey:@"result"];
         [_result setValue:[result valueForKey:@"error"] forKey:@"msg"];
         [self.webView evaluateJavaScript:[NSString stringWithFormat:@"%@('%@')",_signCallbackId,[_result mj_JSONString]] completionHandler:^(id _Nullable result, NSError * _Nullable error) {
@@ -284,7 +287,7 @@ static long FIFTEEN = 15 * 60 * 1000;
         [txData setValue:mTo forKey:@"to"];
         [txData setValue:[NSNumber numberWithFloat:[mValue floatValue]] forKey:@"value"];
         [txData setValue:mToken forKey:@"currency"];
-        [txData setValue:@"" forKey:@"issuer"];
+        [txData setValue:mIssuer?mIssuer:@"" forKey:@"issuer"];
         [txData setValue:[NSNumber numberWithFloat:[mGas floatValue] * 1000000] forKey:@"fee"];
         [txData setValue:mMemo forKey:@"memo"];
         DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
@@ -302,7 +305,7 @@ static long FIFTEEN = 15 * 60 * 1000;
                 dialog.confirmAction = ^(NSString *backSecret) {
                     if (backSecret){
                         [txData setValue:backSecret forKey:@"secret"];
-                        [[WalletManage shareWalletManage]transactionWithData:txData];
+                        [[WalletManage shareWalletManage]signWithData:txData];
                     }
                 };
                 [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
@@ -310,7 +313,7 @@ static long FIFTEEN = 15 * 60 * 1000;
                 NSString *password = [defaults objectForKey:@"setPassword"];
                 Wallet *decryptEthECKeyPair = [KeyStore decrypt:password wallerFile:keystore];
                 [txData setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
-                [[WalletManage shareWalletManage]transactionWithData:txData];
+                [[WalletManage shareWalletManage]signWithData:txData];
             }
         };
         [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
@@ -335,7 +338,7 @@ static long FIFTEEN = 15 * 60 * 1000;
         mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
         _currentWallet = [TPOSContext shareInstance].currentWallet;
         NSMutableDictionary *data = [NSMutableDictionary new];
-       [data setValue:_currentWallet.address forKey:@"from"];
+        [data setValue:_currentWallet.address forKey:@"from"];
         [data setValue:mTo forKey:@"to"];
         [data setValue:mGas forKey:@"fee"];
         [data setValue:[NSString stringWithFormat:@"%@ %@",mValue,mToken] forKey:@"content"];
@@ -345,7 +348,7 @@ static long FIFTEEN = 15 * 60 * 1000;
         [txData setValue:mTo forKey:@"to"];
         [txData setValue:[NSNumber numberWithFloat:[mValue floatValue]] forKey:@"value"];
         [txData setValue:mToken forKey:@"currency"];
-        [txData setValue:@"" forKey:@"issuer"];
+        [txData setValue:mIssuer?mIssuer:@"" forKey:@"issuer"];
         [txData setValue:[NSNumber numberWithFloat:[mGas floatValue] * 1000000] forKey:@"fee"];
         [txData setValue:mMemo forKey:@"memo"];
         DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
@@ -362,8 +365,8 @@ static long FIFTEEN = 15 * 60 * 1000;
                 dialog.wallet = _currentWallet;
                 dialog.confirmAction = ^(NSString *backSecret) {
                     if (backSecret){
-                        [data setValue:backSecret forKey:@"secret"];
-                        [[WalletManage shareWalletManage]transactionWithData:data];
+                        [txData setValue:backSecret forKey:@"secret"];
+                        [[WalletManage shareWalletManage]transactionWithData:txData];
                     }
                 };
                 [dialog showWithAnimate:TPOSAlertViewAnimateCenterPop inView:self.view.window];
@@ -422,33 +425,26 @@ static long FIFTEEN = 15 * 60 * 1000;
                                         url:[NSURL URLWithString:[paramData valueForKey:@"url"]]
                                       title:[paramData valueForKey:@"title"]
                                        type:SSDKContentTypeAuto];
-[ShareSDK showShareActionSheet:[UIView new]
+    [ShareSDK showShareActionSheet:[UIView new]
                                    customItems:nil
                                    shareParams:shareParams
-                         sheetConfiguration:nil
-                             onStateChanged:^(SSDKResponseState state,
-                                     SSDKPlatformType platformType,
-                                     NSDictionary *userData,
-                                     SSDKContentEntity *contentEntity,
-                                     NSError *error,
-                                     BOOL end)
-         {
-
-                   switch (state) {
-
-                           case SSDKResponseStateSuccess:
-                                    NSLog(@"成功");//成功
-                                    break;
-                           case SSDKResponseStateFail:
-                              {
-                                    NSLog(@"--%@",error.description);
-                                    //失败
-                                    break;
-                               }
-                           case SSDKResponseStateCancel:
-                                    break;
-                           default:
-                           break;
+                            sheetConfiguration:nil
+                                onStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType,  NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end){
+       switch (state) {
+           case SSDKResponseStateSuccess:
+                [self.view makeToast:@"甜甜圈：分享成功"];
+                break;
+           case SSDKResponseStateFail:
+              {
+                NSLog(@"--%@",error.description);
+                //失败
+                break;
+               }
+           case SSDKResponseStateCancel:
+               [self.view makeToast:@"甜甜圈：取消分享"];
+               break;
+           default:
+           break;
          }
 }];
 }

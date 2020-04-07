@@ -6,7 +6,6 @@
 //  Copyright © 2019 jch. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "TPOSBaseViewController.h"
 
 @interface DappWKWebViewController : TPOSBaseViewController
