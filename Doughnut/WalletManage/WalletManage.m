@@ -238,7 +238,6 @@ static NSString *COUNTER = @"CNT";
         [accountInfoIds addObject:[NSNumber numberWithInt:_remote->req_id]];
     }
     [_remote requestAccountInfo:options];
-    
 }
 
 -(void) getAccountInfo:(NSNotification *) notification {
@@ -258,7 +257,6 @@ static NSString *COUNTER = @"CNT";
     [options setObject:address forKey:@"account"];
     accountTumsId = _remote->req_id;
     [_remote requestAccountTums:options];
-    
 }
 
 //获取账号挂单信息
@@ -375,7 +373,6 @@ static NSString *COUNTER = @"CNT";
             failure(error);
         }
     }];
-    
 }
 
 //获取交易历史记录
@@ -407,7 +404,6 @@ static NSString *COUNTER = @"CNT";
             failure(error);
         }
     }];
-    
 }
 
 //获取全部tokens
@@ -478,7 +474,6 @@ static NSString *COUNTER = @"CNT";
                 [data[j] setValue:@"0" forKey:@"limit"];
             }
         }
-        
         // 根据挂单计算冻结数量
         for (int i = 0; i <_offerlist.count; i++) {
             NSString *getsCurrency = [[_offerlist[i] objectForKey:@"taker_gets"] valueForKey:@"currency"];

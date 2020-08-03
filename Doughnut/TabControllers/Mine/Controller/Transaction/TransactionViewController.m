@@ -271,7 +271,6 @@ static long FIFTEEN = 15 * 60 * 1000;
 - (IBAction)transactionAction:(id)sender {
     NSError* err = nil;
     KeyStoreFileModel* keystore = [[KeyStoreFileModel alloc] initWithString:self.currentWallet.keyStore error:&err];
-    //Wallet *decryptEthECKeyPair = [KeyStore decrypt:weakAlertController.textFields.firstObject.text wallerFile:keystore];
     NSMutableDictionary *data = [NSMutableDictionary new];
     [data setValue:self.currentWallet.address forKey:@"account"];
     [data setValue:self.addressTF.text forKey:@"to"];
@@ -280,7 +279,6 @@ static long FIFTEEN = 15 * 60 * 1000;
     [data setValue:self.tokenIssuer?self.tokenIssuer:@"" forKey:@"issuer"];
     [data setValue:[NSNumber numberWithFloat:self.gas * 1000000] forKey:@"fee"];
     [data setValue:self.remarkTV.text forKey:@"memo"];
-    //[data setValue:[decryptEthECKeyPair secret] forKey:@"secret"];
     NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
     NSString *time = [defaults objectForKey:@"setTime"]?[defaults objectForKey:@"setTime"]:@"0";
     long deff = [[[[CaclUtil alloc]init] sub:[NSString stringWithFormat:@"%.f",([[NSDate date] timeIntervalSince1970]*1000)] :time] longLongValue];

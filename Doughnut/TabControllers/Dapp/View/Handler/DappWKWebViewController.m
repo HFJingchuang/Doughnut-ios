@@ -27,12 +27,11 @@
 #import "UIView+Toast.h"
 #import "WXApi.h"
 
+#import "TransactionViewController.h"
+
 static NSString *MSG_SUCCESS = @"success";
 static long FIFTEEN = 15 * 60 * 1000;
 @interface DappWKWebViewController()<WKNavigationDelegate,WKUIDelegate,WKScriptMessageHandler>
-{
-   NSString *mFrom, *mTo, *mValue, *mToken, *mIssuer, *mGas, *mMemo;
-}
 @property (nonatomic, strong) WKWebView *webView;
 
 @property (nonatomic, strong) NSMutableDictionary *result;
@@ -87,12 +86,12 @@ static long FIFTEEN = 15 * 60 * 1000;
     preferences.javaScriptCanOpenWindowsAutomatically = YES;
     configuration.preferences = preferences;
     self.webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-//    NSString *bundlePath=[[NSBundle mainBundle]bundlePath];
-//    NSString *path=[bundlePath stringByAppendingPathComponent:_htmlUrl];
-//    NSURL *url=[NSURL fileURLWithPath:path];
-//    NSURLRequest *request=[NSURLRequest requestWithURL:url];
-    NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
-    NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
+    NSString *bundlePath=[[NSBundle mainBundle]bundlePath];
+    NSString *path=[bundlePath stringByAppendingPathComponent:@"dapp.html"];
+    NSURL *url=[NSURL fileURLWithPath:path];
+    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+//    NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
     [self.view addSubview:self.webView];
     [self.webView loadRequest:request];
     self.webView.UIDelegate = self;
@@ -269,27 +268,21 @@ static long FIFTEEN = 15 * 60 * 1000;
 - (void)sign:(NSString *)params :(NSString *)callbackId {
     @try {
         NSDictionary *tx = [self dictionaryWithJsonString:params];
-        mTo = [tx valueForKey:@"to"]?[tx valueForKey:@"to"]:@"";
-        mToken = [tx valueForKey:@"currency"]?[[tx valueForKey:@"currency"]uppercaseString]:@"";
-        mIssuer = [tx valueForKey:@"issuer"]?[tx valueForKey:@"issuer"]:@"";
-        mValue = [tx valueForKey:@"value"]?[tx valueForKey:@"value"]:@"";
-        mMemo = [tx valueForKey:@"memo"]?[tx valueForKey:@"memo"]:@"";
-        mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
         _currentWallet = [TPOSContext shareInstance].currentWallet;
         NSMutableDictionary *data = [NSMutableDictionary new];
         [data setValue:_currentWallet.address forKey:@"from"];
-        [data setValue:mTo forKey:@"to"];
-        [data setValue:mGas forKey:@"fee"];
-        [data setValue:[NSString stringWithFormat:@"%@ %@",mValue,mToken] forKey:@"content"];
-        [data setValue:mMemo forKey:@"memo"];
+        [data setValue:[tx valueForKey:@"to"] forKey:@"to"];
+        [data setValue:[tx valueForKey:@"gas"] forKey:@"fee"];
+        [data setValue:[NSString stringWithFormat:@"%@ %@",[tx valueForKey:@"value"],[tx valueForKey:@"currency"]] forKey:@"content"];
+        [data setValue:[tx valueForKey:@"memo"] forKey:@"memo"];
         NSMutableDictionary *txData = [NSMutableDictionary new];
         [txData setValue:_currentWallet.address forKey:@"account"];
-        [txData setValue:mTo forKey:@"to"];
-        [txData setValue:[NSNumber numberWithFloat:[mValue floatValue]] forKey:@"value"];
-        [txData setValue:mToken forKey:@"currency"];
-        [txData setValue:mIssuer?mIssuer:@"" forKey:@"issuer"];
-        [txData setValue:[NSNumber numberWithFloat:[mGas floatValue] * 1000000] forKey:@"fee"];
-        [txData setValue:mMemo forKey:@"memo"];
+        [txData setValue:[tx valueForKey:@"to"] forKey:@"to"];
+        [txData setValue:[NSNumber numberWithFloat:[[tx valueForKey:@"value"] floatValue]] forKey:@"value"];
+        [txData setValue:[[tx valueForKey:@"currency"] uppercaseString] forKey:@"currency"];
+        [txData setValue:[tx valueForKey:@"issuer"] forKey:@"issuer"];
+        [txData setValue:[NSNumber numberWithFloat:[[tx valueForKey:@"gas"] floatValue] * 1000000] forKey:@"fee"];
+        [txData setValue:[tx valueForKey:@"memo"] forKey:@"memo"];
         DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
         [dialog setValues:data];
         _signCallbackId = callbackId;
@@ -327,30 +320,29 @@ static long FIFTEEN = 15 * 60 * 1000;
     }
 }
 
+- (void)transfer2:(NSString *)params :(NSString *)callbackId {
+    TransactionViewController *vc = [[TransactionViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)transfer:(NSString *)params :(NSString *)callbackId {
     @try {
         NSDictionary *tx = [self dictionaryWithJsonString:params];
-        mTo = [tx valueForKey:@"to"]?[tx valueForKey:@"to"]:@"";
-        mToken = [tx valueForKey:@"currency"]?[[tx valueForKey:@"currency"]uppercaseString]:@"";
-        mIssuer = [tx valueForKey:@"issuer"]?[tx valueForKey:@"issuer"]:@"";
-        mValue = [tx valueForKey:@"value"]?[tx valueForKey:@"value"]:@"";
-        mMemo = [tx valueForKey:@"memo"]?[tx valueForKey:@"memo"]:@"";
-        mGas = [tx valueForKey:@"gas"]?[tx valueForKey:@"gas"]:@"";
         _currentWallet = [TPOSContext shareInstance].currentWallet;
         NSMutableDictionary *data = [NSMutableDictionary new];
         [data setValue:_currentWallet.address forKey:@"from"];
-        [data setValue:mTo forKey:@"to"];
-        [data setValue:mGas forKey:@"fee"];
-        [data setValue:[NSString stringWithFormat:@"%@ %@",mValue,mToken] forKey:@"content"];
-        [data setValue:mMemo forKey:@"memo"];
+        [data setValue:[tx valueForKey:@"to"] forKey:@"to"];
+        [data setValue:[tx valueForKey:@"gas"] forKey:@"fee"];
+        [data setValue:[NSString stringWithFormat:@"%@ %@",[tx valueForKey:@"value"],[tx valueForKey:@"currency"]] forKey:@"content"];
+        [data setValue:[tx valueForKey:@"memo"] forKey:@"memo"];
         NSMutableDictionary *txData = [NSMutableDictionary new];
         [txData setValue:_currentWallet.address forKey:@"account"];
-        [txData setValue:mTo forKey:@"to"];
-        [txData setValue:[NSNumber numberWithFloat:[mValue floatValue]] forKey:@"value"];
-        [txData setValue:mToken forKey:@"currency"];
-        [txData setValue:mIssuer?mIssuer:@"" forKey:@"issuer"];
-        [txData setValue:[NSNumber numberWithFloat:[mGas floatValue] * 1000000] forKey:@"fee"];
-        [txData setValue:mMemo forKey:@"memo"];
+        [txData setValue:[tx valueForKey:@"to"] forKey:@"to"];
+        [txData setValue:[NSNumber numberWithFloat:[[tx valueForKey:@"value"] floatValue]] forKey:@"value"];
+        [txData setValue:[[tx valueForKey:@"currency"] uppercaseString] forKey:@"currency"];
+        [txData setValue:[tx valueForKey:@"issuer"] forKey:@"issuer"];
+        [txData setValue:[NSNumber numberWithFloat:[[tx valueForKey:@"gas"] floatValue] * 1000000] forKey:@"fee"];
+        [txData setValue:[tx valueForKey:@"memo"] forKey:@"memo"];
         DappTransferDetailDialog *dialog = [DappTransferDetailDialog DappTransferDetailDialogInit];
         [dialog setValues:data];
         _transactionCallbackId = callbackId;

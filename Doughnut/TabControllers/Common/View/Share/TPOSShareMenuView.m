@@ -113,7 +113,7 @@
         _shareMenu = @[@{@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wx_frnds"],@"icon":@"icon_wechat",@"action":@"shareToWechat"},
                        @{@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"wx_timeline"],@"icon":@"icon_wechat_friends",@"action":@"shareToWechatFriends"},
                        @{@"title":@"QQ",@"icon":@"icon_qq",@"action":@"shareToQQ"},
-                       @{@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"sms"],@"icon":@"icon_qq",@"action":@"shareToSMS"},
+                       @{@"title":[[TPOSLocalizedHelper standardHelper] stringWithKey:@"sms"],@"icon":@"icon_sms",@"action":@"shareToSMS"},
                        ];
     }
     return _shareMenu;

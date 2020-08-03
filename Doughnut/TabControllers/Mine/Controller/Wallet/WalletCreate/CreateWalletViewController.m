@@ -158,6 +158,7 @@
     Wallet *wallet = [[Wallet alloc]initWithKeypairs:keypairs private:privateKey];
     KeyStoreFileModel *keyStoreFile = [KeyStore createLight:password wallet:wallet];
     walletModel.keyStore = [keyStoreFile toJSONString];
+    walletModel.privateKey = privateKey;
     walletModel.walletId = walletId;
     walletModel.dbVersion = kDBVersion;
     //存到本地

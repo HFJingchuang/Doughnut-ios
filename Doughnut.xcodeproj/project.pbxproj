@@ -558,6 +558,11 @@
 		D063A85C218FE22E00750001 /* TPOSForceCreateWalletViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D063A85A218FE22E00750001 /* TPOSForceCreateWalletViewController.xib */; };
 		D08DC91F204BE81A008A27B2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D0F5E117201C9CB700C60EA6 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */; };
+		E9095E7F2491CB0300BD8E72 /* vendor.8abf88fddaa5ae1ae823.js in Resources */ = {isa = PBXBuildFile; fileRef = E9095E782491CB0300BD8E72 /* vendor.8abf88fddaa5ae1ae823.js */; };
+		E9095E802491CB0300BD8E72 /* app.e2d93526e28ed8ac740d.js in Resources */ = {isa = PBXBuildFile; fileRef = E9095E792491CB0300BD8E72 /* app.e2d93526e28ed8ac740d.js */; };
+		E9095E812491CB0300BD8E72 /* app.b6c3cd57f34814cc005561022d5cbba4.css in Resources */ = {isa = PBXBuildFile; fileRef = E9095E7A2491CB0300BD8E72 /* app.b6c3cd57f34814cc005561022d5cbba4.css */; };
+		E9095E822491CB0300BD8E72 /* manifest.2ae2e69a05c33dfc65f8.js in Resources */ = {isa = PBXBuildFile; fileRef = E9095E7B2491CB0300BD8E72 /* manifest.2ae2e69a05c33dfc65f8.js */; };
+		E9095E832491CB0300BD8E72 /* dapp.html in Resources */ = {isa = PBXBuildFile; fileRef = E9095E7D2491CB0300BD8E72 /* dapp.html */; };
 		E94698D123D4780300B339B3 /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = E94698D023D4780300B339B3 /* test.html */; };
 		E94698D323D59F0C00B339B3 /* donut.min.js in Resources */ = {isa = PBXBuildFile; fileRef = E94698D223D59F0C00B339B3 /* donut.min.js */; };
 		E96647D92435E58D0092C0CA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = E96647C32435E58D0092C0CA /* README.txt */; };
@@ -1747,6 +1752,15 @@
 		D063A85B218FE22E00750001 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TPOSForceCreateWalletViewController.xib; sourceTree = "<group>"; };
 		D08DC91E204BE81A008A27B2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F5E116201C9CB700C60EA6 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		E9095E762491CB0300BD8E72 /* manifest.2ae2e69a05c33dfc65f8.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = manifest.2ae2e69a05c33dfc65f8.js.map; sourceTree = "<group>"; };
+		E9095E772491CB0300BD8E72 /* app.e2d93526e28ed8ac740d.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = app.e2d93526e28ed8ac740d.js.map; sourceTree = "<group>"; };
+		E9095E782491CB0300BD8E72 /* vendor.8abf88fddaa5ae1ae823.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = vendor.8abf88fddaa5ae1ae823.js; sourceTree = "<group>"; };
+		E9095E792491CB0300BD8E72 /* app.e2d93526e28ed8ac740d.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = app.e2d93526e28ed8ac740d.js; sourceTree = "<group>"; };
+		E9095E7A2491CB0300BD8E72 /* app.b6c3cd57f34814cc005561022d5cbba4.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = app.b6c3cd57f34814cc005561022d5cbba4.css; sourceTree = "<group>"; };
+		E9095E7B2491CB0300BD8E72 /* manifest.2ae2e69a05c33dfc65f8.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = manifest.2ae2e69a05c33dfc65f8.js; sourceTree = "<group>"; };
+		E9095E7C2491CB0300BD8E72 /* vendor.8abf88fddaa5ae1ae823.js.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = vendor.8abf88fddaa5ae1ae823.js.map; sourceTree = "<group>"; };
+		E9095E7D2491CB0300BD8E72 /* dapp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = dapp.html; sourceTree = "<group>"; };
+		E9095E7E2491CB0300BD8E72 /* app.b6c3cd57f34814cc005561022d5cbba4.css.map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = app.b6c3cd57f34814cc005561022d5cbba4.css.map; sourceTree = "<group>"; };
 		E94698D023D4780300B339B3 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		E94698D223D59F0C00B339B3 /* donut.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = donut.min.js; sourceTree = "<group>"; };
 		E96647C12435E58D0092C0CA /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -3939,6 +3953,7 @@
 		B6FA810E23A24DBA00D42FAF /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				E9095E752491CB0300BD8E72 /* dist */,
 				E94698D223D59F0C00B339B3 /* donut.min.js */,
 				B6FA810F23A24DBA00D42FAF /* donut.js */,
 				B6FA811023A24DBA00D42FAF /* hello.html */,
@@ -4647,6 +4662,22 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		E9095E752491CB0300BD8E72 /* dist */ = {
+			isa = PBXGroup;
+			children = (
+				E9095E762491CB0300BD8E72 /* manifest.2ae2e69a05c33dfc65f8.js.map */,
+				E9095E772491CB0300BD8E72 /* app.e2d93526e28ed8ac740d.js.map */,
+				E9095E782491CB0300BD8E72 /* vendor.8abf88fddaa5ae1ae823.js */,
+				E9095E792491CB0300BD8E72 /* app.e2d93526e28ed8ac740d.js */,
+				E9095E7A2491CB0300BD8E72 /* app.b6c3cd57f34814cc005561022d5cbba4.css */,
+				E9095E7B2491CB0300BD8E72 /* manifest.2ae2e69a05c33dfc65f8.js */,
+				E9095E7C2491CB0300BD8E72 /* vendor.8abf88fddaa5ae1ae823.js.map */,
+				E9095E7D2491CB0300BD8E72 /* dapp.html */,
+				E9095E7E2491CB0300BD8E72 /* app.b6c3cd57f34814cc005561022d5cbba4.css.map */,
+			);
+			path = dist;
+			sourceTree = "<group>";
+		};
 		E96647BC2435E58D0092C0CA /* ShareSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -4871,11 +4902,13 @@
 				D063A6E1218E006A00750001 /* TPOSTransactionConfirmView.xib in Resources */,
 				B625CBE5237D6C0D00E76DB3 /* CreateSuccessViewController.xib in Resources */,
 				E96647DD2435E58D0092C0CA /* ShareSDK.bundle in Resources */,
+				E9095E822491CB0300BD8E72 /* manifest.2ae2e69a05c33dfc65f8.js in Resources */,
 				B625D20423829F5300E76DB3 /* hm.js in Resources */,
 				B69FEBCA23506BB5002FD419 /* AssetTableViewCell.xib in Resources */,
 				D063A6D9218E006A00750001 /* TPOSTransactionNormalOptionView.xib in Resources */,
 				9E42CAAD21B4FFC900267076 /* TPOSWalletManagerViewController.xib in Resources */,
 				D063A70F218E006A00750001 /* TPOSShareView.xib in Resources */,
+				E9095E802491CB0300BD8E72 /* app.e2d93526e28ed8ac740d.js in Resources */,
 				B625D028237E5B9B00E76DB3 /* PKImportWalletViewController.xib in Resources */,
 				B625D2152385535C00E76DB3 /* ContactViewController.xib in Resources */,
 				B6FA811523A24DBA00D42FAF /* hello.html in Resources */,
@@ -4884,6 +4917,7 @@
 				D063A4B9218E004700750001 /* mnemonic.html in Resources */,
 				B6FA811223A24DBA00D42FAF /* DappTransferDetailDialog.xib in Resources */,
 				B625CBE0237D33B700E76DB3 /* CreateWalletViewController.xib in Resources */,
+				E9095E812491CB0300BD8E72 /* app.b6c3cd57f34814cc005561022d5cbba4.css in Resources */,
 				B62190FF2320F0BF00DCCC88 /* DOSJTNodesViewCell.xib in Resources */,
 				B625D20B23837F7D00E76DB3 /* PKExportViewController.xib in Resources */,
 				D063A84E218E022800750001 /* TPOSMessageCenterCell.xib in Resources */,
@@ -4932,6 +4966,7 @@
 				E94698D123D4780300B339B3 /* test.html in Resources */,
 				B63F18D82375765800D7F8D5 /* TransactionViewController.xib in Resources */,
 				B63F18DD23796C8800D7F8D5 /* TransactionTokensViewController.xib in Resources */,
+				E9095E832491CB0300BD8E72 /* dapp.html in Resources */,
 				E96647DE2435E58D0092C0CA /* ShareSDKUI.bundle in Resources */,
 				B625D20523829F5300E76DB3 /* wechat-qrcode.jpg in Resources */,
 				D063A843218E022800750001 /* TPOSRetrivePathCell.xib in Resources */,
@@ -4943,6 +4978,7 @@
 				E96647E32435E58D0092C0CA /* ShareSDKConfigFile.bundle in Resources */,
 				D063A82F218E022800750001 /* TPOSPrivateKeyImportWalletViewController.xib in Resources */,
 				B65804ED2302BBF400F3380B /* DOSPointSettingViewController.xib in Resources */,
+				E9095E7F2491CB0300BD8E72 /* vendor.8abf88fddaa5ae1ae823.js in Resources */,
 				D063A78B218E00D000750001 /* TPOSGuideCCell.xib in Resources */,
 				D063A853218E022800750001 /* TPOSChooseTokenSystemCell.xib in Resources */,
 				D063A85C218FE22E00750001 /* TPOSForceCreateWalletViewController.xib in Resources */,
@@ -5683,6 +5719,7 @@
 					"$(PROJECT_DIR)/Doughnut/Third/SDK\\ 2/ShareSDK/Support/PlatformSDK/WeChatSDK",
 					"$(PROJECT_DIR)/Doughnut/Third/ShareSDK/ShareSDK/Support/PlatformSDK/WeChatSDK",
 				);
+				MARKETING_VERSION = 0.0.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -5690,8 +5727,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jc.doughnut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = ttq.devo;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE_SPECIFIER = ttq.dev;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -5743,6 +5780,7 @@
 					"$(PROJECT_DIR)/Doughnut/Third/SDK\\ 2/ShareSDK/Support/PlatformSDK/WeChatSDK",
 					"$(PROJECT_DIR)/Doughnut/Third/ShareSDK/ShareSDK/Support/PlatformSDK/WeChatSDK",
 				);
+				MARKETING_VERSION = 0.0.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -5751,8 +5789,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jc.doughnut;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = ttq.apps;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE_SPECIFIER = ttq.appstore;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
