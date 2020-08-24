@@ -53,18 +53,18 @@
 }
 
 - (IBAction)searchAction:(id)sender {
-//    NSString *searchUrl = _linkTF.text;
-//    if (![searchUrl tb_isEmpty]) {
-//       if ([searchUrl hasPrefix:@"http://"] || [searchUrl hasPrefix:@"https://"]) {
+    NSString *searchUrl = _linkTF.text;
+    if (![searchUrl tb_isEmpty]) {
+       if ([searchUrl hasPrefix:@"http://"] || [searchUrl hasPrefix:@"https://"]) {
            DappWKWebViewController *vc = [[DappWKWebViewController alloc]init];
-//           vc.htmlUrl = searchUrl;
+           vc.htmlUrl = searchUrl;
            [self.navigationController pushViewController:vc animated:YES];
-//       } else {
-//           [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"err_link"]];
-//       }
-//    }else {
-//        [self showInfoWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"null_link"]];
-//    }
+       } else {
+           [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"err_link"]];
+       }
+    }else {
+        [self showInfoWithStatus:[[TPOSLocalizedHelper standardHelper]stringWithKey:@"null_link"]];
+    }
 }
 
 @end

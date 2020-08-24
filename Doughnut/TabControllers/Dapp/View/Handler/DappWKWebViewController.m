@@ -88,10 +88,10 @@ static long FIFTEEN = 15 * 60 * 1000;
     self.webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
     NSString *bundlePath=[[NSBundle mainBundle]bundlePath];
     NSString *path=[bundlePath stringByAppendingPathComponent:@"dapp.html"];
-    NSURL *url=[NSURL fileURLWithPath:path];
-    NSURLRequest *request=[NSURLRequest requestWithURL:url];
-//    NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
+//    NSURL *url=[NSURL fileURLWithPath:path];
+//    NSURLRequest *request=[NSURLRequest requestWithURL:url];
+    NSURL *htmlURL = [NSURL URLWithString:_htmlUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
     [self.view addSubview:self.webView];
     [self.webView loadRequest:request];
     self.webView.UIDelegate = self;
@@ -177,7 +177,7 @@ static long FIFTEEN = 15 * 60 * 1000;
     } else if ([message.name isEqualToString:@"sign"]) {
         [self sign:params :callbackId];
     } else if ([message.name isEqualToString:@"transfer"]) {
-        [self transfer:params :callbackId];
+        [self transfer2:params :callbackId];
     } else if ([message.name isEqualToString:@"invokeQRScanner"]) {
         [self invokeQRScanner:callbackId];
     } else if ([message.name isEqualToString:@"back"]) {
@@ -322,6 +322,8 @@ static long FIFTEEN = 15 * 60 * 1000;
 
 - (void)transfer2:(NSString *)params :(NSString *)callbackId {
     TransactionViewController *vc = [[TransactionViewController alloc]init];
+    NSDictionary *tx = [self dictionaryWithJsonString:params];
+    vc.address = [tx valueForKey:@"to"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
