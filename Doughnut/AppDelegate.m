@@ -164,7 +164,7 @@
 }
 
 - (void)registerNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addWallet) name:kCreateWalletNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addWallet) name:kCreateWalletNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteWallet) name:kDeleteWalletNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAuthSuccess:) name:kAuthEnterAppSuccessNotification object:nil];
 }

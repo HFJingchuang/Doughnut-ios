@@ -24,6 +24,7 @@
 #import "NAChloride.h"
 #import "TPOSTabBarController.h"
 #import "JTSeed.h"
+#import "CreateSuccessViewController.h"
 
 @interface PKImportWalletViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -156,6 +157,7 @@
     walletModel.createTime = [formatter stringFromDate:[NSDate date]];
     walletModel.walletName = walletName;
     walletModel.address = address;
+    walletModel.privateKey = privateKey;
     NAChlorideInit();
     JTSeed * seed = [JTSeed alloc];
     Keypairs *keypairs = [seed deriveKeyPair:privateKey];
@@ -171,7 +173,8 @@
                 [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_succ"]];
                 weakSelf.creating = NO;
                 [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
-                [weakSelf responseLeftButton];
+//                [weakSelf responseLeftButton];
+                [weakSelf pushToBackupWalletWithWalletModel: walletModel];
             }];
         }else {
             [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_fail"]];
@@ -179,6 +182,13 @@
             [weakSelf checkCreateButtonStatus];
         }
     }];
+}
+
+- (void)pushToBackupWalletWithWalletModel:(TPOSWalletModel *)walletModel {
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
+    CreateSuccessViewController *vc = [[CreateSuccessViewController alloc]init];
+    vc.walletModel = walletModel;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)checkCreateButtonStatus {

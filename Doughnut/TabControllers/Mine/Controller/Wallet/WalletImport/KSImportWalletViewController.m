@@ -29,6 +29,7 @@
 #import "KeyStoreFile.h"
 #import "KeyStore.h"
 #import "TPOSTabBarController.h"
+#import "CreateSuccessViewController.h"
 
 @interface KSImportWalletViewController ()<UITextViewDelegate, UITextFieldDelegate>
 
@@ -188,6 +189,7 @@
     walletModel.walletName = walletName;
     walletModel.address = address;
     walletModel.keyStore = self.keystoreTV.text;
+    walletModel.privateKey = privateKey;
     walletModel.walletId = walletId;
     walletModel.mnemonic = mnemonic;
     walletModel.dbVersion = kDBVersion;
@@ -199,7 +201,8 @@
         if (success) {
             [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_succ"]];
             [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
-            [weakSelf responseLeftButton];
+//            [weakSelf responseLeftButton];
+            [weakSelf pushToBackupWalletWithWalletModel:walletModel];
         } else {
             [self showErrorWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"import_fail"]];
             weakSelf.importing = NO;
@@ -207,6 +210,13 @@
         }
     }];
     NSLog(@"Import Ok");
+}
+
+- (void)pushToBackupWalletWithWalletModel:(TPOSWalletModel *)walletModel {
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
+    CreateSuccessViewController *vc = [[CreateSuccessViewController alloc]init];
+    vc.walletModel = walletModel;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITextViewDelegate

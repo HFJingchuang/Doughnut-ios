@@ -80,10 +80,10 @@
     [self.tabBar setBackgroundColor:[UIColor whiteColor]];
     [self.tabBar setBarTintColor:[UIColor whiteColor]];
     self.tabBar.translucent = YES;
-    CGRect tabBarFrame = self.tabBar.frame;
-    tabBarFrame.size.height = CustomTabBarHeight;
-    tabBarFrame.origin.y = self.view.frame.size.height - CustomTabBarHeight;
-    self.tabBar.frame = tabBarFrame;
+//    CGRect tabBarFrame = self.tabBar.frame;
+//    tabBarFrame.size.height = CustomTabBarHeight;
+//    tabBarFrame.origin.y = self.view.frame.size.height - CustomTabBarHeight;
+//    self.tabBar.frame = tabBarFrame;
     
     /**资产**/
     _assetVC = [[TPOSAssetViewController alloc] init];

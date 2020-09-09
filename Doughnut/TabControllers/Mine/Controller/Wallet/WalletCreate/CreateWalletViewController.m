@@ -167,7 +167,7 @@
             [TPOSThreadUtils runOnMainThread:^{
                 [self showSuccessWithStatus:[[TPOSLocalizedHelper standardHelper] stringWithKey:@"create_succ"]];
                 weakSelf.creating = NO;
-//                [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
                 [weakSelf pushToBackupWalletWithWalletModel:walletModel];
             }];
         }else {
@@ -179,7 +179,7 @@
 }
 
 - (void)pushToBackupWalletWithWalletModel:(TPOSWalletModel *)walletModel {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kCreateWalletNotification object:walletModel];
     CreateSuccessViewController *vc = [[CreateSuccessViewController alloc]init];
     vc.walletModel = walletModel;
     [self.navigationController pushViewController:vc animated:YES];
